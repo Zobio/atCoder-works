@@ -1,0 +1,27 @@
+import java.util.Scanner;
+ 
+public class ans164d {
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		char[] s = sc.next().toCharArray();
+		sc.close();
+ 
+		int n = s.length;
+		int m = 2019;
+		int[] p = new int[m];
+		p[0] = 1;
+		long ans = 0;
+		int b = 1;
+		int now = 0;
+		for (int i = n - 1; i >= 0; i--) {
+			int c = s[i] - '0';
+			now += c * b;
+			now %= m;
+			ans += p[now];
+			p[now]++;
+			b *= 10;
+			b %= m;
+		}
+		System.out.println(ans);
+	}
+}
