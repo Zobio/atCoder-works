@@ -1,31 +1,43 @@
 import java.util.*;
 
 public class Main2 {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-        String s = sc.next();
-        String t = sc.next();
-        char[] Ts = new char[t.length()];
-        for(int a = 0; a < t.length(); a++) {
-            Ts[a] = t.charAt(a);
-        }
-        String[] Scut = new String[s.length() - t.length() + 1];
-        for(int i = 0; i < s.length() - t.length() + 1; i++) {
-            Scut[i] = s.substring(i, i + t.length());
-        }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
         int count = 0;
-        int mostCount = 0;
-        for(int j = 0; j < s.length() - t.length() + 1; j++) {
-            for(int b = 0; b < t.length(); b++) {
-                if(Scut[j].charAt(b) == Ts[b]) {
-                    count++;
-                }
-            }
-            if(mostCount <= count) {
-                mostCount = count;
-            }
-            count = 0;
+        int[] a = new int[n];
+        int[] b = new int[n];
+        boolean[] success = new boolean[n];
+        Arrays.fill(success, false);
+        for(int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+            b[i] = sc.nextInt();
         }
-        System.out.println(t.length() - mostCount);
-	}
+        if(a[0] == b[0]){
+        success[0] = true;
+        count++;
+        }
+
+        for(int i = 1; i < n; i++) {
+            if(count == 3) {
+                System.out.println("Yes");
+                System.exit(0);
+            }
+            if(a[i] == b[i] && (count == 0 || success[i - 1])){
+            count++;
+            success[i] = true;
+            }
+            else if(a[i] == b[i]) {
+                success[i] = true;
+            }
+            else if(a[i] != b[i]) {
+                count = 0;
+            }
+            if (count == 3) {
+                System.out.println("Yes");
+                System.exit(0);
+            }
+        }
+        System.out.println("No");
+    }
 }
