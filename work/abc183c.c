@@ -1,12 +1,14 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
 
 int main(void) {
-	long n;
-	long w;
-	scanf("%d", &n);
-	scanf("%d", &w);
+	int n,k;
+	scanf("%d%d",&n,&k);
+	int t[n][n];
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			scanf("%d",&t[i][j]);
+		}
+	}
+	int count = 0;
 	
 }
