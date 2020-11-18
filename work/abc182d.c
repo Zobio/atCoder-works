@@ -14,14 +14,14 @@ int main(void) {
 		scanf("%d", &a[i]);
 	}
 	for(int i = 0; i < n; i++) {
-		move += a[i];
-		now += move;
-		if (now + maxMove > ans){
-			ans = now + maxMove;
-		}
-		if (maxMove < move) {
+		move += a[i];		  //開始点を座標0としたときの動作iの移動距離
+		if (maxMove < move) { //過去の移動距離の最高値と動作iの移動距離の比較 最高値だったら代入
 			maxMove = move;
 		}
+		if (now + maxMove > ans) { //今の地点と最高値の移動後の地点が最高値なら代入
+			ans = now + maxMove;
+		}
+		now += move;  //移動した後の地点
 	}
 	printf("%" PRId64 "\n", ans);
 }
