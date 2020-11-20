@@ -1,4 +1,4 @@
-using namespace cstdio
+#include <cstdio>
 
 int main(void) {
 	char a = getchar();
