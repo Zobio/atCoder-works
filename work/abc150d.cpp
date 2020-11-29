@@ -1,6 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int gcd(int a, int b) {
+	// a<bのときa % b == aなので結局gcd(b, a)に帰結する。
+	if (a % b == 0) {
+		return b;
+	}else{
+		return gcd(b, a % b);
+	}
+}
+
+int lcm(int a, int b) {
+	return a * b / gcd(a, b);
+}
+
 int main() {
 	int n, m;
 	cin >> n >> m;
@@ -10,19 +23,29 @@ int main() {
 		a[i] /= 2;
 	}
 	sort(a.begin(), a.end());
-	int ans = 0;
-	int count = 0;
-
-	for(int i = a[n - 1]; i <= m; i++) {
-		for(int j = 0; j < n; j++) {
-			if(i % a[j] != 0 || (i / a[j]) % 2 == 0){
-			break;
+	while(a[0] % 2 == 0) {
+		for(int i = 0; i < n; i++) {
+			if(a[i] % 2 != 0) {
+			cout << "0" << endl;
+			return 0;
 			}
-			count++;
-			if(count == n)
-			ans++;
+			a[i] /= 2;
 		}
-		count = 0;
+		m /= 2;
 	}
-	cout << ans << endl;
+	for (int i = 0; i < n; i++){
+		if (a[i] % 2 == 0) {
+			cout << "0" << endl;
+			return 0;
+		}
+	}
+	long long base = 1;
+	for(int i = 0; i < n; i++) {
+		base = lcm(base, a[i]);
+	}
+	if(base > m){
+	cout << 0 << endl;
+	}else{
+	cout << (m / base + 1) / 2 << endl;
+	}
 }
