@@ -44,8 +44,8 @@ int main() {
 			}else{
 				if (j != way[i].length() - 1) { //最後なのにつぎにアクセスすると範囲外アクセスになる(最後で一個前と同じなら0)
 					vector<char> v = {'r', 's', 'p'};
-					v.erase(remove(v.begin(), v.end(), way[i][j - 1]));
-					v.erase(remove(v.begin(), v.end(), way[i][j + 1]));
+					remove(v.begin(), v.end(), way[i][j - 1]);
+					remove(v.begin(), v.end(), way[i][j + 1]);
 					way[i][j] = v[0];
 					if (way[i][j] == 'r')
 					{
