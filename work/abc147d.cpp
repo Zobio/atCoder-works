@@ -8,20 +8,25 @@ int main() {
 	for(int i = 0; i < n; i++) {
 		cin >> a[i];
 	}
-	vector<int> bitCount(60);
+	vector<long long> bitCount0(60);
+	vector<long long> bitCount1(60);
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < 60; j++) {
-			if((a[i] >> j) % 2 == 1) {
-				bitCount[j]++;
+			if((a[i] >> j) & 1) {
+				bitCount1[j]++;
+			}else{
+				bitCount0[j]++;
 			}
 		}
 	}
 	long long ans = 0;
 	long long base = 1;
 	long long mod = 1000000007;
+	long long bit = 0;
 	for (int i = 0; i < 60; i++) {
-		ans += (base % mod) * bitCount[i] * (n - bitCount[i]) % mod;
-		base *= 2;
+		base = (1ll << i) % mod;
+		bit = (bitCount0[i] * bitCount1[i]) % mod;
+		ans = (ans + (base * bit) % mod) % mod;
 	}
 	cout << (ans % mod) << endl;
 }
