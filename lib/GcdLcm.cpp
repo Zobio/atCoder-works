@@ -3,7 +3,6 @@ using namespace std;
 
 int gcd(int a, int b) {
 	// a<bのときa % b == aなので結局gcd(b, a)に帰結する。
-	cout << a << " " << b << endl;
 	if (a % b == 0) {
 		return b;
 	}else{
