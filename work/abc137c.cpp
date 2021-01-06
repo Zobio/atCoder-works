@@ -2,24 +2,27 @@
 using namespace std;
 
 int main() {
-	int n, m;
-	cin >> n >> m;
-	int a, b;
-	vector<vector<int>> bi(m + 1);
+	int n;
+	cin >> n;
+	map<string, long long> s;
+	map<string, long long> sCnt;
+	string word;
 	for(int i = 0; i < n; i++) {
-		cin >> a >> b;
-		if (a <= m)
-		bi[a].push_back(b);
+		cin >> word;
+		sort(word.begin(), word.end());
+		if (s.count(word)) {
+			s.at(word) += sCnt[word];
+			sCnt.at(word)++;
+		}else{
+			s.emplace(word, 0);
+			sCnt.emplace(word, 1);
+		}
 	}
-	priority_queue<int> q;
+	auto begin = s.begin(), end = s.end();
 	long long ans = 0;
-	for(int i = 1; i <= m; i++) {
-		for(int j = 0; j < bi[i].size(); j++) {
-			q.push(bi[i][j]);
-		}
-		if(!q.empty()){
-		ans += q.top(); q.pop();
-		}
+	for (auto iter = begin; iter != end; iter++)
+	{
+		ans += iter->second;
 	}
 	cout << ans << endl;
 }
