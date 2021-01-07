@@ -2,7 +2,6 @@
 using namespace std;
 
 int main() {
-	map<string, int> m;
-	m["hoge"]++; m["hoge"]--;
-	cout << m["hoge"] << endl;
+	string s = "hogehoge";
+	cout << typeid(s[0]).name() << endl;
 }
