@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-	string s;
-	cin >> s;
-	cout << s.begin() << s.end() << endl;
+	map<string, int> m;
+	m["hoge"]++; m["hoge"]--;
+	cout << m["hoge"] << endl;
 }
