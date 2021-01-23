@@ -1,10 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ALL(a) (a).begin(), (a).end()
-
 int main()
 {
-	double a = 1.5;
-	coit << a % 0.8 << endl;
+	for(int i = 0; i < 64; i++) {
+		cout << (1 << i) << endl;
+		cout << (1LL << i) << endl;
+		cout << ((long)1 << i) << endl;
+	}
 }
