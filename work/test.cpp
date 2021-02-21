@@ -3,9 +3,9 @@ using namespace std;
 
 int main()
 {
-	for(int i = 0; i < 64; i++) {
-		cout << (1 << i) << endl;
-		cout << (1LL << i) << endl;
-		cout << ((long)1 << i) << endl;
-	}
+	long long n = 0;
+	cin >> n;
+	cout << typeid(n).name() << endl;
+	cout << fixed << setprecision(10) << typeid(sqrt(n)).name() << " " << sqrt(n) << endl;
+	cout << fixed << setprecision(10) << typeid((long long)sqrt(n)).name() << " " << (long long)sqrt(n) << endl;
 }
