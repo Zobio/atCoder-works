@@ -3,9 +3,12 @@ using namespace std;
 
 int main()
 {
-	long long n = 0;
-	cin >> n;
-	cout << typeid(n).name() << endl;
-	cout << fixed << setprecision(10) << typeid(sqrt(n)).name() << " " << sqrt(n) << endl;
-	cout << fixed << setprecision(10) << typeid((long long)sqrt(n)).name() << " " << (long long)sqrt(n) << endl;
+	string s;
+	cin >> s;
+	try{
+		cout << stoi(s) * 10 << endl;
+	}catch(invalid_argument i) {
+		cout << "invalid_argument!" << endl;
+		cout << i.what() << endl;
+	}
 }
