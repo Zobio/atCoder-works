@@ -3,7 +3,5 @@ using namespace std;
 
 int main()
 {
-	int n;
-	cin >> n;
-	cout << n % 2019 << endl;
+	cout << -1 % 2019 << endl;
 }
