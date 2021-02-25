@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int gcd(int a, int b) {
+long long gcd(long long a, long long b) {
 	// a<bのときa % b == aなので結局gcd(b, a)に帰結する。
 	if (a % b == 0) {
 		return b;
@@ -10,7 +10,7 @@ int gcd(int a, int b) {
 	}
 }
 
-int lcm(int a, int b) {
+long long lcm(long long a, long long b) {
 	return a * b / gcd(a, b);
 }
 
