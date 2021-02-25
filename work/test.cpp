@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main()
-{
-	cout << -1 % 2019 << endl;
+int main() {
+	uintmax_t a = 100;
+	cout << a << endl;
 }
