@@ -4,36 +4,18 @@ using namespace std;
 #define ull unsigned long long
 #define MOD 1000000007
 
-int vector_finder(std::vector<ll> vec, ll number)
-{
-	auto itr = std::find(vec.begin(), vec.end(), number);
-	size_t index = std::distance(vec.begin(), itr);
-	if (index != vec.size())
-	{ // 発見できたとき
-		return 1;
-	}
-	else
-	{ // 発見できなかったとき
-		return 0;
-	}
-}
-
 int main() {
-	ll n, now = 2;
+	ll n, now;
 	cin >> n;
-	ll ans = 0;
-	vector<ll> yet;
+	list<ll> ex;
 	for(ll i = 2; i * i <= n; i++) {
-		while((ll)pow(i, now) <= n) {
-			if (vector_finder(yet, (ll)pow(i, now))) {
-				now++;
-				continue;
-			}
-			ans++;
-			yet.push_back((ll)pow(i, now));
-			now++;
+		now = i * i;
+		while(now <= n) {
+			ex.push_back(now);
+			now *= i;
 		}
-		now = 2;
 	}
-	cout << n - ans << endl;
+	ex.sort();
+	ex.unique();
+	cout << n - ex.size() << endl;
 }
