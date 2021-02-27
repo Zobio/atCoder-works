@@ -7,16 +7,14 @@ using namespace std;
 int main() {
 	int n;
 	cin >> n;
-	vector<pair<string, int>> res(n);
+	vector<tuple<string, int, int>> r(n);
 	for(int i = 0; i < n; i++) {
-		cin >> res[i].first >> res[i].second;
+		int a; string s;
+		cin >> s >> a;
+		r[i] = make_tuple(s, -a, i + 1); 
 	}
-	vector<pair<string, int>> ori = res;
-	sort(res.begin(), res.end());
+	sort(r.begin(), r.end());
 	for(int i = 0; i < n; i++) {
-		for(int j = 0; j < n; j++) {
-			if(ori[i].first == res[j].first && ori[i].second == res[j].second)
-			cout << i + 1 << endl;
-		}
+		cout << get<2>(r[i]) << endl;
 	}
 }
