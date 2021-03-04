@@ -6,24 +6,15 @@ using namespace std;
 
 int main() {
 	//1枚だけで全てのゲートを通過できる ID カードの枚数⇔それで通過できないゲートが存在しないIDカードの枚数
+	//じゃなくてそれぞれの制限の積集合⇔下限の最高値と上限の最低値の間
 	int n,m;
 	cin >> n >> m;
-	vector<bool> ok(n, true);
+	int a = 0, b = 1e5 + 100;
 	for(int i = 0; i < m; i++) {
-		int a, b;
-		cin >> a >> b;
-		a--, b--;
-		for(int j = 0; j < a; j++) {
-			ok[j] = false;
-		}
-		for(int j = b + 1; j < n; j++) {
-			ok[j] = false;
-		}
+		int t1, t2;
+		cin >> t1 >> t2;
+		if(t1 > a) a = t1;
+		if(t2 < b) b = t2;
 	}
-	int ans = 0;
-	
-	for(int i = 0; i < n; i++) {
-		if(ok[i]) ans++;
-	}
-	cout << ans << endl;
+	cout << max(b - a + 1, 0) << endl;
 }
