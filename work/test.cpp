@@ -2,5 +2,6 @@
 using namespace std;
 
 int main() {
-	cout << INFINITY << 1 << endl;
+	vector<int> v = {0, 1, 2, 3};
+	cout << v.front() << " " << v.back() << endl;
 }
