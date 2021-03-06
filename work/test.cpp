@@ -1,21 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define MOD 1000000007
 
-int main()
-{
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> bc;
-	priority_queue<int> pq;
-	pq.push(1);
-	pq.push(1);
-	pq.push(1);
-	pq.push(3);
-	pq.push(5);
-	cout << "size: " << pq.size() << endl;
-	int s = pq.size();
-	for(int i = 0; i < s; i++) {
-		cout << pq.top() << " ";
-		pq.pop();
-	}
-	cout << endl;
-	cout << "size: " << pq.size() << endl;
+int main() {
+	vector<vector<int>> a(10, vector<int>(10));
+	if(a[10].empty()) cout << "YES" << endl;
+	else cout << "NO" << endl;
+	cout << a[10].size() << endl;
+	cout << a[10][0] << endl;
 }
