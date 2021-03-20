@@ -5,7 +5,7 @@ using namespace std;
 #define MOD 1000000007
 
 int main() {
-	string a = "Hello, ";
-	string b = "world!";
-	cout << a + b << endl;
+	int a, b, c, d;
+	cin >> a >> b >> c >> d;
+	cout << b - c << endl;
 }
