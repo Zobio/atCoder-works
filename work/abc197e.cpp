@@ -7,27 +7,21 @@ using namespace std;
 int main() {
 	int n;
 	cin >> n;
-	vector<pair<int, int>> ball;
-	int iti = 0;
-	int minus = 0;
+	vector<vector<int>> v(n + 1);
 	for(int i = 0; i < n; i++) {
 		int a, b;
 		cin >> a >> b;
-		ball.push_back(make_pair(b, a));
+		v[b].push_back(a);
 	}
-	sort(ball.begin(), ball.end());
-	vector<pair<int, int>> top();
-	ll ans = ball[0].second;
-	for(int i = 1; i < n; i++) {
-		ans += abs(ball[i - 1].second - ball[i].second);
+	sort(v.begin(), v.end());
+	pair<int, int> x, y;
+	x = {0, 0};
+	y = {0, 0};
+	for(int i = 1; i <= n; i++) if(v.size()) {
+		int dx = min(x.first + abs(x.second - v[i].back()), y.first + abs(y.second - v[i].back()));
+		int dy = min(x.first + abs(x.second - v[i].front()), y.first + abs(y.second - v[i].front()));
+		x = {dx + v[i].back() - v[i].front(), v[i].front()};
+		y = {dy + v[i].back() - v[i].front(), v[i].back()};
 	}
-	int now = ball[0].first;
-	for(int i = 1; i < n; i++) {
-		if(ball[i - 1].first == ball[i].first) continue;
-		if(ball[i - 1].second >= ball[i].second) {
-			ans -= ball[i - 1].second - ball[i].second;
-		}
-	}
-	ans += abs(ball[n - 1].second);
-	cout << ans << endl;
+	cout << min(x.first + abs(x.second), y.first + abs(y.second)) << endl;
 }
