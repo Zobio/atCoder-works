@@ -1,15 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define ull unsigned long long
-#define MOD 1000000007
 
-double nCr(int n, int r) {
-	if (n == 0) { return 0; }
-	if (r == 0) { return 1; }
-	if (r == 1) { return n; }
-	if (n == r) { return 1; }
-	if (r > n / 2) { r = n / 2; }
+double nCr(double n, double r) {
+	if (n == 0) 
+		return 0;
+	if (r == 0 || n == r)
+		return 1;
+	if (r == 1) 
+		return n;
 	double result = 1;
 	int sn = n - r + 1;
 	for (double i = 1; i <= r; i++) {
@@ -20,12 +18,13 @@ double nCr(int n, int r) {
 }
 
 int main() {
-	cout << "シンジ君の提供割合を1.2%だとして計算します" << endl;
-	for(int i = 50; i <= 200; i += 50) {
+	double prob = 0.012;
+	int expected_num = 13;
+	for(int i = 50; i <= 1000; i += 50) {
 		double ans = 0;
-		for(int j = 13; j <= i; j++) {
-			ans += pow(0.012, j) * pow(0.988, i - j) * nCr(i, j);
-			cout << ans << endl;
+		for(int j = expected_num; j <= i; j++) {
+			ans += pow(prob, j) * pow(1 - prob, i - j) * nCr((double)i, (double)j);
+			//N回当たる確率 = 当たる確率 * 当たらない確率 * 組み合わせの数
 		}
 		cout << setprecision(10) << fixed <<  i << "連であたる確率: " << ans * 100 << "%" << endl;
 	}
