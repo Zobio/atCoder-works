@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define ull unsigned long long
-#define MOD 1000000007
 
-int main() {
-	cout << setprecision(100) << fixed << (long double)0.100000000000000000000000000000000000000000000000000000000000000000000000000000000000 << endl;
+int main()
+{
+	vector<int> v(10);
+	v.assign(15, 100);
+	for(int i = 0; i < v.size(); i++) {
+		cout << v[i] << endl;
+	}
 }
