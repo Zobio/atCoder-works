@@ -10,7 +10,7 @@ int vis[maxn];
 
 ll dfs(int x)
 {
-	cout << x << endl;
+	cout << x << " " << ans << endl;
 	if (x == n + 1)
 		return 1;
 	if (edge[x].empty())
