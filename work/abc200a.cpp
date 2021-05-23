@@ -5,9 +5,11 @@ using namespace std;
 #define MOD 1000000007
 #define INF 100000000000000
 
-int main()
-{
-	ull n;
+int main() {
+	int ans = 1;
+	int n;
 	cin >> n;
-	cout << (n * (n - 1)) / 2 << endl;
+	if(n % 100 == 0) ans--;
+	ans += n / 100;
+	cout << ans << endl;
 }
