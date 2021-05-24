@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <bits/stdc++.h>
+using namespace std;
 #define ll long long
 #define rep(i, l, r) for (ll i = (l); i < (r); i++)
 #define max(p, q) ((p) > (q) ? (p) : (q))
@@ -15,7 +17,7 @@ int main()
 	rep(i, 1, 4)
 	{
 		//dp
-		rep(j, 0, 3 * n + 1) dp[i][j] = cum[i - 1][j] - cum[i - 1][max(0, j - n)];
+		rep(j, 0, 3 * n + 1){ dp[i][j] = cum[i - 1][j] - cum[i - 1][max(0, j - n)]; if (j % 10000 == 0) {cout << "dp[" << i << "][" << j << "]: " << dp[i][j] << endl;}}
 		//累積和をとる
 		rep(j, 0, 3 * n + 1) cum[i][j + 1] = cum[i][j] + dp[i][j];
 	}
