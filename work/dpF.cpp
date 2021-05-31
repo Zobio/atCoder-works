@@ -20,24 +20,17 @@ int main() {
 		}
 		cout << endl;
 	}
-	string ans = "";
-	int len = dp[s.length()][t.length()];
-	int slen = s.length(), tlen = t.length();
-	while(len + 1) {
-		cout << slen << " " << s[slen] << " " << tlen << " " << t[tlen] << endl;
-		if(s[slen] == t[tlen]) {
-			ans += s[slen];
-			slen--;
-			tlen--;
-			len--;
-			cout << "len: " << len << endl;
+	deque<char> ans;
+	int i = 0, j = 0;
+	while(i < s.length() && j < t.length()) {
+		if (dp[i][j] == dp[i][j + 1])j++;
+		else if (dp[i][j] == dp[i + 1][j])i++;
+		else {
+			ans.push_front(s[i]);
+			i++; j++;
 		}
-		else if(dp[slen][tlen] == dp[slen - 1][tlen] && slen - 1 >= 0) {
-			slen--;
-		}else{
-			tlen--;
-		}
+		cout << i << " " << j << endl;
 	}
-	reverse(ans.begin(), ans.end());
-	cout << ans << endl;
+	for(int a : ans) cout << a;
+	cout<< endl;
 }
