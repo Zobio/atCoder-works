@@ -20,17 +20,29 @@ int main() {
 		}
 		cout << endl;
 	}
-	deque<char> ans;
-	int i = 0, j = 0;
-	while(i < s.length() && j < t.length()) {
-		if (dp[i][j] == dp[i][j + 1])j++;
-		else if (dp[i][j] == dp[i + 1][j])i++;
-		else {
-			ans.push_front(s[i]);
-			i++; j++;
+	string ans;
+	int i = s.length(), j = t.length();
+	s = "*" + s; t = "*" + t;
+	while(i > 0 && j > 0) {
+		// (i-1, j) -> (i, j) と更新されていた場合
+		if (dp[i][j] == dp[i - 1][j])
+		{
+			--i; // DP の遷移を遡る
+		}
+
+		// (i, j-1) -> (i, j) と更新されていた場合
+		else if (dp[i][j] == dp[i][j - 1])
+		{
+			--j; // DP の遷移を遡る
+		}
+
+		// (i-1, j-1) -> (i, j) と更新されていた場合
+		else
+		{
+			ans = s[i - 1] + ans; // このとき s[i-1] == t[j-1] なので、t[j-1] + res でも OK
+			--i, --j;			  // DP の遷移を遡る
 		}
 		cout << i << " " << j << endl;
 	}
-	for(int a : ans) cout << a;
-	cout<< endl;
+	cout << ans << endl;
 }
