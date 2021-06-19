@@ -7,7 +7,11 @@ using namespace std;
 
 int main()
 {
-	ull n;
-	cin >> n;
-	cout << (n * (n - 1)) / 2 << endl;
+	while(true){
+	ull a = 1, b = 2;
+	ull tmp = b;
+	b = a * b + 1;
+	a = tmp;
+	cout << b << endl;
+	}
 }
