@@ -7,11 +7,8 @@ using namespace std;
 
 int main()
 {
-	while(true){
-	ull a = 1, b = 2;
-	ull tmp = b;
-	b = a * b + 1;
-	a = tmp;
-	cout << b << endl;
-	}
+	map<int, int> m;
+	m.insert(make_pair(0, 100));
+	m.insert(make_pair(0, 160));
+	cout << m.at(0) << endl;
 }
