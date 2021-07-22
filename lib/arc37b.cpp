@@ -49,5 +49,30 @@ bool same(int x, int y) {
 }
 
 int main() {
-    
+    int n, m;
+	cin >> n >> m;
+	init(n);
+	vector<pair<int, int>> v(m);
+	for(int i = 0; i < m; i++) {
+		cin >> v[i].first >> v[i].second;
+		v[i].first--; v[i].second--;
+		unite(v[i].first, v[i].second);
+	}
+	int cnt = 0;
+	for(int i = 0; i < n; i++) {
+		if(root(i) == i) cnt++;
+	}
+	int ans = 0;
+	for(int i = 0; i < m; i++) {
+		init(n);
+		for(int j = 0; j < m; j++) {
+			if(i != j) unite(v[j].first, v[j].second);
+		}
+		int c = 0;
+		for(int j = 0; j < n; j++) {
+			if(root(j) == j) c++;
+		}
+		if(cnt == c) ans++;
+	}
+	cout << ans << endl;
 }

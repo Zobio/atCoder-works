@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define MAX_ELEMENT 50000 //要変更
+#define MAX_ELEMENT 200000 //要変更
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
@@ -49,5 +49,19 @@ bool same(int x, int y) {
 }
 
 int main() {
-    
+    int n, m;
+	cin >> n >> m;
+	init(n);
+	vector<pair<int, int>> ab(m);
+	for(int i = 0; i < m; i++) {
+		cin >> ab[i].first >> ab[i].second;
+		ab[i].first--; ab[i].second--;
+		unite(ab[i].first, ab[i].second);
+
+	}
+	ll ans = -1;
+	for(int i = 0; i < n; i++) {
+		if(root(i) == i) ans++;
+	}
+	cout << ans << endl;
 }

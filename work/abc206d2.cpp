@@ -2,7 +2,7 @@
 using namespace std;
 
 struct UnionFind {
-    vector<int> par; //親とランクを持つ
+    vector<int> par;
 
     UnionFind() { }
     UnionFind(int n) : par(n, -1) { }
@@ -31,22 +31,23 @@ struct UnionFind {
     }
 };
 
-const int MAX = 210000;
 int main() {
-    int N;
-    cin >> N;
-    vector<int> A(N);
-    for (int i = 0; i < N; ++i) cin >> A[i];
-
-    UnionFind uf(MAX);
-    for (int i = 0, j = N-1; i < j; ++i, --j) {
-        uf.merge(A[i], A[j]);
+	int n;
+	cin >> n;
+	vector<int> a(n);
+	for(int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	const int MAX = 210000;
+	UnionFind uf(MAX);
+	for (int i = 0, j = n-1; i < j; ++i, --j) {
+        uf.merge(a[i], a[j]);
     }
-    long long res = 0;
-    for (int v = 0; v < MAX; ++v) {
+	long long res = 0;
+	for (int v = 0; v < MAX; ++v) {
         if (uf.root(v) == v) {
             res += uf.size(v) - 1;
         }
     }
-    cout << res << endl;
+	cout << res << endl;
 }
