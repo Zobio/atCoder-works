@@ -7,15 +7,30 @@ using namespace std;
 int main() {
 	string s;
 	cin >> s;
+	vector<int> must;
+	for(int i = 0; i <= 9; i++) {
+		if(s[i] == 'o') must.push_back(i);
+	}
 	int ans = 0;
-	for(int a = 0; a <= 9; a++) {
-		for (int b = 0; b <= 9; b++) {
-			for(int c = 0; c <= 9; c++) {
-				for(int d = 0; d <= 9; d++) {
-					if (s[a] != 'x' && s[b] != 'x' && s[c] != 'x' && s[d] != 'x') ans++;
-				}
+	for(int i = 0; i <= 9999; i++) {
+		deque<char> pa;
+		bool en = false;
+		for(char c : to_string(i)) pa.push_back(c);
+		while(pa.size() < 4) pa.push_front('0');
+		for(int j = 0; j < 4; j++) {
+			if(s[pa[j] - '0'] == 'x') {
+				en = true;
 			}
 		}
+		for(int j = 0; j <= 9; j++) {
+			if(s[j] != 'o') continue;
+			bool flag = false;
+			for(int k = 0; k <= 4; k++) {
+				if(j + '0' == pa[k]) flag = true;
+			}
+			if(!flag) en = true;
+		}
+		if(!en) ans++;
 	}
 	cout << ans << endl;
 }
