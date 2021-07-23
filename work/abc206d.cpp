@@ -1,19 +1,83 @@
 #include <bits/stdc++.h>
-using namespace std;
+#define MAX_ELEMENT 300000 //要変更
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
+#define INF 100000000000000
+using namespace std;
+
+vector<int> par(MAX_ELEMENT);
+vector<int> rnk(MAX_ELEMENT);
+
+// n要素で初期化
+void init(int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		par[i] = i;
+		rnk[i] = 0;
+	}
+}
+
+//木の根を求める
+int root(int x)
+{
+	if (par[x] == x)
+	{
+		return x;
+	}
+	else
+	{
+		return par[x] = root(par[x]);
+	}
+}
+
+//xとyの属する集合を併合
+void unite(int x, int y)
+{
+	x = root(x);
+	y = root(y);
+	if (x == y)
+	{
+		return;
+	}
+
+	if (rnk[x] < rnk[y])
+	{
+		par[x] = y;
+	}
+	else
+	{
+		par[y] = x;
+		if (rnk[x] == rnk[y])
+		{
+			rnk[x] += 1;
+		}
+	}
+}
+// xとyが同じ集合に属するか否か
+bool same(int x, int y)
+{
+	return root(x) == root(y);
+}
 
 int main() {
-	ll l, r;
-	cin >> l >> r;
-
-	for(int i = 0; i < n; i++) cin >> a[i];
-	for(ll i = 2; i <= 1000000; i++) {
-		for(ll p = 2; p <= 1000000; p++) [
-			for(ll q = 2; q <= 1000000; q++) {
-				if(i * p > r || i * q > r) break;
-			}
-		]
+	int n;
+	cin >> n;
+	vector<int> a(n);
+	for(int i = 0; i < n; i++) cin >> a[i], a[i]--;
+	init(200000);
+	for(int i = 0, j = n - 1; i < j; i++, j--) {
+		unite(a[i], a[j]);
 	}
+	ll ans = 0;
+	vector<int> siz(200000);
+	for(int i = 0; i < 200000; i++) {
+		siz[root(i)]++;
+	}
+	for(int i = 0; i < 200000; i++) {
+		if(root(i) == i);
+		ans += max(0, siz[i] - 1);
+	}
+	cout << ans << endl;
 }
