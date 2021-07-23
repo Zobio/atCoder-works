@@ -3,9 +3,10 @@ using namespace std;
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
-#define INF 100000000000000
 
-int main()
-{
-	cout << 1 / 0 << endl;
+int main(){
+	vector<int> a(3);
+	cin >> a[0] >> a[1] >> a[2];
+	sort(a.begin(), a.end());
+	cout << a[1] + a[2] << endl;
 }
