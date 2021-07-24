@@ -3,10 +3,9 @@ using namespace std;
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
-#define INF 100000000000000
 
-int main()
-{
-	map<int, int> mp;
-	cout << mp[0] << endl;
+int main() {
+	double a, b;
+	cin >> a >> b;
+	cout << setprecision(6) << fixed << ((a - b) / 3 + b) << endl;
 }
