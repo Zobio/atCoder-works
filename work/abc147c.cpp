@@ -1,57 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define MOD 1000000007
 
-int solve(int base, vector<vector<int>> a, int ans, int n);
-
-int main()
-{
+int main() {
 	int n;
 	cin >> n;
-	cout << n << endl;
-	vector<vector<int>> a(20, vector<int>(20, -1));
-	int tmp, tmp2;
+	vector<vector<pair<int, int>>> a(n);
 	for(int i = 0; i < n; i++) {
+		int tmp;
 		cin >> tmp;
 		for(int j = 0; j < tmp; j++) {
-			cin >> tmp2;
-			cin >> a[i][tmp2 - 1];
+			int x, y;
+			cin >> x >> y;
+			x--;
+			a[i].push_back(make_pair(x, y));
 		}
 	}
-	int base = 0;
 	int ans = 0;
-	for(int i = 0; i < n; i++) {
-		for(int j = 0; j < n; j++) {
-			if(a[i][j] != -1)
-			cout << i << " " << j << " " << a[i][j] << endl;
-		}
-	}
-	for(;base <= pow(2, n); base++) {
-		ans = solve(base, a, ans, n);
-	}
-	cout << n - ans << endl;
-}
-
-int solve(int base, vector<vector<int>> a, int ans, int n) {
-	int want, count = 0;
-	vector<bool> liar(n, false);
-	for(int i = 0; i < n; i++) {
-		want = (i >> i) % 2;
-		for(int j = 0; j < n; j++) {
-			if(a[j][i] != want && a[j][i] != -1){
-				liar[j] = true;
+	for(int bits = 0; bits < pow(2, n); bits++) {
+		vector<int> sus(n, -1);
+		bool flag = true;
+		for(int i = 0; i < n; i++) {
+			if(!((bits >> i) & 1)) continue;
+			for(int j = 0; j < a[i].size(); j++) {
+				if(sus[a[i][j].first] == -1) {
+					sus[a[i][j].first] = a[i][j].second;
+				}else{
+					flag = sus[a[i][j].first] == a[i][j].second ? flag : false;
+				}
 			}
 		}
+		for(int i = 0; i < n; i++) {
+			if(sus[i] == -1) continue;
+			if(sus[i] != ((bits >> i) & 1)) flag = false; 
+		}
+		if(!flag) continue;
+		int sum = 0;
+		for(int i = 0; i < n; i++) {
+			sum += (bits >> i) & 1;
+		}
+		ans = max(ans, sum);
 	}
-
-	for(int i = 0; i < n; i++) {
-		if(liar[i])
-		count++;
-	}
-	cout << static_cast<bitset<15>>(base) << " " << count << endl;
-	if(count < ans)
-	return count;
-	else
-	return ans;
-	cout << "okashii" << endl;
-	return ans;
+	cout << ans << endl;
 }
