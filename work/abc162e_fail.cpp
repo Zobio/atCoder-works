@@ -7,13 +7,12 @@ using namespace std;
 #define co(i) cout << i << endl 
 
 ll mpow(ll a, ll b) {
-	long long res = 1;
-    while (b > 0) {
-        if (b & 1) res = res * a % MOD;
-        a = a * a % MOD;
-        b >>= 1;
-    }
-    return res;
+	if(a == 1) return 1;
+	ll res = 1;
+	rep(i, b) {
+		res = (res * a) % MOD;
+	}
+	return res;
 }
 
 int main() {
@@ -21,14 +20,16 @@ int main() {
 	cin >> n >> k;
 	ll ans = 0;
 	vector<ll> cnt(k + 1, 1);
-	for(int i = k; i >= 1; i--) {
-		cnt[i] = (ll)mpow(k / i, n) % MOD;
+	for(int i = 1; i <= k / 2 + 1; i++) {
+		cnt[i] = mpow(k / i, n); 
+	}
+	for(int i = 1; i <= k; i++) {
 		int fix = i * 2;
 		while(fix <= k) {
 			cnt[i] -= cnt[fix];
 			fix += i;
 		}
 	}
-	for(int i = 1; i <= k; i++) ans = (ans + i * cnt[i]) % MOD;
+	for(int i = 1; i <= k; i++)  ans = (ans + i * cnt[i]) % MOD;
 	cout << ans << endl;
 }

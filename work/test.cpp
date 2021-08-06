@@ -4,9 +4,18 @@ using namespace std;
 #define ull unsigned long long
 #define MOD 1000000007
 
-int main()
-{
-	double a, b, c, d;
-	cin >> a >> b >> c >> d;
-	cout << setprecision(10) << fixed <<  a + (c - a) * (b / (b + d)) << endl;
+ll mpow(ll a, ll b) {
+	long long res = 1;
+    while (b > 0) {
+        if (b & 1) res = res * a % MOD;
+        a = a * a % MOD;
+        b >>= 1;
+    }
+    return res;
+}
+
+int main() {
+	ll a, b;
+	cin >> a; cin >> b;
+	cout << mpow(a, b) << endl;
 }
