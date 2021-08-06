@@ -4,6 +4,16 @@ using namespace std;
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
+#define co(i) cout << i << endl 
+
+long long gcd(long long a, long long b) {
+	// a<bのときa % b == aなので結局gcd(b, a)に帰結する。
+	if (a % b == 0) {
+		return b;
+	}else{
+		return gcd(b, a % b);
+	}
+}
 
 ll mpow(ll a, ll b) {
 	if(a == 1) return 1;
@@ -18,8 +28,17 @@ int main() {
 	ll n, k;
 	cin >> n >> k;
 	ll ans = 0;
-	for(ll i = 1; i <= sqrt(k) + 1; i++) {
-		ans = (ans + mpow(k / i, n)) % MOD;
+	vector<ll> cnt(k + 1, 1);
+	for(int i = 1; i * i <= k; i++) {
+		cnt[i] = mpow(k / i, n); 
 	}
+	for(int i = 1; i <= k; i++) {
+		int fix = i * 2;
+		while(fix <= k) {
+			cnt[i] -= cnt[fix];
+			fix += i;
+		}
+	}
+	for(int i = 1; i <= k; i++) ans = (ans + cnt[i]) % MOD;
 	cout << ans << endl;
 }
