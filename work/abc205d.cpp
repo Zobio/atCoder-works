@@ -1,32 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define rep(i, n) for (long long i = 0; i < n; i++)
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
-#define INF 100000000000000
+#define co(i) cout << i << endl
+
+vector<pair<ll, ll>> a;
+vector<ll> k;
+vector<ll> rui;
 
 int main() {
 	int n, q;
 	cin >> n >> q;
-	vector<ll> a(n);
-	for(int i = 0; i < n; i++) {
-		cin >> a[i];
-	}
-	sort(a.begin(), a.end());
-	vector<ll> k(q);
-	for(int i = 0; i < q; i++) {
-		cin >> k[i];
-	}
-	for(int i = 0; i < q; i++) {
-		ll cc = 0;
-		for(int j = 0; j < n; j++) {
-			if(a[j] <= k[i]) cc++;
-			else break;
+	a.resize(n);
+	k.resize(q);
+	rui.resize(n);
+	rep(i, n) cin >> a[i].first, a[i].second = a[i].first - i - 1;
+	rep(i, q) cin >> k[i];
+	rep(i, q) {
+		if(k[i] > a[a.size() - 1].second) {
+			cout << k[i] + n << endl;
+			continue;
 		}
-		cout << "cc: " << cc << endl;
-		int ans = k[i] + cc;
-		cout << "ans: " << ans << endl;
-		while(binary_search(a.begin(), a.end(), ans)) ans++;
-		cout << ans << endl;
+		if(k[i] <= a[0].second) {
+			cout << k[i] << endl;
+			continue;
+		}
+		ll left = 0, right = n + 1, mid;
+		while(right - left > 1) {
+			mid = (right + left) / 2;
+			if(a[mid].second > k[i]) right = mid;
+			else left = mid;
+		}
+		while(left) {if(a[left].second == a[left - 1].second) left--; else break;}
+		cout << a[left].first + a[left].second - k[i] - 1 << endl;
 	}
 }

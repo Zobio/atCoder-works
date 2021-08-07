@@ -8,8 +8,7 @@ vector<ll> a;
 int n; ll l, k;
 
 bool ok(ll v) {
-	ll cnt = 0;
-	ll now = 0;
+	ll cnt = 0; //何回カットしたかを記録する変数
 	ll minus = 0;
 	for(int i = 0; i < n; i++) {
 		if(cnt == k) break;
