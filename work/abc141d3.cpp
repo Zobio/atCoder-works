@@ -4,6 +4,7 @@ using namespace std;
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007
+#define co(a) cout << a << endl;
 #define co(a, b) cout << a << " " << b << endl
 
 int main() {
