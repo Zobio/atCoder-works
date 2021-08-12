@@ -1,11 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define ll long long
-#define ull unsigned long long
-#define MOD 1000000007
 
 int main() {
-    int n = -1;
-    if(n) cout << n << endl;
+    const long long MOD = 1e9 + 7;
+    long long n; cin >> n;
+    cout << (n * (n + 1) * (2 * n + 1) / 6) % MOD << endl;
 }

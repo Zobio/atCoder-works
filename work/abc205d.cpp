@@ -23,17 +23,17 @@ int main() {
 			cout << k[i] + n << endl;
 			continue;
 		}
-		if(k[i] <= a[0].second) {
+		else if(k[i] <= a[0].second) {
 			cout << k[i] << endl;
 			continue;
 		}
-		ll left = 0, right = n + 1, mid;
+		ll left = 0, right = n + 1;
 		while(right - left > 1) {
-			mid = (right + left) / 2;
+			ll mid = (right + left) / 2;
 			if(a[mid].second > k[i]) right = mid;
 			else left = mid;
 		}
 		while(left) {if(a[left].second == a[left - 1].second) left--; else break;}
-		cout << a[left].first + a[left].second - k[i] - 1 << endl;
+		cout << a[left].first + (a[left].second - k[i]) - 1 << endl;
 	}
 }
