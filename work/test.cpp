@@ -2,5 +2,6 @@
 using namespace std;
 
 int main() {
-    cout << log10(0) << endl;
+    tuple<int, int, int> tp = make_tuple(0, 1, 2);
+    cout << get<2>(tp) << endl;
 }

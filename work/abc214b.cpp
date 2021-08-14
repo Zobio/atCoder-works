@@ -6,5 +6,15 @@ using namespace std;
 #define MOD 1000000007
 
 int main() {
-	
+	int s, t;
+	cin >> s >> t;
+	ll ans = 0;
+	rep(a, 101) {
+		rep(b, 101) {
+			rep(c, 101) {
+				if(a + b + c <= s && a * b * c <= t) ans++;
+			}
+		}
+	}
+	cout << ans << endl;
 }
