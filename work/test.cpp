@@ -2,6 +2,6 @@
 using namespace std;
 
 int main() {
-    tuple<int, int, int> tp = make_tuple(0, 1, 2);
-    cout << get<2>(tp) << endl;
+    cout << (1 << 60) << endl;
+    cout << (1ll << 60) << endl;
 }

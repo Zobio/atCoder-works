@@ -6,7 +6,8 @@ int main() {
 	cin >> a >> b >> x;
 	double ans = 0;
 	if(a * b / 2 > x) {
-		ans = 90.0 - atan(2 * x / b / b);
+		cout << fixed << setprecision(10) << atan(a * b * b / (2 * x)) << endl;
+	}else{
+		cout << fixed << setprecision(10) << atan((2 * b  - (x / (a / a))) / a) << endl;
 	}
-	cout << fixed << setprecision(10) << ans << endl;
 }
