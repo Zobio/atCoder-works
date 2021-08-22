@@ -17,14 +17,10 @@ int main() {
 	}
 	for(ll i = 2; i <= m / 2 + 1; i++) {
 		if(!ans[i]) {
-			ll tmp = i * 2ll;
-			while(tmp <= m) { //for文で書けるよ！！
-				ans[tmp] = false;
-				tmp += i;
-			}
+			for(ll j = i * 2; j <= m; j += i) ans[j] = false;
 		}
 	}
-	ans[1] = true;
+	ans[1] = true; //例外
 	vector<ll> rep;
 	ll cnt = 0; for(int i = 1; i <= m; i++) if(ans[i])cnt++, rep.push_back(i);
 	cout << cnt << endl;

@@ -10,11 +10,9 @@ int main() {
 	string s; ll k;
 	cin >> s >> k;
 	sort(s.begin(), s.end());
-	vector<char> ss(s.size());
-	for(int i = 0; i < s.size(); i++) ss.at(i) = s[i];
 	ll cnt = 1;
 	do {
-    if(cnt == k) {rep(i, ss.size()) cout << ss[i]; cout << endl; return 0;}
-	else cnt++;
-  } while (std::next_permutation(ss.begin(), ss.end()));
+    	if(cnt == k) {cout << s << endl; return 0;}
+		else cnt++;
+  } while (std::next_permutation(s.begin(), s.end()));
 }
