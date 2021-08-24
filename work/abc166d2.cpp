@@ -7,11 +7,7 @@ using namespace std;
 #define INF 1LL << 60
 
 int main() {
-	ll x = 1e9;
-	for(ll i = 0;;i++) {
-		if ((i + 1) * (i + 1) * (i + 1) * (i + 1) * (i + 1) - i * i * i * i * i >= x) {
-			cout << i << " " << i - 1 << endl;
-			return 0;
-		}
-	}
+	ll x; cin >> x;
+	for(ll i = -120; i <= 120; i++) for(ll j = -120; j <= 120; j++)
+		if(i*i*i*i*i - j*j*j*j*j == x) {cout << i << " " << j << endl; return 0;}
 }
