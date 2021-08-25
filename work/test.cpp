@@ -1,17 +1,33 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define ll long long
-#define ull unsigned long long
-#define MOD 1000000007LL
-#define INF 1LL << 60
 
-int main() {
-	ll x = 1e9;
-	for(ll i = 0;;i++) {
-		if ((i + 1) * (i + 1) * (i + 1) * (i + 1) * (i + 1) - i * i * i * i * i >= x) {
-			cout << i << " " << i - 1 << endl;
-			return 0;
-		}
-	}
+vector<int> buf;
+
+void dfs(int i, const int size, const int range_start, const int range_end)
+{
+    if (i == size) {
+        // ここで所望の作業を行う
+        for(int i = 0; i < buf.size(); ++i){
+            cout << buf[i] << " ";
+        }
+        cout << endl;
+    }else{
+        for(int j = range_start; j <= range_end; ++j){
+            buf[i] = j;
+            dfs(i + 1, size, range_start, range_end);
+        }
+    }
+}
+
+int main(void)
+{
+    int size = 10;
+    int range_start = 1;
+    int range_end = 5;
+    
+    buf.resize(size);
+    dfs(0, size, range_start, range_end);
+
+    return 0;
 }
