@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define rep(i, n) for (long long i = 0; i < n; i++)
-#define arrcout(a) for(int i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl;
+#define rrep(i, n) for (int i = a; i >= 0; i--)
+#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl;
 #define ll long long
 #define ull unsigned long long
 #define MOD 1000000007LL

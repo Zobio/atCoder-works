@@ -1,33 +1,16 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define rep(i, n) for (long long i = 0; i < n; i++)
+#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
+#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl;
+#define MOD 1000000007LL
+#define INF 1LL << 60
 
-vector<int> buf;
-
-void dfs(int i, const int size, const int range_start, const int range_end)
-{
-    if (i == size) {
-        // ここで所望の作業を行う
-        for(int i = 0; i < buf.size(); ++i){
-            cout << buf[i] << " ";
-        }
-        cout << endl;
-    }else{
-        for(int j = range_start; j <= range_end; ++j){
-            buf[i] = j;
-            dfs(i + 1, size, range_start, range_end);
-        }
-    }
-}
-
-int main(void)
-{
-    int size = 10;
-    int range_start = 1;
-    int range_end = 5;
-    
-    buf.resize(size);
-    dfs(0, size, range_start, range_end);
-
-    return 0;
+int main() {
+	int n; cin >> n;
+	vector<int> a(n);
+	rep(i, n) cin >> a.at(i);
+	arrcout(a);
 }
