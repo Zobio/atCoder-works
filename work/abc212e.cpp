@@ -10,5 +10,21 @@ using namespace std;
 
 int main() {
 	ll n, m, k; cin >> n >> m >> k;
-	
+	vector<vector<ll>> g(n);
+	rep(i, m) {
+		ll u, v; cin >> u >> v; u--; v--;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+	vector<vector<ll>> dp(k + 1, vector<ll>(n));
+	dp[0][0] = 1;
+	rep(day, k) {
+		ll sum = 0;
+		rep(i, n) sum = (sum + dp[day][i]) % MOD;
+		rep(i, n) dp[day + 1][i] = (sum - dp[day][i] + MOD) % MOD;
+		rep(i, n) {
+			for(auto a : g[i]) dp[day + 1][i] = (dp[day + 1][i] - dp[day][a] + MOD) % MOD;
+		}
+	}
+	cout << dp[k][0] << endl;
 }

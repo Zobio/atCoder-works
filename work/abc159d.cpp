@@ -11,6 +11,16 @@ using namespace std;
 int main() {
 	ll n; cin >> n;
 	vector<ll> a(n);
-	rep(i, n) cin >> a.at(n); //std::out_of_rangeが出力される
-	rep(i, n) cin >> a[i]; //特にエラー出力なし
+	map<ll, ll> mp;
+	rep(i, n) {
+		cin >> a.at(i);
+		a[i]--;
+		mp[a[i]]++;
+	}
+	ll sum = 0;
+	rep(i, n) sum += mp[i] * (mp[i] - 1) / 2;
+	rep(i, n) {
+		ll now = a[i];
+		cout << sum - mp[now] * (mp[now] - 1) / 2 + (mp[now] - 1) * (mp[now] - 2) / 2 << endl;
+	}
 }

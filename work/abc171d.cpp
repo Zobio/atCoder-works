@@ -10,7 +10,23 @@ using namespace std;
 
 int main() {
 	ll n; cin >> n;
-	vector<ll> a(n);
-	rep(i, n) cin >> a.at(n); //std::out_of_rangeが出力される
-	rep(i, n) cin >> a[i]; //特にエラー出力なし
+	map<ll, ll> mp;
+	ll sum = 0;
+	rep(i, n) {
+		ll a; cin >> a;
+		mp[a]++;
+		sum += a;
+	}
+	ll q; cin >> q;
+	vector<pair<ll, ll>> bc;
+	rep(i, q) {
+		ll b, c; cin >> b >> c;
+		bc.push_back(make_pair(b, c));
+	}
+	rep(i, q) {
+		sum += mp[bc[i].first] * (bc[i].second - bc[i].first);
+		cout << sum << endl;
+		mp[bc[i].second] += mp[bc[i].first];
+		mp[bc[i].first] = 0;
+	}
 }
