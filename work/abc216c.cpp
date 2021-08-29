@@ -10,16 +10,11 @@ using namespace std;
 
 int main() {
 	ll n; cin >> n;
-	vector<tuple<ll, ll, ll>> a(n);
-	rep(i, n) {
-		ll x, y, z; cin >> z >> y >> z;
-		a[i] = make_tuple(x, y, z);
+	string ans;
+	while(n) {
+		if(n & 1) ans.push_back('A'), n--;
+		else ans.push_back('B'), n /= 2;
 	}
-	sort(a.begin(), a.end());
-	rep(i, n) {
-			cout << get<0>(a[i]) << " ";
-			cout << get<1>(a[i]) << " ";
-			cout << get<2>(a[i]) << " ";
-			cout << endl;
-	}
+	reverse(ans.begin(), ans.end());
+	cout << ans << endl;
 }

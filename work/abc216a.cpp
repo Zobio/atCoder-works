@@ -9,17 +9,9 @@ using namespace std;
 #define INF 1LL << 60
 
 int main() {
-	ll n; cin >> n;
-	vector<tuple<ll, ll, ll>> a(n);
-	rep(i, n) {
-		ll x, y, z; cin >> z >> y >> z;
-		a[i] = make_tuple(x, y, z);
-	}
-	sort(a.begin(), a.end());
-	rep(i, n) {
-			cout << get<0>(a[i]) << " ";
-			cout << get<1>(a[i]) << " ";
-			cout << get<2>(a[i]) << " ";
-			cout << endl;
-	}
+	int x, y;
+	scanf("%d.%d", &x, &y);
+	if(y <= 2) cout << x << '-' << endl;
+	else if(y <= 6) cout << x << endl;
+	else cout << x << '+' << endl;
 }

@@ -10,16 +10,11 @@ using namespace std;
 
 int main() {
 	ll n; cin >> n;
-	vector<tuple<ll, ll, ll>> a(n);
+	map<pair<string, string>, ll> mp;
 	rep(i, n) {
-		ll x, y, z; cin >> z >> y >> z;
-		a[i] = make_tuple(x, y, z);
+		string a, b; cin >> a >> b;
+		if(mp[make_pair(a, b)]) {cout << "Yes" << endl; return 0;}
+		mp[make_pair(a, b)]++;
 	}
-	sort(a.begin(), a.end());
-	rep(i, n) {
-			cout << get<0>(a[i]) << " ";
-			cout << get<1>(a[i]) << " ";
-			cout << get<2>(a[i]) << " ";
-			cout << endl;
-	}
+	cout << "No" << endl;
 }
