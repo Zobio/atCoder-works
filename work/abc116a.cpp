@@ -5,5 +5,7 @@ using namespace std;
 #define MOD 1000000007
 
 int main() {
-	
+	ll a, b, c;
+	cin >> a >> b >> c;
+	cout << a * b / 2 << endl;
 }
