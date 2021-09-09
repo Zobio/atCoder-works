@@ -10,19 +10,18 @@ using namespace std;
 
 ll n;
 vector<vector<ll>> a;
-vector<vector<ll>> dp; // dp[i][j]頂点集合iが訪問済みで、今jにいるときの重さの総和の最小値(∴答えはdp[1 << n][k](k = 1 ~ N)の最小値)
+vector<vector<ll>> dp; // dp[i][j]頂点集合iが訪問済みで、今jにいるときここから頂点0に戻るのに必要な重さの総和の最小値(∴ans = dp[0][0])
 
 ll solve(ll S, ll v) {
-	cout << bitset<4>(S) << " " << v << endl;
 	if(dp[S][v] != -1) return dp[S][v];
 
-	ll state = S & ~(1 << v); //頂点集合Sからvを取り除く
+	if(S == (1 << n) - 1 && v == 0) {
+		return dp[S][v] = 0; //全ての頂点を訪れて戻ってきた
+	}
 	ll res = INF;
 	rep(i, n) {
-		if(!(state & (1 << i))) continue; //stateは"すでに訪問した"頂点集合なので該当しないものはcontinue
-		res = min(res, solve(state, i) + a[i][v]); 
+		if(!((S >> i) & 1)) res = min(res, solve(S ^ (1 << i), i) + a[v][i]);
 	}
-	cout << bitset<4>(S) << " " << v << " " << res << endl;
 	return dp[S][v] = res;
 }
 
@@ -31,10 +30,5 @@ int main() {
 	a.assign(n, vector<ll>(n));
 	rep(i, n) rep(j, n) cin >> a[i][j];
 	dp.assign(1 << n, vector<ll>(n, -1));
-	rep(i, n) dp[1 << i][i] = 0; //初期値(初期値点しか訪問していないから0)
-	ll ans = INF;
-	rep(i, n) ans = min(ans, solve((1 << n) - 1, i));
-	cout << endl;
-	rep(i, n) cout << i << " " << solve((1 << n) - 1, i) << endl;
-	cout << ans << endl;
+	cout << solve(0, 0) << endl;
 }
