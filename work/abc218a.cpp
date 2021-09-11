@@ -9,11 +9,6 @@ using namespace std;
 #define INF 1LL << 60
 
 int main() {
-    ll n; cin >> n;
-	map<pair<ll, ll>, ll> mp;
-	rep(i, n) {
-		ll a, b; cin >> a >> b;
-		mp[make_pair(a, b)]++;
-	}
-    for(auto a : mp) cout << a.first.first << " " << a.first.second << " " << a.second << endl;
+	int n; string s; cin >> n >> s;
+	cout << (s[n - 1] == 'o' ? "Yes" : "No") << endl;
 }

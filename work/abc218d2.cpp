@@ -9,11 +9,13 @@ using namespace std;
 #define INF 1LL << 60
 
 int main() {
-    ll n; cin >> n;
-	map<pair<ll, ll>, ll> mp;
+	ll n; cin >> n;
+	set<ll> s;
+	vector<set<ll>> v(1000000010);
 	rep(i, n) {
-		ll a, b; cin >> a >> b;
-		mp[make_pair(a, b)]++;
+		ll x, y; cin >> x >> y;
+		v[x].insert(y);
+		s.insert(x);
 	}
-    for(auto a : mp) cout << a.first.first << " " << a.first.second << " " << a.second << endl;
+	for(auto )
 }

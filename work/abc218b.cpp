@@ -9,11 +9,10 @@ using namespace std;
 #define INF 1LL << 60
 
 int main() {
-    ll n; cin >> n;
-	map<pair<ll, ll>, ll> mp;
-	rep(i, n) {
-		ll a, b; cin >> a >> b;
-		mp[make_pair(a, b)]++;
+	string ans = "";
+	rep(i, 26) {
+		ll c; cin >> c;
+		ans.push_back('a' + c - 1);
 	}
-    for(auto a : mp) cout << a.first.first << " " << a.first.second << " " << a.second << endl;
+	cout << ans << endl;
 }
