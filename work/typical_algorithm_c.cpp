@@ -16,12 +16,14 @@ ll solve(ll S, ll v) {
 	if(dp[S][v] != -1) return dp[S][v];
 
 	if(S == (1 << n) - 1 && v == 0) {
+		cout << bitset<4>(S) << " " << v << " " << 0 << endl;
 		return dp[S][v] = 0; //全ての頂点を訪れて戻ってきた
 	}
 	ll res = INF;
 	rep(i, n) {
-		if(!((S >> i) & 1)) res = min(res, solve(S ^ (1 << i), i) + a[v][i]);
+		if(!(S & (1 << i))) res = min(res, solve(S ^ (1 << i), i) + a[v][i]);
 	}
+	cout << bitset<4>(S) << " " << v << " " << res << endl;
 	return dp[S][v] = res;
 }
 

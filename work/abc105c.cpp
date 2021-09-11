@@ -9,5 +9,15 @@ using namespace std;
 #define INF 1LL << 60
 
 int main() {
-    cout << (1LL << 60) << endl;
+	ll n; cin >> n;
+	vector<int> ans;
+	while(n) {
+		ll r = n % 2;
+		if(r < 0) r += 2;
+		n = (n - r) / -2;
+		ans.push_back(r);
+	}
+	if(ans.empty()) ans.push_back(0);
+	reverse(ans.begin(), ans.end());
+	rep(i, ans.size()) cout << ans[i]; cout << endl;
 }
