@@ -1,14 +1,16 @@
-template <typename VV>
-VV rotate(VV a) {
-	/*2次元グリッドを反時計回りに90°回転させる関数 (2回回せば逆さまになる)
-	(例)
-	000     011
-	001 --> 000
-	101     001
-	注意 : 縦と横のサイズが同じでないとバグる
-	*/
-	size_t siz = a.size();
-	VV b(siz);
-	for(size_t i = 0; i < siz; i++) for(size_t j = 0; j < siz; j++) b[i].push_back(a[j][siz - i - 1]);
-	return b;
+template<typename V>
+V shrink_coordinates(V a) {
+    /*
+    座標圧縮を行う関数
+    (例)
+    {6, 9, 9, 2, 100} -->  {1, 2, 2, 0, 3}
+    */
+    V b = a;
+    sort(b.begin(), b.end());
+    b.erase(unique(b.begin(), b.end()), b.end());
+    V res(a.size());
+    for(ll i = 0; i < a.size(); i++) {
+    	res.at(i) = lower_bound(b.begin(), b.end(), a.at(i)) - b.begin();
+    }
+    return res;
 }
