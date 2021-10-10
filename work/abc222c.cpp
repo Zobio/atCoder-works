@@ -39,14 +39,11 @@ int main() {
 		rep(j, n) {
 			pair<ll, ll> fi = pq.top(); pq.pop();
 			pair<ll, ll> se = pq.top(); pq.pop();
-			cout << a[fix(fi.second)][i] << " " << a[fix(se.second)][i] << endl;
-			if(judge(a[fix(fi.second)][i], a[fix(se.second)][i]) == 1) fi.first++, cout << fix(fi.second) + 1 << " won!" << endl;
-			else if(judge(a[fix(fi.second)][i], a[fix(se.second)][i]) == 0) se.first++, cout << fix(se.second) + 1 << " won!" << endl;
-			else cout << "hikiwake" << endl;
-			cout << fix(fi.second) + 1 << " " << fi.first << "  " << fix(se.second) + 1 << " " << se.first << endl;
+			if(judge(a[fix(fi.second)][i], a[fix(se.second)][i]) == 1) fi.first++;
+			else if(judge(a[fix(fi.second)][i], a[fix(se.second)][i]) == 0) se.first++;
 			tmp.push_back(fi); tmp.push_back(se);
 		}
 		for(auto a : tmp) pq.push(a);
 	}
-	while(!pq.empty()) cout << fix(pq.top().second) + 1 << " " << pq.top().first << endl, pq.pop();
+	while(!pq.empty()) cout << fix(pq.top().second) + 1 << endl, pq.pop();
 }
