@@ -17,25 +17,24 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll N;
+ll a[3010], b[3010];
+ll dp[3010][3010];
+ll rui[3010];
+//---------------------------------------------------------------------------------------------------
 int main() {
-	ll n; cin >> n;
-	vll a(n), b(n);
-	rep(i, n) cin >> a.at(i); rep(i, n) cin >> b.at(i);
-	vvll dp(n + 1, vll(3010));
-	dp[0][0] = 1;
-	//長さが0の時は当然最大値は0(要素がないから)
-	rep(i, n) {
-		ll sum = 0, before = 0;
-		for(ll j = a[i]; j <= b[i]; j++) {
-			for(ll k = before; k <= j; k++) {
-				//ここは高々1回しか回らない
-				sum = (sum + dp[i][k]) % MOD;
-			} 
-			dp[i + 1][j] = sum;
-			before = j + 1;
-		}
-	}
-	ll ans = 0;
-	rep(i, dp[n].size()) ans = (ans + dp[n][i]) % MOD;
-	cout << ans << endl;
+    cin >> N;
+    rep(i, N) cin >> a[i];
+    rep(i, N) cin >> b[i];
+
+    dp[0][0] = 1;
+    rep(i, N) {
+        rui[0] = dp[i][0];
+        rep(lst, 3000) rui[lst + 1] = (rui[lst] + dp[i][lst]) % MOD;
+        for(ll nxt = a[i]; nxt <= b[i]; nxt++) dp[i + 1][nxt] = (dp[i + 1][nxt] + rui[nxt]) % MOD;
+    }
+    
+    ll ans = 0;
+    rep(lst, 3001) ans += dp[N][lst];
+    cout << ans << endl;
 }

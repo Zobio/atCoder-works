@@ -18,24 +18,19 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	vll a(n), b(n);
-	rep(i, n) cin >> a.at(i); rep(i, n) cin >> b.at(i);
-	vvll dp(n + 1, vll(3010));
-	dp[0][0] = 1;
-	//長さが0の時は当然最大値は0(要素がないから)
-	rep(i, n) {
-		ll sum = 0, before = 0;
-		for(ll j = a[i]; j <= b[i]; j++) {
-			for(ll k = before; k <= j; k++) {
-				//ここは高々1回しか回らない
-				sum = (sum + dp[i][k]) % MOD;
-			} 
-			dp[i + 1][j] = sum;
-			before = j + 1;
-		}
-	}
-	ll ans = 0;
-	rep(i, dp[n].size()) ans = (ans + dp[n][i]) % MOD;
-	cout << ans << endl;
+  int N;
+  cin >> N;
+  vector<int> A(N), B(N);
+  for (auto& x : A) cin >> x;
+  for (auto& x : B) cin >> x;
+  int MAX = 3000;
+  vvll dp((N + 1, vector(MAX + 1, ll{0})));
+  dp[0][0] = 1;
+  rep(i, N + 1) {
+    rep(j, MAX) dp[i][j + 1] += dp[i][j];
+    if (i != N) {
+      for (int j = A[i]; j <= B[i]; j++) dp[i + 1][j] += dp[i][j];
+    }
+  }
+  cout << dp[N][MAX].val() << "\n";
 }
