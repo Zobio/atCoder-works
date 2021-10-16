@@ -23,12 +23,11 @@ int main() {
 	rep(i, n) cin >> a.at(i); rep(i, n) cin >> b.at(i);
 	vvll dp(n + 1, vll(3010));
 	dp[0][0] = 1;
-	//長さが0の時は当然最大値は0(要素がないから)
 	rep(i, n) {
 		ll sum = 0, before = 0;
 		for(ll j = a[i]; j <= b[i]; j++) {
 			for(ll k = before; k <= j; k++) {
-				//ここは高々1回しか回らない
+				//ここはj == a[i]の時a[i]回回り、それ以外の時は高々1回しか回らない
 				sum = (sum + dp[i][k]) % MOD;
 			} 
 			dp[i + 1][j] = sum;
