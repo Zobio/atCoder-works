@@ -2,6 +2,7 @@
 using namespace std;
 #define ll long long
 #define ull unsigned long long
+#define ld long double
 #define rep(i, n) for (long long i = 0; i < n; i++)
 #define reps(i, n) for (long long i = 1; i <= n; i++)
 #define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
@@ -18,5 +19,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n; cin >> n;
+	vector<long double> a(n); vector<long double> b(n);
+	long double sum = 0;
+	rep(i, n) cin >> a[i] >> b[i], sum += a[i] / b[i];
+	sum /= 2.0;
+	long double ans = 0;
+	rep(i, n) {
+		ans += min(a[i], sum * b[i]);
+		sum -= min(a[i] / b[i], sum);
+	}
+	printf("%.12Lf\n", ans);
 }

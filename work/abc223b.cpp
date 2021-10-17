@@ -18,5 +18,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	string s; cin >> s;
+	vector<string> vs;
+	rep(i, s.size()) {
+		vs.push_back(s.substr(s.size() - i, i) + s.substr(0, s.size() - i));
+	}
+	sort(all(vs));
+	cout << vs.front() << endl << vs.back() << endl;
 }

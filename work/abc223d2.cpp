@@ -18,5 +18,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, m; cin >> n >> m;
+	vector<pair<ll, ll>> vp, alt;
+	rep(i, m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		vp.push_back({a, b});
+		if(a > b) alt.push_back({a, b});
+	}
+	sort(all(alt));
 }
