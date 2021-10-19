@@ -20,5 +20,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	ll n; cin >> n;
+	vector<pair<ll,ll>> a(n);
+	rep(i, n) {
+		ll tmp; cin >> tmp;
+		a[i] = {tmp, i + 1};
+	}
+	sort(a.rbegin(), a.rend());
+	rep(i, n) cout << a[i].second << endl;
 }

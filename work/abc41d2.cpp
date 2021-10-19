@@ -20,5 +20,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	ll n, m; cin >> n >> m;
+	vll x(m); vll y(m);
+	rep(i, m) cin >> x[i] >> y[i], x[i]--, y[i]--;
+	vll st(n); iota(all(st), 1);
+	ll ans = 0;
+	do{
+		bool flag = true;
+		rep(i, m) if(st[x[i]] < st[y[i]]) flag = false;
+		if(flag) ans++;
+	}while(next_permutation(all(st)));
+	cout << ans << endl;
 }

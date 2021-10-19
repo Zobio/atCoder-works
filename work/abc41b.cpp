@@ -14,11 +14,12 @@ using namespace std;
 #define vvvvll vector<vector<vector<vector<long long>>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
 #define all(a) (a).begin(), (a).end()
-#define MOD 998244353LL
+#define MOD 1000000007LL
 #define INF 1LL << 60
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	ll a, b, c; cin >> a >> b >> c;
+	cout << (a * b % MOD) * c % MOD << endl;
 }

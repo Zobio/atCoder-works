@@ -20,5 +20,19 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	ll n, m; cin >> n >> m;
+	vll g(n); // g[i]にはiから向かう有効辺の頂点の集合が保存される
+	rep(i, m) {
+		ll x, y; cin >> x >> y; x--; y--;
+		g[x] |= 1ll << y;
+	}
+	vll dp(1ll << n);
+	dp[0] = 1;
+	rep(i, 1ll << n) rep(j, n) {
+		if(i & 1 << j && (i & g[j]) == 0){
+			//jの有効辺の頂点と今の状態iに1つでも一致しているものがあったらダメ
+			dp[i] += dp[i & ~(1 << j)];
+		}
+	}
+	cout << dp[(1ll << n) - 1] << endl;
 }
