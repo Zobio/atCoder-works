@@ -19,6 +19,20 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+
+ll gcd(ll a, ll b) {
+	// a<bのときa % b == aなので結局gcd(b, a)に帰結する。
+	if (a % b == 0) {
+		return b;
+	}else{
+		return gcd(b, a % b);
+	}
+}
+
+ll lcm(ll a, ll b) {
+	return a * b / gcd(a, b);
+}
+
 int main() {
-	
+
 }
