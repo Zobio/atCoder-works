@@ -20,26 +20,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	vll a = {1, 2, 3};
-	cout << "auto" << endl;
-	for(auto t : a) {
-		t++;
-		cout << t << " ";
-	}
-	cout << endl;
-	rep(i, a.size()) {
-		cout << a[i] << " ";
-	}
-	cout << endl;
-	cout << "----------------" << endl;
-	cout << "auto&" << endl;
-	for(auto& t : a) {
-		t++;
-		cout << t << " ";
-	}
-	cout << endl;
-	rep(i, a.size()) {
-		cout << a[i] << " ";
-	}
-	cout << endl;
+	ll n, k; cin >> n >> k;
+	vll a(n); vll b(n);
+	rep(i, n) cin >> a.at(i); rep(i, n) cin >> b.at(i);
+	ll cnt = 0;
+	rep(i, n) cnt += abs(a[i] - b[i]);
+	if(cnt <= k && (k & 1) == (cnt & 1)) cout << "Yes" << endl;
+	else cout << "No" << endl;
 }
