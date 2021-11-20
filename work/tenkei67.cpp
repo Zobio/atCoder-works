@@ -14,7 +14,6 @@ using namespace std;
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define MOD 998244353LL
 #define INF 1LL << 60
@@ -22,9 +21,20 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	const ld PI = 3.141592653589793238;
-	ld p; cin >> p;
-	cout << p / PI << endl;
-	setcout(12);
-	cout <<  p / PI << endl;
+	ll n, k; cin >> n >> k;
+	string ans;
+	rep(i, k) {
+		ll m1 = 0;
+		fore(j, to_string(n)) {
+			m1 *= 8;
+			m1 += j - '0';
+		}
+		while(m1) {
+			ans.push_back('0' + m1 % 9);
+			m1 /= 9;
+		}
+		reverse(all(ans));
+		fore(a, ans) if(a == '8') a = '5';
+	}
+	cout << ans << endl;
 }
