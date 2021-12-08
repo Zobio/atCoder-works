@@ -29,16 +29,14 @@ int main() {
 	vector<bool> ok(n);
 	ll len = s.size();
 	rep(i, n) {
-		for(ll j = 1; j <= n / len; j++/*間隔*/) {
+		for(ll j = 1; j <= (t[i].size() - 1) / (len - 1); j++/*間隔*/) {
 			for(ll k = 0; k + j * (len - 1) < t[i].size(); k++) {
 				bool fl = true; ll cnt = 0;
 				for(ll l = k; l < t[i].size() && cnt < len; l += j) {
 					if(t.at(i).at(l) != s[cnt]) fl = false;
 					cnt++;
-					cout << t[i][l];
 				}
-				cout << endl;
-				if(fl) ok[i] = true, cout << "OK! : "  << i << endl;
+				if(fl) ok[i] = true;
 			}
 		}
 	}
