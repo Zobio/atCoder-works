@@ -16,18 +16,34 @@ using namespace std;
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
 #define INF 1LL << 60
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vvll g;
+vll cnt;
+vector<bool> done;
+
+void dfs(ll v) {
+	done.at(v) = true;
+	for(ll nv : g.at(v)) {
+		if(!done.at(nv)) cnt.at(nv) += cnt.at(v), dfs(nv);
+	}
+}
+
 int main() {
-	set<ll> s;
-	s.insert(1);
-	s.insert(1);
-	s.insert(2);
-	cout << s.size() << endl;
-	cout << *s.begin() << endl;
-	s.erase(*s.begin());
-	cout << *s.begin() << endl;
+	ll n, q; cin >> n >> q;
+	g.resize(n); cnt.resize(n); done.resize(n);
+	rep(i, n - 1) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g.at(a).push_back(b); g.at(b).push_back(a);
+	}
+	rep(i, q) {
+		ll p, x; cin >> p >> x; p--;
+		cnt[p] += x;
+	}
+	dfs(0);
+	arrcout(cnt);
 }
