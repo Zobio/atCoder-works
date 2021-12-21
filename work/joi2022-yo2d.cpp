@@ -28,14 +28,15 @@ int main() { //priority_queue? dp?
 	ll n, k; cin >> n >> k;
 	vll a(n); rep(i, n) cin >> a[i];
 	vvll dp(n + 1, vll(n + 1));//dp[i][j] : i個目とi - j個目のアメを選んだ時の美味しさの合計値の最大値(∴ans=max(dp[n][(n - k) ~ n]))
-	vll ma(n + 1); //各dpの最大値
+	dp[0][0] = 0;//0個目は0
+	vvll ma(n + 1, vll(n + 1));
 	reps(i, n) {
-		for(ll j = max(0ll, i - k); j <= i; j++) {
+		for(ll j = max(0ll, i - k + 1); j < i; j++) {
 			if(j == 0) dp.at(i).at(j) = a.at(i - 1);
-			else dp.at(i).at(j) = ma.at(min(j - 1, i - k)) + a.at(i - 1) + a.at(j - 1);
+			else dp.at(i).at(j) = ma.at(max(0ll, min(j - 1, i - k))) + a.at(i - 1) + a.at(j - 1);
+			cout << i << " " << j << " " << dp[i][j] << endl;
 		}
-		rep(j, i + 1) if(chmax(ma.at(i), dp.at(i).at(j))) ma.at(i) = i, ma.at(i) = j;
-		chmax(ma[i], ma[i - 1]);
+		rep(j, i + 1) for(jj, chmax(ma.at(i), dp.at(i).at(j));
 	}
 	ll ans = 0;
 	reps(i, n) chmax(ans, ma[i]);
