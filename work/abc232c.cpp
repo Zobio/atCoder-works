@@ -26,35 +26,22 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n, m; cin >> n >> m;
-	vpll a(n), c(n);
-	rep(i, m) {ll p, q; cin >> p >> q; p--; q--; a[i] = {p, q};}
-	rep(i, m) {ll p, q; cin >> p >> q; p--; q--; c[i] = {p, q};}
+	vpll a(m), c(m);
+	rep(i, m) {ll p, q; cin >> p >> q; p--; q--; if(p > q) swap(p, q); a[i] = {p, q};}
+	rep(i, m) {ll p, q; cin >> p >> q; p--; q--; if(p > q) swap(p, q); c[i] = {p, q};}
 	sort(all(a)); sort(all(c));
-	rep(_, n) {
-		vvll ga(n), gc(n);
-		rep(i, a.size()) {
-			ga[a[i].first].push_back(a[i].second);
-			ga[a[i].second].push_back(a[i].first);
-		}
-		rep(i, c.size()) {
-			ga[c[i].first].push_back(c[i].second);
-			ga[c[i].second].push_back(c[i].first);
-		}
-		rep(i, n) sort(all(ga[i])), sort(all(gc[i]));
-		rep(i, n) {for(ll j : ga[i]) cout << j << " "; cout << endl;}
-		rep(i, n) {for(ll j : gc[i]) cout << j << " "; cout << endl;}
-		bool flag = true;
-		rep(i, n) {
-			if(ga[i].size() != gc[i].size()) {flag = false; break;}//breakしないと下のループでRE
-			rep(j, ga[i].size()) if(ga[i][j] != gc[i][j]) flag = false;
-		}
-		if(flag) {cout << "Yes" << endl; return 0;}
+	vll per(n); iota(all(per), 0);
+	do{
+		vpll pa(m); vpll pc(m);
 		rep(i, m) {
-			a[i].first = (a[i].first + 1) % n;
-			a[i].second = (a[i].second + 1) % n;
-			c[i].first = (c[i].first + 1) % n;
-			c[i].second = (c[i].second + 1) % n;
+			pair<ll, ll> p1 = {min(per[a[i].first], per[a[i].second]), max(per[a[i].first], per.at(a[i].second))};
+			pair<ll, ll> p2 = {c[i].first, c[i].second};
+			pa[i] = p1; pc[i] = p2;
 		}
-	}
+		sort(all(pa)); sort(all(pc));
+		bool flag = true;
+		rep(i, m) if(pa[i] != pc[i]) flag = false;
+		if(flag) {cout <<"Yes" << endl; return 0;}
+	}while(next_permutation(all(per)));
 	cout << "No" << endl;
 }
