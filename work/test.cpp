@@ -1,33 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define setcout(n) cout << setprecision(n) << fixed
-#define all(a) (a).begin(), (a).end()
-#define MOD 998244353LL
-#define INF 1LL << 60
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	set<ll> s;
-	s.insert(1);
-	s.insert(1);
-	s.insert(2);
-	cout << s.size() << endl;
-	cout << *s.begin() << endl;
-	s.erase(*s.begin());
-	cout << *s.begin() << endl;
+int main(){
+    // 頂点数N、始点の頂点番号s
+    int N, s;
+    // 隣接リスト。
+    // edges[i]の要素に(j, c)が含まれる時、iからjにコストcの辺が存在
+    vector<vector<pair<int, int>>> edges(N);
+
+    vector<int> dist(N, 1e9);
+    dist[s] = 0;
+    deque<int> que;
+    que.push_back(s);
+
+    while(que.size()){
+        int i = que.front(); que.pop_front();
+        for(auto [j, c] : edges[i]){
+            int d = dist[i] + c;
+            if(d < dist[j]){
+                dist[j] = d;
+                if(c){
+                    que.push_back(j);
+                }else{
+                    que.push_front(j);
+                }
+            }
+        }
+    }
 }

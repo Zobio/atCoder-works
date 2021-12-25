@@ -21,20 +21,23 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, k; cin >> n >> k;
-	string ans;
-	rep(i, k) {
-		ll m1 = 0;
-		fore(j, to_string(n)) {
-			m1 *= 8;
-			m1 += j - '0';
+	string n; cin >> n;
+	ll k; cin >> k;
+	string ans = "";
+	rep(_, k) {
+		ll num = 0;
+		rep(i, n.size()) {
+			num *= 8ll;
+			num += n[i] - '0';
 		}
-		while(m1) {
-			ans.push_back('0' + m1 % 9);
-			m1 /= 9;
+		n = "";
+		while(num) {
+			n += to_string(num % 9);
+			num /= 9ll;
 		}
-		reverse(all(ans));
-		fore(a, ans) if(a == '8') a = '5';
+		reverse(all(n));
+		rep(i, n.size()) if(n[i] == '8') n[i] = '5';
 	}
-	cout << ans << endl;
+	if(n == "") cout << 0 << endl;
+	else cout << n << endl;
 }
