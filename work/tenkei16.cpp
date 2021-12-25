@@ -26,13 +26,12 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n, a, b, c; cin >> n >> a >> b >> c;
-	ll lim = 9999, ans = INF;
-	for(ll x = 0; x <= lim; x++) {
-		for(ll y = 0; x + y <= lim; y++) {
-			for(ll z = 0; x + y + z <= lim; z++) {
-				if(a * x + b * y + c * z == n) chmin(ans, x + y + z);
-			}
-		}
+	ll ans = INF;
+	rep(i, 10000) rep(j, 10000 - i) {
+		ll rest = n - i * a - j * b;
+		ll num = i + j + rest / c;
+		if (rest % c != 0LL || rest < 0 || num > 9999LL) continue;
+		chmin(ans, num);
 	}
 	cout << ans << endl;
 }
