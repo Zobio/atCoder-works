@@ -1,35 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define uint unsigned int
 #define ll long long
 #define ull unsigned long long
-#define MOD 1000000007
+#define ld long double
+#define rep(i, n) for (long long i = 0; i < n; i++)
+#define reps(i, n) for (long long i = 1; i <= n; i++)
+#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
+#define rreps(i, n) for (long long i = n; i >= 1; i--)
+#define fore(i, a) for (auto& i : a)
+#define vll vector<long long>
+#define vvll vector<vector<long long>>
+#define vvvll vector<vector<vector<long long>>>
+#define vvvvll vector<vector<vector<vector<long long>>>>
+#define vpll vector<pair<long long, long long>>
+#define vvpll vector<vector<pair<long long, long long>>>
+#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
+#define setcout(n) cout << setprecision(n) << fixed
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define MOD 998244353LL
+#define INF 1LL << 60
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	priority_queue<string> pq;
-	int n;
-	cin >> n;
-	if(n & 1) {
-		return 0;
-	}
-	for(int bits = 0; bits < (1 << n); bits++) {
-		int bitsCnt = 0;
-		for(int i = 0; i < n; i++) {
-			if((bits >> i) & 1) bitsCnt++; //右ビットシフト！
-		}
-		if(bitsCnt != n / 2) continue;
-		string s = ""; int stock = 0; bool flag = true;
-		for(int i = 0; i < n; i++) {
-			if((bits >> i) & 1) s += "(", stock++;
-			else s += ")", stock--;
-			if(stock < 0) flag = false;
-		}
-		if(flag & stock == 0) pq.push(s);
-	}
+	ll n; cin >> n;
+	if(n & 1) return 0;
 	vector<string> ans;
-	while(!pq.empty()) {
-		ans.push_back(pq.top());
-		pq.pop();
+	for(ll bits = 0; bits < (1ll << n); bits++) {
+		ll cnt = 0;
+		rep(i, n) if((1ll << i) & bits) cnt++;
+		if(cnt != n / 2) continue;
+		ll state = 0; bool flag = true;
+		rep(i, n) {
+			if ((1ll << i) & bits) state++;
+			else state--;
+			if(state < 0) flag = false;
+		}
+		string tmp = "";
+		if(flag) rep(i, n) tmp += (1ll << i) & bits ? "(" : ")";
+		ans.push_back(tmp);
 	}
-	reverse(ans.begin(), ans.end());
-	for(auto a : ans) cout << a << endl;
+	sort(all(ans));
+	for(auto i : ans) cout << i << endl;
 }

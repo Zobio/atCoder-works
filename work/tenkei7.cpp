@@ -25,11 +25,20 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n; vll a(n), b(n);
-    rep(i, n) cin >> a[i];
-    rep(i, n) cin >> b[i];
-    sort(all(a)); sort(all(b));
-    ll ans = 0;
-    rep(i, n) ans += abs(a[i] - b[i]);
-    cout << ans << endl;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i]; sort(all(a));
+	ll q; cin >> q;
+	rep(_, q) {
+		ll b; cin >> b;
+		vll::iterator it = lower_bound(all(a), b);
+		if(it == a.begin()) cout << abs(a.front() - b) << endl;
+		else if(it == a.end()) cout << abs(a.back() - b) << endl;
+		else {
+			ll ans = INF;
+			chmin(ans, abs(*it - b));
+			it--;
+			chmin(ans, abs(*it - b));
+			cout << ans << endl;
+		}
+	}
 }
