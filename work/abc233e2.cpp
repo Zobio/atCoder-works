@@ -25,9 +25,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    vll a(n); rep(i, n) cin >> a[i];
-    ll x, y; cin >> x >> y; x--; y--;
-    swap(a[x % n], a[y % n]);
-    arrcout(a);
+	string x; cin >> x;
+	ll len = x.size(), sum = 0, cur = 0;
+	rep(i, len) sum += x[i] - '0';
+	string res;
+	for(ll i = len - 1;;i--) {
+		cur += sum; //(len - i)桁目は(first_)sum - (Σj=len-1 ~ len-i x[j]) + (下の桁の繰り上がり分)
+		res.push_back('0' + cur % 10);
+		cur /= 10; //次の桁に残しておく数
+		if (i >= 0) sum -= (x[i] - '0');
+		if(i <= 0 && cur == 0) break; //最後の桁まで使っている(i <= 0)かつ全ての数を消費し終えている(cur == 0)である事が終了条件
+	}
+	reverse(all(res));
+	cout << res << endl;
 }

@@ -25,9 +25,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    vll a(n); rep(i, n) cin >> a[i];
-    ll x, y; cin >> x >> y; x--; y--;
-    swap(a[x % n], a[y % n]);
-    arrcout(a);
+	ll a, b; cin >> a >> b;
+	if(b / __gcd(a, b) > 1000000000000000000LL / a) cout << "Large" << endl;
+	else cout << a * b / __gcd(a, b) << endl;
 }

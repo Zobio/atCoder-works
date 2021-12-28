@@ -25,9 +25,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    vll a(n); rep(i, n) cin >> a[i];
-    ll x, y; cin >> x >> y; x--; y--;
-    swap(a[x % n], a[y % n]);
-    arrcout(a);
+	ll n, q; cin >> n >> q;
+	vll a(n); rep(i, n) cin >> a[i];
+	ll state = 0;
+	vll ans;
+	rep(_, q) {
+		ll t, x, y; cin >> t >> x >> y; x--; y--;
+		if(t == 1) {
+			swap(a[(x + state) % n], a[(y + state) % n]);
+		}
+		else if(t == 2) {
+			state = (state - 1 + n) % n;
+		}
+		else{
+			ans.push_back(a[(x + state) % n]);
+		}
+	}
+	for(auto au : ans) cout << au << endl;
 }
