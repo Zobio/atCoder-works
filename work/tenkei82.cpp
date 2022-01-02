@@ -19,14 +19,34 @@ using namespace std;
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
+#define MOD 1000000007LL
 #define INF 1LL << 60
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << LLONG_MAX << endl;
-	cout << log10(LLONG_MAX) << endl;
-	cout << ULLONG_MAX << endl;
-	cout << log10(ULLONG_MAX) << endl;
+	ull l, r; cin >> l >> r;
+	ull di_l = 0, di_r = 0, cur = 1;
+	while(cur * 10 <= l) di_l++, cur *= 10;
+	cur = 1;
+	while(cur * 10 <= r) di_r++, cur *= 10;
+	//di_l, di_rは10^p > l, 10^q > rをそれぞれ満たす最小のp, q
+	ull ans = 0;
+	for(ll digit = di_l; digit <= di_r; digit++) {
+		ull st = 1, en = 1, n = 1;
+		rep(i, digit) n *= 10; n *= 9;
+		ull ncp = n / 9 * 10;
+		if(digit == di_l) n -= l - ncp / 10;
+		if(digit == di_r) n -= ncp - r - 1;
+		if(digit == di_l) st = l;
+		else rep(i, digit) st *= 10;
+		if(digit == di_r) en = r;
+		else {rep(i, digit + 1) en *= 10; en--;}
+		ll st_en = st + en;
+		if(n % 2 == 0) n /= 2;
+		else if(st_en % 2 == 0) st_en /= 2;
+		n %= MOD; st_en %= MOD;
+		ans = (ans + (n * st_en % MOD * (digit + 1) % MOD)) % MOD;
+	}
+	cout << ans << endl;
 }

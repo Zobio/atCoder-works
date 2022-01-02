@@ -25,8 +25,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << LLONG_MAX << endl;
-	cout << log10(LLONG_MAX) << endl;
-	cout << ULLONG_MAX << endl;
-	cout << log10(ULLONG_MAX) << endl;
+	ll n; cin >> n;
+	string s; cin >> s;
+	ll ans = n * (n - 1) / 2;
+	ll cnt = 1;
+	reps(i, n - 1) {
+		while(s[i] == s[i - 1] && i < n) cnt++, i++;
+		ans -= cnt * (cnt - 1) / 2;
+		cnt = 1;
+	} 
+	cout << ans << endl;
 }

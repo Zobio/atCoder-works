@@ -24,9 +24,36 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vector<ull> pow10(20);
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+void init() {
+	pow10[0] = 1;
+	rep(i, 19) pow10[i + 1] = pow10[i] * 10ull;
+}
+
 int main() {
-	cout << LLONG_MAX << endl;
-	cout << log10(LLONG_MAX) << endl;
-	cout << ULLONG_MAX << endl;
-	cout << log10(ULLONG_MAX) << endl;
+	init();
+	ull l, r; cin >> l >> r;
+	ull ans = 0;
+	reps(i, 19) {
+		unsigned long long vl = max(l, pow10[i - 1]);
+		unsigned long long vr = min(r, pow10[i] - 1ull);
+		if (vl > vr) continue;
+	}
 }
