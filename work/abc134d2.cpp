@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define uint unsigned int
+#define ll long long
+#define ull unsigned long long
+#define ld long double
+#define rep(i, n) for (long long i = 0; i < n; i++)
+#define reps(i, n) for (long long i = 1; i <= n; i++)
+#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
+#define rreps(i, n) for (long long i = n; i >= 1; i--)
+#define fore(i, a) for (auto& i : a)
+#define vll vector<long long>
+#define vvll vector<vector<long long>>
+#define vvvll vector<vector<vector<long long>>>
+#define vvvvll vector<vector<vector<vector<long long>>>>
+#define vpll vector<pair<long long, long long>>
+#define vvpll vector<vector<pair<long long, long long>>>
+#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
+#define setcout(n) cout << setprecision(n) << fixed
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define MOD 998244353LL
+#define INF 1LL << 60
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+int main() {
+	ll n; cin >> n;
+	vll a(n + 1); reps(i, n) cin >> a[i];
+	vll b(n + 1);
+	rreps(i, n) {
+		ll cur = 0;
+		for(ll j = (n / i) * i; j - i > 0; j -= i) {
+			//i * 2 ~ (n / i) * iまでの合計値 (%2)をもとめる(ここまではrrepなので確定している)
+			cur = (cur + b[j]) % 2;
+		}
+		b[i] = cur != a[i]; //b[i]の値を確定
+	}
+	vll ans; reps(i, n) if(b[i]) ans.push_back(i);
+	cout << ans.size() << endl;
+	for(auto a : ans) cout << a << endl;
+}
