@@ -19,22 +19,32 @@ using namespace std;
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
+#define MOD 1000000007LL
 #define INF 1LL << 60
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	ll n, k; cin >> n >> k;
-	vll a(n); rep(i, n) cin >> a[i];
-	ll ans = 0;
-	reps(i, n) {
-		ll cnt = a[i - 1];
-		if(i - k >= 0 && (n - i + 1) - k >= 0) cnt *= k;
-		else if(i - k < 0 && (n - i + 1) - k >= 0) cnt *= i;
-		else if(i - k >= 0 && (n - i + 1) - k < 0) cnt *= n - i + 1;
-		else cnt *= n - k + 1;
-		ans += cnt;
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a * a % m;
+		n >>= 1;
 	}
-	cout << ans << endl;
+	return ret;
+}
+
+int main() {
+	ll n; cin >> n;
+	ll ans = mpow(2ll, n, MOD) - 1;
+	rep(i, n) {
+		cout << ans << endl;
+		
+	}
 }
