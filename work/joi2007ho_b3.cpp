@@ -31,11 +31,12 @@ int main() {
 	vll buc(MA + 10);
 	rep(i, k) {ll a; cin >> a; buc[a]++; if(a == 0) exist0 = true;}
 	ll ans = 0, p = 0; vll b;
+	b.push_back(0);
 	reps(i, MA) {
 		if(buc[i]) p++;
 		else if(p) b.push_back(p), p = 0;
 	}
-	if(p) b.push_back(p);
+	b.push_back(p);
 	if(!exist0) {
 		rep(i, b.size()) chmax(ans, b[i]);
 	}else{
