@@ -25,5 +25,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n; cin >> n;
+	vector<pair<ld, ld>> a(n);
+	rep(i, n) cin >> a[i].first >> a[i].second;
+	sort(all(a));
+	ld ans = 0;
+	rep(i, n) for(ll j = i + 1; j < n; j++) {
+		chmax(ans, sqrt((a[i].first - a[j].first) * (a[i].first - a[j].first) + (a[i].second - a[j].second) * (a[i].second - a[j].second)));
+	}
+	setcout(15);
+	cout << ans << endl;
 }

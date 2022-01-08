@@ -24,20 +24,32 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
-	string n; cin >> n;
-	ll siz = n.size();
-	if(siz <= 2) {cout << n << endl; return 0;}
-	if(siz >= 10) {
-		string ans = ""; rep(i, siz) ans += n[0];
-		rep(i, siz) cout << ((stoll(ans) >= stoll(n)) ? n[0] - '0' : n[0] + 1 - '0'); cout << endl;
-		return 0;
+	string s; cin >> s;
+	map<char, ll> mp; rep(i, s.size()) mp[s[i]]++;
+	vll p; for(auto a : mp) p.push_back(a.second);
+	ll ans = 0;
+	reps(i, s.size()) ans += mpow(i, (ll)s.size(), MOD), cout << i << " " << mpow(i, (ll)s.size(), MOD) << endl;
+	cout << ans << endl;
+	reps(len, s.size()) {
+		for(auto a : p) ans = (ans - mpow(a, (ll)s.size() - a, MOD) + 1 + MOD) % MOD;
+		cout << ans << endl;
 	}
-	ll x = stoll(n), safe = floor(9 / (siz - 1)); //safe:公差の最高値
-	if(10 - safe * siz <= n[0] - '0') { //最初の桁がすでに大きすぎたときは公費がマイナスの等差数のなかから最小であるものを選んでいく
-		ll st = max(siz - 1, (ll)n[0] - '0');
-		safe = floor((st - 1) / (siz - 1));
-		string ret; rep(i, siz) ret.push_back('0' + st), st -= safe;
-		rep(i, siz) cout << (stoll(ret) < x ? ret[i] + 1 - '0' : ret[i] - '0'); cout << endl;
-	}
+	cout << ans << endl;
 }

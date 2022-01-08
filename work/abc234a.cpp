@@ -24,13 +24,11 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll f(ll n) {
+	return n * n + 2 * n + 3;
+}
+
 int main() {
-	ll n, k; cin >> n >> k;
-	vll h(n); rep(i, n) cin >> h[i];
-	sort(all(h));
-	ll ans = INF;
-	rep(i, n - k - 1) {
-		chmin(ans, h[i + k - 1] - h[i]);
-	}
-	cout << ans << endl;
+	ll n; cin >> n;
+	cout << f(f(f(n) + n) + f(f(n))) << endl;
 }

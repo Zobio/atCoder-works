@@ -25,5 +25,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, k; cin >> n >> k;
+	vll p(n); rep(i, n) cin >> p[i];
+	set<ll> st;
+	rep(i, k) st.insert(p[i]);
+	auto it = st.begin();
+	for(ll i = k; i < n; i++) {
+		cout << *it << endl;
+		if(p[i] >= *it) st.insert(p[i]), it++;
+		else st.insert(p[i]);
+	}
+	cout << *it << endl;
 }

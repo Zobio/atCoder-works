@@ -25,5 +25,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll k; cin >> k;
+	string ans;
+	while(k) {
+		ans.push_back(k & 1 ? '2' : '0');
+		k /= 2;
+	}
+	reverse(all(ans));
+	cout << ans << endl;
 }

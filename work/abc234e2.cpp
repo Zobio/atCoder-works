@@ -20,24 +20,29 @@ using namespace std;
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
-#define INF 1LL << 60
+#define INF LLONG_MAX
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool check(string s) {
+	ll d = s[1] - s[0];
+	rep(i, s.size() - 1) {
+		if(s[i + 1] - s[i] != d) return false;
+	}
+	return true;
+}
+
 int main() {
-	string n; cin >> n;
-	ll siz = n.size();
-	if(siz <= 2) {cout << n << endl; return 0;}
-	if(siz >= 10) {
-		string ans = ""; rep(i, siz) ans += n[0];
-		rep(i, siz) cout << ((stoll(ans) >= stoll(n)) ? n[0] - '0' : n[0] + 1 - '0'); cout << endl;
-		return 0;
+	string s; cin >> s;
+	if(s.size() <= 2) {cout << s << endl; return 0;} //コーナー
+	ll len = s.length();
+	ll ans = LLONG_MAX;
+	reps(i, 9) rep(j, 10) {
+		if(stoll(to_string(i) + to_string(j)) < stoll(to_string(s[0] - '0') + to_string(s[1] - '0'))) continue;
+		string t = ""; ll d = j - i;
+		t.push_back('0' + i); t.push_back('0' + j);
+		rep(i, len - 2) t.push_back((t.back() - '0' + d + 10) % 10 + '0');
+		if(check(t) && stoll(t) >= stoll(s)) chmin(ans, stoll(t));
 	}
-	ll x = stoll(n), safe = floor(9 / (siz - 1)); //safe:公差の最高値
-	if(10 - safe * siz <= n[0] - '0') { //最初の桁がすでに大きすぎたときは公費がマイナスの等差数のなかから最小であるものを選んでいく
-		ll st = max(siz - 1, (ll)n[0] - '0');
-		safe = floor((st - 1) / (siz - 1));
-		string ret; rep(i, siz) ret.push_back('0' + st), st -= safe;
-		rep(i, siz) cout << (stoll(ret) < x ? ret[i] + 1 - '0' : ret[i] - '0'); cout << endl;
-	}
+	cout << ans << endl;
 }
