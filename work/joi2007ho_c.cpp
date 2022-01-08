@@ -24,75 +24,9 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-
-class ProcessingTime {
-
-public:
-    ProcessingTime(const std::string &name = "Process", bool start = true) :
-            m_name(name),
-            m_isActive(start) {
-        if (start) {
-            this->restart();
-        }
-    }
-
-    ~ProcessingTime() {
-        this->stop();
-    }
-
-    ///<summary>
-    ///計測のリスタート
-    ///</summary>
-    void restart() &{
-        m_start = std::chrono::system_clock::now();
-        m_isActive = true;
-    }
-
-    ///<summary>
-    ///計測を終了し出力
-    ///</summary>
-    void stop() &{
-        if (!m_isActive)
-            return;
-        const auto end = std::chrono::system_clock::now();
-        const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - m_start).count();
-        std::cout << elapsed << "ms" << std::endl;
-
-        m_isActive = false;
-    }
-
-private:
-
-    std::string m_name;
-    std::chrono::system_clock::time_point m_start;
-    bool m_isActive;
-
-};
-
-struct HashPair {
-
-    static size_t m_hash_pair_random;
-
-    template<class T1, class T2>
-    size_t operator()(const pair<T1, T2> &p) const {
-
-        auto hash1 = hash<T1>{}(p.first);
-        auto hash2 = hash<T2>{}(p.second);
-
-        size_t seed = 0;
-        seed ^= hash1 + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        seed ^= hash2 + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        seed ^= m_hash_pair_random + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        return seed;
-    }
-};
-
-size_t HashPair::m_hash_pair_random = (size_t) random_device()();
-
-int main() { //unordered_mapの実装(TLE)
+int main() {//mapでの解答(TLE)
 	ll n; cin >> n;
-	vpll cor(n);
-	unordered_map<pair<ll, ll>, ll, HashPair> mp;
+	vpll cor(n); map<pair<ll, ll>, ll> mp;
 	rep(i, n) {
 		ll x, y; cin >> x >> y;
 		cor[i] = {x, y}; mp[{x, y}]++;
