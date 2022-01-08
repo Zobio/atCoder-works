@@ -24,21 +24,24 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-string convert(long long x, long long base){
-    /*10進数のxを(base)進数に進数変換して返す
-    (例)
-    convert(1000, 2) --> "1111101000"
-    注意 : 2 <= base <= 10
-    */
-    string res;
-    while(x){
-        res.push_back('0' + (x % base));
-        x /= base;
-    }
-    reverse(res.begin(),res.end());
-    return res;
+set<ll> gen_tousa() {
+	set<ll> res;
+	for(ll fir = 1; fir <= 9; fir++) {
+		for(ll d = -9; d <= 9; d++) {
+			string s;
+			ll dg = fir;
+			rep(i, 18) {
+				s.push_back(dg + '0');
+     			res.insert(stoll(s));
+      			dg+=d;
+      			if(dg < 0 || dg > 9) break;
+			}
+		}
+	}
+	return res;
 }
 
 int main() {
-
+	ll x; cin >> x;
+	cout << *gen_tousa().lower_bound(x) << endl;
 }
