@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define uint unsigned int
+#define ll long long
+#define ull unsigned long long
+#define ld long double
+#define rep(i, n) for (long long i = 0; i < n; i++)
+#define reps(i, n) for (long long i = 1; i <= n; i++)
+#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
+#define rreps(i, n) for (long long i = n; i >= 1; i--)
+#define fore(i, a) for (auto& i : a)
+#define vll vector<long long>
+#define vvll vector<vector<long long>>
+#define vvvll vector<vector<vector<long long>>>
+#define vvvvll vector<vector<vector<vector<long long>>>>
+#define vpll vector<pair<long long, long long>>
+#define vvpll vector<vector<pair<long long, long long>>>
+#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
+#define setcout(n) cout << setprecision(n) << fixed
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define MOD 998244353LL
+#define INF (1LL << 60)
+template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+int main() {//"IOI"の累積和?
+	ll n, m; string s;
+	cin >> n >> m >> s;
+	vll rui(m + 1);
+	for(ll i = 2; i < m; i++){
+		if(s[i - 2] == 'I' && s[i - 1] == 'O' && s[i] == 'I') rui[i + 1] = rui[i] + 1;
+		else rui[i + 1] = rui[i];
+	}
+	arrcout(rui);
+	ll len = 2 * n + 1;
+	ll ans = 0;
+	map<ll, bool> done;
+	for(ll i = len; i < m; i++) {
+		if(rui[i] - rui[i - len + 1] == n && !done[rui[i - len + 1]]) {
+			cout << i - len + 1 << " " << rui[i - len + 1] << endl;
+			ans++; done[rui[i - len + 1]] = true;
+		}
+		cout << i << " " << i - len + 1 << " " << rui[i] - rui[i - len + 1] << endl;
+	}
+	cout << ans << endl;
+}
