@@ -29,14 +29,14 @@ int main() {
 	cin >> n >> m >> s;
 	vll a;
 	for(ll i = 0; i < s.size() - 2; i++) {
-		if(s[i] == 'I' && s[i + 1] == 'O' && s[i + 2] == 'I') {
+		if(s[i] == 'I' && i < s.size() - 2) {
+			i++;
 			ll cnt = 0;
-			while (i + 2 < m && (s[i] == 'I' && s[i + 1] == 'O' && s[i + 2] == 'I')) cnt++, i += 2;
-			a.push_back(cnt);
+			while (i + 2 < m && (s[i] == 'O' && s[i + 1] == 'I')) cnt++, i += 2;
+			a.push_back(cnt); i--;
 		}
 	}
-	arrcout(a);
 	ll ans = 0;
-	for(auto au : a) ans += max(0ll, n - au);
+	for(auto au : a) ans += max(0ll, au - n + 1);
 	cout << ans << endl;
 }
