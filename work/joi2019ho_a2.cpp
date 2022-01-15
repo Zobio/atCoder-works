@@ -26,12 +26,14 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll h, w; cin >> h >> w;vector<string> s(h); rep(i, h) cin >> s[i];
-	vvll rui_O(h + 1, vll(w + 1)), rui_I(h + 1, vll(w + 1)); //「行」ごとの'O'の数、「列」ごとの'I'の数 の累積和
-	rep(i, h) rep(j, w) rui_O[i][j + 1] += rui_O[i][j] + (s[i][j] == 'O');
-	rep(i, w) rep(j, h) rui_I[j][i + 1] += rui_I[j][i] + (s[j][i] == 'I');
+	vvll O(h), I(w); //「行」ごとの'O'の数、「列」ごとの'I'の数
+	rep(i, h) rep(j, w) {
+		if(s[i][j] == 'O') O[i].push_back(j);
+		else if(s[i][j] == 'I') I[j].push_back(i);
+	}
 	ll ans = 0;
-	rep(i, h+1) {rep(j, w+1) cout << rui_O[i][j]; cout << endl;}cout << endl;
-	rep(i, h+1) {rep(j, w+1) cout << rui_I[i][j]; cout << endl;}
-	rep(i, h) rep(j, w) if(s[i][j] == 'J') ans += (rui_O[i][w] - rui_O[i][j]) * (rui_I[j][h] - rui_I[j][i]);
+	rep(i, h) rep(j, w) if(s[i][j] == 'J') {
+		ans += (O[i].end() - lower_bound(all(O[i]), j)) * (I[j].end() - lower_bound(all(I[j]), i));
+	}
 	cout << ans << endl;
 }
