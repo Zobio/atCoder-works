@@ -26,16 +26,13 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n, m; cin >> n >> m; vll a(n), b(m); rep(i, n) cin >> a[i]; rep(i, m) cin >> b[i];
-	vector<deque<ll>> c(10010); //c[i] ... a[i] == b[j]であるすべてのj
-	rep(i, m) rep(j, n) if(b[i] == a[j]) c[b[i]].push_back(j);
 	ll ans = 0;
-	rep(i, m) {rep(j, c[i].size()) cout << c[i][j] << " "; cout << endl;}
-	rep(i, m - 1) {
-		vll num(10010);
-		ll cnt = 1;
-		while(i < m - 1 && c[b[i + 1]][num[b[i + 1]]] > c[b[i]][num[b[i]]]) cnt++, i++, num[b[i]]++;
-		chmax(ans, cnt);
-		while(i < m - 1 && c[b[i + 1]].front() > c[b[i]].front()) i++;
+	rep(i, m) {
+		ll cur = i;
+		rep(j, n) {
+			if(cur < m && b[cur] == a[j]) cur++;
+		}
+		chmax(ans, cur - i);
 	}
 	cout << ans << endl;
 }
