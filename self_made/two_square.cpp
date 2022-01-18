@@ -27,19 +27,18 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 /*
 問題
 正整数Nが与えられます。
-Nが平方数の和である場合はYesを、そうでない場合はNoを出力してください
+Nが2つの平方数の和である場合はYesを、そうでない場合はNoを出力してください
 
 制約
 [easy mode] 1 <= N <= 10^14 --> 10^7まで全探索
-[hard mode] 1 <= N <= 10^18
+[hard mode] 1 <= N <= 10^18 --> ?
 */
 
-int main() {
+int main() { //easy modeの解放
     ll n; cin >> n;
-  	reps(nn, n) {
-      for(ll i = 1; i * i < nn; i++) {
-          ll sq = sqrt(nn - i * i);
-          if(sq * sq + i * i == nn && i <= sq) cout << nn << " " << i << " " << sq << endl;
-      }
+    for(ll i = 1; i * i < n; i++) {
+        ll sq = sqrt(n - i * i);
+        if(sq * sq + i * i == n) {cout << "Yes" << endl; return 0;}
     }
+    cout << "No" << endl;
 }
