@@ -26,28 +26,27 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
     ll n; cin >> n;
-    vvll imos_tate(1010), imos_yoko(1010);
+    vvll imos(1010, vll(1010));
     rep(i, n) {
         ll a, b, c, d; cin >> a >> b >> c >> d;
-        imos_tate[a]++; imos_yoko[b]++; imos_tate[c]--; imos_tate[d]--;
-        imos[a][b]++; imos[c + 1][d + 1]--;
+        imos[a][b]++; imos[a][d]--; imos[c][b]--; imos[c][d]++;
     }
     vvll rui(1010, vll(1010));
-    vll ans(n + 1); //仮想配列
     rep(i, 1001){ 
-    ll now = 0;
+        ll now = 0;
         rep(j, 1001) {
             now += imos[i][j];
-            rui[i][j + 1] = rui[i][j] + now;
+            rui[i][j + 1] += now;
         }
     }
-    rep(i, 10) {rep(j, 10) cout << rui[i][j] << " "; cout << endl;}
     rep(i, 1001){ 
-    ll now = 0;
+        ll now = 0;
         rep(j, 1001) {
-            now += imos[j][i];
-            rui[j + 1][i] = rui[j][i] + now;
+            now = rui[j][i];
+            rui[j + 1][i] += now;
         }
     }
-    rep(i, 10) {rep(j, 10) cout << rui[i][j] << " "; cout << endl;}
+    vll ans(n + 1); //仮想配列
+    rep(i, 1001) rep(j, 1001) ans[rui[i][j]]++;
+    reps(i, n) cout << ans[i] << endl;
 }
