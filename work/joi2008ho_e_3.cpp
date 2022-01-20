@@ -24,6 +24,62 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
 template<typename V>
 void shrink_coordinates(V& a) {
 	/*
@@ -45,16 +101,7 @@ vector<vector<int>> imos;
 vector<int> dx = {1, 0, -1, 0}, dy = {0, 1, 0, -1}; //4方位ベクトル
 int max_h = 0, max_w = 0; //縦、横の(座圧後の)最大値
 
-void dfs(int y, int x) {
-	imos[y][x] = 1;
-	rep(i, 4) {
-		int nx = x + dx[i], ny = y + dy[i];
-		if(nx >= 0 && nx < max_w && ny >= 0 && ny < max_h && !imos[ny][nx]) dfs(ny, nx);
-	}
-	return;
-}
-
-int main() { //座圧→2次元imos→DFS
+int main() { //座圧→2次元imos→UFで連結判定
 	int h, w, n; cin >> w >> h >> n;
 	vector<pair<pair<int, int>, pair<int, int>>> xy; //テープの座標を格納
 	vector<int> cor_h; //全y座標を格納(座圧用)
@@ -94,8 +141,5 @@ int main() { //座圧→2次元imos→DFS
 		imos[j + 1][i] += imos[j][i];
 	} //ここまで2次元imos
 	ll ans = 0;
-	rep(i, max_h) rep(j, max_w) {
-		if(!imos[i][j]) ans++, dfs(i, j);
-	}
 	cout << ans << endl;
 }
