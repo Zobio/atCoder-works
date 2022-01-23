@@ -25,8 +25,44 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool check_arr(deque<ll> a, deque<ll> b) {
+	rep(i, min(a.size(), b.size())) {
+		if(a[i] != b[i]) return a[i] > b[i];
+	}
+	return a.size() > b.size();
+}
+
 int main() {
-    deque<ll> d = {1, 1, 4, 5, 1, 4};
-    sort(all(d));
-    arrcout(d);
+	ll n, k; cin >> n >> k;
+	vector<deque<ll>> book(10);
+	rep(i, n) {
+		ll c, g; cin >> c >> g; g--;
+		book[g].push_back(c);
+	}
+	rep(i, 10) sort(rall(book[i]));
+	vector<deque<ll>> rui(10, deque<ll>(2010));
+	rep(i, 10) rep(j, book[i].size()) { //累積和
+		rui[i][j + 1] = rui[i][j] + book[i][j];
+	}
+	rep(i, 10) rep(j, book[i].size() + 1) {
+		rui[i][j] += j * (j - 1); //同じジャンルなので料金を加算
+	}
+	vector<deque<ll>> pro(10); //その本を売った時の料金の加算分(つまりruiの階差数列)
+	rep(i, 10) rep(j, book[i].size()) {
+		pro[i].push_back(rui[i][j + 1] - rui[i][j]);
+	}
+	ll ans = 0;
+	while(k--) {
+		ll maxn = -1, maxid = -1;
+		rep(i, 10) {
+			if(pro[i].size() == 0) continue;
+			if(chmax(maxn, pro[i].front())) maxid = i;
+			else if(maxn == pro[i].front() && check_arr(pro[i], pro[maxid])) {
+				maxid = i;
+			}
+		}
+		ans += maxn;
+		pro[maxid].pop_front();
+	}
+	cout << ans << endl;
 }

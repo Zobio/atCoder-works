@@ -26,7 +26,19 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    deque<ll> d = {1, 1, 4, 5, 1, 4};
-    sort(all(d));
-    arrcout(d);
+	ll n, k; cin >> n >> k;
+	vvll g(10);
+	rep(i, n) {
+		ll a, b; cin >> a >> b; b--; g[b].push_back(a);
+	}
+	rep(i, 10) sort(rall(g[i]));
+	vvll dp(11, vll(k + 1)); //dp[i][j] : i番目までのカテゴリーからj個売った時の儲けの最大値
+	rep(i, 10) {
+		rep(j, min((ll)g[i].size(), k)) {
+			chmax(dp[i + 1][j + 1], dp[i][j + 1] + j * (j + 1));
+			chmax(dp[i + 1][j + 1], dp[i][j] + g[i][j] + j * (j + 1));
+		}
+	}
+	reps(i, 10) {reps(j, k) cout << dp[i][j] << " "; cout << endl;}
+	cout << dp[9][k] << endl;
 }
