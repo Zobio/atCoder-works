@@ -25,6 +25,33 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+ll ans = 0;
+vvll a;
+
+void dfs(ll cnt, ll pt, vll done) {
+	if(cnt == n) {chmax(ans, pt); return;}
+	rep(i, n) {
+		for(ll j = i + 1; j < n; j++) {
+			if(done[i] || done[j]) continue;
+			done[i] = done[j] = true;
+			dfs(cnt + 2, (pt ^ a[i][j]), done);
+			done[i] = done[j] = false;
+		}
+		if(!done[i]) return;
+	}
+}
+
 int main() {
-    cout << (900606388ll | 138172503ll | 827291247ll | 666350287ll | 70938785ll) << endl;
+	cin >> n; n *= 2;
+	a.resize(n);
+	rep(i, n) {
+		rep(j, i + 1) a[i].push_back(0);
+		rep(j, n - i - 1) {
+			ll p; cin >> p; a[i].push_back(p);
+		}
+	}
+	vll done(n);
+	dfs(0, 0, done);
+	cout << ans << endl;
 }

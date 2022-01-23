@@ -26,5 +26,27 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << (900606388ll | 138172503ll | 827291247ll | 666350287ll | 70938785ll) << endl;
+	ll n; cin >> n; n *= 2;
+	vvll a(n);
+	rep(i, n) {
+		rep(j, i + 1) a[i].push_back(0);
+		rep(j, n - i - 1) {
+			ll p; cin >> p; a[i].push_back(p);
+		}
+	}
+	rrep(i, n) for(ll j = i - 1; j >= 0; j--) a[i][j] = a[j][i];
+	vll dp(1 << n); //dp[msk] : 状態がmskの時の楽しさの最大値(∴dp[2^n - 1]が答え)
+	for(ll bits = 0; bits < (1ll << n); bits++) { //配るdp
+		rep(i, n) rep(j, n) {
+			if((bits & (1 << i)) || (bits & (1 << j)) || i == j) continue;
+			chmax(dp[bits | (1 << i) | (1 << j)], dp[bits] ^ a[i][j]); if((bits | (1 << i) | (1 << j)) == ((1 << n) - 1)) cout << bitset<10>(bits | (1 << i) | (1 << j)) << " " << dp[bits | (1 << i) | (1 << j)] << endl;
+		}
+	}
+	for(ll bits = 0; bits < (1ll << n); bits++) { //配るdp
+		rep(i, n) rep(j, n) {
+			if((bits & (1 << i)) || (bits & (1 << j)) || i == j) continue;
+			chmax(dp[bits | (1 << i) | (1 << j)], dp[bits] ^ a[i][j]); if((bits | (1 << i) | (1 << j)) == ((1 << n) - 1)) cout << dp[bits | (1 << i) | (1 << j)] << endl;
+		}
+	}
+	cout << dp[(1 << n) - 1] << endl;
 }

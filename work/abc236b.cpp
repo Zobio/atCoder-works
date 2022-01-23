@@ -26,5 +26,9 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << (900606388ll | 138172503ll | 827291247ll | 666350287ll | 70938785ll) << endl;
+	ll n; cin >> n;
+	vll a(n); rep(i, 4 * n - 1) {
+		ll p; cin >> p; p--; a[p]++;
+	}
+	rep(i, n) if(a[i] == 3) {cout << i + 1 << endl; return 0;}
 }
