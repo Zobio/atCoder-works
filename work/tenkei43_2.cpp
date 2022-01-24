@@ -25,25 +25,33 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vll dx = {0, 1, 0, -1};
+vll dy = {1, 0, -1, 0}; //4方向ベクトル
+
 int main() {
-	ll n, k; cin >> n >> k;
-	vvll g(10);
-	rep(i, n) {
-		ll a, b; cin >> a >> b; b--; g[b].push_back(a);
+	ll h, w; cin >> h >> w;
+	pll st, en; cin >> st.first >> st.second >> en.first >> en.second; st.first--; st.second--; en.first--; en.second--;
+	vector<string> gr(h); rep(i, h) cin >> gr[i];
+	vvvll dist(h, vvll(w, vll(4, INF))); //dist[i][j][k] ... マス(i, j)でdx[k]+dy[k]の方向を向いているときのコストの最小値
+	deque<ll> que;
+	rep(i, 4) {
+		dist[st.first][st.second][i] = 0;
+		que.push_back({st.first * 10000 + st.second * 10 + i}); //ハッシュ化
 	}
-	rep(i, 10) sort(rall(g[i]));
-	vvll dp(11, vll(k + 1)); //dp[i][j] : i番目までのカテゴリーからj個売った時の儲けの最大値
-	ll m = 0;
-	rep(i, 10) {
-		m += g[i].size();
-		rep(j, min(m, k)) {
-			ll gsum = 0, res = 0;
-			reps(l, min(j + 1, m)){
-                if(l <= g[i].size()) gsum += g[i][l - 1];
-                chmax(res, dp[i][j + 1 - l] + gsum + l * (l - 1));
-            }
-			dp[i + 1][j + 1] = max(res, dp[i][j + 1]);
+	while(!que.empty()) {
+		ll cy = que.front() / 10000, cx = que.front() % 10000 / 10, d = que.front() % 10; que.pop_front();
+		rep(i, 4) { //方向転換
+			if(dist[cy][cx][i] > dist[cy][cx][d] + 1) {
+				dist[cy][cx][i] = dist[cy][cx][d] + 1;
+				que.push_back(cy * 10000 + cx * 10 + i);
+			}
+		}
+		ll ty = cy + dy[d], tx = cx + dx[d];
+		if(ty >= 0 && ty < h && tx >= 0 && tx < w && gr[ty][tx] == '.' && dist[ty][tx][d] > dist[cy][cx][d]) { //進む
+			dist[ty][tx][d] = dist[cy][cx][d];
+			que.push_front(ty * 10000 + tx * 10 + d);
 		}
 	}
-	cout << dp[9][k] << endl;
+	ll ans = INF; rep(i, 4) chmin(ans, dist[en.first][en.second][i]);
+	cout << ans << endl;
 }
