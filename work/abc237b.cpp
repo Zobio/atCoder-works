@@ -26,7 +26,8 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    string s = "aa";
-    auto it = s.begin();
-    s.insert(it + 1, 'b'); cout << s<< endl;
+	ll h, w; cin >> h >> w;
+	vvll a(h, vll(w));
+	rep(i, h) rep(j, w) cin >> a[i][j];
+	rep(i, w) {rep(j, h) cout << a[j][i] << " "; cout << endl;}
 }

@@ -25,8 +25,25 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool check(string t) {
+	ll len = t.size();
+	for(ll i = 0; i < len && i < len - i - 1; i++) {
+		if(t[i] != t[len - i - 1]) return false;
+	}
+	return true;
+}
+
 int main() {
-    string s = "aa";
-    auto it = s.begin();
-    s.insert(it + 1, 'b'); cout << s<< endl;
+	string s; cin >> s;
+	ll len = s.size();
+	ll cnt = 0;
+	reverse(all(s));
+	while(cnt < len && s[cnt] == 'a') cnt++;
+	reverse(all(s));
+	ll cnt2 = 0;
+	while(cnt2 < len && s[cnt2] == 'a') cnt2++;
+	if(check(s)) {cout << "Yes" << endl; return 0;}
+	reverse(all(s)); rep(i, max(0ll, cnt - cnt2)) s.push_back('a'); reverse(all(s));
+	if(check(s)) {cout << "Yes" << endl; return 0;}
+	cout << "No" << endl;
 }

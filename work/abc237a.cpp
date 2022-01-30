@@ -26,7 +26,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    string s = "aa";
-    auto it = s.begin();
-    s.insert(it + 1, 'b'); cout << s<< endl;
+	ll n; cin >> n;
+	if(n < -(1ll << 32) || n >= (1ll << 32)) cout << "No" << endl;
+	else cout << "Yes" << endl;
 }

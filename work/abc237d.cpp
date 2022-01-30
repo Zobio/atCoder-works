@@ -26,7 +26,27 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    string s = "aa";
-    auto it = s.begin();
-    s.insert(it + 1, 'b'); cout << s<< endl;
+	ll n; cin >> n;
+	string s; cin >> s;
+	deque<ll> matubi; matubi.push_back(0);
+	vector<deque<ll>> sentou_L;
+	vector<deque<ll>> sentou_R;
+	rep(i, n) {
+		deque<ll> cur;
+		while(i < n && s[i] == 'L') {
+			cur.push_front(i + 1); i++;
+		}
+		while(i < n && s[i] == 'R') {
+			cur.push_back(i + 1); i++;
+		}
+		matubi.push_back(cur.back());
+		cur.pop_back();
+		sentou.push_back(cur);
+		i--;
+	}
+	reverse(all(matubi));
+	rep(i, sentou.size()) {
+		for(auto au : sentou[i]) cout << au << " ";
+	}
+	for(auto au : matubi) cout << au << " "; cout << endl;
 }
