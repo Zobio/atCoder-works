@@ -26,5 +26,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << (-1ll<<60) << endl;
+	ll n, t, s; cin >> n >> t >> s;
+	vpll shop(n); rep(i, n) cin >> shop[i].first >> shop[i].second; //firstが楽しさ secondが時間
+	vvll dp1(n + 1, vll(s + 1)); //dp1[i][j]...時刻jまでに0~i番目の夜店までを見たときの楽しさの合計値の最大値
+	vvll dp2(n + 1, vll(t - s + 1)); //dp2[i][j]...時刻s + jまでにn-1 ~ n-1 - i番目の夜店までを見たときの楽しさの合計値の最大値
+	rep(i, n) rep(j, s + 1) {
+		ll fun = shop[i].first, time = shop[i].second;
+		chmax(dp1[i + 1][j], dp1[i][j]);
+		if(j + time <= s) chmax(dp1[i + 1][j + time], dp1[i][j] + fun);
+	}
+	rreps(i, n) rep(j, t - s + 1) {
+		ll fun = shop[i - 1].first, time = shop[i - 1].second;
+		chmax(dp2[i - 1][j], dp2[i][j]);
+		if(j + time <= t - s) chmax(dp2[i - 1][j + time], dp2[i][j] + fun);
+	}
+	ll ans = 0;
+	rep(i, n) chmax(ans, dp1[i + 1].back() + dp2[i + 1].back()); //(時刻sまでの)0~i番目までの最大値と(時刻sからの)i+1 ~ n-1番目までの最大値のmaxが答え
+	cout << ans << endl;
 }

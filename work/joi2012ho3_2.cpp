@@ -25,6 +25,22 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool comp(const pll a, const pll b) {
+	return a.second < b.second;
+}
+
 int main() {
-    cout << (-1ll<<60) << endl;
+	ll n, t, s; cin >> n >> t >> s;
+	vpll shop(n); rep(i, n) cin >> shop[i].first >> shop[i].second; //firstが楽しさ secondが時間
+	sort(all(shop), comp);
+	vvll dp(n + 1, vll(t + 1)); //dp[i][j]...i番目の店までを時刻jまでで見たときの楽しさの合計値の最大値(∴答えはdp[t][n-1])
+	rep(i, n) rep(j, t + 1) {
+		ll fun = shop[i].first, time = shop[i].second;
+		if(j == 0) cout << fun << " " << time << endl;
+		if((j <= s) == (j - time <= s) && j - time >= 0) dp[i + 1][j] =  max(dp[i][j - time] + fun, dp[i][j]);
+		else dp[i + 1][j] = dp[i][j];
+		if(j) chmax(dp[i + 1][j], dp[i + 1][j - 1]);
+	}
+	rep(i, dp.size()) {rep(j, dp[i].size()) cout << dp[i][j] << (j == s ? "  " : " "); cout << endl;}
+	cout << dp[n][t] << endl;
 }
