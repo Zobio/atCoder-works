@@ -26,10 +26,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    vll a(n);
-    rep(i, n) cin >> a[i];
-    ll k; cin >> k;
-    nth_element(a.begin(), a.begin() + k, a.end());
-    arrcout(a);
+	ll n; cin >> n;
+	vll x(n), y(n);
+	rep(i, n) cin >> x[i] >> y[i];
+	sort(all(x)); sort(all(y));
+	ll ans = 0;
+	rep(i, n) ans += abs(x[i] - x[n / 2]) + abs(y[i] - y[n / 2]);
+	cout << ans << endl;
 }
