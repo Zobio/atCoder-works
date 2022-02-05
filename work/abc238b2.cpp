@@ -27,8 +27,13 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    vll a = {1, 2, 3, 4, 5};
-    a.insert(a.begin() + 2, 8);
-    a.insert(a.begin() + 2, 9);
-    arrcout(a);
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll b = {0};
+	ll cur = 0;
+	rep(i, n) cur = (cur + a[i]) % 360, b.push_back(cur);
+	sort(all(b));
+	ll ans = 0;
+	rep(i, b.size()) chmax(ans, (b[(i + 1) % b.size()] - b[i] + 360) % 360);
+	cout << ans << endl;
 }

@@ -27,8 +27,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    vll a = {1, 2, 3, 4, 5};
-    a.insert(a.begin() + 2, 8);
-    a.insert(a.begin() + 2, 9);
-    arrcout(a);
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll p = {360};
+	ll cur = 0;
+	rep(i, n) {
+		cur = (cur + a[i]) % 360;
+		vll rui(p.size() + 1); rep(i, p.size()) rui[i + 1] = p[i] + rui[i];
+		ll cut = lower_bound(all(rui), cur) - rui.begin();
+		ll fir = rui[cut] - (cur - a[i] < 0 ? cur : a[i]), sec = cur - a[i] < 0 ? cur : a[i];
+		cout << rui[cut] << endl;
+		cout << fir << " " << sec << "  " << endl;
+		p.erase(p.begin() + cut - 1);
+		p.insert(p.begin() + cut - 1, sec);
+		p.insert(p.begin() + cut - 1, fir);
+		arrcout(p);
+	}
+	cout << *max_element(all(p)) << endl;
 }
