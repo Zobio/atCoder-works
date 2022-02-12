@@ -13,11 +13,9 @@ using namespace std;
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
-#define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} cout << endl
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
@@ -27,5 +25,18 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << 'A' - 'a' << endl;
+	ll n, m; string s;
+	cin >> n >> m >> s;
+	vll a;
+	for(ll i = 0; i < s.size() - 2; i++) {
+		if(s[i] == 'I' && i < s.size() - 2) {
+			i++;
+			ll cnt = 0;
+			while (i + 2 < m && (s[i] == 'O' && s[i + 1] == 'I')) cnt++, i += 2;
+			a.push_back(cnt); i--;
+		}
+	}
+	ll ans = 0;
+	for(auto au : a) ans += max(0ll, au - n + 1);
+	cout << ans << endl;
 }

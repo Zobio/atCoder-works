@@ -27,5 +27,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << 'A' - 'a' << endl;
+	ll n; cin >> n;
+	rep(i, n) {
+		string s; cin >> s;
+		rep(j, s.size()) {
+			if('A' <= s[j] && s[j] <= 'Z') s[j] += 'a' - 'A';
+		}
+		cout << s << endl;
+	}
 }

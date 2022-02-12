@@ -27,5 +27,20 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << 'A' - 'a' << endl;
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	a.push_back(0); //投げなかった場合の点数
+	n++;
+	sort(all(a));
+	vll t; //aから任意の2個の要素の和を格納
+	rep(i, n) for(ll j = i; j < n; j++) {
+		t.push_back(-(a[i] + a[j]));
+	}
+	sort(all(t));
+	ll ans = 0;
+	rep(i, t.size()) {
+		if(-t[i] > m) continue;
+		chmax(ans, -(t[i] + *lower_bound(all(t), -(m - (-t[i])))));
+	}
+	cout << ans << endl;
 }

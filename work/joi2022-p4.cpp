@@ -27,5 +27,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << 'A' - 'a' << endl;
+	ll n, m; cin >> n >> m; //mが検索する文字列の長さ
+	string s; cin >> s;
+	
 }
