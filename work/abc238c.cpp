@@ -21,12 +21,20 @@ using namespace std;
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
+#define MOD 998244353ULL
 #define INF (1LL << 60)
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LONG_MAX) << endl;
-    cout << log10(ULONG_MAX) << endl;
+	ull n; cin >> n;
+	ull cur = 1, ans = 0;
+	while(cur <= n) {
+		ull t1 = min(cur * 10 - 1, n), t2 = min(cur * 10 - 1, n) + 1; //Σの上限
+		ull n1 = t1 - cur + 1, n2 = t2 - cur + 1; //個数
+		if(n1 % 2 == 0) n1 /= 2; else n2 /= 2;
+		ans = (ans + (n1 % MOD) * (n2 % MOD)) % MOD;
+		cur *= 10;
+	}
+	cout << ans << endl;
 }
