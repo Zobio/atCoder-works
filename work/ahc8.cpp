@@ -27,5 +27,16 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n; cin >> n; //ペットの数
+	vector<pair<pll, ll>> p(n); //ペットのy座標、x座標、タイプ
+	rep(i, n) cin >> p[i].first.second >> p[i].first.first >> p[i].second;
+	ll m; cin >> m; //人間の数
+	vpll h(m); //人のy座標、x座標
+	rep(i, m) cin >> h[i].second >> h[i].first;
+	rep(i, 300) {
+		rep(j, m) {
+			cout << '.';
+		}
+		cout << endl;
+	}
 }
