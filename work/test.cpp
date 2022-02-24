@@ -1,31 +1,85 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
 using namespace std;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define pll pair<long long, long long>
-#define vpll vector<pair<long long, long long>>
-#define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} cout << endl
-#define setcout(n) cout << setprecision(n) << fixed
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define INF (1LL << 60)
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+using Field = vector<vector<int> >; // 盤面を二次元配列で表す
+
+// res に見つかった答えを格納する, 答えが一つとは限らないので res を vector<Filed> 型とする
+void rec(Field &field, vector<Field> &res) {
+    // 空きマスを探す
+    int emptyi = -1, emptyj = -1;
+    for (int i = 0; i < 9 && emptyi == -1; ++i) {
+        for (int j = 0; j < 9 && emptyj == -1; ++j) {
+            if (field[i][j] == -1) {
+                emptyi = i, emptyj = j;
+                break;
+            }
+        }
+    }
+
+    // ベースケース (すべて埋めて空きマスがない)
+    if (emptyi == -1 || emptyj == -1) {
+        res.push_back(field);      
+        return;
+    }
+
+    // 空きマスに入れられる数字を求める
+    vector<bool> canuse(10, 1); // canuse[v] := 空きマスに v を入れられるかどうか
+    for (int i = 0; i < 9; ++i) {
+        // 同じ列に同じ数字はダメ
+        if (field[emptyi][i] != -1) canuse[field[emptyi][i]] = false;
+
+        // 同じ行に同じ数字はダメ
+        if (field[i][emptyj] != -1) canuse[field[i][emptyj]] = false;
+
+        // 同じブロックに同じ数字はダメ
+        int bi = emptyi / 3 * 3 + 1, bj = emptyj / 3 * 3 + 1; // 同じブロックの中央
+        for (int di = bi-1; di <= bi+1; ++di) 
+            for (int dj = bj-1; dj <= bj+1; ++dj)
+                if (field[di][dj] != -1)
+                    canuse[field[di][dj]] = false;
+    }
+
+    // 再帰的に探索
+    for (int v = 1; v <= 9; ++v) {
+        if (!canuse[v]) continue;
+        field[emptyi][emptyj] = v; // 空きマスに数値 v を置く
+        rec(field, res);
+    }
+
+    // 数値を置いていた空きマスを元の空きマスに戻す (この処理をバックトラックと呼ぶ)
+    field[emptyi][emptyj] = -1;
+}
 
 int main() {
+    // 入力
+    Field field(9, vector<int>(9, -1)); // -1 は未確定
+    for (int i = 0; i < 9; ++i) {
+        string line; cin >> line;
+        for (int j = 0; j < 9; ++j) {
+            if (line[j] == '*') continue;
 
+            // line[j] は char 型の '0' 〜 '9'　なので、これらを 0 〜 9 にする
+            int num = line[j] - '0'; 
+            field[i][j] = num;
+        }
+    }
+
+    // 再帰的に解く
+    vector<Field> res;
+    rec(field, res);
+
+    // 答えを出力する
+    if (res.size() == 0) cout << "no solutions." << endl;
+    else if (res.size() > 1) cout << "more than one solutions." << endl;
+    else {
+        Field ans = res[0];
+        for (int i = 0; i < 9; ++i) {
+            for (int j = 0; j < 9; ++j) {
+                cout << ans[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
 }
