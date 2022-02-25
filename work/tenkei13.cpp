@@ -24,10 +24,11 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll v, e;
 vvpll g; //隣接リスト
-vll dis; //距離を格納する変数 dis[goal]が答えとなる
 
-void dijkstra(ll s) { //sからスタートして(到達可能な)全点における最短距離を求める
+vll dijkstra(ll s) { //sからスタートして(到達可能な)全点における最短距離を求める
+	vll dis(v, INF);
 	dis[s] = 0;
 	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> que;
 	//disを更新するためのqueue first:コスト second:頂点番号 (コストが低い順に処理)
@@ -44,19 +45,20 @@ void dijkstra(ll s) { //sからスタートして(到達可能な)全点にお�
 			}
 		}
 	}
+	return dis;
 }
 
 int main() {
-	ll v; cin >> v; //頂点数(vertex)
-	ll e; cin >> e; //辺の数(edge)
-	ll start, goal; cin >> start >> goal; start--; goal--; //出発地点、目標地点
-	g.resize(v); dis.resize(v, INF);
+	cin >> v; //頂点数(vertex)
+	cin >> e; //辺の数(edge)
+	g.resize(v);
 	rep(i, e) {
 		ll a, b, c; cin >> a >> b >> c; a--; b--;
 		//aとbがつながっていて、そのコストはcである
 		g[a].push_back({b, c});
-		g[b].push_back({a, c}); //有効辺の場合は、これを消す
+		g[b].push_back({a, c});
 	}
-	dijkstra(start);
-	cout << dis[goal] << endl;
+	vll dis1 = dijkstra(0);
+	vll dis2 = dijkstra(v - 1);
+	rep(i, v) cout << dis1[i] + dis2[i] << endl;
 }
