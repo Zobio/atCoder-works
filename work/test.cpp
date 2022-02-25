@@ -1,85 +1,44 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
 using namespace std;
-using Field = vector<vector<int> >; // 盤面を二次元配列で表す
 
-// res に見つかった答えを格納する, 答えが一つとは限らないので res を vector<Filed> 型とする
-void rec(Field &field, vector<Field> &res) {
-    // 空きマスを探す
-    int emptyi = -1, emptyj = -1;
-    for (int i = 0; i < 9 && emptyi == -1; ++i) {
-        for (int j = 0; j < 9 && emptyj == -1; ++j) {
-            if (field[i][j] == -1) {
-                emptyi = i, emptyj = j;
-                break;
-            }
-        }
-    }
-
-    // ベースケース (すべて埋めて空きマスがない)
-    if (emptyi == -1 || emptyj == -1) {
-        res.push_back(field);      
-        return;
-    }
-
-    // 空きマスに入れられる数字を求める
-    vector<bool> canuse(10, 1); // canuse[v] := 空きマスに v を入れられるかどうか
-    for (int i = 0; i < 9; ++i) {
-        // 同じ列に同じ数字はダメ
-        if (field[emptyi][i] != -1) canuse[field[emptyi][i]] = false;
-
-        // 同じ行に同じ数字はダメ
-        if (field[i][emptyj] != -1) canuse[field[i][emptyj]] = false;
-
-        // 同じブロックに同じ数字はダメ
-        int bi = emptyi / 3 * 3 + 1, bj = emptyj / 3 * 3 + 1; // 同じブロックの中央
-        for (int di = bi-1; di <= bi+1; ++di) 
-            for (int dj = bj-1; dj <= bj+1; ++dj)
-                if (field[di][dj] != -1)
-                    canuse[field[di][dj]] = false;
-    }
-
-    // 再帰的に探索
-    for (int v = 1; v <= 9; ++v) {
-        if (!canuse[v]) continue;
-        field[emptyi][emptyj] = v; // 空きマスに数値 v を置く
-        rec(field, res);
-    }
-
-    // 数値を置いていた空きマスを元の空きマスに戻す (この処理をバックトラックと呼ぶ)
-    field[emptyi][emptyj] = -1;
-}
+string S;
+int N,K;
+int nex[100009][26];
 
 int main() {
-    // 入力
-    Field field(9, vector<int>(9, -1)); // -1 は未確定
-    for (int i = 0; i < 9; ++i) {
-        string line; cin >> line;
-        for (int j = 0; j < 9; ++j) {
-            if (line[j] == '*') continue;
+	// Step #1. 入力
+	cin >> N >> K;
+	cin >> S;
 
-            // line[j] は char 型の '0' 〜 '9'　なので、これらを 0 〜 9 にする
-            int num = line[j] - '0'; 
-            field[i][j] = num;
-        }
-    }
+	// Step #2. 前計算
+	for (int i = 0; i < 26; i++) nex[S.size()][i] = S.size();
+	for (int i = (int)S.size() - 1; i >= 0; i--) {
+		for (int j = 0; j < 26; j++) {
+			if ((int)(S[i] - 'a') == j) {
+				nex[i][j] = i;
+			}
+			else {
+				nex[i][j] = nex[i + 1][j];
+			}
+		}
+	}
 
-    // 再帰的に解く
-    vector<Field> res;
-    rec(field, res);
+	// Step #3. 一文字ずつ貪欲に決める
+	string Answer = "";
+	int CurrentPos = 0;
+	for (int i = 1; i <= K; i++) {
+		for (int j = 0; j < 26; j++) {
+			int NexPos = nex[CurrentPos][j];
+			int MaxPossibleLength = (int)(S.size() - NexPos - 1) + i;
+			if (MaxPossibleLength >= K) {
+				Answer += (char)('a' + j);
+				CurrentPos = NexPos + 1;
+				break;
+			}
+		}
+	}
 
-    // 答えを出力する
-    if (res.size() == 0) cout << "no solutions." << endl;
-    else if (res.size() > 1) cout << "more than one solutions." << endl;
-    else {
-        Field ans = res[0];
-        for (int i = 0; i < 9; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                cout << ans[i][j] << " ";
-            }
-            cout << endl;
-        }
-    }
+	// Step #4. 出力
+	cout << Answer << endl;
+	return 0;
 }
