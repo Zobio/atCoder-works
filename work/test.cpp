@@ -1,36 +1,69 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
+#include <algorithm>
 using namespace std;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define pll pair<long long, long long>
-#define vpll vector<pair<long long, long long>>
-#define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} cout << endl
-#define setcout(n) cout << setprecision(n) << fixed
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define INF (1LL << 60)
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
-
-int main() {
-	ll n; cin >> n;
-	vll a();
-	rep(i, n) {
-		ll t; cin >> t;
-
+class segment_tree {
+private:
+	int sz;
+	std::vector<int> seg;
+	std::vector<int> lazy;
+	void push(int k) {
+		if (k < sz) {
+			lazy[k * 2] = max(lazy[k * 2], lazy[k]);
+			lazy[k * 2 + 1] = max(lazy[k * 2 + 1], lazy[k]);
+		}
+		seg[k] = max(seg[k], lazy[k]);
+		lazy[k] = 0;
 	}
+	void update(int a, int b, int x, int k, int l, int r) {
+		push(k);
+		if (r <= a || b <= l) return;
+		if (a <= l && r <= b) {
+			lazy[k] = x;
+			push(k);
+			return;
+		}
+		update(a, b, x, k * 2, l, (l + r) >> 1);
+		update(a, b, x, k * 2 + 1, (l + r) >> 1, r);
+		seg[k] = max(seg[k * 2], seg[k * 2 + 1]);
+	}
+	int range_max(int a, int b, int k, int l, int r) {
+		push(k);
+		if (r <= a || b <= l) return 0;
+		if (a <= l && r <= b) return seg[k];
+		int lc = range_max(a, b, k * 2, l, (l + r) >> 1);
+		int rc = range_max(a, b, k * 2 + 1, (l + r) >> 1, r);
+		return max(lc, rc);
+	}
+public:
+	segment_tree() : sz(0), seg(), lazy() {};
+	segment_tree(int N) {
+		sz = 1;
+		while (sz < N) {
+			sz *= 2;
+		}
+		seg = std::vector<int>(sz * 2, 0);
+		lazy = std::vector<int>(sz * 2, 0);
+	}
+	void update(int l, int r, int x) {
+		update(l, r, x, 1, 0, sz);
+	}
+	int range_max(int l, int r) {
+		return range_max(l, r, 1, 0, sz);
+	}
+};
+int main() {
+	cin.tie(0);
+	ios_base::sync_with_stdio(false);
+	int W, N;
+	cin >> W >> N;
+	segment_tree seg(W);
+	for (int i = 0; i < N; ++i) {
+		int L, R;
+		cin >> L >> R;
+		int height = seg.range_max(L - 1, R) + 1;
+		seg.update(L - 1, R, height);
+		cout << height << '\n';
+	}
+	return 0;
 }
