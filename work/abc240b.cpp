@@ -28,9 +28,8 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	vll a();
-	rep(i, n) {
-		ll t; cin >> t;
-
-	}
+	vll a(n); rep(i, n) cin >> a[i];
+	set<ll> ans;
+	rep(i, n) ans.insert(a[i]);
+	cout << ans.size() << endl;
 }

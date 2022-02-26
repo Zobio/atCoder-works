@@ -28,9 +28,15 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	vll a();
+	vll a(n); rep(i, n) cin >> a[i];
+	stack<pll> s;
+	ll ans = 0;
 	rep(i, n) {
-		ll t; cin >> t;
-
+		ans++;
+		if(s.size() == 0) s.push({a[i], 1});
+		else if(s.top().first != a[i]) s.push({a[i], 1});
+		else s.top().second++;
+		if(s.top().second == a[i]) ans -= a[i], s.pop();
+		cout << ans << endl;
 	}
 }

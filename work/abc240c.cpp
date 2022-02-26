@@ -27,10 +27,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	vll a();
-	rep(i, n) {
-		ll t; cin >> t;
-
+	ll n, x; cin >> n >> x;
+	vll a(n), b(n);
+	rep(i, n) cin >> a[i] >> b[i];
+	vvll dp(n + 1, vll(x + 1)); //dp[i][j]...i回目のジャンプで地点xに到達する事が出来れば1, そうでなければ0(∴答えはdp[n][x])
+	dp[0][0] = 1; //0には到達できている
+	rep(i, n) rep(j, x) {
+		if(j + a[i] <= x) dp[i + 1][j + a[i]] += dp[i][j];
+		if(j + b[i] <= x) dp[i + 1][j + b[i]] += dp[i][j];
 	}
+	cout << (dp[n][x] ? "Yes" : "No") << endl;
 }
