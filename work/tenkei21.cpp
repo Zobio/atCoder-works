@@ -26,59 +26,46 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-// Input
-int N, M;
-int A[1 << 18], B[1 << 18];
+ll n, m, cnt = 0;
+vvll g, h;
+vll used, nums;
 
-// Graph
-bool used[1 << 18];
-vector<int> G[1 << 18];
-vector<int> H[1 << 18];
-vector<int> I;
-long long cnts = 0;
-
-void dfs(int pos) {
+void dfs(ll pos) {
 	used[pos] = true;
-	for (int i : G[pos]) {
+	for (int i : g[pos]) {
 		if (used[i] == false) dfs(i);
 	}
-	I.push_back(pos);
+	nums.push_back(pos);
 }
 
-void dfs2(int pos) {
+void dfs2(ll pos) {
 	used[pos] = true;
-	cnts++;
-	for (int i : H[pos]) {
-		if (used[i] == false) dfs2(i);
+	cnt++;
+	for(ll i : h[pos]) {
+		if(!used[i]) dfs2(i);
 	}
 }
 
 int main() {
-	// Step #1. Input
-	cin >> N >> M;
-	for (int i = 1; i <= M; i++) {
-		cin >> A[i] >> B[i];
-		G[A[i]].push_back(B[i]);
-		H[B[i]].push_back(A[i]);
+	cin >> n >> m; //頂点、辺
+	g.resize(n); h.resize(n);
+	rep(i, m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+		h[b].push_back(a);
 	}
+	used.resize(n);
+	rep(i, n) if(!used[i]) dfs(i); //first DFS
 
-	// Step #2. First DFS
-	for (int i = 1; i <= N; i++) {
-		if (used[i] == false) dfs(i);
-	}
+	reverse(all(nums));
+	fill(all(used), 0); //帰りがけ順に番号を記録しているので、逆にすると強連結についてDFSできる
 
-	// Step #3. Second DFS
-	long long Answer = 0;
-	reverse(I.begin(), I.end());
-	for (int i = 1; i <= N; i++) used[i] = false;
-	for (int i : I) {
-		if (used[i] == true) continue;
-		cnts = 0;
+	ll ans = 0;
+	for(ll i : nums) {
+		if(used[i]) continue;
+		cnt = 0;
 		dfs2(i);
-		Answer += cnts * (cnts - 1LL) / 2LL;
+		ans += cnt * (cnt - 1) / 2;
 	}
-
-	// Step #4. Output The Answer!
-	cout << Answer << endl;
-	return 0;
+	cout << ans << endl;
 }
