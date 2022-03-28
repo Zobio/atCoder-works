@@ -24,25 +24,11 @@ using namespace std;
 #define MOD 998244353LL
 #define INF (1LL << 60)
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-
-template<typename T>
-T mpow(T a, T n, T m) {
-	/*a^n % mを返す
-	(例)
-	pow(2, 10, 1000) --> 24
-	計算量はlog(n)
-	*/
-	T ret = 1;
-	while(n > 0) {
-		if (n & 1) ret = ret * a % m;
-		a = a % m * a % m;
-		n >>= 1;
-	}
-	return ret;
-}
+template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, m; cin >> n >> m;
-	m %= MOD;
-	cout << m * (m - 1) % MOD * (mpow(m - 2, n - 2, MOD) % MOD) % MOD << endl;
+	ll n; cin >> n;
+	if(n == 2) cout << "1 2 1 1 2 1" << endl;
+	else if(n == 3) cout << "1 3 1 2 2 3" << endl;
+	else cout << 1 << " " << n << " " << 1 << " " << n - 1 << " " << 1 << " " << n - 2 << endl;
 }
