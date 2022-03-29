@@ -27,19 +27,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, l, e; cin >> n >> l >> e;
-	vpll p(n); rep(i, n) cin >> p[i].first >> p[i].second;
-	vpll a(n);
-	ll ans = 0;
-	rep(i, n) {
-		a[i].first = p[i].first;
-		a[i].second = p[i].first + p[i].second * (e - 1);
-		ll a1 = min(a[i].first, a[i].second), a2 = max(a[i].first, a[i].second);
-		if(a1 <= 0 && a2 >= l) ans += l;
-		else if(a1 <= 0 && 0 <= a2 && a2 <= l) ans += a2 + 1;
-		else if(0 <= a1 && a1 <= l && a2 >= l) ans += l - a1 + 1;
-		else ans += a2 - a1 + 1;
-		cout << i << " " << a1 << " " << a2 << "  " << ans << endl;
-	}
-	cout << ans << endl;
+	ll n; cin >> n;
+	if(n == 1) cout << "35.62066952227138" << endl << "134.45284299703508" << endl;
+	if(n == 2) cout << "34.82974157563629" << endl << "137.67268453510624" << endl;
+	if(n == 3) cout << "35.632131062678376" << endl << "140.08510163513222" << endl; //ok
+	if(n == 4) cout << "34.26880112340781" << endl << "135.40751530722915" << endl;
+	if(n == 5) cout << "35.62487738030991" << endl << "139.77625607322864" << endl; //ok
+	if(n == 6) cout << "35.716671252709986" << endl << "139.77207944439567" << endl;
+	if(n == 7) cout << "35.902202963325344" << endl << "139.72193914625385" << endl;
+	if(n == 8) cout << "34.98998128443666" << endl << "135.77221753729054" << endl;
+	if(n == 9) cout << "35.36678209736351" << endl << "136.1567281608965" << endl;
+	if(n == 10) cout << "35.10597025791135" << endl << "139.0820826269839" << endl;
+	if(n == 11) cout << "35.626876264509114" << endl << "139.88655794364524" << endl; //ok
+	if(n == 12) cout << "35.79045373101917" << endl <<  "139.25873101979334" << endl; //ok
 }

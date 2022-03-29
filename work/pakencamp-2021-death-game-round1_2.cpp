@@ -13,9 +13,11 @@ using namespace std;
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
+#define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
+#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} cout << endl
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
@@ -25,31 +27,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	string s, t; cin >> s >> t;
-	ll siz_s = s.size(), siz_t = t.size();
-	deque<char> a, b;
-	rep(i, siz_s) a.push_back(s[i]);
-	rep(i, siz_t) b.push_back(t[i]);
-	deque<char> aa = a;
-	ll ans = 0, cnt = 0;
-	rep(i, siz_s) {
-		cnt = 0;
-		rep(j, min((ll)a.size(), siz_t)) {
-			if(a[j] == b[j]) cnt++;
-			else chmax(ans, cnt), cnt = 0;
-		}
-		chmax(ans, cnt); //末端処理
-		a.pop_front();
-	}
-	a = aa;
-	rep(i, siz_t) {
-		cnt = 0;
-		rep(j, min((ll)b.size(), siz_s)) {
-			if(a[j] == b[j]) cnt++;
-			else chmax(ans, cnt), cnt = 0;
-		}
-		chmax(ans, cnt); //末端処理
-		b.pop_front();
-	} 
-	cout << ans << endl;
+	ll n; cin >> n;
+	vll a(n * 2), b(n); rep(i, n) cin >> a[i] >> b[i];
+
 }

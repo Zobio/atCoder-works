@@ -13,9 +13,11 @@ using namespace std;
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
+#define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
+#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} cout << endl
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
@@ -25,31 +27,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	string s, t; cin >> s >> t;
-	ll siz_s = s.size(), siz_t = t.size();
-	deque<char> a, b;
-	rep(i, siz_s) a.push_back(s[i]);
-	rep(i, siz_t) b.push_back(t[i]);
-	deque<char> aa = a;
-	ll ans = 0, cnt = 0;
-	rep(i, siz_s) {
-		cnt = 0;
-		rep(j, min((ll)a.size(), siz_t)) {
-			if(a[j] == b[j]) cnt++;
-			else chmax(ans, cnt), cnt = 0;
-		}
-		chmax(ans, cnt); //末端処理
-		a.pop_front();
-	}
-	a = aa;
-	rep(i, siz_t) {
-		cnt = 0;
-		rep(j, min((ll)b.size(), siz_s)) {
-			if(a[j] == b[j]) cnt++;
-			else chmax(ans, cnt), cnt = 0;
-		}
-		chmax(ans, cnt); //末端処理
-		b.pop_front();
-	} 
-	cout << ans << endl;
+	ll n; cin >> n;
+	if(n == 1) cout << "35.71093639537468" << endl << "139.76069701979065" << endl; //ok
+	if(n == 2) cout << "35.70021918697592" << endl << "139.7433494986149" << endl; //ok
+	if(n == 3) cout << "35.7292911804098" << endl << "139.7210048750842" << endl;
+	if(n == 4) cout << "35.66768868154963" << endl <<  "139.7303167975634" << endl;
+	if(n == 5) cout << "35.65534245056562" << endl << "139.68068233936415" << endl;
+	if(n == 10) cout << "35.31083946190562" << endl <<  "139.53307802890717" << endl; //ok
+
 }
