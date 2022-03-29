@@ -27,7 +27,28 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	assert(n >= 100);
-	cout << "more than 100" << endl;
+	ll n, q; cin >> n >> q;
+	vpll rel(n, {-1, -1}); //前、後の車両の番号を格納(存在しなければ-1)
+	rep(_, q) {
+		ll p; cin >> p;
+		if(p == 1) {
+			ll x, y; cin >> x >> y; x--; y--;
+			rel[x].second = y;
+			rel[y].first = x;
+		}
+		else if(p == 2) {
+			ll x, y; cin >> x >> y; x--; y--;
+			rel[x].second = -1;
+			rel[y].first = -1;
+		}
+		else{
+			ll x; cin >> x; x--;
+			while(rel[x].second != -1) x = rel[x].second; //車両の末尾に移動
+			ll cnt = 0;
+			while(rel[x].first != -1) x = rel[x].first, cnt++; //先頭車両に移動
+			cout << cnt + 1 << " " << x + 1 << " ";
+			while(rel[x].second != -1) cout << rel[x].second + 1 << " ", x = rel[x].second;
+			cout << endl;
+		}
+	}
 }

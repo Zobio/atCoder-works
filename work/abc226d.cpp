@@ -28,6 +28,20 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	assert(n >= 100);
-	cout << "more than 100" << endl;
+	vll x(n), y(n);
+	rep(i, n) cin >> x[i] >> y[i];
+	set<pll> ms;
+	rep(i, n) rep(j, n){
+		ll dx = x[j] - x[i], dy = y[j] - y[i];
+		if(dx == 0 && dy == 0) continue; //移動する必要がない
+		pll p;
+		if(dx == 0) p = {0, dy > 0 ? 1 : -1};
+		else if(dy == 0) p = {dx > 0 ? 1 : -1, 0};
+		else{
+			ll gc = __gcd(abs(dx), abs(dy));
+			p = {dx / gc, dy / gc};
+		}
+		ms.insert(p);
+	}
+	cout << ms.size() << endl;
 }
