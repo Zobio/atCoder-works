@@ -27,10 +27,13 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, q; cin >> n >> q;
-	vvll g(n);
-	rep(i, n) {
-		ll a, b, c; cin >> a >> b >> c; a--; b--;
-		
+	ll x, y, a, b; cin >> x >> y >> a >> b;
+	ll ans = 0;
+	while(x * a < y) {
+		if(log10(x) + log10(a) >= log10(LLONG_MAX - 10)) break;
+		if(x * a > x + b) break;
+		else x *= a, ans++;
 	}
+	ans += (y - 1 - x) / b;
+	cout << ans << endl;
 }
