@@ -27,7 +27,9 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	int a, b, h;
-	scanf("%d%d%d", &a, &b, &h);
-	printf("%d\n", h * (a + b) / 2);
+	ull a, b, n; cin >> a >> b >> n;
+	//式変形をがんばる
+	if(n >= b - 1) cout << a * ceil(1 / b + (1 % b ? 1 : 0)) - ceil(a / b + (a % b ? 1 : 0)) << endl;
+	//mod(b - 1)の中ではfloor(Ax/B)−A×floor(x/B)は左の項は単調非減少、右項は変化しない
+	else cout << floor(a * n / b) - a * floor(n / b) << endl;
 }
