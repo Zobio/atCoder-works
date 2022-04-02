@@ -27,5 +27,8 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	setcout(15);
+	ld a, b; cin >> a >> b;
+	ld h = (ld)1 / sqrt(a * a + b * b);
+	cout << a * h << " " << b * h << endl;
 }

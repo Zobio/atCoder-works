@@ -27,5 +27,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	ll n, k, x; cin >> n >> k >> x;
+	vll a(n); rep(i, n) cin >> a[i];
+	ll cnt = 0, sum = 0;
+	rep(i, n) cnt += a[i] / x, sum += a[i];
+	if(cnt >= k) {cout << sum - k * x << endl; return 0;}
+	priority_queue<ll> b;
+	for(auto au : a) if(au % x != 0) b.push(au % x);
+	ll ans = sum - cnt * x;
+	rep(i, k - cnt) {
+		if(b.empty()) break;
+		ans -= b.top(), b.pop(); //もし減らせそうなら減らす
+	}
+	cout << (ans < 0 ? 0 : ans) << endl;
 }

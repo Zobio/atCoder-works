@@ -26,6 +26,15 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll f(ll a, ll b) {return a*a*a + a*a*b + a*b*b + b*b*b;}
+
 int main() {
-	
+	ll n; cin >> n;
+	ll ans = INF;
+	ll i = 0, j = 1000000;
+	while(i <= j) {
+		if(f(i, j) >= n) chmin(ans, f(i, j)), j--;
+		else i++;
+	}
+	cout << ans << endl;
 }

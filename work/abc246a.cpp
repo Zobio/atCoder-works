@@ -27,5 +27,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
-}
+	map<ll, ll> cnt1, cnt2;
+	rep(i, 3) {
+		ll a, b; cin >> a >> b;
+		cnt1[a]++; cnt2[b]++;
+	}
+	for(auto au : cnt1) if(au.second == 1) cout << au.first << " ";
+	for(auto au : cnt2) if(au.second == 1) cout << au.first << endl;
+}  

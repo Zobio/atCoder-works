@@ -27,5 +27,19 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	
+	ll n, k, x; cin >> n >> k >> x;
+	priority_queue<ll> pq;
+	rep(i, n){
+		ll t; cin >> t; pq.push(t);
+	}
+	while(k) {
+		ll t = pq.top(); pq.pop();
+		ll use = min(k, t / x);
+		k -= use;
+		if(k - x * use != 0) pq.push(k - x * use);
+		cout << k << endl;
+	}
+	ll ans = 0;
+	while(!pq.empty()) ans += pq.top(), pq.pop();
+	cout << ans << endl;
 }

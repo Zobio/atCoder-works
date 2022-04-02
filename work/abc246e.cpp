@@ -27,5 +27,9 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
+	ll n; cin >> n;
+	pll st, en; cin >> st.first >> st.second >> en.first >> en.second; st.first--; st.second--; en.first--; en.second--;
+	vector<string> s(n); rep(i, n) cin >> s[i];
+	if((st.first + st.second) % 2 != (en.first + en.second) % 2) {cout << -1 << endl; return 0;}
 	
 }

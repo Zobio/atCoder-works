@@ -26,6 +26,21 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll f(ll a, ll b) {return a * a * a + a * a * b + a * b * b + b * b * b;}
+
 int main() {
-	
+	ll n; cin >> n;
+	vll ans;
+	for(ll a = 0; a * a * a <= n; a++) {
+		ll l = -1, r = 1000001;
+		while(r - l > 1) {
+			ll mid = (l + r) / 2;
+			if(f(a, mid) >= n) r = mid;
+			else l = mid;
+		}
+		ans.push_back(f(a, r));
+	}
+	sort(all(ans));
+	if(ans.empty()) cout << 0 << endl;
+	else cout << *lower_bound(all(ans), n) << endl;
 }
