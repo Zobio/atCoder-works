@@ -27,5 +27,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    char c; cin >> c; cout << c << endl;
+	string s; cin >> s;
+	ll q; cin >> q;
+	bool rev = false;
+	deque<char> ans;
+	for(auto au : s) ans.push_back(au);
+	rep(_, q) {
+		ll t; cin >> t;
+		if(t == 1) rev = !rev;
+		else{
+			ll f; char c; cin >> f >> c;
+			if(f == 1) {
+				if(!rev) ans.push_front(c);
+				else ans.push_back(c);
+			}else{
+				if(!rev) ans.push_back(c);
+				else ans.push_front(c);
+			}
+		}
+	}
+	if(rev) reverse(all(ans));
+	for(auto au : ans) cout << au;
+	cout << endl;
 }
