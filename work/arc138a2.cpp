@@ -26,63 +26,20 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-struct UnionFind {
-    long long groups;
-    vector<long long> parents;
-
-    UnionFind(long long n) {
-        groups = n;
-        parents = vector<long long>(n, -1);
-    }
-
-    long long find(long long x) {
-        if (parents.at(x) < 0) {
-            return x;
-        }else{
-            parents[x] = find(parents[x]);
-            return parents[x];
-        }
-    }
-
-    void unite(long long x, long long y) {
-        x = find(x);
-        y = find(y);
-
-        // already united
-        if (x == y)
-            return;
-
-        groups--;
-
-        if (parents[x] > parents[y])
-            swap(x, y);
-
-        parents[x] += parents[y];
-        parents[y] = x;
-    }
-
-    long long size(long long x) {
-        return -parents[find(x)];
-    }
-
-    bool issame(long long x, long long y) {
-        return find(x) == find(y);
-    }
-
-    vector<long long> roots() {
-        vector<long long> ret;
-        for (long long i = 0; i < parents.size(); i++)
-            if (parents[i] < 0)
-                ret.push_back(i);
-        return ret;
-    }
-
-    long long group_count() {
-        return groups;
-    }
-};
-
 int main() {
-    ll n; cin >> n;
-    UnionFind uf(n);
+	ll n, k; cin >> n >> k;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll b;
+	ll cur = 0;
+	for(ll i = k; i < n; i++) {
+		chmax(cur, a[i]);
+		b.push_back(cur);
+	}
+	ll ans = INF;
+	rep(i, k) {
+		auto it = upper_bound(all(b), a[i]);
+		if(it == b.end()) continue;
+		chmin(ans, k + (it - b.begin()) - i);
+	}
+	cout << (ans == INF ? -1 : ans) << endl;
 }
