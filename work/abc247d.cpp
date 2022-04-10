@@ -27,5 +27,24 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << (1ll << 17) << endl;
+	ll q; cin >> q;
+	queue<pll> que;
+	rep(_, q) {
+		ll t; cin >> t;
+		if(t == 1) {
+			ll x, c; cin >> x >> c;
+			que.push({x, c});
+		}else{
+			ll c; cin >> c;
+			ll sum = 0;
+			while(c) {
+				ll use = min(c, que.front().second);
+				sum += que.front().first * use;
+				que.front().second -= use;
+				if(que.front().second == 0) que.pop();
+				c -= use;
+			}
+			cout << sum << endl;
+		}
+	}
 }

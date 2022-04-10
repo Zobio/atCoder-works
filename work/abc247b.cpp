@@ -27,5 +27,13 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << (1ll << 17) << endl;
+	ll n; cin >> n;
+	vector<pair<string, string>> s(n);
+	rep(i, n) cin >> s[i].first >> s[i].second;
+	map<string, ll> m;
+	rep(i, n) m[s[i].first]++, m[s[i].second]++;
+	rep(i, n) {
+		if(m[s[i].first] - (s[i].first == s[i].second) > 1 && m[s[i].second] - (s[i].first == s[i].second) > 1) {cout << "No" << endl; return 0;}
+	}
+	cout << "Yes" << endl;
 }

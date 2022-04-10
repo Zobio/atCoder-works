@@ -27,5 +27,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << (1ll << 17) << endl;
+	ll n; cin >> n;
+	vll a = {1};
+	rep(i, n - 1) {
+		a.push_back(i + 2);
+		a.insert(a.end(), all(a));
+		a.pop_back();
+	}
+	arrcout(a);
 }
