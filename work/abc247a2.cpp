@@ -27,5 +27,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	string s; cin >> s;
+	ll num = 0; //数値
+	for(ll i = 0; i < 4; i++) { //進数変換
+		num *= 2;
+		num += s[i] - '0';
+	}
+	num = num >> 1; //bit shift
+	string answer;
+	while(num > 0) answer.push_back('0' + num % 2), num /= 2;
+	for(ll i = 0; i < 4 - answer.length(); i++) cout << '0';
+	cout << answer << endl;
 }

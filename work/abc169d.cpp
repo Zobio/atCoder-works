@@ -26,6 +26,33 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
+bool isPrime(ll n) {
+	for(ll i = 2; i * i <= n; i++) if(n % i == 0) return false;
+	return true;
+}
 
+int main() {
+	ll n; cin >> n;
+	map<ll,ll> div;
+	while(n > 1) {
+		if(isPrime(n)) {div[n]++; break;}
+		for(ll i = 2; i <= n; i++) {
+			if(n % i == 0) {
+				div[i]++;
+				n /= i;
+				break;
+			}
+		}
+	}
+	ll ans = 0;
+	for(auto au : div) {
+		ll l = 0, r = 10010;
+		while(r - l > 1) {
+			ll mid = (l + r) / 2;
+			if(mid * (mid + 1) / 2 > au.second) r = mid;
+			else l = mid;
+		}
+		ans += l;
+	}
+	cout << ans << endl;
 }
