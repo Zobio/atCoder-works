@@ -27,5 +27,23 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << __gcd(0, 3) << endl;
+	ll n, k; cin >> n >> k;
+	vll x(n), y(n);
+	rep(i, n) cin >> x[i] >> y[i];
+	if(k == 1) {cout << "Infinity" << endl; return 0;}
+	ll ans = 0;
+	rep(i, n) for(ll j = i + 1; j < n; j++) {
+		bool flag = false;
+		rep(k, j) {
+			if(k == i) continue;
+			if((x[j] - x[i]) * (y[k] - y[j]) == (x[k] - x[j]) * (y[j] - y[i])) flag = true;
+		}
+		if(flag) continue; //jよりも前に直線上にある点が存在しているという事は、その直線上の点は既にカウントされている
+		ll cnt = 2;
+		for(ll k = j + 1; k < n; k++) {
+			if ((x[j] - x[i]) * (y[k] - y[j]) == (x[k] - x[j]) * (y[j] - y[i])) cnt++;
+		}
+		ans += cnt >= k;
+	}
+	cout << ans << endl;
 }

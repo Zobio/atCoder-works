@@ -27,5 +27,19 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << __gcd(0, 3) << endl;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i], a[i]--;
+	vvll b(n); rep(i, n) b[a[i]].push_back(i); //仮想配列 l用
+	vvll c(n); rrep(i, n) c[a[i]].push_back(-i); //仮想配列 r用
+	ll q; cin >> q;
+	ll ans = 0;
+	rep(_, q) {
+		ll l, r, x; cin >> l >> r >> x; l--; r--; x--;
+		if(b[x].empty()) cout << 0 << endl;
+		else {
+			ll n1 = lower_bound(all(b[x]), l) - b[x].begin();
+			ll n2 = lower_bound(all(c[x]), -r) - c[x].begin();
+			cout << b[x].size() - n1 - n2 << endl;
+		}
+	}
 }

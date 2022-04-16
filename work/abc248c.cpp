@@ -27,5 +27,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << __gcd(0, 3) << endl;
+	ll n, m, k; cin >> n >> m >> k;
+	vvll dp(n + 1, vll(k + 1)); //dp[i][j] ... i番目まで見て合計値がjであるときの通り数
+	dp[0][0] = 1; //初期値
+	rep(i, n) rep(j, k + 1) reps(p, m) {
+		if(j + p > k) continue;
+		dp[i + 1][j + p] = (dp[i + 1][j + p] + dp[i][j]) % MOD;
+	}
+	ll ans = 0;
+	rep(i, dp.back().size()) ans = (ans + dp.back().at(i)) % MOD;
+	cout << ans << endl;
 }

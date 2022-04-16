@@ -27,5 +27,8 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << __gcd(0, 3) << endl;
+	ll a, b, k, ans = 0;
+	cin >> a >> b >> k;
+	while(a < b) a *= k, ans++;
+	cout << ans << endl;
 }

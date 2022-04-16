@@ -27,5 +27,33 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << __gcd(0, 3) << endl;
+	ll n, k; cin >> n >> k;
+	if(k == 1) {cout << "Infinity" << endl; return 0;}
+	vector<pll> c(n);
+	rep(i, n) cin >> c[i].first >> c[i].second;
+	vector<set<ll>> st(n * 310);
+	ll cnt = 0;
+	map<pair<pll, ll>, ll> m; //ハッシュ化用
+	rep(i, n) for(ll j = i + 1; j < n; j++) {
+		ll dx = c[j].first - c[i].first, dy = c[j].second - c[i].second;
+		if(dx < 0) dx *= -1, dy *= -1; //dx, dyを一意に
+		if(dx == 0 && dy < 0) dy *= -1;
+		ll gc = __gcd(abs(dx), abs(dy));
+		dx /= gc; dy /= gc;
+		ll seppen;
+		if(dx == 0) seppen = c[i].first; //x切片は一意
+		else if(dy == 0) seppen = c[i].second; //y切片は一意
+		else{
+			ll p = -c[i].second * dx / dy;
+			seppen = c[i].first + p; //x切片
+		}
+		if(m.find({{dx, dy}, seppen}) == m.end()) m[{{dx, dy}, seppen}] = cnt, cnt++;
+		st[m[{{dx, dy}, seppen}]].insert(i);
+		st[m[{{dx, dy}, seppen}]].insert(j);
+	}
+	ll ans = 0;
+	for(auto au : st) {
+		ans += au.size() >= k;
+	}
+	cout << ans << endl;
 }
