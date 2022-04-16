@@ -27,11 +27,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, k;
-	cin >> n;
-	k = sqrtl(n);
+	ll n; cin >> n;
 	ll ans = 0;
-	reps(i, n / (k + 1)) ans += (n / i); //√nまではansにそれぞれ足し合わせていく
-	reps(i, k) ans += ((n / i) - (n / (i + 1))) * i; //
+	for(ll i = 1; i * i <= n; i++) ans += n / i;
+	vll b = {n};
+	for(ll i = 1; i * i <= n; i++) b.push_back(n / (i + 1));
+	arrcout(b);
+	ll cur = 1;
+	rep(i, b.size() - 1) {
+		ans += cur * (b[i] - b[i + 1]);
+	}
 	cout << ans << endl;
 }

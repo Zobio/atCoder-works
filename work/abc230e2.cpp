@@ -27,11 +27,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, k;
-	cin >> n;
-	k = sqrtl(n);
-	ll ans = 0;
-	reps(i, n / (k + 1)) ans += (n / i); //√nまではansにそれぞれ足し合わせていく
-	reps(i, k) ans += ((n / i) - (n / (i + 1))) * i; //
+	ll n; cin >> n;
+	ll lim = sqrtl(n), ans = 0;
+	for(ll i = 1; i * i <= n; i++) {
+		cout << i << " " << (n / i - n / (i + 1)) << endl;
+		ans += (n / i - n / (i + 1)) * i; // n / i = kになるkの個数はn / i - n / (i + 1)個
+	}
+	reps(i, lim) ans += n / i;
 	cout << ans << endl;
 }
