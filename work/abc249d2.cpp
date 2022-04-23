@@ -23,12 +23,22 @@ using namespace std;
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
 #define INF (1LL << 60)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll b(200010); //仮想配列
+	rep(i, n) b[a[i]]++;
+	ll ans = 0;
+	reps(i, 200000) for(ll j = i * (i - 1); j <= 200000; j += i) {
+		ll p = i, q = j / i, r = j; //pq = r
+		if(p == q && q == r) ans += b[i] * (b[i] - 1) * (b[i] - 2);
+		else if(p == q) ans += b[p] * (b[p] - 1) * b[r];
+		else if(q == r) ans += b[p] * b[q] * (b[q] - 1) * 2;
+		else if(p == r) ans += b[p] * b[q] * (b[p] - 1) * 2;
+		else ans += b[p] * b[q] * b[r] * 2;
+	}
+	cout << ans << endl;
 }

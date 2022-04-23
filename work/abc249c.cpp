@@ -23,12 +23,19 @@ using namespace std;
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
 #define INF (1LL << 60)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, k; cin >> n >> k;
+	vector<string> s(n); rep(i, n) cin >> s[i];
+	ll ans = 0;
+	for(ll bits = 0; bits < (1ll << n); bits++) {
+		vector<ll> cnt(27);
+		rep(i, n) if((1 << i) & bits) rep(j, s[i].size()) cnt[s[i][j] - 'a']++;
+		ll tmp = 0;
+		rep(i, 26) tmp += cnt[i] == k;
+		chmax(ans, tmp);
+	}
+	cout << ans << endl;
 }

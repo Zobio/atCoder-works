@@ -23,12 +23,24 @@ using namespace std;
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
 #define INF (1LL << 60)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll a, b, c, d, e, f, x; cin >> a >> b >> c >> d >> e >> f >> x;
+	ll p = 0, q = 0; ll aa = x, bb = x;
+	while(aa > 0) {
+		ll use = min(aa, a);
+		p += use * b;
+		aa -= use;
+		aa -= c;
+	}
+	while(bb > 0) {
+		ll use = min(bb, d);
+		q += use * e;
+		bb -= use;
+		bb -= f;
+	}
+	if(p == q) cout << "Draw" << endl;
+	else cout << (p > q ? "Takahashi" : "Aoki") << endl;
 }
