@@ -1,23 +1,39 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
-#include<atcoder/segtree>
 using namespace atcoder;
 
-int op(int a,int b){ return a^b;};
-int e(){return 0;};
+// セグメント木の二項演算 (XOR 和)
+int op(int a, int b) {
+    return a ^ b;
+}
 
-int main(){
-  int N,Q;cin>>N>>Q;
-  segtree<int,op,e> X(N);
-  for(int i=0;i<N;i++){
-    int a;cin>>a;
-    X.set(i,a);
-  }
-  
-  while(Q--){
-    int t,x,y;cin>>t>>x>>y;
-    x--;
-    if(t==1) X.set(x,X.get(x)^y);
-    else cout<<X.prod(x,y)<<endl;
-  }
+// 単位元 (今回は 0)
+int e() {
+    return 0;
+}
+
+int main() {
+    int N, Q; cin >> N >> Q;
+    vector<int> A(N);
+    for (int i = 0; i < N; ++i) cin >> A[i];
+    segtree<int, op, e> seg(A);
+    for (int q = 0; q < Q; ++q) {
+        int t, x, y;
+        cin >> t >> x >> y;
+        --x;
+        if (t == 1) {
+            // 元の値
+            int v = seg.get(x);
+
+            // 変更後の値
+            v ^= y;
+
+            // 更新
+            seg.set(x, v);
+        }
+        else {
+            cout << seg.prod(x, y) << endl;
+        }
+    }
 }

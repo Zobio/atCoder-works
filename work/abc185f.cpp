@@ -28,15 +28,26 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll op(ll a, ll b) {
+	return a ^ b; //xor
+}
+
+ll e() {
+	return 0; //単位元
+}
+
 int main() {
 	ll n, q; cin >> n >> q;
 	vll a(n); rep(i, n) cin >> a[i];
-	vll rui(n + 1); rep(i, n) rui[i + 1] = rui[i] ^ a[i];
-	arrcout(rui);
+	segtree<ll, op, e> seg(a);
 	rep(_, q) {
-		ll t, x, y; cin >> t >> x >> y; x--; y--;
+		ll t, x, y; cin >> t >> x >> y; x--;
 		if(t == 1) {
-			
+			ll v = seg.get(x);
+			v ^= y;
+			seg.set(x, v);
+		}else{
+			cout << seg.prod(x, y) << endl;
 		}
 	}
 }
