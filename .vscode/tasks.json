@@ -12,6 +12,8 @@
 			"command": "g++",
 			"args": [
 				"-std=gnu++1y",
+				"-I",
+				"/mnt/c/Users/soshi/Desktop/atCoder-works/work/ac-library/",
 				"-g",
 				"-O0",
 				"-I/opt/boost/gcc/include",

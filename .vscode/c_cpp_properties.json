@@ -5,6 +5,7 @@
             "intelliSenseMode": "gcc-x64",
             "compilerPath": "C:/MinGW/bin/g++.exe",
             "includePath": [
+                "/mnt/c/Users/soshi/Desktop/atCoder-works/work/ac-library/",
                 "${workspaceFolder}/**"
             ],
             "defines": [],

@@ -1,1 +1,23 @@
-#include <algorithm>usingnamespacestd;#define INF 2000000000constintSIZE =1<<20;structRMQ{intseg[SIZE*2];voidupdate(intk,intx)//k...index of sequence//x...value{k += SIZE-1;seg[k]=x;while(k){k = (k-1)/2;seg[k]=min(seg[k*2+1],seg[k*2+2]);}}intquery(inta,intb,intk,intl,intr)//a,b...indexes of sequence corresponding query//k...index of Segment Tree//l,r...indexes of sequence corresponding k-th vertex of Segment Tree{if(r<=a||b<=l)returnINF;elseif(a<=l&&r<=b)returnseg[k];elsereturnmin(query(a,b,k*2+1,l,(l+r)/2),query(a,b,k*2+2,(l+r)/2,r));}};
+#include<bits/stdc++.h>
+using namespace std;
+#include<atcoder/segtree>
+using namespace atcoder;
+
+int op(int a,int b){ return a^b;};
+int e(){return 0;};
+
+int main(){
+  int N,Q;cin>>N>>Q;
+  segtree<int,op,e> X(N);
+  for(int i=0;i<N;i++){
+    int a;cin>>a;
+    X.set(i,a);
+  }
+  
+  while(Q--){
+    int t,x,y;cin>>t>>x>>y;
+    x--;
+    if(t==1) X.set(x,X.get(x)^y);
+    else cout<<X.prod(x,y)<<endl;
+  }
+}
