@@ -32,7 +32,10 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 int main() {
 	ll n; cin >> n;
 	vll a(n), b(n); rep(i, n) cin >> a[i]; rep(i, n) cin >> b[i];
-	sort(all(a)); sort(all(b));
-	rep(i, n) if(a[i] > b[i]) {cout << "No" << endl; return 0;}
-	cout << "Yes" << endl;
+	ll ca = 0, cb = 0;
+	rep(i, n) {
+		if(a[i] < b[i]) ca += (b[i] - a[i]) / 2; //aに2を足せる操作回数(余裕ができる)
+		if(a[i] > b[i]) cb += a[i] - b[i]; //bに1を足せる操作回数(必要な作業量が増える)
+	}
+	cout << (ca >= cb ? "Yes" : "No") << endl;
 }
