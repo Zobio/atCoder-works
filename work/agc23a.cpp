@@ -29,49 +29,14 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-vector<long long> TopologicalSort (ll siz, vvll pri) {
-    /*
-    順番指定priに従ってトポロジカルソートされた頂点数sizのグラフを返す関数
-    pri[i] = {i_1, i_2, i_3, ...} i --> i_1, i --> i_2 ...
-    */
-    priority_queue<ll, vector<ll>, greater<ll>> pq;
-	vll cnt(siz);
-    rep(i, siz) rep(j, pri[i].size()) cnt[pri[i][j]]++;
-    rep(i, siz) if(cnt[i] == 0) pq.push(i);
-    vll ret(siz);
-    while(!pq.empty()) {
-		ll now = pq.top(); pq.pop();
-		ret.push_back(now + 1);
-		for(auto a : pri[now]) {
-			cnt[a]--;
-			if(cnt[a] == 0)pq.push(a);
-		}
-	}
-    return ret; //ret.size() == ansでなければトポロジカルソートできていない
-}
-
 int main() {
-	ll n, m; cin >> n >> m;
-	vvll g(n);
-	rep(i, m) {
-		ll a, b; cin >> a >> b; a--; b--;
-		g[a].push_back(b);
-	}
-	priority_queue<ll, vector<ll>, greater<ll>> pq;
-	vll cnt(n);
-	rep(i, n) rep(j, g[i].size()) cnt[g[i][j]]++;
-	rep(i, n) {
-		if(cnt[i] == 0) pq.push(i);
-	}
-	vll ans;
-	while(!pq.empty()) {
-		ll now = pq.top(); pq.pop();
-		ans.push_back(now + 1);
-		for(auto a : g[now]) {
-			cnt[a]--;
-			if(cnt[a] == 0)pq.push(a);
-		}
-	}
-	if(ans.size() < n) cout << -1 << endl;
-	else arrcout(ans);
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll rui(n + 1);
+	rep(i, n) rui[i + 1] = rui[i] + a[i];
+	map<ll, ll> m;
+	rep(i, n + 1) m[rui[i]]++;
+	ll ans = 0;
+	for(auto au : m) ans += au.second * (au.second - 1) / 2;
+	cout << ans << endl;
 }
