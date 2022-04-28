@@ -29,49 +29,31 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-vector<long long> TopologicalSort (ll siz, vvll pri) {
-    /*
-    順番指定priに従ってトポロジカルソートされた頂点数sizのグラフを返す関数
-    pri[i] = {i_1, i_2, i_3, ...} i --> i_1, i --> i_2 ...
-    */
-    priority_queue<ll, vector<ll>, greater<ll>> pq;
-	vll cnt(siz);
-    rep(i, siz) rep(j, pri[i].size()) cnt[pri[i][j]]++;
-    rep(i, siz) if(cnt[i] == 0) pq.push(i);
-    vll ret(siz);
-    while(!pq.empty()) {
-		ll now = pq.top(); pq.pop();
-		ret.push_back(now + 1);
-		for(auto a : pri[now]) {
-			cnt[a]--;
-			if(cnt[a] == 0)pq.push(a);
+vector<long long> dijkstra(ll s, vvpll g) { 
+	/*
+	sからスタートして(到達可能な)全点における最短距離を求める
+	グラフg firstに頂点番号 secondにコスト
+	*/
+	vector<ll> dis(g.size(), INF);
+	dis[s] = 0;
+	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> que;
+	//disを更新するためのqueue first:コスト second:頂点番号 (コストが低い順に処理)
+	que.push({0, s});
+	while(!que.empty()) {
+		pair<ll, ll> p = que.top(); que.pop();
+		ll v = p.second, cost = p.first;
+		if(dis[v] < cost) continue;
+		rep(i, g[v].size()) {
+			pair<ll, ll> e = g[v][i]; //e.first:頂点番号 e.second:コスト
+			if(dis[e.first] > dis[v] + e.second) {
+				dis[e.first] = dis[v] + e.second;
+				que.push({dis[e.first], e.first});
+			}
 		}
 	}
-    return ret; //ret.size() == ansでなければトポロジカルソートできていない
+	return dis;
 }
 
 int main() {
-	ll n, m; cin >> n >> m;
-	vvll g(n);
-	rep(i, m) {
-		ll a, b; cin >> a >> b; a--; b--;
-		g[a].push_back(b);
-	}
-	priority_queue<ll, vector<ll>, greater<ll>> pq;
-	vll cnt(n);
-	rep(i, n) rep(j, g[i].size()) cnt[g[i][j]]++;
-	rep(i, n) {
-		if(cnt[i] == 0) pq.push(i);
-	}
-	vll ans;
-	while(!pq.empty()) {
-		ll now = pq.top(); pq.pop();
-		ans.push_back(now + 1);
-		for(auto a : g[now]) {
-			cnt[a]--;
-			if(cnt[a] == 0)pq.push(a);
-		}
-	}
-	if(ans.size() < n) cout << -1 << endl;
-	else arrcout(ans);
+
 }
