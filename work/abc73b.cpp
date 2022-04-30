@@ -30,6 +30,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    char a = 47;
-    cout << a << endl;
+	ll n; cin >> n;
+	ll ans = 0;
+	rep(i, n) {
+		ll a, b; cin >> a >> b;
+		ans += b - a + 1;
+	}
+	cout << ans << endl;
 }

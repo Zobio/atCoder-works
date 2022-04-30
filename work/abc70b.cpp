@@ -30,6 +30,6 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    char a = 47;
-    cout << a << endl;
+	ll a, b, c, d; cin >> a >> b >> c >> d;
+	cout << max(0ll, min(b, d) - max(a, c)) << endl;
 }

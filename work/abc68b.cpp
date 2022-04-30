@@ -29,7 +29,23 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
-    char a = 47;
-    cout << a << endl;
+	ll n; cin >> n;
+	cout << mpow(2ll, (ll)log2(n), MOD) << endl;
 }

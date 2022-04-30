@@ -29,7 +29,18 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool check(string s) {
+	if(s.size() & 1) return false;
+	bool flag = true;
+	rep(i, s.size() / 2) flag &= s[i] == s[s.size() / 2 + i];
+	return flag;
+}
 int main() {
-    char a = 47;
-    cout << a << endl;
+	string s; cin >> s; s.pop_back();
+	ll n = s.size(), ans = 0;
+	rep(i, n) {
+		if(check(s)) chmax(ans, (ll)s.size());
+		s.pop_back();
+	}
+	cout << ans << endl;
 }
