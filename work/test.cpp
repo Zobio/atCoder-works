@@ -8,7 +8,7 @@ using namespace std;
 #define reps(i, n) for (long long i = 1; i <= n; i++)
 #define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
 #define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define fore(i, a) for (auto& i : a)
+#define fore(i, a) for (auto &i : a)
 #define vll vector<long long>
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
@@ -16,8 +16,17 @@ using namespace std;
 #define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
+#define arrcout(a)                         \
+    for (size_t i = 0; i < a.size(); i++)  \
+        cout << (i ? " " : "") << a.at(i); \
+    cout << endl
+#define arrcout2(a)                                  \
+    for (size_t i = 0; i < a.size(); i++)            \
+    {                                                \
+        for (size_t j = 0; j < a[i].size(); j++)     \
+            cout << (j ? " " : "") << a.at(i).at(j); \
+        cout << endl;                                \
+    }
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
@@ -26,10 +35,48 @@ using namespace std;
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+template <class T>
+bool chmax(T &a, const T &b)
+{
+    if (a < b)
+    {
+        a = b;
+        return 1;
+    }
+    return 0;
+}
+template <class T>
+bool chmin(T &a, const T &b)
+{
+    if (b < a)
+    {
+        a = b;
+        return 1;
+    }
+    return 0;
+}
 
-int main() {
-    char a = 47;
-    cout << a << endl;
+int main()
+{
+    ll n;
+    cin >> n;
+    vll x(n), y(n);
+    rep(i, n) cin >> x[i] >> y[i];
+    ll ans = INF;
+    rep(i, n) rep(j, n)
+    {
+        if (i == j)
+            continue;
+        ll cnt = 0;
+        ll dx = x[j] - x[i], dy = y[j] - y[i];
+        rep(k, n) rep(l, n)
+        {
+            if (k == l)
+                continue;
+            ll ddx = x[l] - x[k], ddy = y[l] - y[k];
+            cnt += dx == ddx && dy == ddy;
+        }
+        chmin(ans, n - cnt);
+    }
+    cout << ans << endl;
 }
