@@ -30,7 +30,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
-    __int128_t n;
-    cout << n - 1 << endl;
+	ll n, q; cin >> n >> q;
+	vll a(n); iota(all(a), 0); //a[i] = j ... ボールiは左からj番目に置かれている
+	vll b(n); iota(all(b), 0); //b[i] = j ... 左からj番目のボールはiである
+	rep(_, q) {
+		ll x; cin >> x; x--;
+		ll po_cur = a[x], po_nxt = a[x] + 1 == n ? a[x] - 1 : a[x] + 1;
+		ll nxt_num = b[po_nxt];
+		swap(a[x], a[nxt_num]);
+		swap(b[po_cur], b[po_nxt]);
+	}
+	for(auto au : b) cout << au + 1 << " "; cout << endl;
 }

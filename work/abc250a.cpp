@@ -30,7 +30,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
-    __int128_t n;
-    cout << n - 1 << endl;
+	ll h, w; cin >> h >> w;
+	ll r, c; cin >> r >> c;
+	cout << 4 - (r == h || r == 1) - (c == w || c == 1) - (h == 1) - (w == 1) << endl;
 }

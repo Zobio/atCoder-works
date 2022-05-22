@@ -16,7 +16,7 @@ using namespace std;
 #define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
+#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i) + 1; cout << endl
 #define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
@@ -30,7 +30,31 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
-    __int128_t n;
-    cout << n - 1 << endl;
+	ll n, q; cin >> n >> q;
+	vll nxt(n), pos(n);
+	iota(all(nxt), 1ll); nxt.back() = -1;
+	iota(all(pos), -1ll); pos.front() = -1;
+	rep(_, q) {
+		ll x; cin >> x; x--;
+		ll px = pos[x], nx = nxt[x]; //前方向と後方向
+		if(nx == -1) {
+			ll ppx = pos[px];
+			if(ppx != -1) nxt[ppx] = x;
+			nxt[px] = -1;
+			nxt[x] = px;
+			pos[px] = x;
+			pos[x] = ppx;
+		}else{
+			ll nnx = nxt[nx];
+			if(px != -1) nxt[px] = nx;
+			nxt[x] = nnx;
+			nxt[nx] = x;
+			pos[x] = nx;
+			pos[nx] = px;
+			if(nnx != -1) pos[nnx] = x;
+		}
+	}
+	ll cur = 0;
+	while(pos[cur] != -1) cur = pos[cur]; //初期地点まで戻る
+	while(cur != -1) cout << cur + 1 << " ", cur = nxt[cur]; cout << endl;
 }

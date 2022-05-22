@@ -30,7 +30,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
-    __int128_t n;
-    cout << n - 1 << endl;
+	ll n, a, b; cin >> n >> a >> b;
+	rep(i, n) rep(p, a) {
+		rep(j, n) rep(q, b) {
+			cout << (i + j & 1 ? "#" : ".");
+		}
+		cout << endl;
+	}
 }

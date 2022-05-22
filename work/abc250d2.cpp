@@ -29,8 +29,30 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vector<long long> enum_primes(ll num) {
+	vll ret(num + 1, true);
+	ret[1] = ret[0] = false;
+	for(ll i = 2; i * i <= num; i++) for(ll j = i * 2; j <= num; j += i) {
+		ret[j] = false;
+	}
+	return ret;
+}
+
 int main() {
-    cout << log10(LLONG_MAX) << endl;
-    __int128_t n;
-    cout << n - 1 << endl;
+	ll n; cin >> n;
+	vll isPrime = enum_primes(1000010);
+	vll primes;
+	rep(i, isPrime.size()) if(isPrime[i]) primes.push_back(i);
+	ll ans = 0;
+	rep(i, primes.size()) {
+		ll l = -1, r = primes.size();
+		while(r - l > 1) {
+			ll mid = (l + r) / 2;
+			__int128_t x = (__int128_t)(primes[i] * primes[i] * primes[i]) * primes[mid];
+			if(x <= (__int128_t)n) l = mid;
+			else r = mid;
+		}
+		ans += min(i, l + 1);
+	}
+	cout << ans << endl;
 }
