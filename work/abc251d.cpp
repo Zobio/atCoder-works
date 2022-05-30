@@ -29,15 +29,24 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
-    ll n; cin >> n;
-    std::random_device rnd;                         // 非決定的な乱数生成器を生成
-    std::mt19937 mt(rnd());                         //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
-    std::uniform_int_distribution<> rand2(0, 2); // [0, 99] 範囲の一様乱数
-    map<ll, string> day;
-    day[0] = "Mon"; day[1] = "Tue"; day[2] = "Wed"; day[3] = "Thu"; day[4] = "Fri"; day[5] = "Sat"; day[6] = "Sun";
-    rep(i, n) {
-        rep(j, 7) cout << day[j] << " " << (char)('A' + rand2(mt)) << endl;
-        cout << endl;
-    }
+	ll w; cin >> w;
+	cout << 300 << endl;
+	rep(i, 3) reps(j, 100) cout << mpow(10LL, i * 2, MOD) * j << " "; cout << endl;
 }

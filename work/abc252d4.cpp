@@ -30,14 +30,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    std::random_device rnd;                         // 非決定的な乱数生成器を生成
-    std::mt19937 mt(rnd());                         //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
-    std::uniform_int_distribution<> rand2(0, 2); // [0, 99] 範囲の一様乱数
-    map<ll, string> day;
-    day[0] = "Mon"; day[1] = "Tue"; day[2] = "Wed"; day[3] = "Thu"; day[4] = "Fri"; day[5] = "Sat"; day[6] = "Sun";
-    rep(i, n) {
-        rep(j, 7) cout << day[j] << " " << (char)('A' + rand2(mt)) << endl;
-        cout << endl;
-    }
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i], a[i]--;
+	sort(all(a));
+	ll ma = *max_element(all(a));
+	vvll dp(ma + 1, vll(4)); //dp[i][j] ... iまで確定していて、集合のサイズがjである通り数
+	fill(all(dp[0]), 1);
+	rep(i, ma) rep(j, 3) {
+		dp[i + 1][j + 1] = dp[i][j] +  dp[i][j] * (upper_bound(all(a), i) - lower_bound(all(a), i));
+	}
+	arrcout2(dp);
+	cout << dp.back().back() << endl;
 }
