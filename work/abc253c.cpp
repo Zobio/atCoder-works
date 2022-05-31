@@ -30,7 +30,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    map<ll, ll> m;
-    m[5]++; m[2]++; m[3]++; m[7]++;
-    for(auto au : m) cout << au.first << endl;
+	ll q; cin >> q;
+	map<ll, ll> m;
+	rep(_, q) {
+		ll p; cin >> p;
+		if(p == 1) {
+			ll x; cin >> x;
+			m[x]++; //対数時間
+		}
+		else if(p == 2) {
+			ll x, c; cin >> x >> c;
+			if(m[x] <= c) m.erase(x); //対数時間
+			else m[x] -= c; //対数時間
+		}
+		else{
+			cout << m.rbegin() -> first - m.begin() -> first << endl; //対数時間
+		}
+	}
 }

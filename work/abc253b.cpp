@@ -30,7 +30,9 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    map<ll, ll> m;
-    m[5]++; m[2]++; m[3]++; m[7]++;
-    for(auto au : m) cout << au.first << endl;
+	ll h, w; cin >> h >> w;
+	vector<string> s(h); rep(i, h) cin >> s[i];
+	vpll o;
+	rep(i, h) rep(j, w) if(s[i][j] == 'o') o.push_back({i, j});
+	cout << abs(o.front().first - o.back().first) + abs(o.front().second - o.back().second) << endl;
 }
