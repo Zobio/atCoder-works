@@ -30,5 +30,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+	ll q; cin >> q;
+	multiset<ll> st;
+	rep(_, q) {
+		ll t; cin >> t;
+		if(t == 1) {
+			ll x; cin >> x; st.insert(x);
+		}
+		else if(t == 2) {
+			ll x, c; cin >> x >> c;
+			while(c-- && st.find(x) != st.end()) {
+				st.erase(st.find(x));
+			}
+		}
+		else{
+			cout << *st.rbegin() - *st.begin() << endl;
+		}
+	}
 }

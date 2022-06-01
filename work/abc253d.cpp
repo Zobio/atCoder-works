@@ -29,6 +29,35 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+std::ostream &operator<<(std::ostream &dest, __int128_t value) {
+  std::ostream::sentry s(dest);
+  if (s) {
+    __uint128_t tmp = value < 0 ? -value : value;
+    char buffer[128];
+    char *d = std::end(buffer);
+    do {
+      --d;
+      *d = "0123456789"[tmp % 10];
+      tmp /= 10;
+    } while (tmp != 0);
+    if (value < 0) {
+      --d;
+      *d = '-';
+    }
+    int len = std::end(buffer) - d;
+    if (dest.rdbuf()->sputn(d, len) != len) {
+      dest.setstate(std::ios_base::badbit);
+    }
+  }
+  return dest;
+}
+
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+	ll n, a, b; cin >> n >> a >> b;
+	__int128_t ans = n * (n + 1) / 2;
+	ans -= a * (n / a) * (n / a + 1) / 2;
+	ans -= b * (n / b) * (n / b + 1) / 2;
+  ll lc = a * b / __gcd(a, b);
+	ans += lc * (n / lc) * (n / lc + 1) / 2; //包除原理
+	cout << ans << endl;
 }
