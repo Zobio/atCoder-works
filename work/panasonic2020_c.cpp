@@ -32,5 +32,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << log10(LLONG_MAX) << " " << log10(ULONG_MAX) << endl;
+	ll p, q, r; cin >> p >> q >> r;
+	__int128_t a = p, b = q, c = r;
+	cout << (c - a - b < 0 ? "No" : 4 * a * b < (c - a - b) * (c - a - b) ? "Yes" : "No") << endl;
 }
