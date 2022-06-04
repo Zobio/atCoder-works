@@ -1,34 +1,51 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define pll pair<long long, long long>
-#define vpll vector<pair<long long, long long>>
-#define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
-#define setcout(n) cout << setprecision(n) << fixed
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define INF (1LL << 60)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+// 二次元座標を定義
+using Point = pair<int,int>;
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    // 入力
+    int N;
+    cin >> N;
+    vector<Point> red(N), blue(N);
+    for (int i = 0; i < N; ++i) cin >> red[i].first >> red[i].second;
+    for (int i = 0; i < N; ++i) cin >> blue[i].first >> blue[i].second;
+
+    // 青い点を x 座標が小さい順にソートする (デフォルトで第一引数の辞書順比較)
+    sort(blue.begin(), blue.end());
+
+    // 各赤い点が使用済みかどうか
+    vector<bool> used(N, false);
+
+    // 青い点を順番に見ていく
+    int res = 0;
+    for (int i = 0; i < N; ++i) {
+        // 使用済みでなく、y 座標最大の赤い点を探す
+        int maxy = -1, maxid = -1;
+        for (int j = 0; j < N; ++j) {
+            // 使用済みの赤い点は不可
+            if (used[j]) continue;
+
+            // x 座標, y 座標がより大きい赤い点は不可
+            if (red[j].first >= blue[i].first) continue;
+            if (red[j].second >= blue[i].second) continue;
+
+            // 最大値を更新
+            if (maxy < red[j].second) {
+                maxy = red[j].second;
+                maxid = j;
+            }
+        }
+
+        // 存在しない場合はスキップ
+        if (maxid == -1) continue;
+
+        // ペアリングする
+        ++res;
+        used[maxid] = true;
+    }
+    cout << res << endl;
 }
