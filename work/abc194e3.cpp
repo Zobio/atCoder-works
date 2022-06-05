@@ -31,24 +31,35 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, m;
+vll a;
+
+bool check(ll lim) {
+	vll cnt(n);
+	ll placed = 0;
+	rep(i, m) { //最初の区間
+		if(cnt[a[i]] == 0 && a[i] <= lim) placed++;
+		cnt[a[i]]++;
+	}
+	if(placed <= lim) return true; //limは0-indexedだから<=で問題ない(例:0を使いたい場合はlim=0)
+	rep(i, n - m) { //2個目~最後の区間
+		if(cnt[a[i]] == 1 && a[i] <= lim) placed--;
+		cnt[a[i]]--;
+		if(cnt[a[i + m]] == 0 && a[i + m] <= lim) placed++;
+		cnt[a[i + m]]++;
+		if(placed <= lim) return true;
+	}
+	return false;
+}
+
 int main() {
-	int n, m;
 	cin >> n >> m;
-	vector<int> a(n);
-	vector<int> st(n, 1000000000);
-	vector<int> en(n, 0);
-	vector<bool> yet(n, false);
-	for(int i = 0; i < n; i++) {
-		cin >> a[i];
-		yet[a[i]] = true; //存在する
-		st[a[i]] = min(max(0, i - m + 1), st[a[i]]); //a[i]が左側に影響する座標の最小値
-		en[a[i]] = max(min(n - 1, i + m - 1), en[a[i]]); //a[i]が右側に影響する座標の最大値
+	a.resize(n); rep(i, n) cin >> a[i];
+	ll l = -1, r = n;
+	while(r - l > 1) {
+		ll mid = (l + r) / 2;
+		if(check(mid)) r = mid;
+		else l = mid;
 	}
-	arrcout(st); arrcout(en);
-	for(int i = 0; i < n; i++) {
-		if((st[i] != 0 || en[i] != n - 1) || !yet[i]) { //iが影響していない任意の座標が存在して、その数が
-			cout << i << endl;
-			return 0;
-		} 
-	}
+	cout << r << endl;
 }

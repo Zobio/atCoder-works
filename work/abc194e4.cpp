@@ -32,23 +32,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	int n, m;
-	cin >> n >> m;
-	vector<int> a(n);
-	vector<int> st(n, 1000000000);
-	vector<int> en(n, 0);
-	vector<bool> yet(n, false);
-	for(int i = 0; i < n; i++) {
-		cin >> a[i];
-		yet[a[i]] = true; //存在する
-		st[a[i]] = min(max(0, i - m + 1), st[a[i]]); //a[i]が左側に影響する座標の最小値
-		en[a[i]] = max(min(n - 1, i + m - 1), en[a[i]]); //a[i]が右側に影響する座標の最大値
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvll b(n); //a[i]の出現する座標を記録
+	rep(i, n) b[a[i]].push_back(i);
+	rep(i, n) {
+		if(b[i].empty()) {cout << i << endl; return 0;}
+		rep(j, b[i].size()) {
+			if(j == 0) if(b[i][j] >= m) {cout << i << endl; return 0;}
+			if(j == b[i].size() - 1) if(n - 1 - b[i][j] >= m) {cout << i << endl; return 0;}
+			if(j) if(b[i][j] - b[i][j - 1] > m) {cout << i << endl; return 0;}
+		}
 	}
-	arrcout(st); arrcout(en);
-	for(int i = 0; i < n; i++) {
-		if((st[i] != 0 || en[i] != n - 1) || !yet[i]) { //iが影響していない任意の座標が存在して、その数が
-			cout << i << endl;
-			return 0;
-		} 
-	}
+	cout << n << endl;
 }
