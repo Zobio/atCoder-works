@@ -1,55 +1,51 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define vpll vector<pair<long long, long long>>
-#define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define setcout(n) cout << setprecision(n) << fixed
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define INF (1LL << 60)
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+
+// 素因数分解
+// 460 = 2^2 x 5 x 23 の場合
+// 返り値は {{2, 2}, {5, 1}, {23, 1}}
+vector<pair<long long, long long> > prime_factorize(long long N) {
+    // 答えを表す可変長配列
+    vector<pair<long long, long long> > res;
+
+    // √N まで試し割っていく
+    for (long long p = 2; p * p <= N; ++p) {
+        // N が p で割り切れないならばスキップ
+        if (N % p != 0) {
+            continue;
+        }
+
+        // N の素因数 p に対する指数を求める
+        int e = 0;
+        while (N % p == 0) {
+            // 指数を 1 増やす
+            ++e;
+
+            // N を p で割る
+            N /= p;
+        }
+
+        // 答えに追加
+        res.emplace_back(p, e);
+    }
+
+    // 素数が最後に残ることがありうる
+    if (N != 1) {
+        res.emplace_back(N, 1);
+    }
+    return res;
+}
 
 int main() {
-	string s, t; cin >> s >> t;
-	ll siz_s = s.size(), siz_t = t.size();
-	deque<char> a, b;
-	rep(i, siz_s) a.push_back(s[i]);
-	rep(i, siz_t) b.push_back(t[i]);
-	deque<char> aa = a;
-	ll ans = 0, cnt = 0;
-	rep(i, siz_s) {
-		cnt = 0;
-		rep(j, min((ll)a.size(), siz_t)) {
-			if(a[j] == b[j]) cnt++;
-			else chmax(ans, cnt), cnt = 0;
-		}
-		chmax(ans, cnt); //末端処理
-		a.pop_front();
-	}
-	a = aa;
-	rep(i, siz_t) {
-		cnt = 0;
-		rep(j, min((ll)b.size(), siz_s)) {
-			if(a[j] == b[j]) cnt++;
-			else chmax(ans, cnt), cnt = 0;
-		}
-		chmax(ans, cnt); //末端処理
-		b.pop_front();
-	} 
-	cout << ans << endl;
+    // 460 を素因数分解する
+    int N = 460;
+    const auto& pf = prime_factorize(N);
+
+    // 出力
+    cout << N << " = ";
+    for (auto [p, e] : pf) {
+        cout << p << "^" << e << " ";
+    }
+    cout << endl;
 }

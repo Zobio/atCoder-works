@@ -32,5 +32,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	modint998244353 n = 0; n+=MOD; cout << n.val() << endl;
+	ll n, k; cin >> n >> k;
+	vll t(n + 1), y(n + 1);
+	t[0] = 1; y[0] = 0; //x = 0でスタート
+	reps(i, n) cin >> t[i] >> y[i];
+	priority_queue<ll> ignore;
+	ll take = 0, ans = -INF;
+	rrep(i, n + 1) {
+		if(k < 0) break; //t[i] == 1をk回より多く無視する事はできない
+		
+		if(t[i] == 1) {
+			chmax(ans, y[i] + take);
+			k--; //操作可能回数は1つ減る
+		}else{
+			if(y[i] >= 0) take += y[i];
+			else ignore.push(y[i]);
+		}
+
+		if(ignore.size() > k) {
+			if(!ignore.empty()) take += ignore.top(), ignore.pop();
+		}
+	}
+	cout << ans << endl;
 }
