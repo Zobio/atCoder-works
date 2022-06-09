@@ -32,11 +32,16 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	vll a(n); rep(i, n) cin >> a[i];
-	map<ll, ll> m;
-	rep(i, n) m[a[i]]++;
-	ll t = 0;
-	for(auto au : m) t += au.second - 1;
-	cout << (t & 1 ? m.size() - 1 : m.size()) << endl;
+	ll n, k; cin >> n >> k;
+	vll a(n + 1); a.front() = -INF; //先頭処理
+	reps(i, n) cin >> a[i];
+	vvll b; vll c;
+	rep(i, n) {
+		if(a[i + 1] > a[i]) c.push_back(a[i + 1]);
+		else b.push_back(c), c = {a[i + 1]};
+	}
+	if(!c.empty()) b.push_back(c); //末端処理
+	ll ans = 0;
+	for(auto au : b) ans += max((ll)au.size() - k + 1, 0ll);
+	cout << ans << endl;
 }

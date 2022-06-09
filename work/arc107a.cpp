@@ -31,12 +31,13 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool isPrime(ll num) {
+	for(ll i = 2; i * i <= num; i++) if(num % i == 0) {return false;}
+	return true;
+}
+
+
 int main() {
 	ll n; cin >> n;
-	vll a(n); rep(i, n) cin >> a[i];
-	map<ll, ll> m;
-	rep(i, n) m[a[i]]++;
-	ll t = 0;
-	for(auto au : m) t += au.second - 1;
-	cout << (t & 1 ? m.size() - 1 : m.size()) << endl;
+	cout << (isPrime(n) ? "YES" : "NO") << endl;
 }

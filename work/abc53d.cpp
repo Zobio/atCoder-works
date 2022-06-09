@@ -36,7 +36,5 @@ int main() {
 	vll a(n); rep(i, n) cin >> a[i];
 	map<ll, ll> m;
 	rep(i, n) m[a[i]]++;
-	ll t = 0;
-	for(auto au : m) t += au.second - 1;
-	cout << (t & 1 ? m.size() - 1 : m.size()) << endl;
+	cout << (m.size() & 1 ? m.size() : m.size() - 1) << endl;
 }
