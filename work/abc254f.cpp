@@ -36,9 +36,10 @@ int op(int a, int b) {
 }
 
 int e() {
-    return ;
+    return 0;
 }
 
 int main() {
-	segtree<ll, op> seg;
+	segtree<ll, e, op> seg;
+    
 }

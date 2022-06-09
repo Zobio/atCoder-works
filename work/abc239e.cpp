@@ -31,9 +31,32 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, q;
+vll x;
+vvll g;
+vvll ans;
+
+void dfs(ll cur, ll pre) { //Euler Tourしながら配列を生成
+	ans[cur].push_back(x[cur]); //自分の頂点に書かれている数字を追加
+	for(auto au : g[cur]) if(au != pre) {
+		dfs(au, cur); //葉の配列を確定させる
+		ans[cur].insert(ans[cur].end(), all(ans[au]));//葉の配列を追加
+	}
+	sort(rall(ans[cur]));
+	if(ans[cur].size() > 20) ans[cur].resize(20);
+}
+
 int main() {
-	modint::set_mod(5);
-	modint n = 4;
-	ll m; cin >> m; n += m;
-	cout << n.val() << endl;
+	cin >> n >> q;
+	x.resize(n); rep(i, n) cin >> x[i];
+	g.resize(n); ans.resize(n);
+	rep(i, n - 1) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b); g[b].push_back(a);
+	}
+	dfs(0, -1);
+	rep(_, q) {
+		ll v, k; cin >> v >> k; v--; k--;
+		cout << ans[v][k] << endl;
+	}
 }
