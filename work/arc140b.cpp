@@ -32,10 +32,28 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    set<ll> s;
-    s.insert(0); s.insert(10); s.insert(20);
-    set<ll>::iterator it = s.end(); 
-    it--;
-    *it--;
-    for(auto au : s) cout << au << " "; cout << endl;
+	ll n; string s; cin >> n >> s;
+	multiset<ll> m;
+	rep(i, n) if(s[i] == 'R') {
+		ll p = 1;
+		while(i - p >= 0 && i + p < n) {
+			if(s[i - p] == 'A' && s[i + p] == 'C') p++;
+			else break;
+		}
+		if(p >= 2) m.insert(p - 1);
+	}
+	ll odd = true;
+	ll ans = 0;
+	while(!m.empty()) {
+		if(odd) {
+			auto it = m.end(); it--;
+			ll val = *it; val--;
+			m.erase(it);
+			if(val > 0) m.insert(val);
+		}
+		else m.erase(m.begin());
+		odd = !odd;
+		ans++;
+	}
+	cout << ans << endl;
 }
