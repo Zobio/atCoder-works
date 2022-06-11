@@ -23,7 +23,7 @@ using namespace atcoder;
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
+#define MOD 1000000007LL
 #define INF (1LL << 60)
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
@@ -31,20 +31,42 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-// mod. m での a の逆元 a^{-1} を計算する
-long long modinv(long long a, long long m) {
-    long long b = m, u = 1, v = 0;
-    while (b) {
-        long long t = a / b;
-        a -= t * b; swap(a, b);
-        u -= t * v; swap(u, v);
-    }
-    u %= m;
-    if (u < 0) u += m;
-    return u;
+istream &operator>>(istream &is, modint1000000007 &n) {
+	ll _n; cin >> _n;
+	cin >> _n;
+	n = _n;
+	return is;
+}
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+modint1000000007 nCr(ll n, ll r) {
+	modint1000000007 ret = 1;
+	rep(i, r) ret *= n - i;
+	reps(i, r) ret *= mpow(i, MOD - 2, MOD);
+	return ret;
 }
 
 int main() {
-    ll n, m; cin >> n >> m;
-    cout << modinv(n, m) << endl;
+	ll n, a, b;
+	cin >> n >> a >> b;
+	modint1000000007 ans = 0;
+	ans += mpow(2ll, n, MOD) - 1; //全部とらない選択肢をデクリメント
+	ans -= nCr(n, a);
+	ans -= nCr(n, b);
+	cout << ans.val() << endl;
 }
