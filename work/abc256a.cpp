@@ -33,15 +33,5 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	vll imos(200100);
-	rep(i, n) {
-		ll l, r; cin >> l >> r;
-		imos[l]++; imos[r]--;
-	}
-	ll cur = 0;
-	reps(i, 200000) {
-		if(imos[i] > 0 && cur == 0) cout << i << " ";
-		if(imos[i] < 0 && cur + imos[i] == 0) cout << i << endl;
-		cur += imos[i];
-	}
+	cout << (1ll << n) << endl;
 }

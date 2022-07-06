@@ -32,16 +32,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	vll imos(200100);
-	rep(i, n) {
-		ll l, r; cin >> l >> r;
-		imos[l]++; imos[r]--;
+	vll h(3), w(3); rep(i, 3) cin >> h[i]; rep(i, 3) cin >> w[i];
+	ll ans = 0;
+	reps(i, 30) reps(j, 30) reps(p, 30) reps(q, 30) {
+		ll flag = true;
+		ll a = h[0] - (i + j);
+		ll b = h[1] - (p + q);
+		ll c = w[0] - (i + p);
+		ll d = w[1] - (j + q);
+		if(a <= 0 || b <= 0 || c <= 0 || d <= 0) continue;
+		ll m = w[2] - (a + b), n =  h[2] - (c + d);
+		ans += m >= 1 && n >= 1 && m == n; 
 	}
-	ll cur = 0;
-	reps(i, 200000) {
-		if(imos[i] > 0 && cur == 0) cout << i << " ";
-		if(imos[i] < 0 && cur + imos[i] == 0) cout << i << endl;
-		cur += imos[i];
-	}
+	cout << ans << endl;
 }
