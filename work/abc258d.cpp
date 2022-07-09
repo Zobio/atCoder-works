@@ -32,13 +32,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    //sを任意の位置でrotateしたときの文字列集合のなかで、辞書順最大のものを求める
-    string s; cin >> s;
-    ll n = s.size();
-    vector<int> a = suffix_array(s + s);
-    ll p = 0;
-    //a[i] < n のとき、元の文字列の部分文字列として存在する。
-    rep(i, n * 2) if(a[i] < n) p = a[i];
-    rotate(s.begin(), s.begin() + p, s.end());
-    cout << s << endl;
+	ll n, x; cin >> n >> x;
+	vll a(n), b(n);
+	rep(i, n) cin >> a[i] >> b[i];
+	vll rui(n + 1); rep(i, n) rui[i + 1] = rui[i] + (a[i] + b[i]);
+	ll ans = INF;
+	rep(i, n) {
+		if(i > x) break;
+		chmin(ans, rui[i] + a[i] + b[i] * (x - i));
+	}
+	cout << ans << endl;
 }
