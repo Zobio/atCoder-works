@@ -31,6 +31,40 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
+template<typename V>
+void shrink_coordinates(V& a) {
+	/*
+	座標圧縮を行う関数
+	(例)
+	{6, 9, 9, 2, 100} -->  {1, 2, 2, 0, 3}
+	*/
+	V b = a;
+	sort(b.begin(), b.end());
+	b.erase(unique(b.begin(), b.end()), b.end());
+	V res(a.size());
+	for(long long i = 0; i < a.size(); i++) {
+		res.at(i) = lower_bound(b.begin(), b.end(), a.at(i)) - b.begin();
+	}
+	a = res;
+}
 
+int main() {
+	//n=1~10の順番で、文字列を座圧しながら入れていく
+	ll n; cin >> n;
+	vector<set<vll>> ans(n);
+	ans[0].insert({0});
+	rep(i, n - 1) {
+		for(auto au : ans[i]) {
+			rep(j, 26) {
+				vll cur = au;
+				cur.push_back(j);
+				shrink_coordinates(cur);
+				ans[i + 1].insert(cur);
+			}
+		}
+	}
+	for(auto au : ans.back()) {
+		for(auto q : au) cout << (char)('a' + q);
+		cout << endl;
+	}
 }
