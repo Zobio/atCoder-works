@@ -32,8 +32,13 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> s = {1, 2, 3, 4, 5};
-	auto it = s.lower_bound(3);
-	*it++;
-	cout << *it << endl;
+	ll n, x, y; cin >> n >> x >> y;
+	vll r(n), b(n);
+	r[0] = 1;
+	rep(i, n - 1) {
+		b[i] += r[i] * x;
+		r[i + 1] += r[i] + b[i];
+		b[i + 1] += b[i] * y;
+	}
+	cout << b.back() << endl;
 }

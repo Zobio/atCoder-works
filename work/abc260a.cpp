@@ -32,8 +32,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> s = {1, 2, 3, 4, 5};
-	auto it = s.lower_bound(3);
-	*it++;
-	cout << *it << endl;
+	string s; cin >> s;
+	map<char, ll> m;
+	rep(i, s.size()) m[s[i]]++;
+	for(auto au : m) {
+		if(au.second == 1) {cout << au.first << endl; return 0;}
+	}
+	cout << -1 << endl;
 }

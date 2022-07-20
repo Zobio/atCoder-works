@@ -32,8 +32,29 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> s = {1, 2, 3, 4, 5};
-	auto it = s.lower_bound(3);
-	*it++;
-	cout << *it << endl;
+	ll n, k; cin >> n >> k;
+	vll a(n); rep(i, n) cin >> a[i], a[i]--;
+	set<ll> c; //表に向いているカード群
+	vll cnt(n); //cnt[i] ... iは下から何枚目か
+	vll under(n); //under[i] ... iの下にどのカードが置かれているか
+	vll ans(n, -1);
+	rep(i, n) {
+		auto it = c.lower_bound(a[i]);
+		if(it == c.end()) c.insert(a[i]), cnt[a[i]] = 1;
+		else{
+			under[a[i]] = *it;
+			cnt[a[i]] = cnt[*it] + 1;
+			c.erase(it);
+			c.insert(a[i]);
+		}
+		if(cnt[a[i]] == k) {
+			c.erase(a[i]);
+			ll cur = a[i];
+			rep(j, k){
+				ans[cur] = i + 1;
+				cur = under[cur];
+			}
+		}
+	}
+	rep(i, n) cout << ans[i] << endl;
 }

@@ -32,8 +32,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> s = {1, 2, 3, 4, 5};
-	auto it = s.lower_bound(3);
-	*it++;
-	cout << *it << endl;
+	ll n, x, y, z; cin >> n >> x >> y >> z;
+	vll a(n), b(n);
+	rep(i, n) cin >> a[i]; rep(i, n) cin >> b[i];
+	vll done(n), c;
+	rep(i, n) {
+		c.push_back(MOD * (100 - a[i]) + i);
+	}
+	sort(all(c));
+	rep(i, x) done[c[i] % MOD] = true;
+	c.clear();
+	rep(i, n) {
+		if(!done[i]) c.push_back(MOD * (100 - b[i]) + i);
+	}
+	sort(all(c));
+	rep(i, y) done[c[i] % MOD] = true;
+	c.clear();
+	rep(i, n) {
+		if(!done[i]) c.push_back(MOD * (200 - (a[i] + b[i])) + i);
+	}
+	sort(all(c));
+	rep(i, z) done[c[i] % MOD] = true;
+	rep(i, n) if(done[i]) cout << i + 1 << endl;
 }

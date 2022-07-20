@@ -32,8 +32,34 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> s = {1, 2, 3, 4, 5};
-	auto it = s.lower_bound(3);
-	*it++;
-	cout << *it << endl;
+	ll n, x, y, z; cin >> n >> x >> y >> z;
+	vll a(n), b(n);
+	rep(i, n) cin >> a[i]; rep(i, n) cin >> b[i];
+	vll ans, done(n);
+	rep(i, x) {
+		ll cur = -1, p = -1;
+		rep(j, n) {
+			if(a[j] > p && !done[j]) cur = j, p = a[j];
+		}
+		ans.push_back(cur);
+		done[cur] = true;
+	}
+	rep(i, y) {
+		ll cur = -1, p = -1;
+		rep(j, n) {
+			if(b[j] > p && !done[j]) cur = j, p = b[j];
+		}
+		ans.push_back(cur);
+		done[cur] = true;
+	}
+	rep(i, z) {
+		ll cur = -1, p = -1;
+		rep(j, n) {
+			if(a[j] + b[j] > p && !done[j]) cur = j, p = a[j] + b[j];
+		}
+		ans.push_back(cur);
+		done[cur] = true;
+	}
+	sort(all(ans));
+	for(auto au : ans) cout << au + 1 << endl;
 }

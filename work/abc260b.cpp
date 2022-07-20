@@ -31,9 +31,29 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool cmp1(tuple<ll, ll, ll> t1, tuple<ll, ll, ll> t2) {
+	return get<1>(t1) < get<1>(t2);
+}
+
+bool cmp2(tuple<ll, ll, ll> t1, tuple<ll, ll, ll> t2) {
+	return get<0>(t1) + get<1>(t1) < get<0>(t2) + get<1>(t2);
+}
+
 int main() {
-	set<ll> s = {1, 2, 3, 4, 5};
-	auto it = s.lower_bound(3);
-	*it++;
-	cout << *it << endl;
+	ll n, x, y, z; cin >> n >> x >> y >> z;
+	vll a(n), b(n); rep(i, n) cin >> a[i]; rep(i, n) cin >> b[i];
+	deque<tuple<ll, ll, ll>> p(n);
+	rep(i, n) p[i] = {a[n - 1 - i], b[n - 1 - i], n - 1 - i};
+	vll ans;
+	sort(rall(p));
+	for(auto au : p) cout << get<2>(au) << " "; cout << endl;
+	rep(i, x) ans.push_back(get<2>(p.front())), p.pop_front();
+	sort(rall(p), cmp1);
+	for(auto au : p) cout << get<2>(au) << " "; cout << endl;
+	rep(i, y) ans.push_back(get<2>(p.front())), p.pop_front();
+	sort(rall(p), cmp2);
+	for(auto au : p) cout << get<2>(au) << " "; cout << endl;
+	rep(i, z) ans.push_back(get<2>(p.front())), p.pop_front();
+	sort(all(ans));
+	for(auto au : ans) cout << au << endl;
 }
