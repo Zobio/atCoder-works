@@ -10,6 +10,7 @@ using namespace atcoder;
 #define reps(i, n) for (long long i = 1; i <= n; i++)
 #define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
 #define rreps(i, n) for (long long i = n; i >= 1; i--)
+#define reep(i, j, n) for (long long i = 0; i < n; i++) for(long long j = i + 1; j < n; j++)
 #define fore(i, a) for (auto& i : a)
 #define vll vector<long long>
 #define vvll vector<vector<long long>>
@@ -33,15 +34,12 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n, k; cin >> n >> k;
-	vpll c(n);
-	rep(i, n) cin >> c[i].first >> c[i].second;
-	sort(all(c));
-	vll y(n); rep(i, n) y[i] = c[i].second;
+	vll x(n), y(n); rep(i, n) cin >> x[i] >> y[i];
 	ll ans = LLONG_MAX;
-	rep(i, n - k + 1) {
-		auto it1 = y.begin(); advance(it1, i);
-		auto it2 = y.begin(); advance(it2, i + k);
-		chmin(ans, (c[i + k - 1].first - c[i].first) * (*max_element(it1, it2) - *min_element(it1, it2)));
+	rep(a, n) rep(b, n) rep(c, n) rep(d, n) if(x[a] < x[b] && y[c] < y[d]) {
+		ll cnt = 0;
+		rep(i, n) cnt += x[a] <= x[i] && x[i] <= x[b] && y[c] <= y[i] && y[i] <= y[d];
+		if(cnt >= k) chmin(ans, (x[b] - x[a]) * (y[d] - y[c]));
 	}
 	cout << ans << endl;
 }

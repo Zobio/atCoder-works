@@ -36,12 +36,20 @@ int main() {
 	vpll c(n);
 	rep(i, n) cin >> c[i].first >> c[i].second;
 	sort(all(c));
-	vll y(n); rep(i, n) y[i] = c[i].second;
 	ll ans = LLONG_MAX;
 	rep(i, n - k + 1) {
-		auto it1 = y.begin(); advance(it1, i);
-		auto it2 = y.begin(); advance(it2, i + k);
-		chmin(ans, (c[i + k - 1].first - c[i].first) * (*max_element(it1, it2) - *min_element(it1, it2)));
+		ll xma = c[i + k - 1].first, xmi = c[i].first;
+		vll y;
+		for(ll j = i; j < i + k; j++) y.push_back(c[j].second);
+		ll yma = *max_element(all(y)), ymi = *min_element(all(y));
+		chmin(ans, (xma - xmi) * (yma - ymi));
+		for(ll j = i + k; j < n; j++) {
+			y.push_back(c[j].second);
+			sort(all(y));
+			ll min_dist = LLONG_MAX;
+			rep(l, y.size() - k + 1) chmin(min_dist, y[l + k - 1] - y[l]);
+			chmin(ans, (xma - xmi) * min_dist);
+		}
 	}
 	cout << ans << endl;
 }

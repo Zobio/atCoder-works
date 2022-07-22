@@ -32,16 +32,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n, k; cin >> n >> k;
-	vpll c(n);
-	rep(i, n) cin >> c[i].first >> c[i].second;
-	sort(all(c));
-	vll y(n); rep(i, n) y[i] = c[i].second;
-	ll ans = LLONG_MAX;
-	rep(i, n - k + 1) {
-		auto it1 = y.begin(); advance(it1, i);
-		auto it2 = y.begin(); advance(it2, i + k);
-		chmin(ans, (c[i + k - 1].first - c[i].first) * (*max_element(it1, it2) - *min_element(it1, it2)));
+	ll n, x, y; cin >> n >> x >> y;
+	vll r(n), b(n);
+	r[0] = 0; b[0] = 1;
+	rep(i, n - 1) {
+		b[i + 1] = r[i] + y * b[i];
+		r[i + 1] = r[i] + x * b[i + 1];
 	}
-	cout << ans << endl;
+	cout << r[n - 1] << endl;
 }
