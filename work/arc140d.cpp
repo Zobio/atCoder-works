@@ -32,14 +32,25 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	string s; cin >> s;
-	stack<char> st;
-	rep(i, s.size()) {
-		if(s[i] == 'B') {ifte(!st.empty()) st.pop();}
-		else st.push(s[i]);
+	ll n, x; cin >> n >> x;
+	vll ans1, ans2;
+	vll done1(n), done2(n);
+	for(ll i = 1; 0 < x + (i & 1 ? 1 : -1) * i / 2 && x + (i & 1 ? 1 : -1) * i / 2 <= n; i++) {
+		ll cur = x + (i & 1 ? 1 : -1) * i / 2;
+		ans1.push_back(cur);
+		done1[cur - 1] = true;
 	}
-	string ans;
-	while(!st.empty()) ans.push_back(st.top()), st.pop();
-	reverse(all(ans));
-	cout << ans << endl;
+	for(ll i = 1; 0 < x + (i & 1 ? -1 : 1) * i / 2 && x + (i & 1 ? -1 : 1) * i / 2 <= n; i++) {
+		ll cur = x + (i & 1 ? -1 : 1) * i / 2;
+		ans2.push_back(cur);
+		done2[cur - 1] = true;
+	}
+	if(ans1.size() > ans2.size()) {
+		for(auto au : ans1) cout << au << " ";
+		rep(i, n) if(!done1.at(i)) cout << i + 1 << " ";
+	}else{
+		for(auto au : ans2) cout << au << " ";
+		rep(i, n) if(!done2.at(i)) cout << i + 1 << " ";
+	}
+	cout << endl;
 }

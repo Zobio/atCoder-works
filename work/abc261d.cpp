@@ -32,14 +32,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	string s; cin >> s;
-	stack<char> st;
-	rep(i, s.size()) {
-		if(s[i] == 'B') {ifte(!st.empty()) st.pop();}
-		else st.push(s[i]);
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll b(n + 1);
+	rep(i, n) {
+		ll p, q; cin >> p >> q; b[p] = q;
 	}
-	string ans;
-	while(!st.empty()) ans.push_back(st.top()), st.pop();
-	reverse(all(ans));
-	cout << ans << endl;
+	vvll dp(n, vll(n)); //dp[i][j] : i番目でカウントがmの時の最大値
+	rep(i, n) rep(i, n) {
+		
+	}
 }

@@ -32,14 +32,13 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	string s; cin >> s;
-	stack<char> st;
-	rep(i, s.size()) {
-		if(s[i] == 'B') {ifte(!st.empty()) st.pop();}
-		else st.push(s[i]);
+	ll n; cin >> n;
+	vector<string> a(n);
+	rep(i, n) cin >> a[i];
+	bool flag = true;
+	rep(i, n) rep(j, n) {
+		char p = a[i][j], q = a[j][i];
+		flag &= i == j || p == 'W' && q == 'L' || p == 'L' && q == 'W' || p == 'D' && q == 'D';
 	}
-	string ans;
-	while(!st.empty()) ans.push_back(st.top()), st.pop();
-	reverse(all(ans));
-	cout << ans << endl;
+	cout << (flag ? "correct" : "incorrect") << endl;
 }

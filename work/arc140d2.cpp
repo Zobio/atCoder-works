@@ -32,14 +32,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	string s; cin >> s;
-	stack<char> st;
-	rep(i, s.size()) {
-		if(s[i] == 'B') {ifte(!st.empty()) st.pop();}
-		else st.push(s[i]);
+	ll n, x; cin >> n >> x;
+	vll ans;
+	if(n & 1 && x == n / 2 + 1) {
+		ans.push_back(x);
+		reps(i, n / 2) ans.push_back(x + i), ans.push_back(x - i);
 	}
-	string ans;
-	while(!st.empty()) ans.push_back(st.top()), st.pop();
-	reverse(all(ans));
-	cout << ans << endl;
+	else if(n % 2 == 0 && x == n / 2) {
+		reps(i, n / 2) ans.push_back(x - i + 1), ans.push_back(x + i);
+	}
+	else if(n % 2 == 0 && x == n / 2 + 1) {
+		reps(i, n / 2) ans.push_back(x + i - 1), ans.push_back(x - i);
+	}
+	else{
+		vll t;
+		reps(i, n) if(i != x) t.push_back(i);
+		ans.push_back(x);
+		for(ll l = (t.size() - 1) / 2, r = l + 1; l >= 0; l--, r++) {
+			ans.push_back(t[l]);
+			if(r < t.size()) ans.push_back(t[r]);
+		}
+	}
+	arrcout(ans);
 }
