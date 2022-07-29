@@ -35,11 +35,13 @@ int main() {
 	ll n, m; cin >> n >> m;
 	vll a(n); rep(i, n) cin >> a[i];
 	vll b(n + 1);
-	rep(i, n) {
+	rep(i, m) {
 		ll p, q; cin >> p >> q; b[p] = q;
 	}
-	vvll dp(n, vll(n)); //dp[i][j] : i番目でカウントがmの時の最大値
-	rep(i, n) rep(i, n) {
-		
+	vvll dp(n + 1, vll(n + 1)); //dp[i][j] : i番目でカウントがjの時の最大値
+	rep(i, n) rep(j, i + 2) {
+		if(j == 0) dp[i + 1][j] = *max_element(all(dp[i]));
+		else dp[i + 1][j] = dp[i][j - 1] + a[i] + b[j];
 	}
+	cout << *max_element(all(dp[n])) << endl;
 }
