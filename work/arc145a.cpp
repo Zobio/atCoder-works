@@ -32,6 +32,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	a = vvll(n, vll(n));
+	ll n; string s; cin >> n >> s;
+	if(n == 2) cout << (s[0] == s[1] ? "Yes" : "No") << endl;
+	else cout << (s.front() == 'A' && s.back() == 'B' ? "No" : "Yes") << endl;
 }

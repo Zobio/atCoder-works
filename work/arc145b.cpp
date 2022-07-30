@@ -32,6 +32,10 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	a = vvll(n, vll(n));
+	//a <= bのとき、n >= aだったらAliceが勝って、n < aだったらBobが勝つ
+	//a > bのとき、n = ap + qと置いたときq < bだったらAliceが勝って、q >= bだったらBobが勝つ
+	ll n, a, b; cin >> n >> a >> b;
+	if(n < a) cout << 0 << endl;
+	else if(a <= b) cout << n - a + 1 << endl;
+	else cout << (n / a - 1) * b + min(n % a + 1, b) << endl;
 }

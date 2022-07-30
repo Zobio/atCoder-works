@@ -43,5 +43,6 @@ int main() {
 		if(j == 0) dp[i + 1][j] = *max_element(all(dp[i]));
 		else dp[i + 1][j] = dp[i][j - 1] + a[i] + b[j];
 	}
+	arrcout2(dp);
 	cout << *max_element(all(dp[n])) << endl;
 }

@@ -19,7 +19,7 @@ using namespace atcoder;
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
+#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j) + 1; cout << endl;}
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
@@ -31,7 +31,22 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+
 int main() {
-	ll n; cin >> n;
-	a = vvll(n, vll(n));
+	ll s, t, m; cin >> s >> t >> m;
+	vvll g (s + t);
+	rep(i, m) {
+		ll u, v; cin >> u >> v; u--; v--;
+		if(u > v) swap(u, v); //V_1 --> V_2
+		g[u].push_back(v);
+	}
+	vvll done(t, vll(t, -1)); //done[i][j] ... iとjが共通の隣接点を持っているか(もっていたらその頂点番号)
+	rep(i, s) for(auto a : g[i]) for(auto b : g[i]) { //sに隣接している頂点を走査
+		if(a == b) continue;
+		else if(done[a - s][b - s] == -1) done[a - s][b - s] = i;
+		else{
+			cout << a + 1 << " " << b + 1 << " " << i + 1 << " " << done[a - s][b - s] + 1 << endl; return 0;
+		}
+	}
+	cout << -1 << endl;
 }
