@@ -1,0 +1,10 @@
+[lap]sx
+[lbp]sy
+?
+_3R
+*
+sasb
+lalb
+>x
+lalb
+!>y

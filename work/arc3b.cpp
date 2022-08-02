@@ -32,5 +32,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << -5 % 4 << endl;
+	ll n; cin >> n;
+	vector<string> s;
+	rep(i, n) {
+		string t; cin >> t;
+		reverse(all(t));
+		s.push_back(t);
+	}
+	sort(all(s));
+	rep(i, n) reverse(all(s[i]));
+	rep(i, n) cout << s[i] << endl;
 }

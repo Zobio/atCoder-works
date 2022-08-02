@@ -32,5 +32,18 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    cout << -5 % 4 << endl;
+	ll n, k; cin >> n >> k;
+	vpll a(k); vll b(n);
+	rep(i, k) {
+		char c; ll p; cin >> c >> p; p--;
+		a[i] = {c == 'L' ? -1 : 1, p}; b[p] = true;
+	}
+	vvll ok(n, vll(k));
+	rep(i, n) rep(j, k) {
+		if(a[j].first == -1) if(i - a[j].second > 0) ok[i][j] = true; 
+		if(a[j].first == 1) if(i - a[j].second < 0) ok[i][j] = true;
+	}
+	modint998244353 ans = 1;
+	rep(i, n) if(!b[i]) ans *= accumulate(all(ok[i]), 0ll);
+	cout << ans.val() << endl;
 }

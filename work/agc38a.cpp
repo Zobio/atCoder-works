@@ -19,7 +19,7 @@ using namespace atcoder;
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
+#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? "" : "") << a.at(i).at(j); cout << endl;}
 #define setcout(n) cout << setprecision(n) << fixed
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
@@ -31,6 +31,24 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll h, w, a, b;
+vvll m;
+
+ll sumW(ll k, ll num) {
+	ll ret = 0;
+	rep(i, h) ret += m[i][k] == num;
+	return ret;
+}
+
 int main() {
-    cout << -5 % 4 << endl;
+	cin >> h >> w >> a >> b;
+	m.resize(h, vll(w));
+	rep(i, h) rep(j, w) {
+		bool flag1 = false, flag2 = false; //
+		if(w - accumulate(all(m[i]), 0ll) > a) m[i][j] = 1; //0が横方向で多い
+		else if(accumulate(all(m[i]), 0ll) == w - a) m[i][j] = 0; //0が横方向に必要最低限ある
+		else if(h - sumW(j, 1) > b) m[i][j] = 1; //0が縦方向で多い
+		else if(sumW(j , 0))
+	}
+	arrcout2(m);
 }
