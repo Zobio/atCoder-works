@@ -31,15 +31,25 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-pll range(ll a, ll b) {
-	//a桁で先頭b桁が1
-	ll s = 0, t = 0;
-	rep(i, b) s *= 10, s++; rep(i, a - b) s *= 10;
-	rep(i, b) t *= 10, t++; t++; rep(i, a - b) t *= 10;
-	return {s, t};
-}
-
 int main() {
-    ll a, b; cin >> a >> b;
-    cout << range(a, b).first << " " << range(a, b).second << endl;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvll b = {{a.front()}};
+	rep(i, n - 1) {
+		if(a[i + 1] < a[i]) b.back().push_back(a[i + 1]);
+		else b.push_back({a[i + 1]});
+	}
+	vll ans;
+	ll cnt = 0;
+	for(auto au : b) {
+		if(au.size() < 2) {
+			rep(i, au.size()) ans.push_back(0);
+			cnt += au.size(); continue;
+		}else{
+			ans.push_back(1);
+			rep(i, au.size() - 2) ans.push_back(0);
+			ans.push_back(1);
+		}
+	}
+	arrcout(ans);
 }

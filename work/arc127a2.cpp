@@ -31,6 +31,12 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll calc_digit(ll n) {
+	ll ret = 0;
+	while(n) n /= 10, ret++;
+	return ret;
+}
+
 pll range(ll a, ll b) {
 	//a桁で先頭b桁が1
 	ll s = 0, t = 0;
@@ -40,6 +46,12 @@ pll range(ll a, ll b) {
 }
 
 int main() {
-    ll a, b; cin >> a >> b;
-    cout << range(a, b).first << " " << range(a, b).second << endl;
+	ll n; cin >> n;
+	ll digit = calc_digit(n);
+	ll ans = 0;
+	reps(i, digit) reps(j, i) {
+		ll a, b; tie(a, b) = range(i, j);
+		ans += max(min(n + 1, b) - a, 0ll);
+	} 
+	cout << ans << endl;
 }

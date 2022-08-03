@@ -31,15 +31,28 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-pll range(ll a, ll b) {
-	//a桁で先頭b桁が1
-	ll s = 0, t = 0;
-	rep(i, b) s *= 10, s++; rep(i, a - b) s *= 10;
-	rep(i, b) t *= 10, t++; t++; rep(i, a - b) t *= 10;
-	return {s, t};
-}
-
 int main() {
-    ll a, b; cin >> a >> b;
-    cout << range(a, b).first << " " << range(a, b).second << endl;
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll b(m); rep(i, m) cin >> b[i];
+	ll sa = accumulate(all(a), 0ll), sb = accumulate(all(b), 0ll);
+	if(sa == 0 && sb > 0) {cout << -1 << endl; return 0;} //aが全部0
+	if(sa == n && sb < m) {cout << -1 << endl; return 0;} //aが全部1
+	if(sa == 0 || sa == n) {cout << m << endl; return 0;}
+	vvll p(2); rep(i, n) p[a[i]].push_back(i); //バケット
+	if(sb == 0 || sb == m) {
+		ll mi = INF;
+		for(auto au : p[b.front()]) chmin(mi, min(au, n - au));
+		cout << mi + m << endl; return 0;
+	}else{
+		ll ans = 0;
+		ll mi = INF;
+		for(auto au : p[b.front()]) {
+			if(a[(au + 1) % n] != b.front() || a[(au - 1 + n) % n] != b.front()) chmin(mi, min(au, n - au));
+		}
+		ans += mi;
+		ans += m;
+		rep(i, m - 1) ans += b[i + 1] != b[i];
+		cout << ans << endl;
+	}
 }

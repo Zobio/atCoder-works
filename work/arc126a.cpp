@@ -31,15 +31,29 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-pll range(ll a, ll b) {
-	//a桁で先頭b桁が1
-	ll s = 0, t = 0;
-	rep(i, b) s *= 10, s++; rep(i, a - b) s *= 10;
-	rep(i, b) t *= 10, t++; t++; rep(i, a - b) t *= 10;
-	return {s, t};
-}
-
 int main() {
-    ll a, b; cin >> a >> b;
-    cout << range(a, b).first << " " << range(a, b).second << endl;
+	//{2, 2, 2, 2, 2}, {2, 2, 2, 4}, {2, 2, 3, 3}, {2, 4, 4}, {3, 3, 4}
+	//2 + 2 = 4だから、2が2つと4が1つは同じ　3の個数が全体の数に影響してそう？
+	//4のほうが2よりも自由度が低そうなので、先に4を消化したい
+	//4を消化するには、{4, 4, 2}か{4, 3, 3}
+	ll n; cin >> n;
+	vvll p = {{5, 0, 0}, {3, 0, 1}, {2, 2, 0}, {1, 0, 2}, {0, 2, 1}};
+	vll a(3);
+	rep(_, n) {
+		cin >> a[0] >> a[1] >> a[2];
+		ll ans = 0;
+		sort(all(p));
+		do{
+			vll aa = a;
+			ll cnt = 0;
+			for(auto au : p) {
+				ll use = INF;
+				rep(i, 3) if(au[i]) chmin(use, aa[i] / au[i]);
+				rep(i, 3) aa[i] -= use * au[i];
+				cnt += use;
+			}
+			chmax(ans, cnt);
+		}while(next_permutation(all(p)));
+		cout << ans << endl;
+	}
 }
