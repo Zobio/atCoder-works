@@ -1,0 +1,4 @@
+[r1+r]sA
+[d10%2=A10/]sB
+
+0?BfBfBfBf
