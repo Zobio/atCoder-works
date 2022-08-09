@@ -24,6 +24,7 @@ using namespace atcoder;
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
+#define mint modint998244353
 #define INF (1LL << 60)
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
@@ -31,15 +32,6 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-pll range(ll a, ll b) {
-	//a桁で先頭b桁が1
-	ll s = 0, t = 0;
-	rep(i, b) s *= 10, s++; rep(i, a - b) s *= 10;
-	rep(i, b) t *= 10, t++; t++; rep(i, a - b) t *= 10;
-	return {s, t};
-}
-
 int main() {
-    ll a, b; cin >> a >> b;
-    cout << range(a, b).first << " " << range(a, b).second << endl;
+
 }
