@@ -32,13 +32,23 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll popcount(ll num) {
-	ll ret = 0;
-	while(num) ret += num & 1, num >>= 1;
-	return ret;
-}
-
 int main() {
-	ll n; cin >> n;
-	cout << popcount(n) << endl;
+	ll n, l, r; cin >> n >> l >> r;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll rui_l(n + 1); rep(i, n) rui_l[i + 1] = rui_l[i] + a[i];
+	vll les_l(n); rep(i, n) les_l[i] = rui_l[i + 1] - l * (i + 1);
+	reverse(all(a));
+	vll rui_r(n + 1); rep(i, n) rui_r[i + 1] = rui_r[i] + a[i];
+	vll les_r(n); rep(i, n) les_r[i] = rui_r[i + 1] - r * (i + 1);
+	reverse(all(a));
+	vll max_l(n + 1); rep(i, n) max_l[i + 1] = max(max_l[i], les_l[i]);
+	reverse(all(max_l)); max_l.pop_back(); reverse(all(max_l));
+	vll max_r(n + 1); rep(i, n) max_r[i + 1] = max(max_r[i], les_r[i]);
+	reverse(all(max_r)); max_r.pop_back();
+	ll sum = accumulate(all(a), 0ll);
+	ll ans = sum; // x = y = 0
+	rep(i, n) chmin(ans, sum - max_l[i]); // x != 0, y = 0
+	rep(i, n) chmin(ans, sum - max_r[i]); // x = 0, y != 0
+	rep(i, n - 1) chmin(ans, sum - (max_l[i] + max_r[i + 1])); // x != 0, y != 0
+	cout << ans << endl;
 }

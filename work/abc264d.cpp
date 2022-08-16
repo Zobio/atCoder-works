@@ -32,13 +32,19 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll popcount(ll num) {
-	ll ret = 0;
-	while(num) ret += num & 1, num >>= 1;
-	return ret;
-}
-
 int main() {
-	ll n; cin >> n;
-	cout << popcount(n) << endl;
+	string s; cin >> s;
+	map<string, ll> mp;
+	mp[s] = 0;
+	queue<string> que;
+	que.push(s);
+	while(!que.empty()) {
+		string cur = que.front(); que.pop();
+		if(cur == "atcoder") {cout << mp[cur] << endl; return 0;}
+		rep(i, 7) {
+			string nxt = cur;
+			swap(nxt[i], nxt[i + 1]);
+			if(mp.find(nxt) == mp.end()) que.push(nxt), mp[nxt] = mp[cur] + 1;
+		}
+	}
 }

@@ -32,13 +32,77 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll popcount(ll num) {
-	ll ret = 0;
-	while(num) ret += num & 1, num >>= 1;
-	return ret;
-}
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
 
 int main() {
-	ll n; cin >> n;
-	cout << popcount(n) << endl;
+	//全ての発電所がつながっているとして逆順UF
+	ll n, m, e; cin >> n >> m >> e;
+	vpll uv(e); rep(i, e) cin >> uv[i].first >> uv[i].second, uv[i].first--, uv[i].second--;
+	ll q; cin >> q;
+	vll cut(e);
+	vll x(q); rep(i, q) cin >> x[i], x[i]--, cut[x[i]] = true;
+	UnionFind uf(n + m);
+	rep(i, m - 1) uf.unite(n, n + i + 1); //発電所同士は全てつながっているとしておく
+	rep(i, e) if(!cut[i]) uf.unite(uv[i].first, uv[i].second); //最後まで切断されない電線
+	vll ans;
+	rrep(i, q) {
+		ans.push_back(uf.size(n) - m);
+		uf.unite(uv[x[i]].first, uv[x[i]].second);
+	}
+	reverse(all(ans));
+	rep(i, q) cout << ans[i] << endl;
 }

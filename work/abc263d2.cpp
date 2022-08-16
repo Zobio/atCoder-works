@@ -32,13 +32,12 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll popcount(ll num) {
-	ll ret = 0;
-	while(num) ret += num & 1, num >>= 1;
-	return ret;
-}
-
 int main() {
-	ll n; cin >> n;
-	cout << popcount(n) << endl;
+	ll n, l, r; cin >> n >> l >> r;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll sl(n + 1); rep(i, n) sl[i + 1] = min(sl[i] + a[i], l * (i + 1));
+	vll sr(n + 2); rrep(i, n) sr[i + 1] = min(sr[i + 2] + a[i], r * (n - i));
+	ll ans = INF;
+	rep(i, n + 1) chmin(ans, sl[i] + sr[i + 1]);
+	cout << ans << endl;
 }

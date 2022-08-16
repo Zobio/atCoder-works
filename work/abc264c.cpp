@@ -39,6 +39,23 @@ ll popcount(ll num) {
 }
 
 int main() {
-	ll n; cin >> n;
-	cout << popcount(n) << endl;
+	ll h1, w1; cin >> h1 >> w1;
+	vvll a(h1, vll(w1)); rep(i, h1) rep(j, w1) cin >> a[i][j];
+	ll h2, w2; cin >> h2 >> w2;
+	vvll b(h2, vll(w2)); rep(i, h2) rep(j, w2) cin >> b[i][j];
+	rep(bits1, 1ll << h1) rep(bits2, 1ll << w1) {
+		if(popcount(bits1) != h2 || popcount(bits2) != w2) continue;
+		vll m1(h1, -1), m2(w1, -1);
+		ll cnt = 0;
+		rep(i, h1) if(bits1 >> i & 1) m1[i] = cnt, cnt++;
+		cnt = 0;
+		rep(i, w1) if(bits2 >> i & 1) m2[i] = cnt, cnt++;
+		bool flag = true;
+		rep(i, h1) rep(j, w1) {
+			if(m1[i] == -1 || m2[j] == -1) continue;
+			flag &= a[i][j] == b[m1[i]][m2[j]];
+		}
+		if(flag) {cout << "Yes" << endl; return 0;}
+	}
+	cout << "No" << endl; return 0;
 }
