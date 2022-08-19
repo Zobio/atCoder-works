@@ -1,2 +1,22 @@
-catredo
-+2 +3 +1 -2
+and or xor
+
+and 1 01
+or 2 10
+xor 3 11
+
+and 01 --> [-, and]
+and 01 or 10 --> [or, and]
+and 01 or 10 xor 11 --> [!or, !and]
+and 100 --> [and, !or, !and]
+or 101 --> [or, !or, or]
+xor
+
+操作の種類は、
+-, and, or, !and, !or
+の5種類。それを番号で管理してそれぞれの遷移を記録しておくことでO(NlogN)
+
+3 10
+3 3
+2 5
+1 12
+

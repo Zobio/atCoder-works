@@ -33,6 +33,36 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll a, b; cin >> a >> b;
-	cout << bit(a, b) << endl;
+	ll n, c; cin >> n >> c;
+	ll b = 32; //max bits
+	vpll a(n); rep(i, n) cin >> a[i].first >> a[i].second;
+	vpll ch(b, {3, 1});
+	rep(i, n) {
+		rep(j, b) {
+			ll cur = !!(a[i].second & 1ll << j); //0/1
+			if(a[i].first == 1 && cur == 1) continue;
+			if(a[i].first == 2 && cur == 0) continue;
+			if(a[i].first == 3 && cur == 0) continue;
+
+			if(a[i].first != 3) ch[j].first = a[i].first, ch[j].second = cur;
+			else ch[j].first *= -1;
+		}
+		rep(j, b) {
+			if(abs(ch[j].first) == 1) { //and
+				ll tmp = ch[j].second << j;
+				rep(k, b) if(k != j) tmp |= 1 << k;
+				c &= tmp;
+			}
+			else if(abs(ch[j].first) == 2) { //or
+				c |= ch[j].second << j;
+			}
+			
+			if(ch[j].first < 0) { // not
+				ll bb = c & 1ll << j;
+				if(bb) c &= ~(1ll << j);
+				else c |= 1ll << j;
+			}
+		}
+		cout << c << endl;
+	}
 }
