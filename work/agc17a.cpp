@@ -32,9 +32,43 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	rep(i, 4) {
-		ll dy = (1 - i) % 2, dx = (2 - i) % 2;
-		cout << dy << " " << dx << endl;
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
 	}
+	return ret;
+}
+
+template<typename T>
+T nCr(T n, T r) {
+	T ret = 1;
+	for(T i = 0; i < r; i++) {
+		ret *= n - i;
+		ret /= i + 1;
+	}
+	return ret;
+}
+
+int main() {
+	ll n, p; cin >> n >> p;
+	ll a = 0, b = 0; //あまりが0, 1の数
+	rep(i, n) {
+		ll t; cin >> t;
+		(t & 1 ? b : a)++;
+	}
+	ll w = mpow(2ll, a, LLONG_MAX); //0の選び方
+	ll u = 0; //1の選び方
+	if(p == 0) for(ll i = 0; 2 * i <= b; i++) u += nCr(b, i * 2);
+	else for(ll i = 0; 2 * i + 1 <= b; i++) u += nCr(b, 2 * i + 1);
+	cout << w * u << endl;
 }

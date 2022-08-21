@@ -32,9 +32,27 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
+ll h, w;
+vvll a;
+vector<vector<modint1000000007>> c;
+
+ll dfs(ll y, ll x) {
+	if(c[y][x].val() != 0) return c[y][x].val();
+	ll ret = 0;
 	rep(i, 4) {
 		ll dy = (1 - i) % 2, dx = (2 - i) % 2;
-		cout << dy << " " << dx << endl;
+		ll ny = y + dy, nx = x + dx;
+		if(ny >= 0 && ny < h && nx >= 0 && nx < w) if(a[ny][nx] < a[y][x]) ret += dfs(ny, nx);
 	}
+	c[y][x] = ret + 1;
+	return c[y][x].val();
+}
+
+int main() {
+	cin >> h >> w;
+	a.resize(h, vll(w)); rep(i, h) rep(j, w) cin >> a[i][j];
+	c.resize(h, vector<modint1000000007>(w, 0));
+	modint1000000007 ans = 0;
+	rep(i, h) rep(j, w) ans += dfs(i, j);
+	cout << ans.val() << endl;
 }

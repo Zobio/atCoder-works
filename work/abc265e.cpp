@@ -33,8 +33,8 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	rep(i, 4) {
-		ll dy = (1 - i) % 2, dx = (2 - i) % 2;
-		cout << dy << " " << dx << endl;
-	}
+	ll n, m; cin >> n >> m;
+	vpll a(3); rep(i, 3) cin >> a[i].first >> a[i].second;
+	vpll o(m); rep(i, m) cin >> o[i].first >> o[i].second;
+	
 }

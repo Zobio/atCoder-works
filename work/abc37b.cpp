@@ -25,16 +25,32 @@ using namespace atcoder;
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
 #define mint modint998244353
-#define INF (1LL << 60)
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	rep(i, 4) {
-		ll dy = (1 - i) % 2, dx = (2 - i) % 2;
-		cout << dy << " " << dx << endl;
+using S = long long;
+using F = long long;
+
+const S INF = 8e18;
+const F ID = 8e18;
+
+S op(S a, S b){ return std::min(a, b); }
+S e(){ return INF; }
+S mapping(F f, S x){ return (f == ID ? x : f); }
+F composition(F f, F g){ return (f == ID ? g : f); }
+F id(){ return ID; }
+
+int main(){
+    ll n; cin >> n;
+    vector<S> v(n);
+    lazy_segtree<S, op, e, F, mapping, composition, id> seg(v);
+	ll q; cin >> q;
+	rep(_, q) {
+		ll l, r, t; cin >> l >> r >> t; l--;
+		seg.apply(l, r, t);
 	}
+	rep(i, n) cout << seg.get(i) << endl;
 }
