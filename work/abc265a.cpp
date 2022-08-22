@@ -34,5 +34,6 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
     ll x, y, n; cin >> x >> y >> n;
-    cout << n / 3 * x + n % 3 * y << endl;
+    if(x * 3 <= y) cout << n * x << endl;
+    else cout << n / 3 * y + n % 3 * x << endl;
 }
