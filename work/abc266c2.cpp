@@ -33,5 +33,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << atan2(0, -1.0) << endl;
+	vpll a(4); rep(i, 4) cin >> a[i].first >> a[i].second;
+	rep(i, 4) {
+		pll p = a[i], q = a[(i + 1) % 4], r = a[(i + 2) % 4];
+		pll s = {p.first - q.first, r.first - q.first}, t = {p.second - q.second, r.second - q.second};
+		if(t.first * s.second - t.second * s.first < 0) {cout << "No" << endl; return 0;}
+	}
+	cout << "Yes" << endl;
 }

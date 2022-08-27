@@ -33,5 +33,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << atan2(0, -1.0) << endl;
+	ld eps = 0.0000000001, pi = atan2(0, -1.0);
+	vector<pair<ld, ld>> a(4); rep(i, 4) cin >> a[i].first >> a[i].second;
+	rep(i, 4) {
+		pair<ld, ld> p = a[i], q = a[(i + 1) % 4], r = a[(i + 2) % 4];
+		ll flag = false;
+		rep(_, 4) {
+			complex<ld> cp((r.first - q.first) / (p.first - q.first), (r.second - q.second) / (p.second - q.second));
+			cout << atan2(cp.imag(), cp.real()) << " " << atan2(cp.imag(), cp.real()) - pi << endl;
+			flag |= atan2(cp.imag(), cp.real()) <= pi + eps;
+			p *
+		}
+	}
+	cout << "Yes" << endl;
 }
