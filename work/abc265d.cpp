@@ -33,6 +33,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-  set<ll> st = {1, 2, 3, 6};
-  cout << *st.rbegin() << endl;
+	ll n; cin >> n;
+	vll p(3); rep(i, 3) cin >> p[i];
+	vll a(n); rep(i, n) cin >> a[i];
+	vll rui(n + 1); rep(i, n) rui[i + 1] = rui[i] + a[i];
+	rep(i, n) {
+		bool flag = true;
+		rep(j, 3) flag &= binary_search(all(rui), rui[i] + accumulate(p.begin(), p.end() - j, 0ll));
+		if(flag) {cout << "Yes" << endl; return 0;}
+	}
+	cout << "No" << endl;
 }
