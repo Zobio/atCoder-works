@@ -10,7 +10,6 @@ using namespace atcoder;
 #define reps(i, n) for (long long i = 1; i <= n; i++)
 #define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
 #define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define reep(i, a, b) for(long long i = a; i < b; i++)
 #define fore(i, a) for (auto& i : a)
 #define vll vector<long long>
 #define vvll vector<vector<long long>>
@@ -22,8 +21,6 @@ using namespace atcoder;
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
 #define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
 #define setcout(n) cout << setprecision(n) << fixed
-#define YESS {printf("Yes"); return 0;}
-#define NOO {printf("No"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
@@ -36,5 +33,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, l; cin >> n >> l;
+	vector<string> a(n);
+	rep(i, n) cin >> a[i];
+	sort(all(a));
+	string ans;
+	rep(i, n) ans += a[i];
+	cout << ans << endl;
 }

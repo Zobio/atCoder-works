@@ -36,5 +36,16 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll rui(n + 1); rep(i, n) rui[i + 1] = rui[i] + a[i];
+	ll cur = 0;
+	rep(i, m) cur += (i + 1) * a[i];
+	ll ans = cur;
+	reep(i, m, n) {
+		cur -= rui[i] - rui[i - m];
+		cur += a[i] * m;
+		chmax(ans, cur);
+	}
+	cout << ans << endl;
 }
