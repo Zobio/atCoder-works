@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
-using namespace std;using ll = long long;
+using namespace std;
+using ll = long long;
 #define rep(i, n) for (ll i = 0; i < n; i++)
 #define vll vector<ll>
 #define vvll vector<vll>
@@ -25,11 +26,13 @@ int main() {
 			if(m[i][j] == 'G') gy = i, gx = j;
 		}
 	}
-	vvpll dist(h, vpll(w, {INF, INF})); //好きな方向に変える操作をしているときの最短距離、していないときの最短距離
+	vector<vvpll> dist(h, vvpll(w)); //好きな方向に変える操作をしているときの最短距離、していないときの最短距離
+	rep(i, h) rep(j, w) dist.push_back({INF, INF});
 	dist[sy][sx] = {0, 0};
 	queue<pll> que; que.push({sy, sx});
 	while(!que.empty()) {
 		ll y = que.front().first, x = que.front().second; que.pop();
+		cout << y << " " << x << "  : " << dist[y][x].first << " " << dist[y][x].second << endl;
 		if(m[y][x] == '.' || m[y][x] == 'S') {
 		    for(ll dy : {-1, 0, 1}) for(ll dx : {-1, 0, 1}) {
 				if((dy == 0) + (dx == 0) != 1) continue;
@@ -58,7 +61,7 @@ int main() {
 
 					if(flag) que.push({ny, nx});
 				}else{
-					if(dist[y][x].first >= INF) continue; //方向変更済み
+					if(dist[y][x].first >= INF) {dist[ny][nx].first = dist[ny][nx].second = INF;} //方向変更済み
 
 					dist[ny][nx].first = INF; //方向変更
 					if(chmin(dist[ny][nx].second, dist[y][x].first + 1)) que.push({ny, nx});
@@ -66,13 +69,12 @@ int main() {
 		    }
 		}
 	}
+	cout << endl;
+	rep(i, h) {rep(j, w) cout << dist[i][j].first << " "; cout << endl;}
+	cout << endl;
+	rep(i, h) {rep(j, w) cout << dist[i][j].second << " "; cout << endl;}
+
 	rep(i, h) {rep(j, w) cout << (min(dist[i][j].first, dist[i][j].second) == INF ? -1 : min(dist[i][j].first, dist[i][j].second)) << " "; cout << endl; }
 	ll ans =  min(dist[gy][gx].first, dist[gy][gx].second);
 	cout << (ans != INF ? ans : -1) << endl;
-ndl;
-			}
-		}
-		done = false;
-	}
-	cout << cnt - 1 - abs(a - old) << endl; //最後はターンしないから
 }

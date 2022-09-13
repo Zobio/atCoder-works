@@ -22,8 +22,8 @@ using namespace atcoder;
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
 #define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
 #define setcout(n) cout << setprecision(n) << fixed
-#define YESS {printf("Yes"); return 0;}
-#define NOO {printf("No"); return 0;}
+#define YESS {printf("Yes\n"); return 0;}
+#define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
@@ -36,5 +36,5 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+    cout << INF << endl;
 }
