@@ -29,7 +29,6 @@ using namespace atcoder;
 #define MOD 998244353LL
 #define mint modint998244353
 #define INF (1LL << 60)
-#define PI acos(-1.0)
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
@@ -37,8 +36,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    setcout(100);
-    ld n; cin >> n;
-    ld angle = PI * (n - 2) / n;
-    cout << angle << endl;
+	ll n; cin >> n;
+	vll p(n); rep(i, n) cin >> p[i];
+	vll iot(n); iota(all(iot), 0ll);
+	modint::set_mod(n);
+	vector<modint> a(n);
+	rep(i, n) a[i] = p[i] - iot[i];
+	ll ans = 0;
+	vll cnt(n); rep(i, n) cnt[a[i].val()]++;
+	rep(i, n) chmax(ans, cnt[i] + cnt[(i + 1) % n] + cnt[(i + 2) % n]);
+	cout << ans << endl;
 }

@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
 using namespace std;
-using namespace atcoder;
 #define uint unsigned int
 #define ll long long
 #define ull unsigned long long
@@ -26,8 +24,6 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -37,8 +33,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    setcout(100);
-    ld n; cin >> n;
-    ld angle = PI * (n - 2) / n;
-    cout << angle << endl;
+	ll n, m, k; cin >> n >> m >> k;
+	pll st, en; cin >> st.first >> st.second >> en.first >> en.second;
+	ld angle = PI * (n - 2) / n;
+	vvpll cor(m, vpll(n)); //座標
+	rep(i, m) rep(j, n) {
+		cor[i][j] = {polar<ld>(i + 1, angle * j).real(), polar<ld>(i + 1, angle * j).imag()};
+	}
 }

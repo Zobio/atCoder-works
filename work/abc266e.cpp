@@ -29,7 +29,6 @@ using namespace atcoder;
 #define MOD 998244353LL
 #define mint modint998244353
 #define INF (1LL << 60)
-#define PI acos(-1.0)
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
@@ -37,8 +36,13 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    setcout(100);
-    ld n; cin >> n;
-    ld angle = PI * (n - 2) / n;
-    cout << angle << endl;
+	setcout(15);
+	ll n; cin >> n;
+	vector<ld> dp(n + 1);
+	dp[1] = 3.5;
+	for(ll i = 1; i < n; i++) reps(j, 6) {
+		if(j > dp[i]) dp[i + 1] += j / 6.0; //quit
+		else dp[i + 1] += dp[i] / 6.0; //continue
+	}
+	cout << dp.back() << endl;
 }
