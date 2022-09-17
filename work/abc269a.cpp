@@ -37,7 +37,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	ll a, b, c, d; cin >> a >> b >> c >> d;
+	cout << (a + b) *(c - d) << endl;
+	cout << "Takahashi" << endl;
 }

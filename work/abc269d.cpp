@@ -36,8 +36,75 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	ll ma = 1010;
+	ll n; cin >> n;
+	vll x(n), y(n); rep(i, n) cin >> x[i] >> y[i];
+	UnionFind uf(n);
+	rep(i, n) reep(j, i + 1, n) {
+		for(ll dx : {-1, 0, 1}) for(ll dy : {-1, 0, 1}) {
+			if(dx == 1 && dy == -1) continue;
+			if(dx == -1 && dy == 1) continue;
+			if(dx == 0 && dy == 0) continue;
+			
+			if(x[i] + dx == x[j] && y[i] + dy == y[j]) uf.unite(i, j);
+		}
+	}
+	cout << uf.group_count() << endl;
 }

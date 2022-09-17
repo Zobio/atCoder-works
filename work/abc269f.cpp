@@ -36,8 +36,21 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ull sum_tousa(ll a, ll d, ll n) {
+	return n * (2 * a + (n - 1) * d) / 2;
+}
+
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	ll n, m; cin >> n >> m;
+	ll q; cin >> q;
+	modint998244353 ans = 0;
+	while(--q) {
+		ull a, b, c, d; cin >> a >> b >> c >> d; //[c,d]は交差2 [a,b]は交差m
+		bool fl1 = (a + c) & 1;
+		ll cc = c + fl1;
+		modint998244353 col1 = sum_tousa(cc, 2, (d - cc + 1 + !fl1) / 2);
+		ans += sum_tousa(col1.val(), m, (b - !fl1 - a + 1) / 2 + (b - !fl1 - a + 1 - fl1) % 2);
+		cc = c + !fl1;
+		modint998244353 col2 = sum_tousa(cc, 2, ())
+	}
 }

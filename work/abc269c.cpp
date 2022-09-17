@@ -37,7 +37,23 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	ll n; cin >> n;
+	vll ones;
+	ll nn = n; ll cnt = 0;
+	while(nn) {
+		if(nn & 1) {
+			ones.push_back(cnt);
+		}
+		cnt++;
+		nn >>= 1;
+	}
+	set<ll> ans;
+	rep(bits, 1ll << ones.size()) {
+		ll cur = 0;
+		rep(i, ones.size()) {
+			if((bits >> i) & 1) cur += 1ll << ones[i];
+		}
+		ans.insert(cur);
+	}
+	for(auto au : ans) cout << au << endl;
 }

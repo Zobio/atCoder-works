@@ -37,7 +37,20 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	vector<string> s(10);
+	rep(i, 10) cin >> s[i];
+	ll a1 = 0, a2 = INF;
+	ll a = -1, b = -1;
+	rep(i, 10) rep(j, 10) {
+		if(a == -1 && b == -1) {
+			if(s[i][j] == '#') a = i + 1, b = j + 1;
+		}
+	}
+	ll c = -1, d = -1;
+	rrep(i, 10) rrep(j, 10) {
+		if(c == -1 && d == -1) {
+			if(s[i][j] == '#') c = i + 1, d = j + 1;
+		}
+	}
+	cout << a << " " << c << endl << b << " " << d << endl;
 }

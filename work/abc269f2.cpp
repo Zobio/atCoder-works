@@ -36,8 +36,40 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+mint sum_tousa(ll a, ll d, ll n) {
+	mint aa = a, dd = d, nn = n;
+	return nn * (2 * aa + (nn - 1) * dd) / 2;
+}
+
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	ll n, m; cin >> n >> m;
+	ll q; cin >> q;
+	vector<mint> ans;
+	rep(_, q) {
+		ll a, b, c, d; cin >> a >> b >> c >> d;
+		ll h = b - a + 1, w = d - c + 1;
+		ll h1, w1, h2, w2; //col1の横の要素数、縦の要素数、col2の横の要素数、縦の要素数
+
+		if(h & 1) h1 = h / 2 + 1;
+		else h1 = h / 2;
+
+		if(!(a + c & 1) && w & 1) w1 = w / 2 + 1;
+		else w1 = w / 2;
+
+		h2 = h / 2;
+
+		if(!(a + 1 + c & 1) && w & 1) w2 = w / 2 + 1;
+		else w2 = w / 2;
+
+		mint col1 = 0, col2 = 0, cur = 0;
+
+		col1 = sum_tousa((a - 1) * m + c + (a + c & 1), 2, w1);
+		cur += sum_tousa(col1.val(), 2 * m * w1, h1);
+
+		col2 = sum_tousa((a + 1 - 1) * m + c + (a + 1 + c & 1), 2, w2);
+		cur += sum_tousa(col2.val(), 2 * m * w2, h2);
+
+		ans.push_back(cur);
+	}
+	rep(i, q) cout << ans[i].val() << endl;
 }

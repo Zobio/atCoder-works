@@ -37,7 +37,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    ll n; cin >> n;
-    ld angle = PI *(n - 2) / n;
-    cout << angle << endl;
+	ll n; cin >> n;
+	ll l = 0, r = n - 1;
+	bool flag_l;
+	while(r - l >= 1) { //列の推定
+		ll mid = l + r >> 1;
+		cout << "? " << l + 1 << " " << mid + 1 << " " << 1 << " " << n << endl;
+		ll ret; cin >> ret;
+		if(ret < mid - l + 1) r = mid, flag_l = true; //rを移動させたときは、l側に置けるマスがある
+		else l = mid, flag_l = false;
+	}
+	ll ans1 = flag_l ? l : r; //答えの列
+	l = 0, r = n - 1;
+	while(r - l >= 1) { //行の推定
+		ll mid = l + r >> 1;
+		cout << "? " << 1 << " " << n << " " << l + 1 << " " << mid + 1 << endl;
+		ll ret; cin >> ret;
+		if(ret < mid - l + 1) r = mid, flag_l = true; //rを移動させたときは、l側に置けるマスがある
+		else l = mid, flag_l = false;
+	}
+	ll ans2 = flag_l ? l : r;
+	cout << "! " << ans2 + 1 << " " << ans1 + 1 << endl;
+	return 0;
 }
