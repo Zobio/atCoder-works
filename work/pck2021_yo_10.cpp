@@ -32,12 +32,33 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, m, k;
+vector<vector<pair<ld, ld>>> cor;
+vvpll g;
+vector<vector<vector<ld>>> dist;
+
 int main() {
-	ll n, m, k; cin >> n >> m >> k;
+	setcout(15);
+	ll hash = 21;
+
+	cin >> n >> m >> k; //n角形、m枠
 	pll st, en; cin >> st.first >> st.second >> en.first >> en.second;
+	st.first--; en.first--;
 	ld angle = PI * (n - 2) / n;
-	vvpll cor(m, vpll(n)); //座標
+	cor.resize(m, vector<pair<ld, ld>>(n)); //座標
 	rep(i, m) rep(j, n) {
 		cor[i][j] = {polar<ld>(i + 1, angle * j).real(), polar<ld>(i + 1, angle * j).imag()};
 	}
+	g.resize(m * hash); //座標はハッシュ化して入れる 商がm, 余剰がn
+	dist.resize(m, vector<vector<ld>>(n, vector<ld>(k, 100010))); //状態(i, j, k)での距離を保持
+	rep(i, n) rep(j, m - 1) { //距離1
+		g[j * hash + i].push_back({((j + 1) * hash + i), 1});
+		g[(j + 1) * hash + i].push_back({(j * hash + i), 1});
+	}
+	rep(i, m) rep(j, n) { //同じ枠での距離
+		ld di = (cor[i][j].first - cor[i][(j + 1) % n].first) * (cor[i][j].first - cor[i][(j + 1) % n].first) + (cor[i][j].second - cor[i][(j + 1) % n].second) * (cor[i][j].second - cor[i][(j + 1) % n].second);
+		cor[i * hash + j].push_back({i * hash + (j + 1) % n, di});
+		cor[i * hash + (j + 1) % n].push_back({i * hash + j % n, di});
+	}
+
 }

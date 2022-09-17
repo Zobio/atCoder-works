@@ -36,9 +36,32 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, m, k;
+vector<vector<pair<ld, ld>>> cor;
+vvpll g;
+vector<vector<vector<ld>>> dist;
+
 int main() {
-    setcout(100);
-    ld n; cin >> n;
-    ld angle = PI * (n - 2) / n;
-    cout << angle << endl;
+    setcout(15);
+    ll hash = 21;
+
+    cin >> n >> m >> k; //n角形、m枠
+	pll st, en; cin >> st.first >> st.second >> en.first >> en.second;
+    st.first--; en.first--;
+	ld angle = PI * (n - 2) / n;
+	cor.resize(m, vector<pair<ld, ld>>(n)); //座標
+	rep(i, m) rep(j, n) {
+		cor[i][j] = {polar<ld>(i + 1, angle * j).real(), polar<ld>(i + 1, angle * j).imag()};
+	}
+    ld sum = 0;
+    ll a1, a2, b1, b2; a1 = st.first; a2 = st.second;
+    while(1) {
+        cin >> b1 >> b2; b1--;
+        cout << cor[a1][a2].first << " " << cor[a1][a2].second << "  " << cor[b1][b2].first << " " << cor[b1][b2].second << endl;
+        ld d = sqrtl((cor[a1][a2].first - cor[b1][b2].first) * (cor[a1][a2].first - cor[b1][b2].first) + (cor[a1][a2].second - cor[b1][b2].second) * (cor[a1][a2].second - cor[b1][b2].second));
+        cout << "now : " << d << endl;
+        sum += d;
+        cout << "sum : " << sum << endl;
+        a1 = b1; a2 = b2;
+    }
 }
