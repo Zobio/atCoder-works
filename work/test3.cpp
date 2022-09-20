@@ -29,15 +29,15 @@ using namespace atcoder;
 #define MOD 998244353LL
 #define mint modint998244353
 #define INF (1LL << 60)
+#define PI acos(-1.0)
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool cmp(ll a, ll b) {return a > b;}
+
 int main() {
-	for(auto dy : {-1, 0, 1}) for(auto dx : {-1, 0, 1}) {
-				if((dy == 0) + (dx == 0) != 1) continue;
-		    	cout << dy << " " << dx << endl;
-		    }
+	priority_queue<ll, vll, cmp<ll>> cp;
 }

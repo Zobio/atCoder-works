@@ -32,33 +32,72 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll n, m, k;
-vector<vector<pair<ld, ld>>> cor;
-vvpll g;
-vector<vector<vector<ld>>> dist;
-
 int main() {
 	setcout(15);
 	ll hash = 21;
 
+	ll n, m, k;
 	cin >> n >> m >> k; //n角形、m枠
-	pll st, en; cin >> st.first >> st.second >> en.first >> en.second;
+	pll st, en;
+	cin >> st.first >> st.second >> en.first >> en.second;
 	st.first--; en.first--;
-	ld angle = PI * (n - 2) / n;
-	cor.resize(m, vector<pair<ld, ld>>(n)); //座標
+	ld angle = 2 * PI / n;
+	vector<vector<pair<ld, ld>>> cor(m, vector<pair<ld, ld>>(n)); //座標
+	vector<vector<pair<ll, ld>>> g(m * hash);	//座標はハッシュ化して入れる 商がm, 余剰がn
+	vector<vector<vector<ld>>> dist(m, vector<vector<ld>>(n, vector<ld>(k + 1, 100010))); //状態(i, j, k)での距離を保持
 	rep(i, m) rep(j, n) {
 		cor[i][j] = {polar<ld>(i + 1, angle * j).real(), polar<ld>(i + 1, angle * j).imag()};
 	}
-	g.resize(m * hash); //座標はハッシュ化して入れる 商がm, 余剰がn
-	dist.resize(m, vector<vector<ld>>(n, vector<ld>(k, 100010))); //状態(i, j, k)での距離を保持
-	rep(i, n) rep(j, m - 1) { //距離1
-		g[j * hash + i].push_back({((j + 1) * hash + i), 1});
-		g[(j + 1) * hash + i].push_back({(j * hash + i), 1});
-	}
-	rep(i, m) rep(j, n) { //同じ枠での距離
-		ld di = (cor[i][j].first - cor[i][(j + 1) % n].first) * (cor[i][j].first - cor[i][(j + 1) % n].first) + (cor[i][j].second - cor[i][(j + 1) % n].second) * (cor[i][j].second - cor[i][(j + 1) % n].second);
-		cor[i * hash + j].push_back({i * hash + (j + 1) % n, di});
-		cor[i * hash + (j + 1) % n].push_back({i * hash + j % n, di});
+	rep(i, n) rep(j, m - 1) { //隣の枠 距離1
+		ll p = j * hash + i, q = (j + 1) * hash + i;
+		g[p].push_back({q, 1});
+		g[q].push_back({p, 1});
 	}
 
+	rep(i, m) rep(j, n) { //同じ枠での距離
+		ll p = i * hash + j, q = i * hash + ((j + 1) % n);
+		pair<ld, ld> cp = cor[i][j], cq = cor[i][(j + 1) % n];
+		ld di = sqrtl((cp.first - cq.first) * (cp.first - cq.first) + (cp.second - cq.second) * (cp.second - cq.second));
+		g[p].push_back({q, di});
+		g[q].push_back({p, di});
+	}
+
+	rep(i, n) for(ll j = 2; j < n - 1; j++) { //中心を通るクモの巣
+		ll p = 0 * hash + i, q = 0 * hash + ((i + j) % n);
+		pair<ld, ld> cp = cor[0][i], cq = cor[0][(i + j) % n];
+		ld di = sqrtl((cp.first - cq.first) * (cp.first - cq.first) + (cp.second - cq.second) * (cp.second - cq.second));
+		g[p].push_back({q, di});
+	}
+
+	rep(i, m - 1) rep(j, n) {
+		ll p = i * hash + j, q = (i + 1) * hash + ((j + 1) % n), r = (i + 1) * hash + ((j - 1 + n) % n);
+		pair<ld, ld> cp = cor[i][j], cq = cor[i + 1][(j + 1) % n];
+		ld di = sqrtl((cp.first - cq.first) * (cp.first - cq.first) + (cp.second - cq.second) * (cp.second - cq.second));
+		g[p].push_back({q, di}); g[p].push_back({r, di});
+		g[q].push_back({p, di}); g[r].push_back({p, di});
+	}
+
+	//start Dijkstra's algorithm
+	rep(i, k + 1) dist[st.first][st.second][i] = 0;
+	//(cost, i, j, k)
+	priority_queue<tuple<ld, ll, ll, ll>, vector<tuple<ld, ll, ll, ll>>, greater<tuple<ld, ll, ll, ll>>> que;
+	 que.push({0, st.first, st.second, 0});
+
+	while(!que.empty()) {
+		tuple<ld, ll, ll, ll> p = que.top(); que.pop();
+		auto [cost, i, j, used] = p;
+		if(dist[i][j][used] < cost) continue;
+		rep(nxt, g[i * hash + j].size()) {
+			ll nxt_i = g[i * hash + j][nxt].first / hash, nxt_j = g[i * hash + j][nxt].first % hash;
+			bool flag = false; //flagが立てば新たな線分
+			flag |= nxt_i == i && abs(min((nxt_j - j + n) % n, n - (nxt_j - j + n) % n)) == 1;
+			flag |= nxt_j == j && abs(min((nxt_i - i + m) % m, m - (nxt_i - i + m) % m)) == 1;
+			if(used + !flag > k) continue;
+			if(chmin(dist[nxt_i][nxt_j][used + !flag], dist[i][j][used] + g[i * hash + j][nxt].second)) {
+				que.push({dist[nxt_i][nxt_j][used + !flag], nxt_i, nxt_j, used + !flag});
+			}
+		}
+	}
+
+	cout << *min_element(all(dist[en.first][en.second])) << endl;
 }
