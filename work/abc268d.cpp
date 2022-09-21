@@ -36,22 +36,43 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-#include <cxxabi.h>
-struct Foo {
-    virtual ~Foo() {};
-};
-struct Bar : public Foo {
-    virtual ~Bar() {};
-};
+ll n, m;
 
-// memory leaks
-char* demangle(const char *demangle) {
-    int status;
-    return abi::__cxa_demangle(demangle, 0, 0, &status);
+vector<string> s, t;
+vll len;
+set<string> ans;
+
+void dfs(string cur, ll num) {
+	if(ans.size()) return;
+	if(num == n) {
+		if(cur.size() < 3) return;
+		if(cur.size() > 16) return;
+		if(!binary_search(all(t), cur)) ans.insert(cur);
+		return;
+	}
+
+	if(cur.size() + s[num].size() <= 16 && (num == 0 || cur.back() == '_')) {
+		dfs(cur + s[num], num + 1);
+	}
+	else {
+		string nxt = cur;
+		rep(i, 16 - (ll)cur.size() - (len.back() - len[i]) - (n - num - 1)) {
+			nxt += "_";
+			dfs(nxt, num);
+		}
+	}
 }
 
-
 int main() {
-    size_t a = 3; ll b = 5;
-    cout << demangle(typeid(a).name()) << endl << demangle(typeid(b).name()) << endl << demangle(typeid(a + b).name()) << endl;
+	cin >> n >> m;
+	s.resize(n); t.resize(m);
+	len.resize(n + 1); rep(i, n) len[i + 1] = len[i] + s[i].size();
+	rep(i, n) cin >> s[i];
+	rep(i, m) cin >> t[i];
+	sort(all(s)); sort(all(t));
+	do{
+		dfs("", 0);
+		if(ans.size()) {cout << *ans.begin() << endl; return 0;} 
+	}while(next_permutation(all(s)));
+	cout << -1 << endl;
 }
