@@ -37,6 +37,35 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	vector<bool> v = {false, true, true};
-	if(accumulate(all(v), 0ll) == 2) cout << "A" << endl;
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvll g(n);
+	rep(i, m) {
+		ll u, v; cin >> u >> v; u--; v--;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+	ll l = -1, r = INF; //コストの最小値を二分探索
+	while(r - l > 1) {
+		ll mid = l + r >> 1ll;
+		vll done(n); //削除した頂点
+		vll cost(n); //頂点を削除するときにかかるコスト
+		rep(i, n) {
+			for(auto au : g[i]) cost[i] += a[au];
+		}
+		ll cnt1 = 0, cnt2 = 0;
+		stack<ll> s; rep(i, n) if(cost[i] <= mid) s.push(i);
+		while(!s.empty()) {
+			ll cur = s.top(); s.pop();
+			if(done[cur]) continue;
+			done[cur] = true;
+			for(auto au : g[cur]) {
+				cost[au] -= a[cur];
+				if(cost[au] <= mid && !done[au]) s.push(au);
+			}
+		}
+		if(accumulate(all(done), 0ll) == n) r = mid;
+		else l = mid;
+	}
+	cout << r << endl;
 }

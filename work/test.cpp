@@ -36,22 +36,6 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-#include <cxxabi.h>
-struct Foo {
-    virtual ~Foo() {};
-};
-struct Bar : public Foo {
-    virtual ~Bar() {};
-};
-
-// memory leaks
-char* demangle(const char *demangle) {
-    int status;
-    return abi::__cxa_demangle(demangle, 0, 0, &status);
-}
-
-
 int main() {
-    size_t a = 3; ll b = 5;
-    cout << demangle(typeid(a).name()) << endl << demangle(typeid(b).name()) << endl << demangle(typeid(a + b).name()) << endl;
+    cout << log10(INF) << endl;
 }
