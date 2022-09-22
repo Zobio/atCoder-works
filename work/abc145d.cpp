@@ -26,8 +26,8 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
+#define MOD 1000000007LL
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -36,6 +36,28 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T nCr(T n, T r) {
+	T ret = 1;
+	for(T i = 0; i.val() < r.val(); i++) {
+		ret *= n - i;
+		ret /= i + 1;
+	}
+	return ret;
+}
+
 int main() {
-    for(mint i = 0; i <= (mint)10; i++);
+	//(i + 1, j + 2), (i + 2, j + 1)
+	ll x, y; cin >> x >> y;
+	ll d = y - x; //dが操作1と操作2の回数の差
+	ll need = (x + y) / 3; //必要な操作回数
+	ll l = -1, r = 1000000010;
+	while(r - l > 1) {
+		ll mid = (l + r) / 2;
+		pll sum = {1 * mid + 2 * (mid - d), 2 * mid + 1 * (mid - d)};
+		if(sum.first <= x && sum.second <= y) l = mid;
+		else r = mid;
+	}
+	if(make_pair(1 * l + 2 * (l - d), 2 * l + 1 * (l - d)) != make_pair(x, y)) {cout << 0 << endl; return 0;}
+	cout << nCr((mint)need, (mint)l).val() << endl;
 }
