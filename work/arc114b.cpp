@@ -36,9 +36,32 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
-    rep(i, 4) {
-			ll dy = (-2 + i) % 2, dx = (-1 + i) % 2;
-            cout << dy << " " << dx << endl;
-		}
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i], a[i]--;
+	scc_graph sg(n);
+	rep(i, n) sg.add_edge(i, a[i]);
+	auto scc = sg.scc();
+	ll cnt = 0;
+	for(auto au : scc) {
+		if(au.size() == 1) cnt += a[au.front()] == au.front();
+		else cnt++;
+	}
+	cout << mpow(2ll, cnt, MOD) - 1 << endl;
 }

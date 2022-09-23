@@ -36,9 +36,38 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-    rep(i, 4) {
-			ll dy = (-2 + i) % 2, dx = (-1 + i) % 2;
-            cout << dy << " " << dx << endl;
-		}
+ll n;
+vll a, used;
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
 }
+
+bool dfs(ll cur, ll st) {
+	if(used[cur] != -1) return used[cur] == st;
+	used[cur] = st;
+	return dfs(a[cur], st);
+}
+
+int main() {
+	cin >> n;
+	a.resize(n); used.resize(n, -1);
+	rep(i, n) cin >> a[i], a[i]--;
+	ll cnt = 0;
+	rep(i, n) {
+		if(!used[i] != -1) cnt += dfs(i, i);
+	}
+	cout << mpow(2ll, cnt, MOD) - 1 << endl;
+}	

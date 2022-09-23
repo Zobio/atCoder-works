@@ -37,8 +37,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    rep(i, 4) {
-			ll dy = (-2 + i) % 2, dx = (-1 + i) % 2;
-            cout << dy << " " << dx << endl;
-		}
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	sort(all(a));
+	ll h = n / 2;
+	if(n % 2 == 0) {
+		cout << 2 * accumulate(a.begin() + h + 1, a.end(), 0ll) + a[h] - a[h - 1] - 2 * accumulate(a.begin(), a.begin() + h - 1, 0ll) << endl;
+	}else{
+		ll p = 2 * accumulate(a.begin() + h + 1, a.end(), 0ll) - (a[h] + a[h - 1]) - 2 * accumulate(a.begin(), a.begin() + h - 1, 0ll);
+		ll q = 2 * accumulate(a.begin() + h + 2, a.end(), 0ll) + (a[h + 1] + a[h]) - 2 * accumulate(a.begin(), a.begin() + h, 0ll);
+		cout << max(p, q) << endl;
+	}
 }

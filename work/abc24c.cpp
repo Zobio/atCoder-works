@@ -37,8 +37,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    rep(i, 4) {
-			ll dy = (-2 + i) % 2, dx = (-1 + i) % 2;
-            cout << dy << " " << dx << endl;
+	ll n, d, k; cin >> n >> d >> k;
+	vll l(d), r(d); rep(i, d) cin >> l[i] >> r[i];
+	vll s(k), t(k); rep(i, k) cin >> s[i] >> t[i];
+	vvll p(k, vll(d + 1)); //最適に行動したときの各民族の現在地
+	rep(i, k) rep(j, d + 1) p[i][j] = s[i];
+	rep(i, k) rep(j, d) {
+		if(p[i][j] == t[i]) break; //already reached
+		if(!(l[j] <= p[i][j] && p[i][j] <= r[j])) {p[i][j + 1] = p[i][j]; continue;} //cannnot move
+
+		if(s[i] < t[i]) chmax(p[i][j + 1], min(r[j], t[i]));
+		else chmin(p[i][j + 1], max(l[j], t[i]));
+	}
+	rep(i, k) reps(j, d) {
+		if(p[i][j] == t[i]) {
+			cout << j << endl; break;
 		}
+	}
 }

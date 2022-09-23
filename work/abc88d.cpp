@@ -37,8 +37,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    rep(i, 4) {
+	ll h, w; cin >> h >> w;
+	vector<string> s(h); rep(i, h) cin >> s[i];
+	ll bsum = 0;
+	rep(i, h) rep(j, w) bsum += s[i][j] == '#';
+	queue<pll> que; que.push({0, 0});
+	vvll dist(h, vll(w, INF)); dist[0][0] = 0;
+	while(que.size()) {
+		auto [y, x] = que.front(); que.pop();
+		rep(i, 4) {
 			ll dy = (-2 + i) % 2, dx = (-1 + i) % 2;
-            cout << dy << " " << dx << endl;
+			ll ny = y + dy, nx = x + dx;
+			if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+			if(s[ny][nx] == '#') continue;
+			if(chmin(dist[ny][nx], dist[y][x] + 1)) que.push({ny, nx});
 		}
+	}
+	cout << (dist[h - 1][w - 1] == INF ? -1 : (h * w - dist[h - 1][w - 1]) - bsum - 1) << endl;
 }
