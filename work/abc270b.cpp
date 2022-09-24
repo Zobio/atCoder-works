@@ -37,5 +37,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll x, y, z; cin >> x >> y >> z;
+	if(x >= 0 && y >= 0 && x < y) cout << x << endl;
+	else if(x < 0 && y < 0 && x > y) cout << -x << endl;
+	else if((x >= 0) != (y >= 0)) cout << abs(x) << endl;
+	else if(x > 0 && y > x && z > y) {cout << -1 << endl;}
+	else if(x < 0 && y < x && z < y) {cout << -1 << endl;}
+	else if((x >= 0) != (z >= 0)) {
+		cout << abs(x) + abs(z) << endl;
+	}
+	else cout << abs(x) << endl;
 }

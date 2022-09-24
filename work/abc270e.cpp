@@ -37,5 +37,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, k; cin >> n >> k;
+	vll a(n); rep(i, n) cin >> a[i];
+	
 }

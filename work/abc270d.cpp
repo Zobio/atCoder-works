@@ -37,5 +37,16 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	ll n, k; cin >> n >> k;
+	vll a(k); rep(i, k) cin >> a[i];
+	vll ra(k); rep(i, k) ra[i] = -a[i];
+	sort(all(ra));
+	ll ans = 0, c = 1;
+	while(n) {
+		ll nxt = -(*lower_bound(all(ra), -n));
+		if(c & 1) ans += nxt;
+		n -= nxt; c++;
+		cout << c << " " << ans << "  " << n << endl;
+	}
+	cout << ans << endl;
 }
