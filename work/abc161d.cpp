@@ -37,5 +37,35 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << ("A"+"B") << endl;
+	ll ma = 11;
+	vvll dp(ma, vll(10)); //dp[i][j] : i桁で1番上の桁の数がjであるルンルン数の総数
+	rep(i, 10) dp[0][i] = 1;
+	rep(i, 10) rep(j, 10) {
+		if(j > 0) dp[i + 1][j] += dp[i][j - 1];
+		dp[i + 1][j] += dp[i][j];
+		if(j < 9) dp[i + 1][j] += dp[i][j + 1];
+	}
+	vvll rui(ma, vll(11)); //各桁についての個数の累積和
+	rep(i, ma) reps(j, 9) rui[i][j + 1] = rui[i][j] + dp[i][j];
+	vll d_rui(ma + 1); //桁ごとのルンルン数の個数の累積和
+	rep(i, ma) d_rui[i + 1] = d_rui[i] + rui[i].back();
+	arrcout2(dp); arrcout2(rui);
+	cout << endl;
+	arrcout(d_rui);
+	vll rui2(ma, vll(11));
+
+	ll n; cin >> n;
+	ll digit = lower_bound(all(d_rui), n) - d_rui.begin();
+	ll rst = n - d_rui[digit - 1];
+	ll ans = 0;
+	cout << "digit: " <<  digit << endl;
+	cout << "rst: " << rst << endl;
+	for(ll i = digit - 1; i >= 0; i--) {
+		ans *= 10;
+		auto it = lower_bound(all(rui[i]), rst) - 1;
+		ans += it - rui[i].begin();
+		rst -= *it;
+		cout << i << " " << it - rui[i].begin() - 1 << "  " << rst << endl;
+	}
+	cout << ans << endl;
 }

@@ -37,5 +37,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << ("A"+"B") << endl;
+	//赤いボールが入っている可能性がある箱の集合と、それぞれの箱に何個ボールがあるのかを更新していく
+	ll n, m; cin >> n >> m;
+	vll x(m), y(m); rep(i, m) cin >> x[i] >> y[i], x[i]--, y[i]--;
+	vll am(n, 1); //個数
+	set<ll> p; p.insert(0);
+	rep(i, m) {
+		bool hx = p.lower_bound(x[i]) != p.end() && *p.lower_bound(x[i]) == x[i];
+		bool hy = p.lower_bound(y[i]) != p.end() && *p.lower_bound(y[i]) == y[i];
+		am[x[i]]--; am[y[i]]++;
+		if(hx && !hy) p.insert(y[i]);
+		if(am[x[i]] == 0) p.erase(x[i]);
+	}
+	cout << p.size() << endl;
 }

@@ -36,6 +36,63 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+ll increment(ll cur) {
+	string s = to_string(cur);
+	ll digit = s.size();
+	if(digit == 1) return cur + 1;
+	ll flag_9 = true;
+	rep(i, digit) flag_9 &= s[i] == '9';
+	if(flag_9) return cur + 1;
+
+	if(s[digit - 2] - 1 == s.back()) return cur + 1;
+
+	if(s[digit - 2] != '9') {
+		if(s[digit - 2] == s.back()) return cur + 1;
+		else {
+			if(digit == 2) return cur + 9;
+			else if(!s[digit - 3])
+		}
+	}
+	
+	//...99パターンのみ残っている
+	ll p = 0;
+	rrep(i, digit) if(s[i] != '9') {p = i + 1; break;}
+	if(p == 0) return mpow(10ll, digit, INF); //9999...999
+	else if(p == 1) {
+		string ret; ret += s.front() + 1;
+		rep(i, digit - 1) ret += s.front(); //89999 --> 98888
+		return stoll(ret);
+	}
+	else{
+		string ret = s.substr(0, p - 1);
+		ret += s[p - 1] + 1;
+		rep(i, digit - p) ret += s[p - 1]; //678999 --> 325444
+		return stoll(ret);
+	}
+}
+
 int main() {
-	cout << ("A"+"B") << endl;
+	ll n; cin >> n;
+	ll ans = 0;
+	rep(i, n) {
+		ans = increment(ans);
+		cout << ans << endl;
+	}
+	cout << ans << endl;
 }

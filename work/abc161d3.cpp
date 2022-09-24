@@ -36,6 +36,52 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+string increment(string from) {
+	ll digit = from.size();
+	for(ll i = digit - 1; i > 0; i--) {
+		ll cur = from[i] - '0';
+		ll nxt = from[i - 1] - '0';
+
+		if(cur < 9 && abs(cur + 1 - nxt) <= 1) { //繰り上がりしてOK(curが+1されても差が1以内)
+			from[i]++;
+			reep(j, i + 1, digit) from[j] = max('0', (char)(from[j - 1] - 1)); //765432100000...
+			return from;
+		}
+	}
+	
+	//最後まで繰り上がりできなかった
+	ll top = from.front() - '0';
+	if(top < 9) {
+		from.front()++;
+		reep(i, 1, digit) from[i] = max('0', (char)(from[i - 1] - 1)); // 765432100000...
+		return from;
+	}
+	else return to_string(mpow(10ll, digit, INF));
+
+
+}
+
 int main() {
-	cout << ("A"+"B") << endl;
+	ll n; cin >> n;
+	string ans = "1";
+	rep(i, n - 1) {
+		ans = increment(ans);
+	}
+	cout << ans << endl;
 }

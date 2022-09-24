@@ -11,6 +11,7 @@ using namespace atcoder;
 #define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
 #define rreps(i, n) for (long long i = n; i >= 1; i--)
 #define reep(i, a, b) for(long long i = a; i < b; i++)
+#define rreep(i, a, b) for (long long i = a; i > b; i--)
 #define fore(i, a) for (auto& i : a)
 #define vll vector<long long>
 #define vvll vector<vector<long long>>
@@ -30,12 +31,31 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << ("A"+"B") << endl;
+	//先頭のdの個数を最大化したい
+	//なので、L,RのうちのLはpがある最初の場所に固定される(dddpdpdpdだったらL=3)
+	//そうすると、Rを全探索しても間に合いそう
+	ll n; cin >> n;
+	string s; cin >> s;
+	ll l = 0;
+	rep(i, n) {
+		if(s[i] == 'p') break;
+		else l++;
+	}
+	set<string> st;
+	string base = s.substr(0, l);
+	reep(i, l, n) {
+		string cur = base;
+		for(ll j = i; j >= l; j--) cur += s[j];
+		reep(j, i + 1, n) cur += s[j];
+		st.insert(cur);
+	}
+	for(auto au : st) cout << au << endl;
+	cout << *st.begin() << endl;
 }
