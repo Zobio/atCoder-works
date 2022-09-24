@@ -49,13 +49,13 @@ int main() {
 		else l++;
 	}
 	set<string> st;
+	st.insert(s);
 	string base = s.substr(0, l);
 	reep(i, l, n) {
 		string cur = base;
-		for(ll j = i; j >= l; j--) cur += s[j];
+		for(ll j = i; j >= l; j--) cur += (s[j] == 'p' ? 'd' : 'p');
 		reep(j, i + 1, n) cur += s[j];
 		st.insert(cur);
 	}
-	for(auto au : st) cout << au << endl;
-	cout << *st.begin() << endl;
+	cout << *st.begin() << endl; 
 }
