@@ -36,17 +36,64 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-bool f(pair<ll,ll> l, pair<ll,ll> r){
-	return true;
+ll n;
+vvll g;
+vll imos, ans, dist;
+
+void dfs(ll cur, ll sum) {
+	sum += imos[cur];
+	ans[cur] = sum;
+	for(auto au : g[cur]) {
+		if(ans[au] == -1) dfs(au, sum);
+	}
 }
 
 int main() {
-	ll n; cin >> n;
-	vpll a(n);
-	rep(i, n) {
-		ll p, q; cin >> p >> q;
-		a[i] = {p, q};
+	cin >> n;
+	vpll ab(n - 1); g.resize(n);
+	rep(i, n - 1) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b); g[b].push_back(a);
+		ab[i] = {a, b};
 	}
-	sort(all(a), f);
-	rep(i, n) cout << a[i].first << " " << a[i].second << endl;
+	ll q; cin >> q;
+	vll t(q), e(q), x(q); rep(i, q) cin >> t[i] >> e[i] >> x[i], e[i]--;
+
+	//それぞれの頂点について親を持っておく
+	vll parent(n, -1); 
+	dist.assign(n, INF); dist[0] = 0;
+	queue<ll> que; que.push(0);
+	while(!que.empty()) {
+		ll cur = que.front(); que.pop();
+		for(auto nxt : g[cur]) {
+			if(chmin(dist[nxt], dist[cur] + 1)) que.push(nxt), parent[nxt] = cur;
+		}
+	}
+
+	//imos法
+	imos.resize(n);
+	rep(i, q) {
+		ll u = ab[e[i]].first, v = ab[e[i]].second;
+		if(parent[v] == u) {
+			if(t[i] == 1) {
+				imos[0] += x[i];
+				imos[v] -= x[i];
+			}else{
+				imos[v] += x[i];
+			}
+		}else{
+			if(t[i] == 1) {
+				imos[u] += x[i];
+			}else{
+				imos[0] += x[i];
+				imos[u] -= x[i];
+			}
+		}
+	}
+
+	ans.assign(n, -1);
+
+	dfs(0, 0);
+	
+	rep(i, n) cout << ans[i] << endl;
 }

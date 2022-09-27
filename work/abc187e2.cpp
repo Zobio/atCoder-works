@@ -36,17 +36,56 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-bool f(pair<ll,ll> l, pair<ll,ll> r){
-	return true;
-}
-
 int main() {
 	ll n; cin >> n;
-	vpll a(n);
-	rep(i, n) {
-		ll p, q; cin >> p >> q;
-		a[i] = {p, q};
+	vpll ab(n - 1); vvll g(n);
+	rep(i, n - 1) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b); g[b].push_back(a);
+		ab[i] = {a, b};
 	}
-	sort(all(a), f);
-	rep(i, n) cout << a[i].first << " " << a[i].second << endl;
+	ll q; cin >> q;
+	vll t(q), e(q), x(q); rep(i, q) cin >> t[i] >> e[i] >> x[i], e[i]--;
+	map<pll, ll> cost;
+	rep(i, q) {
+		if(t[i] == 1) cost[{ab[e[i]].second, ab[e[i]].first}] += x[i];
+		else cost[{ab[e[i]].first, ab[e[i]].second}] += x[i];
+	}
+
+	//木の直径の端点を求める
+	vll dist(n, INF); dist[0] = 0;
+	queue<ll> que; que.push(0);
+	while(!que.empty()) {
+		ll cur = que.front(); que.pop();
+		for(auto nxt : g[cur]) {
+			if(chmin(dist[nxt], dist[cur] + 1)) que.push(nxt);
+		}
+	}
+	ll st = max_element(all(dist)) - dist.begin();
+	vll ans1(n), ans2(n);
+
+	vll endp; //端点
+	//加算1回目
+	fill(all(dist), INF); dist[st] = 0;
+	que.push(st);
+	ll sum = 0;
+	while(!que.empty()) {
+		ll cur = que.front(); que.pop();
+		if(cur != st && g[cur].size() == 1) endp.push_back(cur);
+		cout << cur << endl;
+		ans1[cur] = sum;
+		for(auto nxt : g[cur]) {
+			if(chmin(dist[nxt], dist[cur] + 1)) {
+				if(cost.find({cur, nxt}) != cost.end()) sum += cost[{cur, nxt}];
+				que.push(nxt);
+			}
+		}
+	}
+	
+	for(auto au : endp) que.push(au);
+	ll sum = 0;
+
+		
+	
+	rep(i, n) cout << ans1[i] + ans2[i] << endl;
 }
