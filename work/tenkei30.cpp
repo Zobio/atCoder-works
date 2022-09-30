@@ -36,26 +36,23 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-template<typename T>
-vector<T> osa_k(T num) {
-	/*
-	1からnumについて、エラトステネスの篩を用いる。
-	その際、配列retを生成する。
-	ret[i] : iをふるい落とした最小の素数
-	rey[i] == -1のときは、iは素数
-	計算量はO(NloglogN)
-	これを用いて、1からnumについてO(NlogN)で素因数の列挙ができる。(愚直な試し割りだとO(N√N))
-	*/
-	vector<T> ret(num + 1, -1); //ret[i] : その数をふるい落とした最小の素数
-	for(T i = 2; i <= num; i++) {
-		if(ret[i] != -1) continue; //すでにふるい落とされている(=素数でない)
-		for(T j = i * 2; j <= num; j += i) {
-			if(ret[j] == -1) ret[j] = i;
-		}
-	}
-	return ret;
+ll n, k;
+set<ll> ans;
+
+bool isPrime(ll num) {
+	for(ll i = 2; i * i <= num; i++) if(num % i == 0) return false;
+	return true;
+}
+
+void dfs(ll cur, ll pre, ll cnt) { //今の値、前にかけた値、素因数の種類
+	if(cnt >= k) ans.insert(cur);
+	
+	if(pre > 1) if(cur * pre <= k) dfs(cur * pre, pre, cnt);
+	if
 }
 
 int main() {
-
+	cin >> n >> k;
+	dfs(1ll, 1ll, 0ll);
+	cout << ans.size() << endl;	
 }

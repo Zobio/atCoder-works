@@ -30,32 +30,28 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-template<typename T>
-vector<T> osa_k(T num) {
-	/*
-	1からnumについて、エラトステネスの篩を用いる。
-	その際、配列retを生成する。
-	ret[i] : iをふるい落とした最小の素数
-	rey[i] == -1のときは、iは素数
-	計算量はO(NloglogN)
-	これを用いて、1からnumについてO(NlogN)で素因数の列挙ができる。(愚直な試し割りだとO(N√N))
-	*/
-	vector<T> ret(num + 1, -1); //ret[i] : その数をふるい落とした最小の素数
-	for(T i = 2; i <= num; i++) {
-		if(ret[i] != -1) continue; //すでにふるい落とされている(=素数でない)
-		for(T j = i * 2; j <= num; j += i) {
-			if(ret[j] == -1) ret[j] = i;
+int main() {
+	ll n, k; cin >> n >> k;
+	vll d(n + 1, -1); //d[i] : その数をふるい落とした素数
+	for(ll i = 2; i <= n; i++) {
+		if(d[i] != -1) continue; //すでにふるい落とされている
+		for(ll j = i * 2; j <= n; j += i) {
+			if(d[j] == -1) d[j] = i;
 		}
 	}
-	return ret;
-}
-
-int main() {
-
+	ll ans = 0;
+	for(ll i = 2; i <= n; i++) {
+		ll cur = i;
+		set<ll> divs;
+		while(d[cur] != -1) divs.insert(d[cur]), cur = cur / d[cur];
+		divs.insert(cur);
+		ans += divs.size() >= k;
+	}
+	cout << ans << endl;
 }

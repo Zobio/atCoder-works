@@ -36,26 +36,14 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-template<typename T>
-vector<T> osa_k(T num) {
-	/*
-	1からnumについて、エラトステネスの篩を用いる。
-	その際、配列retを生成する。
-	ret[i] : iをふるい落とした最小の素数
-	rey[i] == -1のときは、iは素数
-	計算量はO(NloglogN)
-	これを用いて、1からnumについてO(NlogN)で素因数の列挙ができる。(愚直な試し割りだとO(N√N))
-	*/
-	vector<T> ret(num + 1, -1); //ret[i] : その数をふるい落とした最小の素数
-	for(T i = 2; i <= num; i++) {
-		if(ret[i] != -1) continue; //すでにふるい落とされている(=素数でない)
-		for(T j = i * 2; j <= num; j += i) {
-			if(ret[j] == -1) ret[j] = i;
-		}
-	}
-	return ret;
-}
-
 int main() {
-
+	ll n, k; cin >> n >> k;
+	vll cnt(n + 1);
+	for(ll i = 2; i <= n; i++) {
+		if(cnt[i] >= 1) continue;
+		for(ll j = i; j <= n; j += i) cnt[j]++;
+	}
+	ll ans = 0;
+	reps(i, n) ans += cnt[i] >= k;
+	cout << ans << endl;
 }

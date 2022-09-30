@@ -30,51 +30,43 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-vector<int>e[200010];
-bool flag[200010];
-deque<int> deq;
-bool stop;
- 
-void dfs(int k,int to){
-	if(!stop)deq.push_back(k);
-	cout << k << " " << to << endl;
-	cout << "arr: ";arrcout(deq);
-	if(k==to)stop=true;
-    flag[k]=true;
-	int sz=e[k].size();
-    for(int i=0;i<sz;i++){
-        if(!flag[e[k][i]])dfs(e[k][i],to);
-    }
-	if(!stop)deq.pop_back();
-	return;
+template<typename T>
+vector<T> osa_k(T num) {
+	/*
+	1からnumについて、エラトステネスの篩を用いる。
+	その際、配列retを生成する。
+	ret[i] : iをふるい落とした最小の素数
+	rey[i] == -1のときは、iは素数
+	計算量はO(NloglogN)
+	これを用いて、1からnumについてO(NlogN)で素因数の列挙ができる。(愚直な試し割りだとO(N√N))
+	*/
+	vector<T> ret(num + 1, -1); //ret[i] : その数をふるい落とした最小の素数
+	for(T i = 2; i <= num; i++) {
+		if(ret[i] != -1) continue; //すでにふるい落とされている(=素数でない)
+		for(T j = i * 2; j <= num; j += i) {
+			if(ret[j] == -1) ret[j] = i;
+		}
+	}
+	return ret;
+    
 }
 
-int main(void) {
-    int n,x,y;
-    int u,v;
-
-	cin>>n>>x>>y;
-    for(int i=0;i<n-1;i++){
-		cin>>u>>v;
-		e[u].push_back(v);
-		e[v].push_back(u);
-    }
-
-    for(int i=1;i<=n;i++)flag[i]=false;
-    stop = false;
-	dfs(x,y);
-
-    while(!deq.empty()){
-		cout<<deq.front();
-		deq.pop_front();
-		if(deq.empty())cout<<endl;
-		else cout<<" ";
+int main() {
+	ll n, k; cin >> n >> k;
+	vll d = osa_k(n);
+	ll ans = 0;
+	for(ll i = 2; i <= n; i++) {
+		ll cur = i;
+		set<ll> divs;
+		while(d[cur] != -1) divs.insert(d[cur]), cur = cur / d[cur];
+		divs.insert(cur);
+		ans += divs.size() >= k;
 	}
-	return 0;
+	cout << ans << endl;
 }
