@@ -39,5 +39,21 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 int main() {
 	ll n, k; cin >> n >> k;
 	vll a(n); rep(i, n) cin >> a[i];
-	
+	//まず二分探索を用いて、周回数を求める
+	ll l = -1, r = 1000000000010;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		ll sum = 0;
+		rep(i, n) sum += min(a[i], mid);
+		if(sum > k) r = mid;
+		else l = mid;
+	}
+	ll rest = k;
+	rep(i, n) rest -= min(a[i], l); //あまり
+	rep(i, n) {
+		if(a[i] - l <= 0) cout << 0 << " ";
+		else if(rest > 0) cout << a[i] - l - 1 << " ", rest--;
+		else cout << a[i] - l << " ";
+	}
+	cout << endl;
 }
