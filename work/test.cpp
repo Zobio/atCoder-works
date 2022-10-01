@@ -30,43 +30,27 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-#pragma GCC target("avx2")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
+//#pragma GCC target("avx2")
+//#pragma GCC optimize("O3")
+//#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 template<typename T>
-vector<T> osa_k(T num) {
+vector<pair<T, T>> RLE(vector<T> arr) {
 	/*
-	1からnumについて、エラトステネスの篩を用いる。
-	その際、配列retを生成する。
-	ret[i] : iをふるい落とした最小の素数
-	rey[i] == -1のときは、iは素数
-	計算量はO(NloglogN)
-	これを用いて、1からnumについてO(NlogN)で素因数の列挙ができる。(愚直な試し割りだとO(N√N))
+	ランレングス圧縮をする。
+	(例) {1,1,1,2,4,4,4,4,4,3,3,3} --> {{1,3},{2,1},{4,5},{3,3}}
 	*/
-	vector<T> ret(num + 1, -1); //ret[i] : その数をふるい落とした最小の素数
-	for(T i = 2; i <= num; i++) {
-		if(ret[i] != -1) continue; //すでにふるい落とされている(=素数でない)
-		for(T j = i * 2; j <= num; j += i) {
-			if(ret[j] == -1) ret[j] = i;
-		}
+	vector<pair<T, T>> ret;
+	ret.push_back({arr.front(), 1});
+	for(ll i = 1; i < arr.size(); i++) {
+		if(arr[i] == ret.back().first) ret.back().second++;
+		else ret.push_back({arr[i], 1});
 	}
 	return ret;
-    
 }
 
 int main() {
-	ll n, k; cin >> n >> k;
-	vll d = osa_k(n);
-	ll ans = 0;
-	for(ll i = 2; i <= n; i++) {
-		ll cur = i;
-		set<ll> divs;
-		while(d[cur] != -1) divs.insert(d[cur]), cur = cur / d[cur];
-		divs.insert(cur);
-		ans += divs.size() >= k;
-	}
-	cout << ans << endl;
+
 }
