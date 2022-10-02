@@ -36,18 +36,53 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	map<ll, ll> mp;
-	ll n; cin >> n;
-	rep(i, n) {
-		ll a, b; cin >> a >> b;
-		mp[a] = b;
-	}
-	ll cnt = 0;
+ll N, W;
+vll w, v;
+vvll dp;
 
-	for(auto au : mp) {
-		cnt++;
-		mp[100] = 1000;
+void solve1() {
+	map<ll, ll, greater<ll>> dp; //dp[i] : 重さの総和がiであるときの価値の総和の最大値
+	dp[0] = 0;
+	rep(i, N) {
+		for(auto au : dp) {
+			if(au.first + w[i] > W) continue;
+			chmax(dp[au.first + w[i]], au.second + v[i]);
+		}
 	}
-	cout << cnt << endl;
+	ll ans = 0;
+	for(auto au : dp) chmax(ans, au.second);
+	cout << ans << endl;
+}
+
+void solve2() {
+	vll dp(W + 1); //dp[i] : 重さの総和がiであるときの価値の総和の最大値
+	dp[0] = 0;
+	rep(i, N) rrep(j, W) {
+		if(j + w[i] > W) continue;
+		chmax(dp[j + w[i]], dp[j]+ v[i]);
+	}
+	cout << *max_element(all(dp)) << endl;
+}
+
+void solve3() {
+	ll V = accumulate(all(v), 0ll);
+	vll dp(V + 1, INF); //dp[i] : 価値の総和がiであるときの重さの総和の最小値
+	dp[0] = 0;
+	rep(i, N) rrep(j, V + 1) {
+		if(j + v[i] > V) continue;
+		chmin(dp[j + v[i]], dp[j] + w[i]);
+	}
+	ll ans = 0;
+	rrep(i, V + 1) if(dp[i] <= W) {ans = i; break;}
+	cout << ans << endl;
+}
+
+int main() {
+	cin >> N >> W;
+	v.resize(N); w.resize(N);
+	rep(i, N) cin >> v[i] >> w[i];
+
+	if(N <= 30) solve1();
+	else if(*max_element(all(w)) <= 1000) solve2();
+	else solve3();
 }
