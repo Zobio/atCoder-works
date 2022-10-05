@@ -37,5 +37,23 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << log10(INT_MAX) << endl;
+	//DP 経路復元
+	ll n, s; cin >> n >> s;
+	vll a(n), b(n); rep(i, n) cin >> a[i] >> b[i];
+	vvll dp(n + 1, vll(s + 1, -1));
+	dp[0][0] = 0;
+	rep(i, n) rep(j, s) {
+		if(dp[i][j] == -1) continue;
+		if(j + a[i] <= s) dp[i + 1][j + a[i]] += dp[i][j] + a[i];
+		if(j + b[i] <= s) dp[i + 1][j + b[i]] += dp[i][j] + b[i];
+	}
+	if(dp.back().back() == -1) {cout << "Impossible" << endl; return 0;}
+	string ans;
+	ll cur = s;
+	rrep(i, n) {
+		if(cur - a[i] >= 0 && dp[i][cur - a[i]] != -1) ans.push_back('A'), cur -= a[i];
+		else ans.push_back('B'), cur -= b[i];
+	}
+	reverse(all(ans));
+	cout << ans << endl;
 }

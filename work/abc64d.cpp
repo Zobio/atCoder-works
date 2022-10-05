@@ -37,5 +37,32 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << log10(INT_MAX) << endl;
+	ll n; cin >> n;
+	string s; cin >> s;
+	vpll a;
+	bool flag = true; //今は')'である
+	rep(i, n) {
+		if(s[i] == '(' && flag) a.push_back({0, 0}), flag = false;
+		else if(a.empty()) a.push_back({0, 0});
+		flag |= s[i] == ')';
+		(flag ? a.back().second : a.back().first)++;
+	}
+	ll len = a.size();
+	vll m(len); //'('と')'の対応
+	rep(i, len) m[i] = len - 1 - i;
+	vll fix(len);
+	rep(i, len / 2) if(a[i].first > a[i].second) fix[m[i]] += a[i].first - a[i].second;
+	for(ll i = len - 1; i > len / 2; i--) if(a[i].second > a[i].first) fix[m[i]] += a[i].second - a[i].first;
+	rep(i, len) {
+		if(fix[i]) cout << (i < len / 2 ? '(' : ')');
+		if(!fix[m[i]]) {
+			rep(j, a[i].first) cout << '(';
+			rep(j, a[i].second) cout << ')';
+		}else{
+			ll ma = min(a[i].first, a[i].second);
+			rep(j, ma) cout << '(';
+			rep(j, ma) cout << ')';
+		}
+	}
+	cout << endl;
 }

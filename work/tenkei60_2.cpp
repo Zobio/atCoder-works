@@ -37,5 +37,22 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << log10(INT_MAX) << endl;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll dp1(n, INF), dp2(n, INF); // dp1[i] : 左側から長さがiとなるLISの中の、列最後の要素の最小値 dp2[i] : 右側から長さがiとなるLISの中の、列最後の要素の最小値
+	vll len1(n), len2(n);
+	rep(i, n) {
+		ll p = lower_bound(all(dp1), a[i]) - dp1.begin();
+		chmin(dp1[p], a[i]);
+		len1[i] = lower_bound(all(dp1), INF) - dp1.begin();
+	}
+	reverse(all(a));
+	rep(i, n) {
+		ll p = lower_bound(all(dp2), a[i]) - dp2.begin();
+		chmin(dp2[p], a[i]);
+		len2[i] = lower_bound(all(dp2), INF) - dp2.begin();
+	}
+	ll ans = 0;
+	rep(i, n) chmax(ans, len1[i] + len2[n - 1 - i] - 1);
+	cout << ans << endl; 
 }

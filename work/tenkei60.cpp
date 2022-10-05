@@ -37,5 +37,18 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << log10(INT_MAX) << endl;
+	//左右からLISを考える
+	//それとバケット法を組み合わせる
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll dp1(n, INF), dp2(n, INF); //dp1[i] : 左側から長さがiとなるLISの中の、列最後の要素の最小値 dp2[i] : 右側から長さがiとなるLISの中の、列最後の要素の最小値
+	rep(i, n) {
+		ll p = lower_bound(all(dp1), a[i]) - dp1.begin();
+		chmin(dp1[p], a[i]);
+	}
+	rrep(i, n) {
+		ll p = lower_bound(all(dp2), a[i]) - dp2.begin();
+		chmin(dp2[p], a[i]);
+	}
+	cout << lower_bound(all(dp1), INF) - dp1.begin() + lower_bound(all(dp2), INF) - dp2.begin() - 1 << endl;
 }

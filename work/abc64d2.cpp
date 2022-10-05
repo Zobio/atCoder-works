@@ -37,5 +37,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << log10(INT_MAX) << endl;
+	ll n; cin >> n;
+	string s; cin >> s;
+	vll d(n + 1); rep(i, n) d[i + 1] = d[i] + (s[i] == '(' ? 1 : -1);
+	// step 1 : とりあえずできるだけ左側に'('を挿入
+	rep(i, -*min_element(all(d))) s = '(' + s;
+
+	n = s.size();
+	d.assign(n + 1, 0);
+	rep(i, n) d[i + 1] = d[i] + (s[i] == '(' ? 1 : -1);
+	//step 2 : 右端に足りない分だけ')'を挿入
+	rep(i, d.back()) s += ')';
+	
+	cout << s << endl;
 }
