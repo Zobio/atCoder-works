@@ -37,12 +37,28 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	vector<int> v = {1,2,3,4,5};
-	for(int i = 0; i <= 6; i++) {
-		cout << i << " : ";
-		cout << v.end() - lower_bound(all(v), i) << " "; //以上
-		cout << v.end() - upper_bound(all(v), i) << " "; //より大きい
-		cout << lower_bound(all(v), i + 1) - v.begin() << " "; //以下
-		cout << lower_bound(all(v), i) - v.begin() << endl; //未満
+	//半分全列挙
+	ull n, k, p; cin >> n >> k >> p;
+	deque<ll> a(n); rep(i, n) cin >> a[i];
+	sort(all(a));
+	vll h1, h2;
+	rep(i, n / 2) h1.push_back(a.front()), a.pop_front();
+	while(a.size()) h2.push_back(a.front()), a.pop_front();
+	vvll sum1(k + 1), sum2(k + 1);
+	rep(bits, 1 << h1.size()) {
+		ll cur = 0, cnt = 0;
+		rep(i, h1.size()) if(1ll << i & bits) cur += h1[i], cnt++;
+		if(cur <= p && cnt <= k) sum1[cnt].push_back(cur);
 	}
+	rep(bits, 1 << h2.size()) {
+		ll cur = 0, cnt = 0;
+		rep(i, h2.size()) if(1ll << i & bits) cur += h2[i], cnt++;
+		if(cur <= p && cnt <= k) sum2[cnt].push_back(cur);
+	}
+	rep(i, k + 1) sort(all(sum1[i])), sort(all(sum2[i]));
+	ll ans = 0;
+	rep(i, k + 1) for(auto au : sum1[i]) {
+		ans += upper_bound(all(sum2[k - i]), p - au) - sum2[k - i].begin();
+	}
+	cout << ans << endl;
 }
