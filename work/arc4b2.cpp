@@ -30,31 +30,19 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-#pragma GCC target("avx2")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
+//#pragma GCC target("avx2")
+//#pragma GCC optimize("O3")
+//#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	//最小値は、三角形の成立条件を満たすのなら0,それ以外ならなるべく小さくとる?
 	setcout(15);
 	ll n; cin >> n;
 	vll a(n);
 	rep(i, n) cin >> a[i];
-	while(n < 3) a.push_back(0), n++;
-	vll rui(n + 1); rep(i, n) rui[i + 1] = rui[i] + a[i];
-	ld ans = rui[n];
-	//三角形が成立するような３辺の分け方を全探索すればいけそう?
-	rep(i, n) reep(j, i + 1, n) reep(k, j + 1, n) {
-		vll hen;
-		hen.push_back(rui[i + 1] - rui[0]);
-		hen.push_back(rui[j + 1] - rui[i + 1]);
-		hen.push_back(rui[k + 1] - rui[j + 1]);
-		sort(all(hen));
-		if(hen[2] <= (hen[1] + hen[0])) ans = 0; 
-		else chmin(ans, (ld)abs((hen[1] + hen[0] - hen[2])));
-	}
-	cout << rui[n] << endl;
-	cout << ans << endl;
+	ll sum = accumulate(all(a), 0ll);
+	ll ma = *max_element(all(a));
+	cout << sum << endl;
+	cout << (sum - ma >= ma ? 0 : ma - (sum - ma)) << endl;
 }
