@@ -36,64 +36,79 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-class union_find {
-private:
-	int N;
-	vector<int> par;
-public:
-	union_find() : N(0), par() {}
-	union_find(int N_) : N(N_) {
-		par.resize(N);
-		for (int i = 0; i < N; ++i) {
-			par[i] = i;
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
 		}
 	}
-	int root(int x) {
-		if (x == par[x]) return x;
-		return par[x] = root(par[x]);
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
 	}
-	void link(int x, int y) {
-		par[root(x)] = root(y);
+
+	long long size(long long x) {
+		return -parents[find(x)];
 	}
-	bool connected(int x, int y) {
-		return root(x) == root(y);
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
 	}
 };
+
 int main() {
-	int N, Q;
-	cin >> N >> Q;
-	vector<int> T(Q), X(Q), Y(Q), V(Q);
-	for (int i = 0; i < Q; ++i) {
-		cin >> T[i] >> X[i] >> Y[i] >> V[i];
-		--X[i], --Y[i];
+	ll n, q; cin >> n >> q;
+	UnionFind uf(n); //X_iとY_iが同じグループに属しているか判定する
+	vll t(q), x(q), y(q), v(q);
+	rep(i, q) cin >> t[i] >> x[i] >> y[i] >> v[i], x[i]--, y[i]--;
+	vll s(n - 1);
+	rep(i, q) {
+		if(t[i] == 0) s[x[i]] = v[i];
 	}
-	vector<int> sum(N - 1, 0);
-	for (int i = 0; i < Q; ++i) {
-		if (T[i] == 0) {
-			sum[X[i]] = V[i];
+	vll a(n);
+	rep(i, n - 1) a[i + 1] = s[i] - a[i];
+	rep(i, q) {
+		if(t[i] == 0) uf.unite(x[i], y[i]);
+		else{
+			if(!uf.issame(x[i], y[i])) cout << "Ambiguous" << endl;
+			else if(y[i] - x[i] & 1) cout << a[y[i]] + a[x[i]] - v[i] << endl;
+			else cout << a[y[i]] - (a[x[i]] - v[i]) << endl;
 		}
 	}
-	vector<long long> potential(N, 0);
-	for (int i = 0; i < N - 1; ++i) {
-		potential[i + 1] = sum[i] - potential[i];
-	}
-	arrcout(potential);
-	union_find uf(N);
-	for (int i = 0; i < Q; ++i) {
-		if (T[i] == 0) {
-			uf.link(X[i], Y[i]);
-		}
-		if (T[i] == 1) {
-			if (!uf.connected(X[i], Y[i])) {
-				cout << "Ambiguous" << endl;
-			}
-			else if ((X[i] + Y[i]) % 2 == 0) {
-				cout << V[i] + (potential[Y[i]] - potential[X[i]]) << endl;
-			}
-			else {
-				cout << (potential[X[i]] + potential[Y[i]]) - V[i] << endl;
-			}
-		}
-	}
-	return 0;
 }
