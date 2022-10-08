@@ -1,99 +1,53 @@
-#include <bits/stdc++.h>
-#include <atcoder/all>
+#include <iostream>
+#include <vector>
 using namespace std;
-using namespace atcoder;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define reep(i, a, b) for(long long i = a; i < b; i++)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define pll pair<long long, long long>
-#define vpll vector<pair<long long, long long>>
-#define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
-#define setcout(n) cout << setprecision(n) << fixed
-#define YESS {printf("Yes\n"); return 0;}
-#define NOO {printf("No\n"); return 0;}
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
-#define INF (1LL << 60)
-#define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-class union_find {
-private:
-	int N;
-	vector<int> par;
-public:
-	union_find() : N(0), par() {}
-	union_find(int N_) : N(N_) {
-		par.resize(N);
-		for (int i = 0; i < N; ++i) {
-			par[i] = i;
+long long N, A[1 << 18], B[1 << 18];
+char C[1 << 18];
+
+long long mod = 1000000007;
+long long dp[1 << 18][3];
+vector<int> G[1 << 18];
+
+void dfs(int pos, int pre) {
+	long long val1 = 1, val2 = 1;
+	for (int i : G[pos]) {
+		if (i == pre) continue;
+		dfs(i, pos);
+		if (C[pos] == 'a') {
+			val1 *= (dp[i][0] + dp[i][2]);
+			val2 *= (dp[i][0] + dp[i][1] + 2LL * dp[i][2]);
 		}
+		if (C[pos] == 'b') {
+			val1 *= (dp[i][1] + dp[i][2]);
+			val2 *= (dp[i][0] + dp[i][1] + 2LL * dp[i][2]);
+		}
+		val1 %= mod;
+		val2 %= mod;
 	}
-	int root(int x) {
-		if (x == par[x]) return x;
-		return par[x] = root(par[x]);
+
+	if (C[pos] == 'a') {
+		dp[pos][0] = val1;
+		dp[pos][2] = (val2 - val1 + mod) % mod;
 	}
-	void link(int x, int y) {
-		par[root(x)] = root(y);
+	if (C[pos] == 'b') {
+		dp[pos][1] = val1;
+		dp[pos][2] = (val2 - val1 + mod) % mod;
 	}
-	bool connected(int x, int y) {
-		return root(x) == root(y);
-	}
-};
+}
+
 int main() {
-	int N, Q;
-	cin >> N >> Q;
-	vector<int> T(Q), X(Q), Y(Q), V(Q);
-	for (int i = 0; i < Q; ++i) {
-		cin >> T[i] >> X[i] >> Y[i] >> V[i];
-		--X[i], --Y[i];
+	// Step #1. Input
+	cin >> N;
+	for (int i = 1; i <= N; i++) cin >> C[i];
+	for (int i = 1; i <= N - 1; i++) {
+		cin >> A[i] >> B[i];
+		G[A[i]].push_back(B[i]);
+		G[B[i]].push_back(A[i]);
 	}
-	vector<int> sum(N - 1, 0);
-	for (int i = 0; i < Q; ++i) {
-		if (T[i] == 0) {
-			sum[X[i]] = V[i];
-		}
-	}
-	vector<long long> potential(N, 0);
-	for (int i = 0; i < N - 1; ++i) {
-		potential[i + 1] = sum[i] - potential[i];
-	}
-	arrcout(potential);
-	union_find uf(N);
-	for (int i = 0; i < Q; ++i) {
-		if (T[i] == 0) {
-			uf.link(X[i], Y[i]);
-		}
-		if (T[i] == 1) {
-			if (!uf.connected(X[i], Y[i])) {
-				cout << "Ambiguous" << endl;
-			}
-			else if ((X[i] + Y[i]) % 2 == 0) {
-				cout << V[i] + (potential[Y[i]] - potential[X[i]]) << endl;
-			}
-			else {
-				cout << (potential[X[i]] + potential[Y[i]]) - V[i] << endl;
-			}
-		}
-	}
+
+	// Step #2. DFS
+	dfs(1, -1);
+	cout << dp[1][2] << endl;
 	return 0;
 }
