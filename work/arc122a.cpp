@@ -20,14 +20,14 @@ using namespace atcoder;
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
 #define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
+#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j).val(); cout << endl;}
 #define setcout(n) cout << setprecision(n) << fixed
 #define YESS {printf("Yes\n"); return 0;}
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
+#define MOD 1000000007LL
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -37,25 +37,18 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	//n回操作したときの値の集合が分かればいい
-	ll n, m; cin >> n >> m;
+	ll n; cin >> n;
 	vll a(n); rep(i, n) cin >> a[i];
-	vvll vals(m + 1); //vals[i] = {a1, a2, a3...}: i回操作したときの値の集合はa1, a2, a3...
-	rep(i, n) {
-		if(a[i] >= n) continue;
-		ll st = (a[i] >= 0 ? 1 : (-a[i] + (i + 1) - 1) / (i + 1)); //開始の回数は、aが負の時は0じゃない(切り上げ)
-		ll en = min(m + 1, ((n - a[i]) + (i + 1) - 1) / (i + 1)); //終了回数は、min(m+1, n-(初期値)の必要回数(切り上げ))
-		for(int j = st; j < en; j++) {
-            vals[j].push_back(a[i] + (i + 1) * j);
-        }
+	vector<vector<mint>> dp(n , vector<mint>(2)); //dp[i][j] : i番目の数、前置の演算子が0?+:-であるときの場合の数
+	vector<vector<mint>> sum(n, vector<mint>(2)); //sum[i][j] : i番目の数、前置の演算子が0?+:-であるときの式の値の合計
+	dp[0][0] = 1; //初期値
+	sum[0][0] = a[0]; //初期値
+	rep(i, n - 1) {
+		dp[i + 1][0] = dp[i][0] + dp[i][1];
+		dp[i + 1][1] = dp[i][0];
+		
+		sum[i + 1][0] = sum[i][0] + sum[i][1] + a[i + 1] * dp[i + 1][0];
+		sum[i + 1][1] = sum[i][0] - a[i + 1] * dp[i + 1][1];
 	}
-
-	reps(i, m) {
-		ll sz = vals[i].size();
-		vector<bool> exi(sz + 1);
-		for(auto v: vals[i]) if(v < sz) exi[v] = true;
-		ll res = 0;
-		while(exi[res]) res++;
-		cout << res << endl;
-	}
+	cout << (sum.back().at(0).val() + sum.back().at(1).val()) % MOD << endl;
 }
