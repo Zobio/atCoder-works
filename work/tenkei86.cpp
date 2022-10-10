@@ -26,8 +26,8 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
+#define MOD 1000000007LL
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -36,15 +36,19 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll n, q;
-vll x, y, z, w;
-
-vll dfs(vll arr) {
-	
-}
-
 int main() {
-	cin >> n >> q;
-	rep(i, n) cin >> x[i] >> y[i] >> z[i] >> w[i];
-	dfs(vll(n, 0));
+	ll n, q; cin >> n >> q;
+	vll x(q), y(q), z(q), w(q); rep(i, q) cin >> x[i] >> y[i] >> z[i] >> w[i], x[i]--, y[i]--, z[i]--;
+	vector<mint> p(60);
+	rep(pos, 60) rep(bits, 1ll << n) {
+		vll cur_bit(n);
+		rep(i, n) cur_bit[i] = bits >> i & 1;
+		ll flag = true;
+		//条件を満たしているかチェック
+		rep(i, q) flag &= ((cur_bit[x[i]] | cur_bit[y[i]] | cur_bit[z[i]]) & 1) == (w[i] >> pos & 1);
+		p[pos] += flag;
+	}
+	mint ans = 1;
+	rep(i, 60) ans *= p[i];
+	cout << ans.val() << endl;
 }
