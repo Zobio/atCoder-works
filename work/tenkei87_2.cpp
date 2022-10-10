@@ -36,6 +36,44 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, p, k;
+vvll a, dist;
+
+void calc_dist(ll w) {
+	dist.assign(n, vll(n, INF));
+	rep(i, n) rep(j, n) dist[i][j] = a[i][j] != -1 ? a[i][j] : w;
+	rep(i, n) reep(j, i + 1, n) reep(l, j + 1, n) {
+		chmin(dist[j][k], dist[j][i] + dist[i][k]);
+	}
+}
+
 int main() {
-	cout << INF << endl;
+	cin >> n >> p >> k;
+	a.resize(n, vll(n));
+	rep(i, n) rep(j, n) cin >> a[i][j];
+	ll l = 0, r = INF;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		calc_dist(mid);
+		ll cnt = 0;
+		rep(i, n) reep(j, i + 1, n) cnt += dist[i][j] <= p;
+		if(cnt < k) r = mid;
+		else l = mid;
+	}
+	ll ans_high = l;
+	l = 0, r = INF;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		calc_dist(mid);
+		ll cnt = 0;
+		rep(i, n) reep(j, i + 1, n) cnt += dist[i][j] <= p;
+		if(cnt <= k) r = mid;
+		else l = mid;
+	}
+	ll ans_low = r;
+	ll ma = INF - 10;
+	cout << ans_high << " " << ans_low << endl;
+	if(ans_high > ma && ans_low > ma) cout << 0 << endl;
+	else if(ans_high > ma) cout << "Infinity" << endl;
+	else cout << ans_high - ans_low + 1 << endl;
 }

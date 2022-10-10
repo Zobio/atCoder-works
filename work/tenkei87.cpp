@@ -36,6 +36,48 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, p, k;
+vvll a, dist;
+
+vvll bfs(ll w) {
+	dist.assign(n, vll(n, INF));
+	rep(st, n) {
+		dist[st][st] = 0;
+		queue<ll> que; que.push(st);
+		while(que.size()) {
+			ll cur = que.front(); que.pop();
+			rep(nxt, n) if(chmin(dist[st][nxt], dist[st][cur] + (a[cur][nxt] != -1 ? a[cur][nxt] : w))) que.push(nxt);
+		}
+	}
+	return dist;
+}
+
 int main() {
-	cout << INF << endl;
+	cin >> n >> p >> k;
+	a.resize(n, vll(n));
+	rep(i, n) rep(j, n) cin >> a[i][j];
+	ll l = 0, r = INF;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		vvll d = bfs(mid);
+		ll cnt = 0;
+		rep(i, n) reep(j, i + 1, n) cnt += d[i][j] <= p;
+		if(mid == INF - 1 && cnt != k) {cout << 0 << endl; return 0;}
+		if(cnt < k) r = mid;
+		else l = mid;
+	}
+	ll ans_high = l;
+	l = 0, r = INF;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		vvll d = bfs(mid);
+		ll cnt = 0;
+		rep(i, n) reep(j, i + 1, n) cnt += d[i][j] <= p;
+		if(mid == 0 && cnt != k) {cout << 0 << endl; return 0;}
+		if(cnt > k) l = mid;
+		else r = mid;
+	}
+	ll ans_low = r;
+	if(ans_high == INF - 1) {cout << "Infinity" << endl; return 0;}
+	cout << ans_high - ans_low + 1 << endl;
 }
