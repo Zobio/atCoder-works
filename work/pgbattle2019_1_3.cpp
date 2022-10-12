@@ -37,6 +37,14 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	cout << (n ^ 3) << endl;
+	ll n, m; cin >> n >> m;
+	vll a(n), b(n); rep(i, n) cin >> a[i] >> b[i];
+	vpll p(n); rep(i, n) p[i] = {i, a[i] + b[i]};//first番目に、second秒後
+	vll hit(m);
+	rep(i, n) {
+		ll cur = p[i].first - p[i].second;
+		if(cur < 0 || cur >= m) continue;
+		hit[cur] |= true;
+	}
+	cout << accumulate(all(hit), 0ll) << endl;
 }

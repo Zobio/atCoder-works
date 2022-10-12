@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
 using namespace std;
-using namespace atcoder;
 #define uint unsigned int
 #define ll long long
 #define ull unsigned long long
@@ -26,8 +24,6 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -36,7 +32,41 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+struct edge{
+	ll to;
+	ll cost;
+	ll busy;
+};
+
+
 int main() {
-	ll n; cin >> n;
-	cout << (n ^ 3) << endl;
+	ll n, m, t, k; cin >> n >> m >> t >> k; //混雑度 D-|T-t| <= Kとなるようにする
+	vector<vector<edge>> g(n);
+	rep(i, m) {
+		ll a, b, c, d; cin >> a >> b >> c >> d; a--; b--;
+		g[a].push_back({b, c, d});
+		g[b].push_back({a, c, d});
+	}
+	vll dist(n, INF);
+	dist[0] = 0;
+	priority_queue<pll, vpll, greater<pll>> que;
+	que.push({0, 0});
+	while(que.size()) {
+		pll cur = que.top(); que.pop();
+		ll v = cur.second;
+		if(dist[v] < cur.first) continue;
+		rep(i, g[v].size()) {
+			auto nxt = g[v][i];
+			ll e = nxt.to;
+			ll time = dist[v] + nxt.cost;
+			ll wait = INF;
+			ll A = -nxt.busy + k + t, B = nxt.busy - k + t;
+			if(A > B) A = INF, B = -INF; //例外処理 対象区間が存在しない
+			if(B <= dist[v]) wait = 0;
+			else if(time <= A) wait = 0;
+			else wait = B - dist[v];
+			if(chmin(dist[e], time + wait)) que.push({dist[e], e});
+		}
+	}
+	cout << (dist.back() != INF ? dist.back() : -1) << endl;
 }

@@ -37,6 +37,7 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	cout << (n ^ 3) << endl;
+	ll w, k, d; cin >> w >> k >> d;
+	if(k <= d && w - k <= d) YESS
+	else NOO
 }

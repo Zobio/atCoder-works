@@ -37,6 +37,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	cout << (n ^ 3) << endl;
+	string s; cin >> s;
+	string t = "AtCoder";
+	if(s == t) YESS
+	bool flag = true;
+	ll dist = 'a' - 'A';
+	rep(i, s.size()) flag &= s[i] == t[i] || (s[i] >= 'a' ? (s[i] - t[i] == dist) : (t[i] - s[i] == dist));
+	cout << (flag ? "Maybe" : "No") << endl;
 }
