@@ -37,5 +37,17 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << SHRT_MAX << endl;
+	//二分探索
+	ll n; cin >> n;
+	vll a(n * 2); rep(i, n * 2) cin >> a[i];
+	sort(all(a));
+	ll l = -1, r = INF;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		ll flag = true;
+		rep(i, n) flag &= a[i + n] - a[i] >= mid;
+		if(flag) l = mid;
+		else r = mid;
+	}
+	cout << l << endl;
 }

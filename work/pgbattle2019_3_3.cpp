@@ -6,7 +6,7 @@ using namespace atcoder;
 #define ll long long
 #define ull unsigned long long
 #define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
+#define rep(i, n) for (int i = 0; i < n; i++)
 #define reps(i, n) for (long long i = 1; i <= n; i++)
 #define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
 #define rreps(i, n) for (long long i = n; i >= 1; i--)
@@ -37,5 +37,18 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << SHRT_MAX << endl;
+	int n; cin >> n;
+	vector<short> a(n), b(n), d(n); rep(i, n) cin >> a[i] >> b[i] >> d[i];
+	vector<short> ra(n), rb(n); rep(i, n) ra[i] = a[i] + b[i], rb[i] = a[i] - b[i]; //45度回転
+	rep(i, n) rb[i] += 3000;
+	short sa = *max_element(all(ra)) + 10, sb = *max_element(all(rb)) + 10;
+	vector<vector<short>> cor(sa + 1, vector<short>(sb + 1)); rep(i, n) cor[ra[i]][rb[i]]++;
+	vector<vector<int>> rui(sa + 2, vector<int>(sb + 2));
+	rep(i, sa) rep(j, sb) {
+		rui[i + 1][j + 1] = rui[i + 1][j] + rui[i][j + 1] - rui[i][j] + cor[i][j];
+	}
+	rep(i, n) {
+		short ma1 = min(sa - 1, ra[i] + d[i]), ma2 = min(sb - 1, rb[i] + d[i]), mi1 = max(0, ra[i] - d[i]), mi2 = max(0, rb[i] - d[i]);
+		cout << rui[ma1 + 1][ma2 + 1] - rui[ma1 + 1][mi2] - rui[mi1][ma2 + 1] + rui[mi1][mi2] << endl;
+	}
 }

@@ -37,5 +37,28 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << SHRT_MAX << endl;
+	ll n; cin >> n;
+	string s; cin >> s;
+	//座ることが可能な右端、左端、空いている座席の集合をつかってシミュレーション?
+	ll l = 0, r = n - 1;
+	set<ll> vacant; rep(i, n) vacant.insert(i);
+	vll ans(n, -1);
+	rep(i, n) {
+		if(l <= r) {
+			if(s[i] == 'L') {
+				ans[i] = l + 1; vacant.erase(l); l += 2;
+			}else{
+				ans[i] = r + 1; vacant.erase(r); r -= 2;
+			}
+		}else{
+			if(s[i] == 'L') {
+				ll p = *vacant.begin();
+				ans[i] = p + 1; vacant.erase(p);
+			}else{
+				ll p = *vacant.rbegin();
+				ans[i] = p + 1; vacant.erase(p);
+			}
+		}
+	}
+	rep(i, n) cout << ans[i] << endl;
 }
