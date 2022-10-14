@@ -36,6 +36,27 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+vvll g;
+vector<bool> done;
+ll ans;
+
+void dfs(ll cur) {
+	done[cur] = true;
+	bool flag = false;
+	for(auto nxt : g[cur]) {
+		if(!done[nxt]) flag = true, dfs(nxt);
+	}
+	if(!flag) ans++;
+}
+
 int main() {
-	cout << ((mint)0 * (mint)5).val() << endl;
+	cin >> n;
+	g.resize(n); done.resize(n);
+	rep(i, n - 1) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b); g[b].push_back(a);
+	}
+	dfs(0);
+	cout << ans << endl;
 }

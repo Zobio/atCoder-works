@@ -36,6 +36,25 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, s;
+set<vll> ans;
+
+void dfs(vll a) {
+	ll sum_cur = accumulate(all(a), 0ll);
+	ll rest = s - sum_cur;
+	if(a.empty()) reps(i, s / n) dfs({i}); 
+	else if(a.size() < n) {
+		for(ll i = a.back(); i <= rest / (n - a.size()); i++) {
+			a.push_back(i);
+			dfs(a);
+			a.pop_back();
+		}
+	}
+	else if(accumulate(all(a), 0ll) == s) ans.insert(a);
+}
+
 int main() {
-	cout << ((mint)0 * (mint)5).val() << endl;
+	cin >> n >> s;
+	dfs({});
+	for(auto au : ans) {arrcout(au);}
 }

@@ -26,8 +26,8 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
+#define MOD 1000000007LL
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -37,5 +37,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << ((mint)0 * (mint)5).val() << endl;
+	ll n, m, d; cin >> n >> m >> d;
+	vll a(m); rep(i, m) cin >> a[i], a[i]--;
+	sort(all(a));
+	map<ll, deque<mint>> dc;
+	rep(i, m) dc[a[i] % d].push_back((a[i] - a[i] % d) / d);
+	mint g1 = (d - n % d), g2 = n % d; //sizeがn/dのグループ、sizeがn/d+1のグループの個数
+	for(auto au : dc) {
+		if(au.first < n % d) g2--;
+		else g1--;
+	}
+	mint ans = 0;
+	//壊れているベルが存在しない等差数列の処理
+	ans += g1 * (n / d) * (n / d + 1) / 2;
+	ans += g2 * (n / d + 1) * (n / d + 1 + 1) / 2;
+	//壊れているベルが存在する等差数列の処理
+	for(auto& au : dc) au.second.push_front(0), au.second.push_back(au.first < n % d ? n / d + 1 - 1 : n / d - 1); //0-indexed
+	for(auto au : dc) rep(i, au.second.size() - 1) {
+		mint k = au.second.at(i + 1) - au.second.at(i);
+		k -= 0 < i && i < au.second.size() - 2;
+		ans += k * (k + 1) / 2;
+	}
+	cout << ans.val() << endl;
 }
