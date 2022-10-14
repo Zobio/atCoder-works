@@ -37,6 +37,29 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	char a = ' ', b = '1';
-	cout << (int)a << " " << (int)b << endl;
+	ll n, m; cin >> n >> m;
+	vvll g(n);
+	rep(i, m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+	}
+	vll dist(n, INF); dist[0] = 0;
+	vector<string> path(n); path[0] = "1";
+	queue<ll> que; que.push(0);
+	while(que.size()) {
+		ll cur = que.front(); que.pop();
+		for(auto nxt : g[cur]) {
+			if(chmin(dist[nxt], dist[cur] + 1)) path[nxt] = path[cur] + " " + to_string(nxt + 1), que.push(nxt);
+			else if(dist[nxt] == dist[cur] + 1 && path[nxt] > path[cur] + to_string(nxt + 1)) path[nxt] = path[cur] + " " + to_string(nxt + 1), que.push(nxt);
+		}
+	}
+	if(path.back().empty()) cout << -1 << endl;
+	else {
+		ll sz = path.back().size();
+		rep(i, sz) {
+			if(path.back().at(i) == ' ') {while(i < sz && path.back().at(i) == ' ') i++; cout << " ";}
+			cout << path.back().at(i);
+		}
+		cout << endl;
+	}
 }

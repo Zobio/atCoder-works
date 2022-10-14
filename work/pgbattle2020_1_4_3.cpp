@@ -37,6 +37,28 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	char a = ' ', b = '1';
-	cout << (int)a << " " << (int)b << endl;
+	ll n, m; cin >> n >> m;
+	vvll g(n);
+	rep(i, m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+	}
+	rep(i, n) sort(all(g[i]));
+	vll dist(n, INF); dist[0] = 0;
+	vll pre(n, INF); pre[0] = -1;
+	queue<ll> que; que.push(0);
+	while(que.size()) {
+		ll cur = que.front(); que.pop();
+		for(auto nxt : g[cur]) {
+			if(chmin(dist[nxt], dist[cur] + 1)) pre[nxt] = cur, que.push(nxt);
+			//else if(dist[nxt] == dist[cur] + 1 && pre[nxt] > cur) pre[nxt] = cur, que.push(nxt);
+		}
+	}
+	if(dist.back() == INF) {cout << -1 << endl; return 0;}
+	vll ans;
+	ll cor = n - 1;
+	while(cor != -1) ans.push_back(cor), cor = pre[cor];
+	reverse(all(ans));
+	for(auto au : ans) cout << au + 1 << " ";
+	cout << endl;
 }

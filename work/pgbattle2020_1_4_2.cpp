@@ -30,13 +30,48 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, m;
+vvll g;
+vll dist;
+vll path;
+vector<bool> visited;
+bool stop = false;
+
+vll dfs(ll cur) {
+	if(!stop) path.push_back(cur);
+	visited[cur] = true;
+	if(path.size() == dist.back() + 1 && path.back() == n - 1) stop = true;
+	for(auto nxt : g[cur]) {
+		if(dist[nxt] == dist[cur] + 1 && !visited[nxt]) dfs(nxt);
+	}
+	if(!stop) path.pop_back();
+	return path;
+}
+
 int main() {
-	char a = ' ', b = '1';
-	cout << (int)a << " " << (int)b << endl;
+	cin >> n >> m;
+	g.resize(n);
+	rep(i, m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		if(a != b) g[a].push_back(b);
+	}
+	rep(i, n) sort(all(g[i]));
+	dist.assign(n, INF); dist[0] = 0;
+	queue<ll> que; que.push(0);
+	while(que.size()) {
+		ll cur = que.front(); que.pop();
+		for(auto nxt : g[cur]) {
+			if(chmin(dist[nxt], dist[cur] + 1)) que.push(nxt);
+		}
+	}
+	visited.assign(n, false);
+	vll ans = dfs(0);
+	if(ans.size() < dist.back() + 1 || ans.back() != n - 1) cout << -1 << endl;
+	else {for(auto au : ans) cout << au + 1 << " "; cout << endl;}
 }
