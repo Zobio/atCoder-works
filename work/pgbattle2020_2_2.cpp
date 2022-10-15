@@ -36,25 +36,31 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll n, s;
-set<vll> ans;
-
-void dfs(vll a) {
-	ll sum_cur = accumulate(all(a), 0ll);
-	ll rest = s - sum_cur;
-	if(a.empty()) reps(i, s / n) dfs({i}); 
-	else if(a.size() < n) {
-		for(ll i = a.back(); i <= rest / (n - a.size()); i++) {
-			a.push_back(i);
-			dfs(a);
-			a.pop_back();
-		}
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret * a % m;
+		a = a % m * a % m;
+		n >>= 1;
 	}
-	else if(accumulate(all(a), 0ll) == s) ans.insert(a);
+	return ret;
 }
 
 int main() {
-	cin >> n >> s;
-	dfs({});
-	for(auto au : ans) {arrcout(au);}
+	ll n; cin >> n;
+	ll len = n; //0.0000...の長さ
+	ll k = mpow(2ll, n, LLONG_MAX);
+	ll digit = 0;
+	ll kk = k;
+	while(kk) digit++, kk /= 10;
+	len -= digit;
+	cout << "0.";
+	rep(i, len) cout << '0';
+	cout << k << endl;
 }

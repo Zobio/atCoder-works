@@ -26,8 +26,8 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
+#define MOD 1000000007LL
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -37,5 +37,31 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-
+	//ドミノ敷き詰め問題(蟻本p179) O(2^min(H, W) * HW)
+	ll h, w; cin >> h >> w;
+	if(w > h) swap(h, w);
+	vector<vector<vector<mint>>> dp(h + 1, vector<vector<mint>> (w + 1, vector<mint>(1 << w))); //dp[i][j][msk] : マス(i, j) に状態mskであるときの通り数 ただし(i, j)より前は全て埋め終わっているとする
+	dp[0][0][0] = 1;
+	rep(i, h) rep(j, w) rep(used, 1ll << w) {
+		if(used & 1 << j) { //既に置いてある
+			ll nxt = used & ~(1 << j); //既にマスが埋まっているので、自明に横にマスを置くことができない(=右隣りのマスは必ず空く)。なので、次の状態では必ず今の地点にマスを置くことができるので、その状態に遷移する。
+			if(j + 1 < w) dp[i][j + 1][nxt] += dp[i][j][used];
+			else dp[i + 1][0][nxt] += dp[i][j][used];
+		}
+		else{
+			//横向き
+			//マス(i,j)とマス(i,j+1)が空いていれば、マスを置ける。置くと右隣りのマスは埋まるので、その状態に遷移する。
+			if(j + 1 < w && !(used & 1 << (j + 1))) dp[i][j + 1][used | 1 << (j + 1)] += dp[i][j][used];
+			
+			//縦向き
+			//マス(i, j + 1)は必ず空いているので、マスを置ける。縦に置くとブロックが置かれていないエリアにブロックを置いていることになるが、次の状態でもその縦置きが維持されるので、問題ない(最後の行で縦置きができないのは、縦置きの状態を持っておけないから)
+			if(i + 1 < h) {
+				if(j + 1 < w) dp[i][j + 1][used | 1 << j] += dp[i][j][used];
+				else dp[i + 1][0][used | 1 << j] += dp[i][j][used];
+			}
+		}
+	}
+	//rep(i, h) rep(j, w) rep(k, 1ll << w) cout << i << " " << j << "  " << bitset<4>(k) << "  " << dp[i][j][k].val() << endl;
+	cout << bitset<4>(1 << w - 1) << endl;
+	cout << dp[h - 1][w - 1][1 << w - 1].val() << endl;
 }
