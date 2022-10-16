@@ -30,14 +30,39 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st = {1,2,3,4,5};
-	reverse_iterator it = st.lower_bound(1); it--;
-	cout << *st.rend() << endl;
+	ll q; cin >> q;
+	vvll g(q + 1); 
+	g.front().push_back(-1); //根
+	map<ll, pll> book; //number --> {depth, id}
+	map<pll, ll> pre; //{cur_depth, cur_id} --> pre_id (pre_depthはcur_depth - 1)
+	ll depth = 0, id = 0;
+	rep(i, q) {
+		string s; ll x = -1; cin >> s;
+		if(s != "DELETE") cin >> x;
+
+		if(s == "ADD") {
+			ll pre_id = id;
+			depth++;
+			id = g[depth].size();
+			g[depth].push_back(x);
+			pre[{depth, id}] = pre_id;
+		}
+		if(s == "DELETE") {
+			if(depth > 0) id = pre[{depth, id}], depth--;
+		}
+		if(s == "SAVE") {
+			book[x] = {depth, id};
+		}
+		if(s == "LOAD") {
+			depth = book[x].first, id = book[x].second;
+		}
+		cout << g[depth][id] << endl;
+	}
 }

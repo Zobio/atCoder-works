@@ -30,14 +30,30 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st = {1,2,3,4,5};
-	reverse_iterator it = st.lower_bound(1); it--;
-	cout << *st.rend() << endl;
+	//aはvpllで、{time, number}を持っておく。そうすることでLOADしたときにtimeの情報があれば復元できる
+	//bookに渡す時は、timeを渡す。
+	ll q; cin >> q;
+	vvpll a; //場所、時間、値
+	map<ll, ll> book; //timeをいれとく
+	vll ans;
+	ll p = 0; //位置
+	ll time = 0;
+	rep(i, q) {
+		string s; ll x = -1; cin >> s;
+		if(s != "DELETE") cin >> x;
+
+		if(s == "ADD") a[p].push_back({i, x}), p++; //pという場所に時間iにxがあった
+		if(s == "DELETE") if(p) p--; //位置変更
+		if(s == "SAVE") book[x] = i; //時間
+		if(s == "LOAD") ;
+		ans.push_back(a.size() ? a.back() : -1);
+	}
+	arrcout(ans);
 }

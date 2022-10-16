@@ -36,8 +36,15 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+
+ll n;
+
+ll f(ll n) {
+	if(n == 0) return 1;
+	else return n * f(n - 1);
+}
+
 int main() {
-	set<ll> st = {1,2,3,4,5};
-	reverse_iterator it = st.lower_bound(1); it--;
-	cout << *st.rend() << endl;
+	cin >> n;
+	cout << f(n) << endl;
 }

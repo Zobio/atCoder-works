@@ -37,7 +37,12 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st = {1,2,3,4,5};
-	reverse_iterator it = st.lower_bound(1); it--;
-	cout << *st.rend() << endl;
+	ll n, k; cin >> n >> k;
+	rep(i, k) {
+		ll r = n % 10;
+		n /= 10;
+		n += r >= 5;
+	}
+	rep(i, k) n *= 10;
+	cout << n << endl;
 }

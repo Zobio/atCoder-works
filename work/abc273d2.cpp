@@ -37,7 +37,47 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st = {1,2,3,4,5};
-	reverse_iterator it = st.lower_bound(1); it--;
-	cout << *st.rend() << endl;
+	ll h, w, sy, sx; cin >> h >> w >> sy >> sx; sy--; sx--;
+	ll n; cin >> n;
+	vpll r(n); rep(i, n) cin >> r[i].first >> r[i].second, r[i].first--, r[i].second--;
+	ll q; cin >> q;
+	vector<char> d(q); vll l(q); rep(i, q) cin >> d[i] >> l[i];
+	map<ll, set<ll>> w_yoko, w_tate; //横についての壁の座標集合、縦についての座標集合
+	rep(i, n) w_yoko[r[i].first].insert(r[i].second);
+	rep(i, n) w_tate[r[i].second].insert(r[i].first);
+	ll y = sy, x = sx;
+	rep(i, q) {
+		ll len = l[i];
+		if(d[i] == 'R') {
+			auto it = w_yoko[y].upper_bound(x);
+			if(it == w_yoko[y].end()) x = min(x + len, w - 1);
+			else x = min(x + len, *it - 1);
+		}
+		else if(d[i] == 'D') {
+			auto it = w_tate[x].upper_bound(y);
+			if(it == w_tate[x].end()) y = min(y + len, h - 1);
+			else y = min(y + len, *it - 1);
+		}
+		else if(d[i] == 'L') {
+			if(w_yoko.find(y) == w_yoko.end()) x = max(x - len, 0ll);
+			else{
+				ll cor = 0;
+				auto it = w_yoko[y].lower_bound(x);
+				if(it != w_yoko[y].begin()) it--, cor = *it + 1;
+				x = max(x - len, cor);
+			}
+		}
+		else if(d[i] == 'U') {
+			auto it = w_tate[x].lower_bound(y);
+			it--;
+			if(w_tate.find(x) == w_tate.end()) y = max(y - len, 0ll);
+			else{
+				ll cor = 0;
+				auto it = w_tate[x].lower_bound(y);
+				if(it != w_tate[x].begin()) it--, cor = *it + 1;
+				y = max(y - len, cor);
+			}
+		}
+		cout << y + 1 << " " << x + 1 << endl;
+	}
 }
