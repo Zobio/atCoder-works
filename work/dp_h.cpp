@@ -41,6 +41,9 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	cout << (ld)n << endl;
+	ll n, k; cin >> n >> k;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll dp(k + 1); // dp[i] : 残りの石の個数がiのとき、直後の手番の人が勝てるか
+	reps(i, k) rep(j, n) dp[i] |= i - a[j] >= 0 && dp[i - a[j]] == 0;
+	cout << (dp.back() ? "First" : "Second") << endl;
 }

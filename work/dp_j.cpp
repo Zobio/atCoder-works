@@ -40,13 +40,32 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+vll cnt(3);
+vector<vector<vector<bool>>> done;
+vector<vector<vector<ld>>> dp;
+
+ld dfs(ll c1, ll c2, ll c3) {
+	if(done[c1][c2][c3]) return dp[c1][c2][c3];
+
+	ld cur = 0;
+	if(c1 > 0) cur += dfs(c1 - 1, c2, c3) * (c1 / (ld)n);
+	if(c2 > 0 && c1 + 1 <= n) cur += dfs(c1 + 1, c2 - 1, c3) * (c2 / (ld)n);
+	if(c3 > 0 && c2 + 1 <= n) cur += dfs(c1, c2 + 1, c3 - 1) * (c3 / (ld)n);
+	cur += 1.0;	//今回の行動分
+	cur /= 1.0 - (n - (c1 + c2 + c3)) / (ld)n; // 1-(0個の皿が選ばれる確率)
+	done[c1][c2][c3] = true;
+	return dp[c1][c2][c3] = cur;
+}
+
 int main() {
 	setcout(15);
-	ll n; cin >> n;
-	vll cnt(4); //cnt[i] : i個残っている皿の個数 cnt[0] == nになっていたら、終わり
+	cin >> n;
 	rep(i, n) {
-		ll a; cin >> a; cnt[a]++;
+		ll a; cin >> a; a--; cnt[a]++;
 	}
-	vvvvll dp(n, vvvll(n, vvll(n, vll(n))));
-	
+	done.resize(n + 1, vector<vector<bool>>(n + 1, vector<bool>(n + 1)));
+	dp.resize(n + 1, vector<vector<ld>>(n + 1, vector<ld>(n + 1))); // dp[i][j][k] : 1個の皿がi,2個の皿がj,3個の皿がk枚残っているときの操作回数の期待値
+	dp.front().front().front() = 0; done.front().front().front() = true;
+	cout << dfs(cnt[0], cnt[1], cnt[2]) << endl;
 }
