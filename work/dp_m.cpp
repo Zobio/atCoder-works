@@ -40,13 +40,30 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n, k;
+vll a, BIT;
+
+ll sum(ll i) {
+	ll s = 0;
+	while(i) {
+		s += BIT[i];
+		i -= i & -i; //末端のビットを消去
+	}
+	return s;
+}
+
+void add(ll i, ll x) {
+	while(i <= n) {
+		BIT[i] += x;
+		i += i & -i; //末端のビットを加算
+	}
+}
 
 int main() {
-  cin.tie(0);
-  ios_base::sync_with_stdio(false);
-  ll q; cin >> q;
-  rep(_, q) {
-    ll n; cin >> n;
-    cout << "n + 1 : " << n + 1 << endl;
-  }
+	cin >> n >> k;
+	a.resize(n); rep(i, n) cin >> a[i];
+	BIT.resize(k + 1);
+	rep(i, n) rrep(j, k + 1) {
+		add()
+	}
 }

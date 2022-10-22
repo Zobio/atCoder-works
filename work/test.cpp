@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 #define uint unsigned int
 #define ll long long
 #define ull unsigned long long
@@ -28,6 +30,8 @@ using namespace std;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
+#define MOD 998244353LL
+#define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -36,19 +40,23 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	string s, t; cin >> s >> t;
-	ll n = s.size(), m = t.size();
-	vvll dp(n + 1, vll(m + 1, INF));
+struct S{
+    long long value;
+    int size;
+};
+using F = long long;
 
-	rep(i, n + 1) dp[i][0] = i; //0文字からi文字挿入
-	rep(i, m + 1) dp[0][i] = i; //0文字からi文字挿入
-	
-	rep(i, n) rep(j, m) {
-		chmin(dp[i + 1][j + 1], dp[i + 1][j] + 1);
-		chmin(dp[i + 1][j + 1], dp[i][j + 1] + 1);
-		chmin(dp[i + 1][j + 1], dp[i][j] + (s[i] != t[j]));
+S op(S a, S b){ return {a.value+b.value, a.size+b.size}; }
+S e(){ return {0, 0}; }
+S mapping(F f, S x){ return {x.value + f*x.size, x.size}; }
+F composition(F f, F g){ return f+g; }
+F id(){ return 0; }
+
+int main(){
+	ll n, k; cin >> n >> k;
+    std::vector<S> v(k + 1, {0, 1});
+    atcoder::lazy_segtree<S, op, e, F, mapping, composition, id> seg(v);
+	rep(i, n) rep(j, k + 1) {
+		seg.apply(j, min(k, j + a[i]), )
 	}
-
-	cout << dp[n][m] << endl;
 }
