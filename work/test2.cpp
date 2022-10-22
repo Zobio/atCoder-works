@@ -1,43 +1,41 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
 using namespace std;
-using namespace atcoder;
-#define uint unsigned int
-#define ll long long
-#define ull unsigned long long
-#define ld long double
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define reep(i, a, b) for(long long i = a; i < b; i++)
-#define fore(i, a) for (auto& i : a)
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vvvll vector<vector<vector<long long>>>
-#define vvvvll vector<vector<vector<vector<long long>>>>
-#define pll pair<long long, long long>
-#define vpll vector<pair<long long, long long>>
-#define vvpll vector<vector<pair<long long, long long>>>
-#define arrcout(a) for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl
-#define arrcout2(a) for(size_t i = 0; i < a.size(); i++) {for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;}
-#define setcout(n) cout << setprecision(n) << fixed
-#define YESS {printf("Yes\n"); return 0;}
-#define NOO {printf("No\n"); return 0;}
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
-#define INF (1LL << 60)
-#define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
+using vi = vector<int>;
+using vvi = vector<vi>;
 
-int main() {
-	set<ll> st = {1,2,3,4,5};
-	reverse_iterator it = st.lower_bound(1); it--;
-	cout << *st.rend() << endl;
+#define INSERT_COST 1
+#define DELETE_COST 1
+#define CHANGE_COST 1
+
+int main(){
+  string S,T;
+  cin>>S>>T;
+  int sl = S.size();
+  int tl = T.size();
+
+  vvi dp(sl+1, vi(tl+1));
+
+  for(int i=0; i<=sl; i++)dp[i][0] = i*INSERT_COST;
+  for(int j=0; j<=tl; j++)dp[0][j] = j*INSERT_COST;
+
+  for(int i=1; i<=sl; i++){
+    for(int j=1; j<=tl; j++){
+      int D = dp[i-1][j] + DELETE_COST;
+      int I = dp[i][j-1] + INSERT_COST;
+      int C = dp[i-1][j-1] + (S[i-1]==T[j-1]? 0: CHANGE_COST);
+
+      dp[i][j] = min({D,I,C});
+    }
+  }
+
+  for(vi x: dp){
+    for(int y: x){
+      cout<<y<<",";
+    }
+    cout<<endl;
+  }
+
+  int ans = dp[sl][tl];
+
+  cout<<ans<<endl;
 }

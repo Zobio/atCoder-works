@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 #define uint unsigned int
 #define ll long long
 #define ull unsigned long long
@@ -28,6 +30,8 @@ using namespace std;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
+#define MOD 998244353LL
+#define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -36,19 +40,22 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+vll a;
+vvll dp;
+vector<vector<bool>> done;
+
+ll dfs(ll l, ll r) {
+	if(l == r) return a[l];
+	if(done[l][r]) return dp[l][r];
+	done[l][r] = true;
+	return dp[l][r] = max(a[l] - dfs(l + 1, r), a[r] - dfs(l, r - 1));
+}
+
 int main() {
-	string s, t; cin >> s >> t;
-	ll n = s.size(), m = t.size();
-	vvll dp(n + 1, vll(m + 1, INF));
-
-	rep(i, n + 1) dp[i][0] = i; //0文字からi文字挿入
-	rep(i, m + 1) dp[0][i] = i; //0文字からi文字挿入
-	
-	rep(i, n) rep(j, m) {
-		chmin(dp[i + 1][j + 1], dp[i + 1][j] + 1);
-		chmin(dp[i + 1][j + 1], dp[i][j + 1] + 1);
-		chmin(dp[i + 1][j + 1], dp[i][j] + (s[i] != t[j]));
-	}
-
-	cout << dp[n][m] << endl;
+	cin >> n;
+	a.resize(n); rep(i, n) cin >> a[i];
+	dp.resize(n, vll(n, -1)); //dp[i][j] : 区間[i, j]が残っているとき、次の出番の人が獲得できるスコアの最大値
+	done.resize(n, vector<bool>(n));
+	cout << dfs(0, n - 1) << endl;
 }
