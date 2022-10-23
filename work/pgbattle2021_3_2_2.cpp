@@ -40,6 +40,42 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+bool is_square(ll n) {
+	ll l = -1, r = 300010;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		if(mid * mid == n) return true;
+
+		if(mid * mid > n) r = mid;
+		else l = mid;
+	}
+	return false;
+}
+
 int main() {
-	cout << (-13) % 7 << endl;
+	ll w, h, t; cin >> w >> h >> t;
+	ll sx, sy, tx, ty; cin >> sx >> sy >> tx >> ty;
+	ll ans = 0;
+	for(ll i = 0; i <= t; i++) {
+		if(!is_square(t * t - i * i)) continue;
+		ll cnt = 0;
+		cout << "i: " <<  i << endl;
+		ll dx =  (ll)sqrt(t * t - i * i);
+
+		cnt += sx + dx == tx;
+		cnt += sx - dx == tx;
+		cnt += 
+
+		if((sy + i) % h == ty) {
+			cnt += (sx + (ll)sqrt(t * t - i * i)) % w == tx;
+			cnt += (sx - (ll)sqrt(t * t - i * i) + MOD * w) % w == tx;
+		}
+
+		if((sy - i + t * h) % h == ty) {
+			cnt += (sx + (ll)sqrt(t * t - i * i)) % w == tx;
+			cnt += (sx - (ll)sqrt(t * t - i * i) + MOD * w) % w == tx;
+		}
+		ans += cnt / ((i == 0) + 1) / ((t - i == 0) + 1);
+	}
+	cout << ans << endl;
 }

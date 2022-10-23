@@ -40,6 +40,40 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll w, h, t;
+ll sx, sy, tx, ty;
+ll ma = 200010;
+map<ll, ll> sq;
+
+ll check(ll x, ll y, ll rx, ll ry) {
+	x = (x % (2 * w) + (2 * w)) % (2 * w);
+	y = (y % (2 * h) + (2 * h)) % (2 * h);
+	if(x == rx && y == ry) return 1;
+	else return 0;
+}
+
+ll calc(ll rx, ll ry) {
+	ll ret = 0;
+	for(ll x = -t; x <= t; x++){
+		ll r = t * t - x * x;
+		if(sq.count(r) == 0) continue; //平方数でない
+		ll y = sq[r];
+		ret += check(sx + x, sy + y, rx, ry);
+		if(y != 0) ret += check(sx + x, sy - y, rx, ry); //y==0は二重計算になるので除外
+	}
+	return ret;
+}
+
 int main() {
-	cout << (-13) % 7 << endl;
+	cin >> w >> h >> t;
+	cin >> sx >> sy >> tx >> ty;
+	rep(i, ma) sq[i * i] = i;
+
+	ll ans = 0;
+	ans += calc(tx, ty);
+	ans += calc(tx, 2 * h - ty);
+	ans += calc(2 * w - tx, ty);
+	ans += calc(2 * w - tx, 2 * h - ty);
+
+	cout << ans << endl;
 }

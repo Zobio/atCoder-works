@@ -40,13 +40,14 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+struct str{
+  ll a;
+  ll b;
+  ll c;
+};
 
 int main() {
-  cin.tie(0);
-  ios_base::sync_with_stdio(false);
-  ll q; cin >> q;
-  rep(_, q) {
-    ll n; cin >> n;
-    cout << "n + 1 : " << n + 1 << endl;
-  }
+  map<ll, str> mp;
+  mp[1] = {1,2,3};
+  mp[1] = {1,2,3};
 }
