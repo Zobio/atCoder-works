@@ -31,7 +31,7 @@ using namespace atcoder;
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
-#define mint modint998244353
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -42,5 +42,12 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	cout << bitset<10>(n) << " " << __builtin_popcount(n) << endl;
+	vvll a(n, vll(n)); rep(i, n) rep(j, n) cin >> a[i][j];
+	vector<mint> dp(1LL << n); //dp[msk] : 女性のペア状態がmskとなる通り数
+	dp[0] = 1;
+	reep(bits, 1LL, 1LL << n) { //貰うDP
+		ll i = __builtin_popcount(bits);
+		rep(j, n) if((bits >> j & 1) == 1 && a[i - 1][j] == 1) dp[bits] += dp[bits ^ (1LL << j)]; 
+	}
+	cout << dp.back().val() << endl;
 }

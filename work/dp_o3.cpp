@@ -31,7 +31,7 @@ using namespace atcoder;
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define MOD 998244353LL
-#define mint modint998244353
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -42,5 +42,11 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	cout << bitset<10>(n) << " " << __builtin_popcount(n) << endl;
+	vvll a(n, vll(n)); rep(i, n) rep(j, n) cin >> a[i][j];
+	vector<vector<mint>> dp(n + 1, vector<mint>(1LL << n)); //dp[msk] : 女性のペア状態がmskとなる通り数
+	dp[0][0] = 1;
+	rep(i, n) rep(bits, 1LL << n) if(dp[i][bits].val()) { //配るDP
+		rep(j, n) if((bits >> j & 1) == 0 && a[i][j] == 1) dp[i + 1][bits | (1LL << j)] += dp[i][bits]; //配るから、bitが立っていない(ペアが組み終わっていない)ところから組み終わった集合に値を渡す
+	}
+	cout << dp.back().back().val() << endl;
 }
