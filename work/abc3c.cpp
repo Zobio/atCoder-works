@@ -40,28 +40,17 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-vvll ans;
-
-bool check(vll arr) {
-	ll cnt = 0;
-	rep(i, 8) cnt += arr[i] == 4 ? 1 : arr[i] == 5 ? -1 : 0;
-	return cnt == 0;
-}
-
-bool calc(vll arr) {
-	
-}
-
-void dfs(vll a, ll type) {
-	if()
-}
-
 int main() {
-	map<ll, char> mp = {{0, '+'}, {1, '-'}, {2, '*'}, {3, '/'}, {4, '('}, {5, ')'}};
-	dfs(vll(), 0);
-	rep(i, ans.size()) {
-		cout << 1 << " ";
-		rep(j, 8) cout << mp[ans[i][j]] << j + 2 << " ";
-		cout << endl;
+	string s; cin >> s;
+	ll ans = 0;
+	rep(i, s.size()) {
+		ll flag = false; //その節を無視できるか
+		while(i < s.size()) {
+			if(s[i] == '+') break;
+			if(s[i] == '0') flag = true;
+			i++;
+		}
+		ans += !flag;
 	}
+	cout << ans << endl;
 }
