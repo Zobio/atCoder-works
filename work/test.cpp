@@ -40,7 +40,6 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-vvll ans;
 
 bool check(vll arr) {
 	ll cnt = 0;
@@ -48,17 +47,29 @@ bool check(vll arr) {
 	return cnt == 0;
 }
 
-bool calc(vll arr) {
-	
-}
-
-void dfs(vll a, ll type) {
-	if()
+bool calc(vll arr, ll p, ld cur_sum) {
+	ll c = p + 2;
+	if(arr[p] == 0) cur_sum += c;
+	else if(arr[p] == 1) cur_sum -= c;
+	else if(arr[p] == 2) cur_sum *= c;
+	else if(arr[p] == 3) cur_sum /= c;
+	else if(arr[p] == 4) cur_sum += calc(arr, p + 1, 0);
+	else if(arr[p] == 5) cur_sum += calc(arr, p + 1, 0);
 }
 
 int main() {
+	vvll ans;
+	rep(i, pow(6LL, 8)) {
+		vll op;
+		ll t = i;
+		rep(j, 8) {
+			op.push_back(t % 6);
+			t /= 6;
+		}
+		if(!check(op)) continue;
+		if(calc(op, 0, 9) == 2022) ans.push_back(op);
+	}
 	map<ll, char> mp = {{0, '+'}, {1, '-'}, {2, '*'}, {3, '/'}, {4, '('}, {5, ')'}};
-	dfs(vll(), 0);
 	rep(i, ans.size()) {
 		cout << 1 << " ";
 		rep(j, 8) cout << mp[ans[i][j]] << j + 2 << " ";

@@ -41,6 +41,8 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    vvll ans;
-    rep(pa, pow(6LL, 8)) rep(bits, 1LL << )
+	ll n; cin >> n;
+	vpll a(n); rep(i, n){ll t; cin >> t; a[i] = {t, i};};
+	sort(rall(a));
+	cout << a.front().second + 1 << endl;
 }

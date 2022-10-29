@@ -40,7 +40,17 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+map<ll, ll> f;
+
+ll dfs(ll cur) {
+	if(cur == 0) return f[0] = 1;
+	if(f.count(cur)) return f[cur];
+	else return f[cur] = dfs(cur / 2) + dfs(cur / 3); 
+}
+
 int main() {
-    vvll ans;
-    rep(pa, pow(6LL, 8)) rep(bits, 1LL << )
+	ll n; cin >> n;
+	ll ans = 0;
+	cout << dfs(n) << endl;
 }

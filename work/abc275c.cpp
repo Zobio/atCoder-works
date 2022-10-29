@@ -41,6 +41,19 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-    vvll ans;
-    rep(pa, pow(6LL, 8)) rep(bits, 1LL << )
+	vector<string> s(9); rep(i, 9) cin >> s[i];
+	ll ans = 0;
+	rep(i, 81) reep(j, i + 1, 81) {
+		ll y1 = i / 9, x1 = i % 9;
+		ll y2 = j / 9, x2 = j % 9;
+		if(x1 >= x2) continue; //左上、右下の点になるように調整
+		if(s[y1][x1] == '.' || s[y2][x2] == '.') continue;
+		ll dy = y2 - y1, dx = x2 - x1;
+		ll y3 = y1 + dx, x3 = x1 - dy;
+		ll y4 = y2 + dx, x4 = x2 - dy;
+		if(x3 < 0 || x3 >= 9 || y3 < 0 || y3 >= 9) continue;
+		if(x4 < 0 || x4 >= 9 || y4 < 0 || y4 >= 9) continue;
+		ans += s[y3][x3] == '#' && s[y4][x4] == '#';
+	}
+	cout << ans << endl;
 }

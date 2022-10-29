@@ -40,7 +40,23 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-    vvll ans;
-    rep(pa, pow(6LL, 8)) rep(bits, 1LL << )
+int main() { //O(NMK)
+	ll n, m, k; cin >> n >> m >> k; //マス、ルーレット、回数
+	vector<vector<mint>> dp(k + 1, vector<mint>(n + 1)); //d[i][j] : i回目にマスjにいる確率
+	dp[0][0] = 1;
+	rep(i, k) {
+		rep(j, n) reps(p, m) {
+			ll over = j + p - n;
+			ll nxt = over <= 0 ? j + p : n - over;
+			dp[i + 1][nxt] += dp[i][j];
+		}
+	}
+	mint ans = 0, fix = 1; //fix : 条件付き確率
+	reps(i, k) {
+		mint sum = 0;
+		rep(j, n + 1) sum += dp[i][j];
+		ans += fix * dp[i].back() / sum;
+		fix *= 1 - dp[i].back() / sum; //今回はゴールにならなかった確率
+	}
+	cout << ans.val() << endl;
 }
