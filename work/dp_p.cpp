@@ -30,8 +30,8 @@ using namespace atcoder;
 #define NOO {printf("No\n"); return 0;}
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
-#define MOD 998244353LL
-#define mint modint998244353
+#define MOD 1000000007LL
+#define mint modint1000000007
 #define INF (1LL << 60)
 #define PI acos(-1.0)
 //#pragma GCC target("avx2")
@@ -40,7 +40,33 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+vector<bool> done;
+vvll g;
+vector<vector<mint>> dp;
+
+void dfs(ll cur) {
+	done[cur] = true;
+	mint p0 = 1, p1 = 1; //白, 黒 白はなんでもOK 黒は白しかダメ
+	for(auto nxt : g[cur]) {
+		if(done[nxt]) continue; //親はカウントしない
+		dfs(nxt);
+		p0 *= dp[nxt][0] + dp[nxt][1];
+		p1 *= dp[nxt][0];
+	}
+	dp[cur][0] = p0;
+	dp[cur][1] = p1;
+}
+
 int main() {
-	mint n = 10;
-	cout << typeid(n).name() << " " << typeid(n.val()).name() << endl;
+	cin >> n;
+	g.resize(n);
+	rep(i, n - 1) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b); g[b].push_back(a);
+	}
+	done.resize(n);
+	dp.resize(n, vector<mint>(2)); //dp[i][j] : 頂点iの部分木で、頂点iが(j==0?白:黒)であるときの場合の数
+	dfs(0); //頂点0を根とした木としてDFS
+	cout << (dp[0][0] + dp[0][1]).val() << endl;
 }
