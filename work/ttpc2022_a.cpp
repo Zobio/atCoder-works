@@ -40,6 +40,20 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vector<ll> enum_divisors(ll n) {
+	vector<ll> res;
+	for (ll i = 1; i * i <= n; i++) {
+		if (n % i == 0) {
+			res.push_back(i);
+			if (n / i != i) res.push_back(n / i);
+		}
+	}
+	sort(all(res));
+	return res;
+}
+
 int main() {
-	cout << typeid((mint)1).name() << " " << typeid((mint)1 + 2).name() << endl;
+	ll a, b; cin >> a >> b;
+	vll d1 = enum_divisors(b - a), d2 = enum_divisors(a - 2015);
+	for(auto au : d1) if(binary_search(all(d2), au)) cout << au << endl;
 }

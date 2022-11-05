@@ -41,5 +41,33 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << typeid((mint)1).name() << " " << typeid((mint)1 + 2).name() << endl;
+	ll n; cin >> n;
+	vpll a;
+	rep(i, 5) rep(j, n) {
+		ll t; cin >> t;
+		a.push_back({t, i});
+	}
+	vvll rui(5 * n + 1, vll(5));
+	rep(i, 5 * n) rep(j, 5) {
+		rui[i + 1][j] = rui[i][j] + (a[i].second == j);
+	}
+	mint ans = 0;
+	rep(i, 5 * n) {
+		vvll m(4, vll(2));
+		rep(j, 5) {
+			if(j == a[i].second) continue;
+			ll nxt = j - (j > a[i].second);
+			m[nxt][0] = rui[i][j]; //左
+			m[nxt][1] = n - rui[i][j]; //右
+		}
+		mint sum = 0;
+		rep(bits, 1LL << 4) {
+			if(__builtin_popcount(bits) != 2) continue; //中央値じゃないならcontinue
+			mint cur = 1;
+			rep(j, 4) cur *= m[j][bits >> j & 1];
+			sum += cur;
+		}
+		ans += sum * a[i].first;
+	}
+	cout << ans.val() << endl;
 }

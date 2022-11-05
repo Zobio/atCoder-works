@@ -40,6 +40,34 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+set<ll> enum_changes(ll num) {
+	string sn = to_string(num);
+	sort(all(sn));
+	set<ll> ret;
+	do{
+		if(stoll(sn) <= 10000) ret.insert(stoll(sn));
+	}while(next_permutation(all(sn)));
+	return ret;
+}
+
 int main() {
-	cout << typeid((mint)1).name() << " " << typeid((mint)1 + 2).name() << endl;
+	ll n, x; cin >> n >> x;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvll dp(n + 1, vll(10010, -1)); //dp[d][i] : i番目で数jであるときの最大値 -1なら到達できない
+	set<ll> dt = enum_changes(x);
+	for(auto au : dt) dp.front().at(au) = 0;
+	rep(i, n) {
+		reps(j, 10001) {
+		chmax(dp[i + 1][j], dp[i][j]);
+		
+		if(dp[i][j] == -1) continue; //到達できない
+		if(j - a[i] >= 0) chmax(dp[i + 1][j - a[i]], dp[i][j] + 1);
+		}
+		rep(j, 10001) {
+			set<ll> ch = enum_changes(j);
+			for(auto au : ch) chmax(dp[i + 1][au], dp[i + 1][j]);
+		}
+	}
+	ll ans = *max_element(all(dp.back()));
+	cout << (ans != -1 ? ans : 0) << endl;
 }
