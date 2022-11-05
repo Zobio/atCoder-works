@@ -40,100 +40,46 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-struct UnionFind {
-	long long groups;
-	vector<long long> parents;
-
-	UnionFind(long long n) {
-		groups = n;
-		parents = vector<long long>(n, -1);
-	}
-
-	long long find(long long x) {
-		if (parents.at(x) < 0) {
-			return x;
-		}else{
-			parents[x] = find(parents[x]);
-			return parents[x];
-		}
-	}
-
-	void unite(long long x, long long y) {
-		x = find(x);
-		y = find(y);
-
-		// already united
-		if (x == y)
-			return;
-
-		groups--;
-
-		if (parents[x] > parents[y])
-			swap(x, y);
-
-		parents[x] += parents[y];
-		parents[y] = x;
-	}
-
-	long long size(long long x) {
-		return -parents[find(x)];
-	}
-
-	bool issame(long long x, long long y) {
-		return find(x) == find(y);
-	}
-
-	vector<long long> roots() {
-		vector<long long> ret;
-		for (long long i = 0; i < parents.size(); i++)
-			if (parents[i] < 0)
-				ret.push_back(i);
-		return ret;
-	}
-
-	long long group_count() {
-		return groups;
-	}
-};
+vll dy = {0, 1, 0, -1};
+vll dx = {1, 0, -1, 0};
 
 ll h, w;
-vector<string> m;
 ll sy, sx;
 vvll g;
-vvll done;
+vll done;
+set<ll> around;
 bool ans = false;
 
-void dfs(ll y, ll x, UnionFind& uf) {
-	cout << y + 1 << " " << x + 1 << endl;
-	done[y][x] = true;
-	for(auto nxt : g[y * h + x]) {
-		ll ny = nxt / h, nx = nxt % h;
-		if(done[ny][nx]) continue;
-		else {
-			if(uf.issame(y * h + x, ny * h + nx)) ans |= true;
-			uf.unite(y * h + x, ny * h + nx);
-			dfs(ny, nx, uf);
+void dfs(ll cur) {
+	done[cur] = true;
+	ll y = cur / 2, x = cur % x;
+	for(auto nxt : g[cur]) {
+		if(!done[nxt]) {
+			if(around.count(nxt)) ans |= true;
+			dfs(nxt);
 		}
 	}
 }
 
-int main() { 
+int main() {
 	cin >> h >> w;
-	m.resize(h); rep(i, h) cin >> m[i];
+	vector<string> m(h); rep(i, h) cin >> m[i];
 	rep(i, h) rep(j, w) if(m[i][j] == 'S') sy = i, sx = j;
+	auto id = [&](ll i, ll j) {return i * w + j;}; //ラムダ式
 	g.resize(h * w);
 	rep(i, h) rep(j, w) {
-		if(m[i][j] == '#') continue;
-		for(ll dy : {-1, 0, 1}) for(ll dx : {-1, 0, 1}) {
-			if((dy == 0) + (dx == 0) != 1) continue;
-			ll ny = i + dy, nx = j + dx;
-			if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
-			if(m[ny][nx] == '#') continue;
-			g[i * h + j].push_back(ny * h + nx);
-		}
+		if(i < h - 1 && m[i][j] == '.' && m[i + 1][j] == '.') g[id(i, j)].push_back(id(i + 1, j)), g[id(i + 1, j)].push_back(id(i, j));
+		if(j < w - 1 && m[i][j] == '.' && m[i][j + 1] == '.') g[id(i, j)].push_back(id(i, j + 1)), g[id(i, j + 1)].push_back(id(i, j));
 	}
-	UnionFind uf(h * w);
-	done.resize(h, vll(w));
-	dfs(sy, sx, uf);
+	rep(i, 4) {
+		ll ny = sy + dy[i];
+		ll nx = sx + dx[i];
+		if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+		around.insert(id(ny, nx));
+	}
+	for(auto au : around) {
+		done.assign(h * w, 0);
+		dfs(au);
+	}
 	cout << (ans ? "Yes" : "No") << endl;
 }

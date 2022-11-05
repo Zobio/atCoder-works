@@ -103,25 +103,13 @@ vvll g;
 vvll done;
 bool ans = false;
 
-void dfs(ll y, ll x, UnionFind& uf) {
-	cout << y + 1 << " " << x + 1 << endl;
-	done[y][x] = true;
-	for(auto nxt : g[y * h + x]) {
-		ll ny = nxt / h, nx = nxt % h;
-		if(done[ny][nx]) continue;
-		else {
-			if(uf.issame(y * h + x, ny * h + nx)) ans |= true;
-			uf.unite(y * h + x, ny * h + nx);
-			dfs(ny, nx, uf);
-		}
-	}
-}
 
 int main() { 
 	cin >> h >> w;
+	auto id = [&](ll ii, ll jj) {return ii * w + jj;};
 	m.resize(h); rep(i, h) cin >> m[i];
 	rep(i, h) rep(j, w) if(m[i][j] == 'S') sy = i, sx = j;
-	g.resize(h * w);
+	g.resize(h * w); done.resize(h, vll(w));
 	rep(i, h) rep(j, w) {
 		if(m[i][j] == '#') continue;
 		for(ll dy : {-1, 0, 1}) for(ll dx : {-1, 0, 1}) {
@@ -129,11 +117,8 @@ int main() {
 			ll ny = i + dy, nx = j + dx;
 			if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
 			if(m[ny][nx] == '#') continue;
-			g[i * h + j].push_back(ny * h + nx);
+			g[id(i, j)].push_back(id(ny, nx));
 		}
 	}
-	UnionFind uf(h * w);
-	done.resize(h, vll(w));
-	dfs(sy, sx, uf);
-	cout << (ans ? "Yes" : "No") << endl;
+	
 }

@@ -96,44 +96,28 @@ struct UnionFind {
 	}
 };
 
-ll h, w;
-vector<string> m;
-ll sy, sx;
-vvll g;
-vvll done;
-bool ans = false;
+vll dx = {0, 1, 0, -1};
+vll dy = {1, 0, -1, 0};
 
-void dfs(ll y, ll x, UnionFind& uf) {
-	cout << y + 1 << " " << x + 1 << endl;
-	done[y][x] = true;
-	for(auto nxt : g[y * h + x]) {
-		ll ny = nxt / h, nx = nxt % h;
-		if(done[ny][nx]) continue;
-		else {
-			if(uf.issame(y * h + x, ny * h + nx)) ans |= true;
-			uf.unite(y * h + x, ny * h + nx);
-			dfs(ny, nx, uf);
-		}
-	}
-}
-
-int main() { 
-	cin >> h >> w;
-	m.resize(h); rep(i, h) cin >> m[i];
+int main() {
+	ll h, w; cin >> h >> w;
+	vector<string> m(h); rep(i, h) cin >> m[i];
+	ll sy, sx;
 	rep(i, h) rep(j, w) if(m[i][j] == 'S') sy = i, sx = j;
-	g.resize(h * w);
-	rep(i, h) rep(j, w) {
-		if(m[i][j] == '#') continue;
-		for(ll dy : {-1, 0, 1}) for(ll dx : {-1, 0, 1}) {
-			if((dy == 0) + (dx == 0) != 1) continue;
-			ll ny = i + dy, nx = j + dx;
-			if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
-			if(m[ny][nx] == '#') continue;
-			g[i * h + j].push_back(ny * h + nx);
-		}
-	}
 	UnionFind uf(h * w);
-	done.resize(h, vll(w));
-	dfs(sy, sx, uf);
+	rep(i, h) rep(j, w) {
+		if(i < h - 1 && m[i][j] == '.' && m[i + 1][j] == '.') uf.unite(i * w + j, (i + 1) * w + j);
+		if(j < w - 1 && m[i][j] == '.' && m[i][j + 1] == '.') uf.unite(i * w + j, i * w + (j + 1));
+	}
+	bool ans = false;
+	rep(i, 4) reep(j, i + 1, 4) {
+		ll y1 = sy + dy[i];
+		ll x1 = sx + dx[i];
+		ll y2 = sy + dy[j];
+		ll x2 = sx + dx[j];
+		if(y1 < 0 || y1 >= h || x1 < 0 || x1 >= w) continue;
+		if(y2 < 0 || y2 >= h || x2 < 0 || x2 >= w) continue;
+		ans |= uf.issame(y1 * w + x1, y2 * w + x2);
+	}
 	cout << (ans ? "Yes" : "No") << endl;
 }
