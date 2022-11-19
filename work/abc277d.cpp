@@ -40,9 +40,28 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+struct grp{
+	vll nums;
+	ll sum;
+};
+
 int main() {
-	ll n; cin >> n;
-	ll cnt = 0;
-	while(n > 1) n = sqrt(n), cnt++;
-	cout << cnt << endl;
+	ll n, m; cin >> n >> m;
+	vll a(n); rep(i, n) cin >> a[i];
+	vpll p(n); rep(i, n) p[i] = {a[i] % m, a[i]};
+	sort(all(p));
+	vector<grp> gs;
+	rep(i, n) {
+		if(gs.empty()) gs.push_back({{p[i].first}, p[i].second});
+		else{
+			ll diff = p[i].first - gs.back().nums.back();
+			if(diff == 1) gs.back().nums.push_back(p[i].first), gs.back().sum += p[i].second;
+			else if(diff == 0) gs.back().sum += p[i].second;
+			else gs.push_back({{p[i].first}, p[i].second});
+		}
+	}
+	ll minu = 0;
+	for(auto au : gs) chmax(minu, au.sum);
+	if(gs.front().nums.front() == 0 && gs.back().nums.back() == m - 1) chmax(minu, gs.front().sum + (gs.size() >= 2 ? gs.back().sum : 0));
+	cout << accumulate(all(a), 0ll) - minu << endl;
 }

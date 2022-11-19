@@ -41,8 +41,30 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	ll cnt = 0;
-	while(n > 1) n = sqrt(n), cnt++;
-	cout << cnt << endl;
+	ll n, m, k; cin >> n >> m >> k;
+	vvpll g(n);
+	rep(i, m) {
+		ll u, v, a; cin >> u >> v >> a; u--; v--;
+		g[u].push_back({v, a}); g[v].push_back({u, a});
+	}
+	set<ll> sw;
+	rep(i, k) {
+		ll s; cin >> s; s--; sw.insert(s);
+	}
+	vvll dist(n, vll(2, INF)); //dist[i][j] : 頂点i,状態jの最短距離
+	dist[0][1] = 0;
+	queue<pll> que;
+	que.push({0, 1});
+	while(que.size()) {
+		pll cur = que.front(); que.pop();
+		for(pll nxt : g[cur.first]) {
+			if(cur.second != nxt.second) continue;
+			if(chmin(dist[nxt.first][nxt.second], dist[cur.first][cur.second] + 1)) que.push({nxt.first, nxt.second});
+		}
+		if(sw.count(cur.first)) for(pll nxt : g[cur.first]) {
+			if(cur.second == nxt.second) continue;
+			if(chmin(dist[nxt.first][nxt.second], dist[cur.first][cur.second] + 1)) que.push({nxt.first, nxt.second});
+		}
+	}
+	cout << (*min_element(all(dist.back())) == INF ? -1 : *min_element(all(dist.back()))) << endl;
 }

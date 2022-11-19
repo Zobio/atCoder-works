@@ -41,8 +41,18 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
+	set<string> st;
 	ll n; cin >> n;
-	ll cnt = 0;
-	while(n > 1) n = sqrt(n), cnt++;
-	cout << cnt << endl;
+	rep(i, n) {
+		string t; cin >> t;
+		st.insert(t);
+	}
+	if(st.size() != n) {cout << "No" << endl; return 0;}
+	ll flag = true;
+	set<char> p1 = {'H', 'D', 'C', 'S'}, p2 = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
+	for(auto au : st) {
+		flag &= p1.count(au[0]);
+		flag &= p2.count(au[1]);
+	}
+	cout << (flag ? "Yes" : "No") << endl;
 }

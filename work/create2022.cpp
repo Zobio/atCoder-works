@@ -40,9 +40,38 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+void print_formula(vll op) {
+	cout << 1;
+	rep(i, 9) {
+		if(op[i] == 0) cout << '+';
+		if(op[i] == 1) cout << '-';
+		if(op[i] == 2) cout << "*";
+		if(op[i] == 3) cout << "/";
+		cout << i + 2;
+	}
+}
+
 int main() {
-	ll n; cin >> n;
-	ll cnt = 0;
-	while(n > 1) n = sqrt(n), cnt++;
-	cout << cnt << endl;
+	const ll result = 2022;
+	vvll ansers;
+	rep(bits, 1LL << 9 * 2) {
+		ld cur = 0;
+		vll a;
+		bool flag = true;
+		rep(i, 9) {
+			ll type = 0;
+			if(bits >> (i * 2) & 1) type += 1;
+			if(bits >> (i * 2 + 1) & 1) type += 2;
+
+			a.push_back(type);
+
+			if(type == 0) cur += i + 2; //+
+			if(type == 1) cur -= i + 2; //-
+			if(type == 2) cur *= i + 2; //*
+			if(type == 3) cur /= (i + 2); //÷
+		}
+		if(2020 <= cur && cur <= 2022) {print_formula(a); cout << " = " << cur << endl;}
+		if(cur == result && flag) ansers.push_back(a);
+	}
+	arrcout2(ansers);
 }

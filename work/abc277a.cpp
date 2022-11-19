@@ -41,8 +41,11 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	ll n; cin >> n;
-	ll cnt = 0;
-	while(n > 1) n = sqrt(n), cnt++;
-	cout << cnt << endl;
+	ll n, m; cin >> n >> m; m--;
+	vll a(n);
+	rep(i, n) {
+		ll t; cin >> t; t--;
+		a[t] = i;
+	}
+	cout << a[m] + 1 << endl;
 }

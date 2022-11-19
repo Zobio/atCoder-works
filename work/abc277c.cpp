@@ -40,9 +40,99 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename V>
+void shrink_coordinates(V& a) {
+	/*
+	座標圧縮を行う関数
+	(例)
+	{6, 9, 9, 2, 100} -->  {1, 2, 2, 0, 3}
+	*/
+	V b = a;
+	sort(b.begin(), b.end());
+	b.erase(unique(b.begin(), b.end()), b.end());
+	V res(a.size());
+	for(long long i = 0; i < a.size(); i++) {
+		res.at(i) = lower_bound(b.begin(), b.end(), a.at(i)) - b.begin();
+	}
+	a = res;
+}
+
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
 int main() {
 	ll n; cin >> n;
-	ll cnt = 0;
-	while(n > 1) n = sqrt(n), cnt++;
-	cout << cnt << endl;
+	vll a(n), b(n), ab;
+	rep(i, n) {
+		cin >> a[i] >> b[i]; a[i]--; b[i]--;
+	}
+	a.push_back(0); b.push_back(0); n++;
+	rep(i, n) ab.push_back(a[i]);
+	rep(i, n) ab.push_back(b[i]);
+	shrink_coordinates(ab);
+	map<ll, ll> m1, m2;
+	rep(i, n * 2) {
+		m1[ab[i]] =  i < n ? a[i] : b[i - n];
+		m2[i < n ? a[i] : b[i - n]] = ab[i];
+	}
+	UnionFind uf(n * 2);
+	rep(i, n) {
+		uf.unite(m2[a[i]], m2[b[i]]);
+	}
+	ll t = 0;
+	rep(i, n * 2) if(uf.issame(i, 0)) t = i;
+	cout << m1[t] + 1 << endl;
 }
