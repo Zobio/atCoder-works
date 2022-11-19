@@ -40,6 +40,26 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+vvll g;
+
+bool dfs(ll cur, ll p, ll msk) {
+	bool ret = true;
+	for(auto nxt : g[cur]) {
+		if((msk >> nxt & 1) == 0) ret &= dfs(nxt, !p, msk | 1LL << nxt);
+	}
+	return ret != p;
+}
+
 int main() {
-	set<ll> st; cout << st.count(0) << endl;
+	cin >> n;
+	vector<string> s(n); rep(i, n) cin >> s[i];
+	g.resize(n);
+	rep(i, n) reep(j, i + 1, n) {
+		if(s[i].back() == s[j].front()) g[i].push_back(j);
+		if(s[j].back() == s[i].front()) g[j].push_back(i);
+	}
+	bool flag = false;
+	rep(i, n) flag |= dfs(i, 0, 0);
+	cout << (flag? "First" : "Second") << endl;
 }

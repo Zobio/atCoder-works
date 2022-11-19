@@ -41,5 +41,23 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st; cout << st.count(0) << endl;
+	ll h, w, n, p, q; cin >> h >> w >> n >> p >> q;
+	vvll a(h, vll(w)); rep(i, h) rep(j, w) cin >> a[i][j], a[i][j]--;
+	vvvll rui(h + 1, vvll(w + 1, vll(n)));
+	rep(i, h) rep(j, w) rep(k, n) {
+		rui[i + 1][j + 1][k] = rui[i + 1][j][k] + rui[i][j + 1][k] - rui[i][j][k] + (a[i][j] == k);
+	}
+	/*rep(i, h) rep(j, w) rep(k, n) {
+		cout << i + 1 << " " << j + 1 << " " << k + 1 << "  " << rui[i][j][k] << endl;
+	}*/
+	rep(i, h - p + 1) {
+		rep(j, w - q + 1) {
+			ll cnt = 0;
+			rep(k, n) {
+				cnt += rui.back().back().at(k) - (rui[i + p][j + q][k] - rui[i + p][j][k]- rui[i][j + q][k] + rui[i][j][k]) > 0;
+			}
+			cout << cnt << " ";
+		}
+		cout << endl;
+	}
 }

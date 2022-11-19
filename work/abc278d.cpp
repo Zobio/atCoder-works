@@ -41,5 +41,26 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st; cout << st.count(0) << endl;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	ll q; cin >> q;
+	ll now = -1;
+	map<ll, ll> lazy;
+	rep(_, q) {
+		ll t; cin >> t;
+		if(t == 1) {
+			cin >> now;
+			map<ll, ll> tmp;
+			lazy = tmp; //初期化
+		}
+		if(t == 2) {
+			ll i, x; cin >> i >> x; i--;
+			lazy[i] += x;
+		}
+		if(t == 3) {
+			ll i; cin >> i; i--;
+			if(lazy.count(i) == 0) cout << (now == -1 ? a[i] : now) << endl;
+			else cout <<  (now == -1 ? a[i] : now) + lazy[i] << endl;
+		}
+	}
 }

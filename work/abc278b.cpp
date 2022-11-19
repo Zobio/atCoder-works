@@ -41,5 +41,16 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st; cout << st.count(0) << endl;
+	ll h, m; cin >> h >> m;
+	ll cur = h * 60 + m;
+	while(1) {
+		ll p = cur / 60, q = cur % 60;
+		ll a = p / 10, b = p % 10, c = q / 10, d = q % 10;
+		ll n1 = stoll(to_string(a) + to_string(c)), n2 = stoll(to_string(b) + to_string(d));
+		bool flag = true;
+		flag &= n1 <= 23;
+		flag &= n2 <= 59;
+		if(flag) {cout << cur / 60 << " " << cur % 60 << endl; return 0;}
+		cur = (cur + 1) % (60 * 24);
+	}
 }

@@ -20,6 +20,7 @@ using namespace atcoder;
 #define ddll deque<dque<long long>>
 #define dddll deque<deque<deque<long long>>>
 #define ddddll deque<deque<deque<deque<long long>>>>
+#define sll set<long long>
 #define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
@@ -41,5 +42,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st; cout << st.count(0) << endl;
+	ll n, q; cin >> n >> q;
+	map<ll, set<ll>> follow;
+	rep(_, q) {
+		ll t, a, b; cin >> t >> a >> b; a--; b--;
+		if(t == 1) follow[a].insert(b);
+		if(t == 2) follow[a].erase(b);
+		if(t == 3) {
+			if(follow[a].count(b) && follow[b].count(a)) cout << "Yes" << endl;
+			else cout << "No" << endl;
+		}
+	}
 }

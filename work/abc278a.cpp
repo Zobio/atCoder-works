@@ -41,5 +41,8 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<ll> st; cout << st.count(0) << endl;
+	ll n, k; cin >> n >> k;
+	vll a(n); rep(i, n) cin >> a[i];
+	reep(i, k, n) cout << a[i] << " ";
+	rep(i, min(n, k)) cout << 0 << " ";
 }
