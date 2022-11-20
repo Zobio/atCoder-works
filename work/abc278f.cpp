@@ -40,9 +40,19 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-int main() {
-	ll n; cin >> n;
-	rep(i, 1LL << n) {
-		
+ll n;
+vector<string> s;
+vvvll dp;
+
+ll dfs(ll c, char last, ll msk) {
+	rep(i, n) {
+		if()
 	}
+}
+
+int main() {
+	cin >> n;
+	s.resize(n); rep(i, n) cin >> s[i];
+	dp.resize(n, vvll(2, vll(1LL << n)));
+	dfs(0, '_', 0); //bitが0-->残っている
 }

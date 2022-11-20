@@ -42,7 +42,13 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 
 int main() {
 	ll n; cin >> n;
-	rep(i, 1LL << n) {
-		
+	vector<string> s(n); rep(i, n) cin >> s[i];
+	vpll info(n); rep(i, n) info[i] = {s[i].front() - 'a', s[i].back() - 'a'};
+	vll dp(1LL << n); //dp[msk] : 残り状態がmskのとき、次の出番の人は勝てるか?
+	rep(bits, 1LL << n) {
+		rep(i, n) if(bits >> i & 1) {
+			dp[bits] |= (1LL & ~dp[bits ^ 1LL << i] >> info[i].first) << info[i].second;
+		}
 	}
+	cout << (dp.back() ? "First" : "Second") << endl;
 }
