@@ -34,12 +34,29 @@ using namespace atcoder;
 #define mint modint998244353
 #define INF (1LL << 60)
 #define PI acos(-1.0)
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	cout << log10(2e5) << endl;
+	ll n; cin >> n;
+	n = 2e5;
+	map<ll, set<ll>> g;
+	rep(i, n) {
+		//ll a, b; cin >> a >> b;
+		g[1].insert(2);
+		g[2].insert(1);
+	}
+	queue<ll> que;
+	que.push(1);
+	set<ll> done; done.insert(1);
+	cout << g[1].size() << " " << g[2].size() << endl;
+	while(que.size()) {
+		ll cur = que.front(); que.pop();
+		done.insert(cur);
+		for(auto au : g[cur]) if(!done.count(au)) que.push(au);
+	}
+	cout << *done.rbegin() << endl;
 }
