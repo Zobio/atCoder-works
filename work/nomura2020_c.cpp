@@ -48,8 +48,8 @@ int main() {
 	vll rui(n + 1 + 1); rep(i, n + 1) rui[i + 1] = rui[i] + a[i];
 	vll c(n + 1); c.front() = 1;
 	rep(i, n) {
-		if(c[i] - a[i] <= 0) cout << -1 << endl, exit(0z;
 		c[i + 1] = min(2 * (c[i] - a[i]), rui.back() - rui[i + 1]);
+		if(c[i + 1] - a[i + 1] + (i == n - 1) <= 0) cout << -1 << endl, exit(0);
 	}
 	cout << accumulate(all(c), 0ll) << endl;
 }

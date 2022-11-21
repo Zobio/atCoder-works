@@ -41,15 +41,5 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	//(深さiの頂点数の最大値) = min(2*((深さi-1の頂点数)-(深さi-1の葉の数)), (深さi以下の葉の数の総和))
-	ll n; cin >> n;
-	vll a(n + 1); rep(i, n + 1) cin >> a[i];
-	if(a.front() >= 2) cout << -1 << endl, exit(0);
-	vll rui(n + 1 + 1); rep(i, n + 1) rui[i + 1] = rui[i] + a[i];
-	vll c(n + 1); c.front() = 1;
-	rep(i, n) {
-		if(c[i] - a[i] <= 0) cout << -1 << endl, exit(0z;
-		c[i + 1] = min(2 * (c[i] - a[i]), rui.back() - rui[i + 1]);
-	}
-	cout << accumulate(all(c), 0ll) << endl;
+
 }
