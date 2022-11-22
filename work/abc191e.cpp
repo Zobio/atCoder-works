@@ -40,7 +40,45 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vector<long long> dijkstra(ll s, vvpll g) { 
+	/*
+	sからスタートして(到達可能な)全点における最短距離を求める
+	グラフg firstに頂点番号 secondにコスト
+	*/
+	vector<ll> dis(g.size(), INF);
+	dis[s] = 0;
+	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> que;
+	//disを更新するためのqueue first:コスト second:頂点番号 (コストが低い順に処理)
+	que.push({0, s});
+	while(!que.empty()) {
+		pair<ll, ll> p = que.top(); que.pop();
+		ll v = p.second, cost = p.first;
+		if(dis[v] < cost) continue;
+		rep(i, g[v].size()) {
+			pair<ll, ll> e = g[v][i]; //e.first:頂点番号 e.second:コスト
+			if(dis[e.first] > dis[v] + e.second) {
+				dis[e.first] = dis[v] + e.second;
+				que.push({dis[e.first], e.first});
+			}
+		}
+	}
+	return dis;
+}
+
 int main() {
-	pll a;
-	cout << a.first << " " << a.second << endl;
+	ll n, m; cin >> n >> m;
+	vvpll g(n), h(n);
+	rep(i, m) {
+		ll a, b, c; cin >> a >> b >> c; a--; b--;
+		g[a].push_back({b, c});
+		h[b].push_back({a, c});
+	}
+	rep(i, n) {
+		vll dist1 = dijkstra(i, g);
+		vll dist2 = dijkstra(i, h);
+		ll ans = INF;
+		rep(j, n) if(j != i) chmin(ans, dist1[j] + dist2[j]);
+		for(auto au : g[i]) if(au.first == i) chmin(ans, au.second);
+		cout << (ans >= INF / 4 ? -1 : ans) << endl;
+	}
 }

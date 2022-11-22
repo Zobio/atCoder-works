@@ -37,10 +37,25 @@ using namespace atcoder;
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
-template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T>bool chmax(T& a, const T& b) { if (a <= b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	pll a;
-	cout << a.first << " " << a.second << endl;
+	ll a, b, c, d, e, f; cin >> a >> b >> c >> d >> e >> f;
+	vvll dp(f + 1, vll(f + 1)); //dp[i][j] : 砂糖がjだけ入った重さiの水溶液を作ることは可能か?
+	dp[0][0] = 1;
+	rep(i, f + 1) rep(j, i + 1) {
+		if(!dp[i][j]) continue;
+		if(i + 100 * a <= f) dp[i + 100 * a][j] = 1;
+		if(i + 100 * b <= f) dp[i + 100 * b][j] = 1;
+		if(i + c <= f && e * (i + c) >= (100 + e) * (j + c)) dp[i + c][j + c] = 1;
+		if(i + d <= f && e * (i + d) >= (100 + e) * (j + d)) dp[i + d][j + d] = 1;
+	}
+	ld maxc = 0; pll maxp = {0, 0};
+	rep(i, f + 1) rep(j, i + 1) {
+		if(!dp[i][j]) continue;
+		if(chmax(maxc, (ld)j / i)) maxp = {i, j};
+	}
+
+	cout << maxp.first << " " << maxp.second << endl;
 }
