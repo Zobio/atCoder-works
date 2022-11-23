@@ -41,5 +41,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-  vvll a(300 * 300, vll(300 * 300));
+	//距離の累積和を取っておく?
+	ll h, w, d; cin >> h >> w >> d;
+	ll n = h * w;
+	vpll a(n);
+	rep(i, h) rep(j, w) {
+		ll t; cin >> t; t--;
+		a[t] = {i, j};
+	}
+	ll q; cin >> q;
+	vll l(q), r(q); rep(i, q) cin >> l[i] >> r[i], l[i]--, r[i]--;
+	ll m = (n + d - 1) / d; //mod_count
+	vvll rui(d);
+	rep(i, n) {
+		ll r = i < d ? 0 : abs(a[i].first - a[i - d].first) + abs(a[i].second - a[i - d].second);
+		rui[i % d].push_back(rui[i % d].size() ? rui[i % d].back() + r : r);
+	}
+	rep(i, q) cout << rui[r[i] % d][r[i] / d] - rui[l[i] % d][l[i] / d] << endl;
 }

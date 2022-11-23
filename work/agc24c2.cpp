@@ -41,5 +41,15 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-  vvll a(300 * 300, vll(300 * 300));
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll d(n); rep(i, n) d[i] = i - a[i];
+	ll ans = 0;
+	rep(i, n) {
+		if(d[i] < 0) cout << -1 << endl, exit(0);
+		if(i < n - 1 && d[i] > d[i + 1]) cout << -1 << endl, exit(0);
+		if(i < n - 1 && d[i] == d[i + 1]) ans++;
+		if(i < n - 1 && d[i] < d[i + 1]) ans += a[i + 1]; //A_(i+1)だけコストがかかる
+	}
+	cout << ans << endl;
 }

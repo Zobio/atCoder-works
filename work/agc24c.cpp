@@ -41,5 +41,22 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-  vvll a(300 * 300, vll(300 * 300));
+	//左から最適にシミュレーション
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvll b; b.push_back({a.front()});
+	rep(i, n - 1) {
+		if(a[i + 1] >= a[i]) b.back().push_back(a[i + 1]);
+		else b.push_back({a[i + 1]});
+	}
+	ll ans = 0;
+	rep(i, b.size()) {
+		if(i == 0) {if(b[0][0] != 0) cout << -1 << endl, exit(0);}
+		else ans += b[i].front() >= 1;
+		rep(j, b[i].size() - 1) {
+			if(b[i][j + 1] - b[i][j] > 1) cout << -1 << endl, exit(0);
+			ans += (b[i][j + 1] > 0) * (1 + (b[i][j] == b[i][j + 1] && b[i][j + 1] >= 2));
+		}
+	}
+	cout << ans << endl;
 }
