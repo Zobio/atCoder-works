@@ -35,17 +35,19 @@ int main() {
     rep(i, n) {
         ll t; cin >> t; a[i] = {0, t}; //cost, A_i
     }
+    ll ans = 0;
     rrep(bit, 32) {
         ll al = (1LL << bit) - 1;
         vpll b;
         for(auto [cost, num] : a) {
-            if(num >> i & 1) b.push_back({cost, num & al});
-            else b.push_back({(1LL << i) - (a & al) + c, 0});
+            if(num >> bit & 1) b.push_back({cost, num & al});
+            else b.push_back({(1LL << bit) - (num & al) + cost, 0});
         }
-        bool flag = true;
         sort(all(b));
-        if(accumulate(b.begin(), b.begin() + k, 0ll) <= m) {
-            swap(a, b); ans += 1LL << i;
+        ll sum = 0;
+        rep(i, k) sum += b[i].first;
+        if(sum <= m) {
+            swap(a, b); ans += 1LL << bit;
         }
     }
     cout << ans << endl;
