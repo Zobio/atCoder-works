@@ -37,6 +37,16 @@ int main() {
     }
     rrep(bit, 32) {
         ll al = (1LL << bit) - 1;
-        
+        vpll b;
+        for(auto [cost, num] : a) {
+            if(num >> i & 1) b.push_back({cost, num & al});
+            else b.push_back({(1LL << i) - (a & al) + c, 0});
+        }
+        bool flag = true;
+        sort(all(b));
+        if(accumulate(b.begin(), b.begin() + k, 0ll) <= m) {
+            swap(a, b); ans += 1LL << i;
+        }
     }
+    cout << ans << endl;
 }
