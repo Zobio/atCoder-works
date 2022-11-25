@@ -40,9 +40,31 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+ll n;
+vll a(3);
+vll l;
+
 int main() {
-    bool flag = true;
-    ll n; cin >> n;
-    flag &= !!n;
-    cout << flag << endl;
+	//それぞれのlが、a,b,cに寄与するのか、寄与しないのかの4通りと考える。
+	//伸ばしたり縮めたりする作業はmergeしたあと1回するだけでいい(途中でやる必要はない)
+	cin >> n;
+	rep(i, 3) cin >> a[i];
+	l.resize(n); rep(i, n) cin >> l[i];
+	sort(all(l));
+	ll ans = INF;
+	rep(bits, 1LL << n * 2){
+		vll type(n); //{寄与しない、a_1, a_2, a_3}
+		rep(i, n) type[i] = bits >> i * 2 & 3;
+		vvll b(3);
+		rep(i, n) if(type[i]) b[type[i] - 1].push_back(l[i]);
+		ll cost = 0;
+		bool flag = true;
+		rep(i, 3) {
+			flag &= b[i].size() >= 1;
+			cost += 10 * (b[i].size() - 1) + abs(accumulate(all(b[i]), 0ll) - a[i]);
+		}
+		if(!flag) continue;
+		chmin(ans, cost);
+	}
+	cout << ans << endl;
 }
