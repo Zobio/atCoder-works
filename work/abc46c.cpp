@@ -40,8 +40,42 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll a;
+std::ostream &operator<<(std::ostream &dest, __int128_t value) {
+  std::ostream::sentry s(dest);
+  if (s) {
+    __uint128_t tmp = value < 0 ? -value : value;
+    char buffer[128];
+    char *d = std::end(buffer);
+    do {
+      --d;
+      *d = "0123456789"[tmp % 10];
+      tmp /= 10;
+    } while (tmp != 0);
+    if (value < 0) {
+      --d;
+      *d = '-';
+    }
+    int len = std::end(buffer) - d;
+    if (dest.rdbuf()->sputn(d, len) != len) {
+      dest.setstate(std::ios_base::badbit);
+    }
+  }
+  return dest;
+}
+
 
 int main() {
-    cout << a << endl;
+	ll n; cin >> n;
+	vll a(n), b(n); rep(i, n) cin >> a[i] >> b[i];
+	__int128_t p = 1, q = 1;
+	rep(i, n) {
+		ull l = 0, r = INF;
+		while(r - l > 1) {
+			__int128_t mid = l + r >> 1;
+			if(p <= a[i] * mid && q <= b[i] * mid) r = mid;
+			else l = mid;
+		}
+		p = r * a[i]; q = r * b[i];
+	}
+	cout << p + q << endl;
 }

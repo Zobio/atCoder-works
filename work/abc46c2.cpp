@@ -40,8 +40,13 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll a;
-
 int main() {
-    cout << a << endl;
+    ll n; cin >> n;
+	vll a(n), b(n); rep(i, n) cin >> a[i] >> b[i];
+    ll p = 1, q = 1;
+    rep(i, n) {
+        ll x = max((p + a[i] - 1) / a[i], (q + b[i] - 1) / b[i]);
+        p = a[i] * x, q = b[i] * x;
+    }
+    cout << p + q << endl;
 }
