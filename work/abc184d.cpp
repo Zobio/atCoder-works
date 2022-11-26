@@ -40,10 +40,21 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll f() {
-  return 1 ? 2 : 1;
-}
-
 int main() {
-  cout << f() << endl;
+	setcout(15);
+	ll a, b, c; cin >> a >> b >> c;
+	vector<vector<vector<ld>>> dp(101, vector<vector<ld>>(101, vector<ld>(101)));
+	dp[a][b][c] = 1;
+	reep(i, a, 101) reep(j, b, 101) reep(k, c, 101) {
+		ld u = i + j + k;
+		if(i < 100 && j != 100 && k != 100) dp[i + 1][j][k] += dp[i][j][k] * i / u;
+		if(i != 100 && j < 100 && k != 100) dp[i][j + 1][k] += dp[i][j][k] * j / u;
+		if(i != 100 && j != 100 && k < 100) dp[i][j][k + 1] += dp[i][j][k] * k / u;
+	}
+	ld ans = 0;
+	reep(i, a, 101) reep(j, b, 101) reep(k, c, 101) {
+		if((i == 100) + (j == 100) + (k == 100) == 1) cout << i << " " << j << " " << k << " : " << dp[i][j][k] << endl,ans += dp[i][j][k];
+	}
+	cout << ans << endl;
+	cout << 1 / ans << endl;
 }

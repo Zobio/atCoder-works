@@ -40,10 +40,23 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll f() {
-  return 1 ? 2 : 1;
+ll a, b, c;
+vector<vector<vector<ld>>> dp;
+
+ld f(ll x, ll y, ll z) {
+	if(x == 100 || y == 100 || z == 100) return dp[x][y][z] = 0;
+	if(dp[x][y][z] != 0) return dp[x][y][z];
+	ld u = x + y + z;
+	ld ret = 0;
+	ret += x / u * (f(x + 1, y, z) + 1);
+	ret += y / u * (f(x, y + 1, z) + 1);
+	ret += z / u * (f(x, y, z + 1) + 1);
+	return dp[x][y][z] = ret;
 }
 
 int main() {
-  cout << f() << endl;
+	setcout(15);
+	cin >> a >> b >> c;
+	dp.resize(101, vector<vector<ld>>(101, vector<ld>(101)));
+	cout << f(a, b, c) << endl;
 }
