@@ -16,6 +16,10 @@ using namespace atcoder;
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
+#define dll deque<long long>
+#define ddll deque<dque<long long>>
+#define dddll deque<deque<deque<long long>>>
+#define ddddll deque<deque<deque<deque<long long>>>>
 #define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
@@ -37,5 +41,20 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<pll> st; st.insert({0,0});
+	ll n, m; cin >> n >> m;
+	vll a(m); rep(i, m) cin >> a[i], a[i]--;
+	vll pos(m + 1, 0);
+	rep(i, m) {
+		if(pos[i] == a[i]) pos[i + 1] = pos[i] + 1;
+		else if(pos[i] == a[i] + 1) pos[i + 1] = pos[i] - 1;
+		else pos[i + 1] = pos[i];
+	}
+	vll state(n);
+	iota(all(state), 0ll);
+	dll ans;
+	rrep(i, m) {
+		swap(state[a[i]], state[a[i] + 1]);
+		ans.push_front(state[pos[i + 1]]);
+	}
+	rep(i, m) cout << ans[i] + 1 << endl;
 }

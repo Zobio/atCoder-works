@@ -40,7 +40,18 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	ll a, b; cin >> a >> b;
-	if(a * b & 1) puts("Odd");
-	else puts("Even");
+	ll h, w; cin >> h >> w;
+	vector<string> s(h);
+	rep(i, h) cin >> s[i];
+	vvll dist(h, vll(w, INF)); dist[0][0] = 1;
+	queue<pll> que; que.push({0, 0});
+	while(que.size()) {
+		pll cur = que.front(); que.pop();
+		ll i = cur.first, j = cur.second;
+		if(i + 1 < h && s[i + 1][j] == '.' && chmin(dist[i + 1][j], dist[i][j] + 1)) que.push({i + 1, j});
+		if(j + 1 < w && s[i][j + 1] == '.' && chmin(dist[i][j + 1], dist[i][j] + 1)) que.push({i, j + 1});
+	}
+	ll ans = 0;
+	rep(i, h) rep(j, w) if(dist[i][j] != INF) chmax(ans, dist[i][j]);
+	cout << ans << endl;
 }

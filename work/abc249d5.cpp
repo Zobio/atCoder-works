@@ -39,8 +39,27 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+vector<ll> enum_divisors(ll n) {
+	vector<ll> res;
+	for (ll i = 1; i * i <= n; i++) {
+		if (n % i == 0) {
+			res.push_back(i);
+			if (n / i != i) res.push_back(n / i);
+		}
+	}
+	sort(all(res));
+	return res;
+}
+
 int main() {
-	ll a, b; cin >> a >> b;
-	if(a * b & 1) puts("Odd");
-	else puts("Even");
+	ll ma = 200000;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll c(ma + 1); rep(i, n) c[a[i]]++;
+	ll ans = 0;
+	rep(i, n) {
+		vll divs = enum_divisors(a[i]);
+		for(auto d : divs) ans += c[d] * c[a[i] / d];
+	}
+	cout << ans << endl;
 }

@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <quadmath.h>
 #include <atcoder/all>
 using namespace std;
 using namespace atcoder;
@@ -16,6 +17,10 @@ using namespace atcoder;
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
+#define dll deque<long long>
+#define ddll deque<dque<long long>>
+#define dddll deque<deque<deque<long long>>>
+#define ddddll deque<deque<deque<deque<long long>>>>
 #define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
@@ -37,5 +42,21 @@ template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } 
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
 int main() {
-	set<pll> st; st.insert({0,0});
+	char buf[1024];
+	setcout(15);
+	ld aa, bb; cin >> aa >> bb;
+	_Float128 a = aa, b = bb;
+	ll l = -1, r = INF;
+	while(r - l > 1) {
+		ll mid = l + r >> 1;
+		if((ld)b / a <= 1 / sqrtl(mid) - 1 / sqrtl(mid + 1)) l = mid;
+		else r = mid;
+	}
+	_Float128 ans = b * l + a / sqrtl(1 + l);
+	ll p = l; 
+	reep(i, max(0ll, l - 100000), l + 100000) if (chmin(ans, b * i + a / sqrtl(1 + i))) p = i;
+	ll a1 = b * p + (ll)(aa / sqrtl(1 + p));
+	cout << a1 + aa / sqrtl(1 + p) - (ll)(aa / sqrtl(1 + p)) << endl;
+	//strfromf128(buf, sizeof(buf), "%.40g", ans);
+//	printf("%s\n", buf);
 }

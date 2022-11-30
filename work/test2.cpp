@@ -17,7 +17,7 @@ using namespace atcoder;
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
 #define dll deque<long long>
-#define ddll deque<dque<long long>>
+#define ddll deque<deque<long long>>
 #define dddll deque<deque<deque<long long>>>
 #define ddddll deque<deque<deque<deque<long long>>>>
 #define pll pair<long long, long long>
@@ -40,8 +40,6 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
-ll a;
-
 int main() {
-    cout << a << endl;
+
 }

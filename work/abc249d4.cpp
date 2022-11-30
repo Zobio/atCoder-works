@@ -40,7 +40,13 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	ll a, b; cin >> a >> b;
-	if(a * b & 1) puts("Odd");
-	else puts("Even");
+	ll ma = 200000;
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll c(ma + 1); rep(i, n) c[a[i]]++;
+	ll ans = 0;
+	for(ll i = 1; i <= ma; i++) for(ll j = 1; i * j <= ma; j++) {
+		ans += c[i] * c[j] * c[i * j];
+	}
+	cout << ans << endl;
 }

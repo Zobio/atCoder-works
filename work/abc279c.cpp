@@ -16,6 +16,10 @@ using namespace atcoder;
 #define vvll vector<vector<long long>>
 #define vvvll vector<vector<vector<long long>>>
 #define vvvvll vector<vector<vector<vector<long long>>>>
+#define dll deque<long long>
+#define ddll deque<dque<long long>>
+#define dddll deque<deque<deque<long long>>>
+#define ddddll deque<deque<deque<deque<long long>>>>
 #define pll pair<long long, long long>
 #define vpll vector<pair<long long, long long>>
 #define vvpll vector<vector<pair<long long, long long>>>
@@ -36,6 +40,33 @@ using namespace atcoder;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+template<typename VV>
+void rotate_90(VV& a) {
+	/*2次元グリッドを反時計回りに90°回転させる関数 (2回回せば逆さまになる)
+	(例)
+	000     011
+	001 --> 000
+	101     001
+	注意 : 縦と横のサイズが同じでないとバグる
+	*/
+	size_t siz = a.size();
+	VV b(siz);
+	for(size_t i = 0; i < siz; i++) for(size_t j = 0; j < siz; j++) b[i].push_back(a[j][siz - i - 1]);
+	a = b;
+}
+
 int main() {
-	set<pll> st; st.insert({0,0});
+	ll h, w; cin >> h >> w;
+	vector<string> s(h), t(h);
+	rep(i, h) cin >> s[i];
+	rep(i, h) cin >> t[i];
+	vector<string> a(w), b(w);
+	rep(i, h) rep(j, w) a[j].push_back(s[i][j]);
+	rep(i, h) rep(j, w) b[j].push_back(t[i][j]);
+	map<string, ll> p, q;
+	rep(i, w) p[a[i]]++, q[b[i]]++;
+	bool flag = true;
+	for(auto au : p) flag &= q.count(au.first) && q[au.first] == au.second;
+	for(auto au : q) flag &= p.count(au.first) && p[au.first] == au.second;
+	cout << (flag ? "Yes" : "No") << endl;
 }
