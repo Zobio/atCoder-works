@@ -40,6 +40,18 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << typeid(1e9).name() << " " << typeid(1000000000).name() << endl;
-	cout << 1e9 << endl;
+	setcout(15);
+	ld p; cin >> p;
+	auto f = [&](ld x) {
+		return x + p / powl(2, x / 1.5);
+	};
+	ld r = INF, l = 0;
+	ll cnt = 10000;
+	rep(_, cnt) {
+		ld ml = (l * 2 + r) / 3;
+		ld mr = (l + r * 2) / 3;
+		if(f(ml) < f(mr)) r = mr;
+		else l = ml;
+	}
+	cout << f(l) << endl;
 }
