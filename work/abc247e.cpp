@@ -29,25 +29,5 @@ template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } 
 int main() {
 	ll n, x, y; cin >> n >> x >> y;
 	vll a(n); rep(i, n) cin >> a[i];
-	vvll b; b.push_back({});
-	rep(i, n) {
-		if(y <= a[i] && a[i] <= x) b.back().push_back(a[i]);
-		else b.push_back({});
-	}
-	ll ans = 0;
-	for(auto au : b) {
-		if(au.empty()) continue;
-		vll cnt(x + 1);
-		ll r = 0;
-		cnt[au.front()]++;
-		rep(l, au.size()) {
-			while(r < au.size() && (cnt[x] == 0 || cnt[y] == 0)) {
-				r++;
-				if(r < au.size()) cnt[au[r]]++;
-			}
-			ans += au.size() - r;
-			cnt[au[l]]--;
-		}
-	}
-	cout << ans << endl;
+	
 }

@@ -39,10 +39,15 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-void f() {
-
-}
-
-int main() {
-	ll f;
+int main() { //見なければいけない人数の上限は、大体Nの100倍くらいに収まって、後は周期的に同じトーナメント表が出現する
+	ll n, k; cin >> n >> k;
+	string s; cin >> s;
+	vll t(n); rep(i, n) t[i] = s[i % n] == 'R' ? 0 : s[i % n] == 'P' ? 1 : 2;
+	rep(_, k) {
+		vll tt;
+		rep(i, n) tt.push_back(t[i]);
+		rep(i, n) tt.push_back(t[i]);
+		rep(i, n) t[i] = (tt[i * 2] + 1) % 3 == tt[i * 2 + 1] ? tt[i * 2 + 1] : tt[i * 2];
+	}
+	cout << (t.front() == 0 ? 'R' : t.front() == 1 ? 'P' : 'S') << endl;
 }

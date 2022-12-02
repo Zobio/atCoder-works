@@ -39,10 +39,9 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-void f() {
-
-}
-
 int main() {
-	ll f;
+	ll a, b, c; cin >> a >> b >> c;
+	if(a <= c && c <= b) YES;
+	else if(b <= c && c <= a) YES;
+	else NO;
 }

@@ -39,10 +39,8 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-void f() {
-
-}
-
 int main() {
-	ll f;
+	string a, b; cin >> a >> b;
+	rep(i, b.size() * 2) cout << (i & 1 ? b[i / 2] : a[i / 2]);
+	if(a.size() != b.size()) cout << a.back();
 }
