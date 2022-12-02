@@ -40,5 +40,11 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	ll n; cin >> n;
+	vll a(n), b(n); rep(i, n) cin >> a[i] >> b[i];
+	ll ans = INF;
+	rep(i, n) rep(j, n) {
+		chmin(ans, i != j ? max(a[i], b[j]) : a[i] + b[i]);
+	}
+	cout << ans << endl;
 }

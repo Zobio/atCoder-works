@@ -40,5 +40,13 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	ll a, b, n; cin >> a >> b >> n;
+	//bx <= n - 1をみたす最大のxを求める
+	ll x = (n - 1) / b;
+	ll p = min(x + b - 1, n);
+	ll ans = 0;
+	reep(i, x, p + 1) {
+		chmax(ans, a * i / b - a * (i / b));
+	}
+	cout << ans << endl;
 }
