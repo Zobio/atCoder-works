@@ -41,14 +41,16 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 
 int main() {
 	ll n, k; cin >> n >> k;
-	if(k == n * (n + 1) / 2) cout << 0 << endl, exit(0);
-	vll rui(n + 2); reps(i, n) rui[i + 1] = rui[i] + i;
-	ll l = 0, r = n + 1;
-	while(r - l > 1) {
-		ll mid = l + r >> 1;
-		if(rui.back() - mid * (mid + 1) / 2 <= k) r = mid; //Σ(mid+1)~Nがk以下
-		else l = mid;
+	vvll a(n, vll(k, 1));
+	vector<bool> used(n);
+	rep(i, k) {
+		char c; cin >> c;
+		ll p; cin >> p; p--;
+		used[p] = true;
+		if(c == 'L') for(ll j = p; j >= 0; j--) a[j][i] = 0;
+		if(c == 'R') for(ll j = p; j < n; j++) a[j][i] = 0;
 	}
-	r++;
-	cout << 1 + (r != n) + (k - (rui.back() - (r - 1) * r / 2) > 1) << endl;
+	mint ans = 1;
+	rep(i, n) if(!used[i]) ans *= accumulate(all(a[i]), 0ll);
+	cout << ans.val() << endl;
 }
