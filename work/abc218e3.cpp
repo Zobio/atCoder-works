@@ -43,6 +43,26 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	a %= m; 
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
-    vll a(MOD);
+	ll a, b, c; cin >> c >> b >> a; //A ^ (B ^ C)
+	if(a % MOD == 0) cout << 0 << endl, exit(0);
+	ll d = mpow(b, c, MOD - 1);
+	cout << mpow(a, d, MOD) << endl;
 }
