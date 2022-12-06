@@ -60,7 +60,7 @@ int main() {
 	vll dist(n, -INF);
 	dist[0] = 0;
 	rep(i, n) for(auto[u, v, c] : es) {
-		if(dist[u] != -INF && chmax(dist[v], dist[u] + c) && i == n - 1) cout << "inf" << endl, exit(0);
+		if(dist[u] != -INF && chmax(dist[v], dist[u] + c) && i == n - 1 && v == n - 1) cout << "inf" << endl, exit(0);
 	}
 	cout << dist.back() << endl;
 }
