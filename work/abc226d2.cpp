@@ -44,5 +44,20 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << __gcd(0, 120) << endl;
+	ll n; cin >> n;
+	vll a(n), b(n); rep(i, n) cin >> a[i] >> b[i];
+	set<pll> move;
+	rep(i, n) reep(j, i + 1, n) {
+		ll dy = a[i] - a[j], dx = b[i] - b[j];
+		if(dy == 0) move.insert({0, 1}), move.insert({0, -1});
+		else if(dx == 0) move.insert({1, 0}), move.insert({-1, 0});
+		else {
+			ll gc = __gcd(abs(dy), abs(dx));
+			dy /= gc;
+			dx /= gc;
+			move.insert({dy, dx});
+			move.insert({-dy, -dx});
+		}
+	}
+	cout << move.size() << endl;
 }

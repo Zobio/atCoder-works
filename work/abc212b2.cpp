@@ -44,5 +44,11 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << __gcd(0, 120) << endl;
+	string s; cin >> s;
+	if(stoll(s) % 1111 == 0) cout << "Weak" << endl, exit(0);
+	ll flag = true;
+	rep(i, 3) {
+		flag &= (s[i] - '0' + 1) % 10 == s[i + 1] - '0';
+	}
+	cout << (flag ? "Weak" : "Strong") << endl;
 }
