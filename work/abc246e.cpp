@@ -26,10 +26,42 @@ using namespace std;
 template<class T>bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T>bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 
+vll dx = {1, -1, 1, -1};
+vll dy = {1, 1, -1, -1};
+
 int main() {
-	ll n; cin >> n;
-	pll st, en; cin >> st.first >> st.second >> en.first >> en.second; st.first--; st.second--; en.first--; en.second--;
+	ll n, ax, ay, bx, by; cin >> n >> ax >> ay >> bx >> by; ax--; ay--; bx--; by--;
 	vector<string> s(n); rep(i, n) cin >> s[i];
-	if((st.first + st.second) % 2 != (en.first + en.second) % 2) {cout << -1 << endl; return 0;}
-	
+	vvvll d(n, vvll(n, vll(4, INF)));
+	vector<vector<vector<bool>>> done(n, vector<vector<bool>>(n, vector<bool>(4, false)));
+	deque<pair<pll, ll>> dq;
+	rep(i, 4) { //初期値
+		ll nx = ax + dx[i], ny = ay + dy[i];
+		if(!(0 <= nx && nx < n)) continue;
+		if(!(0 <= ny && ny < n)) continue;
+		if(s[nx][ny] == '#') continue;
+		d[nx][ny][i] = 1;
+		dq.push_back({{nx, ny}, i});
+	}
+	while(!dq.empty()){
+		pair<pll, ll> od = dq.front(); dq.pop_front();
+		if(od.first == make_pair(bx, by)){cout << d[bx][by][od.second] << endl; return 0;}
+		ll cx = od.first.first, cy = od.first.second;
+		if(done[cx][cy][od.second]) continue;
+		done[cx][cy][od.second] = true;
+		ll cd = d[cx][cy][od.second];
+		rep(i, 4) {
+			ll nx = cx + dx[i], ny = cy + dy[i];
+			if(!(0 <= nx && nx < n)) continue;
+			if(!(0 <= ny && ny < n)) continue;
+			if(s[nx][ny]=='#') continue;
+			ll nd = cd + (i != od.second);
+			if(d[nx][ny][i] > nd){
+				d[nx][ny][i] = nd;
+				if(i == od.second) dq.push_front({{nx, ny}, i}); //コストは変わらない
+				else dq.push_back({{nx, ny},i}); //コストが1増えている
+			}
+		}
+ 	}
+	cout << -1 << endl;
 }
