@@ -44,6 +44,37 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	vll a = {1,2,3,4,5};
-	cout << lower_bound(all(a), 6) - a.begin() << endl;
+	ll n; cin >> n;
+	vvll a(3);
+	rep(i, 2 * n) {
+		ll s; char c; cin >> s >> c;
+		a[c == 'R' ? 0 : c == 'G' ? 1 : 2].push_back(s);
+	}
+	rep(i, 3) sort(all(a[i]));
+	vvll b;
+	vll c;
+	rep(i, 3) {
+		if(a[i].size() & 1) b.push_back(a[i]);
+		else c = a[i];
+	}
+	if(b.empty()) cout << 0 << endl, exit(0); //すべての犬小屋に同じ体色の犬を入れられる
+	ll ans = INF;
+	rep(i, b[0].size()) {
+		ll cur = b[0][i];
+		ll p = lower_bound(all(b[1]), cur) - b[1].begin();
+		if(p < b[1].size()) chmin(ans, abs(b[1][p] - cur));
+		if(0 < p) chmin(ans, abs(b[1][p - 1]- cur));
+	}
+	vll m1, m2;
+	rep(i, c.size()) {
+		ll cur = c[i];
+		ll p = lower_bound(all(b[0]), cur) - b[0].begin();
+		if(p < b[0].size()) m1.push_back(abs(b[0][p] - cur));
+		if(0 < p) m1.push_back(abs(b[0][p - 1]- cur));
+		ll q = lower_bound(all(b[1]), cur) - b[1].begin();
+		if(q < b[1].size()) m2.push_back(abs(b[1][q] - cur));
+		if(0 < q) m2.push_back(abs(b[1][q - 1]- cur));
+	}
+	if(m1.empty() || m2.empty()) cout << ans << endl;
+	else cout << min(ans, *min_element(all(m1)) + *min_element(all(m2))) << endl;
 }

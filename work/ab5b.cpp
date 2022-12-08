@@ -44,6 +44,7 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	vll a = {1,2,3,4,5};
-	cout << lower_bound(all(a), 6) - a.begin() << endl;
+		ll n; cin >> n;
+		vll a(n); rep(i, n) cin >> a[i];
+		cout << *min_element(all(a)) << endl;
 }

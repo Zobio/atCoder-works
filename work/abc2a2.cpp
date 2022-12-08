@@ -30,8 +30,8 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define PI acos(-1.0)
-#define YES printf("Yes\n"), exit(0)
-#define NO printf("No\n"), exit(0)
+#define YES printf("YES\n"), exit(0)
+#define NO printf("NO\n"), exit(0)
 constexpr long long MOD = 998244353LL;
 constexpr long long INF = (1LL << 60);
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
@@ -44,6 +44,9 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	vll a = {1,2,3,4,5};
-	cout << lower_bound(all(a), 6) - a.begin() << endl;
+	ll n; cin >> n;
+	if(n % 400 == 0) YES;
+	else if(n % 100 == 0) NO;
+	else if(n % 4 == 0) YES;
+	else NO;
 }

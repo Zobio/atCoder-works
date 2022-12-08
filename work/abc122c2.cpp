@@ -44,6 +44,12 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	vll a = {1,2,3,4,5};
-	cout << lower_bound(all(a), 6) - a.begin() << endl;
+	ll n, q; cin >> n >> q;
+	string s; cin >> s;
+	vll rui(n + 1);
+	rep(i, n) rui[i + 1] = rui[i] + (i && s[i - 1] == 'A' && s[i] == 'C');
+	rep(_, q) {
+		ll l, r; cin >> l >> r; l--; r--;
+		cout << rui[r + 1] - rui[l + 1] << endl;
+	}
 }
