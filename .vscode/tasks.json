@@ -23,6 +23,7 @@
 				"'${workspaceFolder}\\a.exe'`",
 				"`wslpath",
 				"'${file}'`",
+				"-fsanitize=undefined,address"
 			],
 			"group": {
 				"kind": "build",

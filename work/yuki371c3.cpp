@@ -45,6 +45,15 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << typeid({1,2}).name() << endl;
-	cout << typeid((vvll){{1,2},{3,4}}).name() << endl;
+	ll n, m, l; cin >> n >> m >> l;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvll dp(n + 1, vll(2010));
+	dp[0][l] = true;
+	rep(i, n) rep(j, 1010) {
+		dp[i + 1][j] |= dp[i][j];
+		dp[i + 1][(j + a[i]) / 2] |= dp[i][j];
+	}
+	bool flag = false;
+	rep(i, n + 1) flag |= dp[i][m];
+	YesNo(flag);
 }

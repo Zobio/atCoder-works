@@ -44,7 +44,40 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template<class T>
+vector<vector<T>>mat_mul(vector<vector<T>> &a, vector<vector<T>> &b) {
+	/// 行列積
+	vector<vector<T>> res(a.size(), vector<T>(b[0].size()));
+	for (int i = 0; i < a.size(); i++) {
+		for (int j = 0; j < b[0].size(); j++) {
+			  for (int k = 0; k < b.size(); k++) {
+				res[i][j] += a[i][k] * b[k][j];
+			 }
+		   }
+	}
+	return res;
+}
+
+template <class T>
+vector<vector<T>> mat_pow(vector<vector<T>> a, long long n) {
+	// 行列累乗
+	vector<vector<T>> res(a.size(), vector<T>(a.size()));
+	// 単位行列で初期化
+	for (int i = 0; i < a.size(); i++) res[i][i] = 1;
+	// 繰り返し二乗法
+	while (n > 0) {
+		if (n & 1) res = mat_mul(a, res);
+		a = mat_mul(a, a);
+		n >>= 1;
+	}
+	return res;
+}
+
 int main() {
-	cout << typeid({1,2}).name() << endl;
-	cout << typeid((vvll){{1,2},{3,4}}).name() << endl;
+	ll n; cin >> n;
+	vector<vector<mint>> m1 = {{1,1}, {1,0}};
+	m1 = mat_pow(m1, n);
+	vector<vector<mint>> m2 = {{1}, {0}};
+	vector<vector<mint>> ans = mat_mul(m1, m2);
+	cout << (ans[0][0] - 1).val() << endl;
 }

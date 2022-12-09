@@ -30,7 +30,8 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define PI acos(-1.0)
-#define YesNo(flag) if(flag) { cout << "Yes" << endl; } else { cout << "No" << endl; }
+#define YES printf("Yes\n"), exit(0)
+#define NO printf("No\n"), exit(0)
 constexpr long long MOD = 998244353LL;
 constexpr long long INF = (1LL << 60);
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
@@ -44,7 +45,13 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-	cout << typeid({1,2}).name() << endl;
-	cout << typeid((vvll){{1,2},{3,4}}).name() << endl;
+int main() { //はとのす
+	ll n, m, l; cin >> n >> m >> l;
+	vll a(n); rep(i, n) cin >> a[i];
+	vector<bool> c(10010);
+	c[l] = true;
+	rep(i, n) reps(j, 10001) {
+		if(c[j] && (a[i] + j) / 2 <= 10001) c[(a[i] + j) / 2] = true;
+	}
+	cout << (c[m] ? "Yes" : "No") << endl;
 }
