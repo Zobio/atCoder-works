@@ -47,10 +47,19 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+bool check1(char c) {
+	return 'A' <= c && c <= 'Z';
+}
+
+bool check2(char c, ll p) {
+	return '0' + p <= c && c <= '9';
+}
+
 int main() {
-	multiset<ll> m;
-	m.insert(1);
-	m.insert(4);
-	m.insert(10);
-	cout << *m.begin() << " " << *m.rbegin() << endl;
+	string s; cin >> s;
+	if(s.size() != 8) No;
+	if(!check1(s.front())) No;
+	if(!check1(s.back())) No;
+	reep(i, 1, s.size() - 1) if(!check2(s[i], i == 1)) No;
+	Yes;
 }

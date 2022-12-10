@@ -48,9 +48,38 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	multiset<ll> m;
-	m.insert(1);
-	m.insert(4);
-	m.insert(10);
-	cout << *m.begin() << " " << *m.rbegin() << endl;
+	ll n, m, k; cin >> n >> m >> k;
+	vll a(n); rep(i, n) cin >> a[i];
+	multiset<ll> small, big; //K個、M-K個
+	rep(i, m) {
+		if(small.size() < k) small.insert(a[i]);
+		else if(*small.rbegin() < a[i]) big.insert(a[i]);
+		else {
+			big.insert(*small.rbegin());
+			small.erase(small.find(*small.rbegin()));
+			small.insert(a[i]);
+		}
+	}
+	ll sum = 0;
+	for(auto au : small) sum += au;
+	cout << sum << endl;
+	reep(i, m, n) {
+		//挿入
+		if(*small.rbegin() < a[i]) big.insert(a[i]);
+		else small.insert(a[i]), sum += a[i];
+		//削除
+		if(small.count(a[i - m])) sum -= a[i - m], small.erase(small.find(a[i - m]));
+		else big.erase(big.find(a[i - m]));
+		if(small.size() > k) {
+			sum -= *small.rbegin();
+			big.insert(*small.rbegin());
+			small.erase(small.find(*small.rbegin()));
+		}
+		else if(small.size() < k) {
+			sum += *big.begin();
+			small.insert(*big.begin());
+			big.erase(big.find(*big.begin()));
+		}
+		cout << sum << endl;
+	}
 }
