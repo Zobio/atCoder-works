@@ -1,9 +1,12 @@
 #include <bits/stdc++.h>
+#include <atcoder/all> // AtCoder
 using namespace std;
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
+using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -41,105 +44,61 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-template< class T, size_t N >
-struct SquareMatrix {
-  array< array< T, N >, N > A;
+template<class T>
+vector<vector<T>>mat_mul(vector<vector<T>> &a, vector<vector<T>> &b) {
+	/// 行列積
+	vector<vector<T>> res(a.size(), vector<T>(b[0].size()));
+	for (int i = 0; i < a.size(); i++) {
+		for (int j = 0; j < b[0].size(); j++) {
+			  for (int k = 0; k < b.size(); k++) {
+				  res[i][j] ^= a[i][k] & b[k][j];
+			 }
+		   }
+	}
+	return res;
+}
 
-  SquareMatrix() : A{{}} {}
-
-  size_t size() const { return N; }
-
-  inline const array< T, N > &operator[](int k) const {
-    return (A.at(k));
-  }
-
-  inline array< T, N > &operator[](int k) {
-    return (A.at(k));
-  }
-
-  static SquareMatrix add_identity() {
-    return SquareMatrix();
-  }
-
-  static SquareMatrix mul_identity() {
-    SquareMatrix mat;
-    for(size_t i = 0; i < N; i++) mat[i][i] = 1;
-    return mat;
-  }
-
-  SquareMatrix &operator+=(const SquareMatrix &B) {
-    for(size_t i = 0; i < N; i++) {
-      for(size_t j = 0; j < N; j++) {
-        (*this)[i][j] += B[i][j];
-      }
-    }
-    return *this;
-  }
-
-  SquareMatrix &operator-=(const SquareMatrix &B) {
-    for(size_t i = 0; i < N; i++) {
-      for(size_t j = 0; j < N; j++) {
-        (*this)[i][j] -= B[i][j];
-      }
-    }
-    return *this;
-  }
-
-  SquareMatrix &operator*=(const SquareMatrix &B) {
-    array< array< T, N >, N > C;
-    for(size_t i = 0; i < N; i++) {
-      for(size_t j = 0; j < N; j++) {
-        for(size_t k = 0; k < N; k++) {
-          C[i][j] = (C[i][j] + (*this)[i][k] * B[k][j]);
-        }
-      }
-    }
-    A.swap(C);
-    return (*this);
-  }
-
-  SquareMatrix &operator^=(uint64_t k) {
-    SquareMatrix B = SquareMatrix::mul_identity();
-    while(k > 0) {
-      if(k & 1) B *= *this;
-      *this *= *this;
-      k >>= 1LL;
-    }
-    A.swap(B.A);
-    return *this;
-  }
-
-  SquareMatrix operator+(const SquareMatrix &B) const {
-    return SquareMatrix(*this) += B;
-  }
-
-  SquareMatrix operator-(const SquareMatrix &B) const {
-    return SquareMatrix(*this) -= B;
-  }
-
-  SquareMatrix operator*(const SquareMatrix &B) const {
-    return SquareMatrix(*this) *= B;
-  }
-
-  SquareMatrix operator^(uint64_t k) const {
-    return SquareMatrix(*this) ^= k;
-  }
-
-  friend ostream &operator<<(ostream &os, SquareMatrix &p) {
-    for(int i = 0; i < N; i++) {
-      os << "[";
-      for(int j = 0; j < N; j++) {
-        os << p[i][j] << (j + 1 == N ? "]\n" : ",");
-      }
-    }
-    return os;
-  }
-};
+template <class T>
+vector<vector<T>> mat_pow(vector<vector<T>> a, long long n) {
+	// 行列累乗
+	vector<vector<T>> res;
+	bool fir = true;
+	n--;
+	// 繰り返し二乗法
+	while (n > 0) {
+		if (n & 1) {
+			if(fir) res = a;
+			else res = mat_mul(a, res);
+		}
+		a = mat_mul(a, a);
+		n >>= 1;
+		cout << endl;
+		arrcout2(res);
+	}
+	if(fir) return a;
+	else return res;
+}
 
 int main() {
-	SquareMatrix<ull, 2> m;
-	m[0][0] = m[1][1] = 1; //単位行列
-	cout << m << endl;
-	m ^= 2;
-	cout << m << endl; //単位行列が出るはず
+	ll k, m; cin >> k >> m;
+	vvll a;
+	rep(i, k){
+		ll t; cin >> t;
+		a.push_back({t});
+	}
+	vll c(k); rep(i, k) cin >> c[i];
+	vvll mat(k, vll(k));
+	rep(i, k) rep(j, k) {
+		if(i == 0) mat[i][j] = c[j];
+		else mat[i][j] = i == j + 1;
+	}
+	mat = mat_pow(mat, m - 1);
+	cout << endl;
+	arrcout2(mat);
+	cout << endl;
+	arrcout2(a);
+	cout << endl;
+	a = mat_mul(mat, a);
+	arrcout2(a);
+	cout << a.back().back() << endl;
 }

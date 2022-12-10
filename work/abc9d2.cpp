@@ -1,9 +1,12 @@
 #include <bits/stdc++.h>
+#include <atcoder/all> // AtCoder
 using namespace std;
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
+using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -50,96 +53,107 @@ struct SquareMatrix {
   size_t size() const { return N; }
 
   inline const array< T, N > &operator[](int k) const {
-    return (A.at(k));
+	return (A.at(k));
   }
 
   inline array< T, N > &operator[](int k) {
-    return (A.at(k));
+	return (A.at(k));
   }
 
   static SquareMatrix add_identity() {
-    return SquareMatrix();
+	return SquareMatrix();
   }
 
   static SquareMatrix mul_identity() {
-    SquareMatrix mat;
-    for(size_t i = 0; i < N; i++) mat[i][i] = 1;
-    return mat;
+	SquareMatrix mat;
+	for(size_t i = 0; i < N; i++) mat[i][i] = 1;
+	return mat;
   }
 
   SquareMatrix &operator+=(const SquareMatrix &B) {
-    for(size_t i = 0; i < N; i++) {
-      for(size_t j = 0; j < N; j++) {
-        (*this)[i][j] += B[i][j];
-      }
-    }
-    return *this;
+	for(size_t i = 0; i < N; i++) {
+	  for(size_t j = 0; j < N; j++) {
+		(*this)[i][j] += B[i][j];
+	  }
+	}
+	return *this;
   }
 
   SquareMatrix &operator-=(const SquareMatrix &B) {
-    for(size_t i = 0; i < N; i++) {
-      for(size_t j = 0; j < N; j++) {
-        (*this)[i][j] -= B[i][j];
-      }
-    }
-    return *this;
+	for(size_t i = 0; i < N; i++) {
+	  for(size_t j = 0; j < N; j++) {
+		(*this)[i][j] -= B[i][j];
+	  }
+	}
+	return *this;
   }
 
   SquareMatrix &operator*=(const SquareMatrix &B) {
-    array< array< T, N >, N > C;
-    for(size_t i = 0; i < N; i++) {
-      for(size_t j = 0; j < N; j++) {
-        for(size_t k = 0; k < N; k++) {
-          C[i][j] = (C[i][j] + (*this)[i][k] * B[k][j]);
-        }
-      }
-    }
-    A.swap(C);
-    return (*this);
+	array< array< T, N >, N > C;
+	for(size_t i = 0; i < N; i++) {
+	  for(size_t j = 0; j < N; j++) {
+		for(size_t k = 0; k < N; k++) {
+		  C[i][j] = (C[i][j] ^ (*this)[i][k] & B[k][j]);
+		}
+	  }
+	}
+	A.swap(C);
+	return (*this);
   }
 
   SquareMatrix &operator^=(uint64_t k) {
-    SquareMatrix B = SquareMatrix::mul_identity();
-    while(k > 0) {
-      if(k & 1) B *= *this;
-      *this *= *this;
-      k >>= 1LL;
-    }
-    A.swap(B.A);
-    return *this;
+	SquareMatrix B = SquareMatrix::mul_identity();
+	while(k > 0) {
+	  if(k & 1) B &= *this;
+	  *this *= *this;
+	  k >>= 1LL;
+	}
+	A.swap(B.A);
+	return *this;
   }
 
   SquareMatrix operator+(const SquareMatrix &B) const {
-    return SquareMatrix(*this) += B;
+	return SquareMatrix(*this) += B;
   }
 
   SquareMatrix operator-(const SquareMatrix &B) const {
-    return SquareMatrix(*this) -= B;
+	return SquareMatrix(*this) -= B;
   }
 
   SquareMatrix operator*(const SquareMatrix &B) const {
-    return SquareMatrix(*this) *= B;
+	return SquareMatrix(*this) *= B;
   }
 
   SquareMatrix operator^(uint64_t k) const {
-    return SquareMatrix(*this) ^= k;
+	return SquareMatrix(*this) ^= k;
   }
 
   friend ostream &operator<<(ostream &os, SquareMatrix &p) {
-    for(int i = 0; i < N; i++) {
-      os << "[";
-      for(int j = 0; j < N; j++) {
-        os << p[i][j] << (j + 1 == N ? "]\n" : ",");
-      }
-    }
-    return os;
+	for(int i = 0; i < N; i++) {
+	  os << "[";
+	  for(int j = 0; j < N; j++) {
+		os << p[i][j] << (j + 1 == N ? "]\n" : ",");
+	  }
+	}
+	return os;
   }
 };
 
+const ll ma = 3;
+
 int main() {
-	SquareMatrix<ull, 2> m;
-	m[0][0] = m[1][1] = 1; //単位行列
-	cout << m << endl;
-	m ^= 2;
-	cout << m << endl; //単位行列が出るはず
+	ll k, m; cin >> k >> m;
+	vll a(k); rep(i, k) cin >> a[i];
+	vll c(k); rep(i, k) cin >> c[i];
+	SquareMatrix<ll, ma> m1;
+	rep(i, k) m1[0][i] = c[i];
+	rep(i, k - 1) m1[i + 1][i] = 1;
+	cout << m1 << endl;
+	m1 ^= m - 1;
+	cout << m1 << endl;
+	SquareMatrix<ll, ma> m2;
+	rep(i, k) m2[i][0] = a[i];
+	SquareMatrix<ll, ma> ans = m1 * m2;
+	rep(i, k) cout << i << " " << ans[i][0] << endl;
+	cout << ans[k - 1][0] << endl;
 }
