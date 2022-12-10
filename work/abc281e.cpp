@@ -45,5 +45,13 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	ll n, m, k; cin >> n >> m >> k;
+	vll a(n); rep(i, n) cin >> a[i];
+	priority_queue<ll> pq;
+
+	vll tmp; rep(i, m) tmp.push_back(a[i]);
+	sort(all(tmp));
+	ll sum = accumulate(tmp.begin(), tmp.begin() + k, 0ll);
+
+	rep(i, )
 }

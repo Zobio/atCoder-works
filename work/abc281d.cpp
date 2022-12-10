@@ -45,5 +45,16 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	ll n, k, d; cin >> n >> k >> d;
+	vll a(n); rep(i, n) cin >> a[i];
+	vvvll dp(n + 1, vvll(k + 1, vll(d, -1)));
+	//i個目までみて、そのうちj個選んで、総和の余りがrである時のmax
+	dp[0][0][0] = 0;
+	rep(i, n) rep(j, k + 1) rep(r, d) {
+		if(dp[i][j][r] == -1) continue;
+		chmax(dp[i + 1][j][r], dp[i][j][r]); //とらない
+		if(j < k) chmax(dp[i + 1][j + 1][(r + a[i]) % d], dp[i][j][r] + a[i]);
+	}
+//	rep(i, n + 1) rep(j, k + 1) rep(r, d) cout << i << " " << j << " " << r << "  " << dp[i][j][r] << endl;
+	cout << dp[n][k][0] << endl;
 }

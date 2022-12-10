@@ -44,6 +44,28 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-	cout << log2(LLONG_MAX) << endl;
+int main() { //bitごとに貪欲?
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	rrep(bit, 35) {
+		ll ma1 = 0, ma2 = 0;
+		rep(i, n) chmax(ma1, a[i]);
+		ll p = 1LL << bit;
+		rep(i, n) chmax(ma2, a[i] ^ p);
+		bool flag = false; //^pするか?
+		if(ma1 == ma2) {
+			vll t1, t2;
+			rep(i, n) t1.push_back(a[i]);
+			rep(i, n) t2.push_back(a[i] ^ p);
+			sort(all(t1)); sort(all(t2));
+			rep(i, n) if(t1[i] != t2[i]) {
+				flag = t1[i] > t2[i];
+				break;
+			}
+		}else{
+			flag = ma1 > ma2;
+		}
+		if(flag) rep(i, n) a[i] ^= p;
+	}
+	cout << *max_element(all(a)) << endl;
 }

@@ -45,5 +45,6 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	ll n; cin >> n;
+	for(ll i = n; i >= 0; i--) cout << i << endl;
 }

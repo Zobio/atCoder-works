@@ -45,5 +45,16 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	string s; cin >> s;
+	if(s.size() < 6)  {cout << "No" << endl; return 0;}
+	if(!('A' <= s.front() && s.front() <= 'Z')) {cout << "No" << endl; return 0;}
+	if(!('A' <= s.back() && s.back() <= 'Z')) {cout << "No" << endl; return 0;}
+	string n = s.substr(1, s.size() - 2);
+	if(!('1' <= n.front() && n.front() <= '9')) {cout << "No" << endl; return 0;}
+	bool ok = true;
+	rep(i, n.size()) ok &= ('0' <= n[i] && n[i] <= '9');
+	if(!ok)  {cout << "No" << endl; return 0;}
+	ll m = stoll(n);
+	if(100000 <= m && m  <= 999999) cout << "Yes" << endl;
+	else cout << "No" << endl;
 }

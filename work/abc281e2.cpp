@@ -44,6 +44,55 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+ll op(ll a, ll b) {
+    return a + b;
+}
+
+ll e() {
+    return 0ll;
+}
+
+template<typename V>
+void compress(V& a) {
+	/*
+	座標圧縮を行う関数
+	(例)
+	{6, 9, 9, 2, 100} -->  {1, 2, 2, 0, 3}
+	*/
+	V b = a;
+	sort(b.begin(), b.end());
+	b.erase(unique(b.begin(), b.end()), b.end());
+	V res(a.size());
+	for(long long i = 0; i < a.size(); i++) {
+		res.at(i) = lower_bound(b.begin(), b.end(), a.at(i)) - b.begin();
+	}
+	a = res;
+}
+
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	ll n, m, k; cin >> n >> m >> k;
+	vll ca(n); rep(i, n) cin >> ca[i];
+	vll a = ca;
+	compress(ca);
+	segtree<ll, op ,e> seg1(n), seg2(n);
+	rep(i, m - 1) {
+		seg1.set(ca[i], seg1.get(ca[i]) + 1); //個数 
+		seg2.set(ca[i], seg2.get(ca[i]) + a[i]); //実際の値
+	}
+	reep(i, m - 1, n) {
+		seg1.set(ca[i], seg1.get(ca[i]) + 1);
+		seg2.set(ca[i], seg2.get(ca[i]) + a[i]);
+		ll l = -1, r = n + 1;
+		bool flag = false;
+		while(r - l > 1) {
+			ll mid = l + r >> 1;
+			if(seg1.prod(0, mid) <= k) l = mid, flag = false;
+			else if(seg1.prod(0, mid) - seg1.get(mid - 1) + 1 <= k) l = mid, flag = true;
+			else r = mid;
+		}
+		if(!flag) cout << seg2.prod(0, l) << endl;
+		else cout << seg2.prod(0, l) - (seg2.get(l - 1) / seg1.get(l - 1)) * (seg1.prod(0, l) - k) << endl;
+		seg1.set(ca[i - m + 1], seg1.get(ca[i - m + 1]) - 1);
+		seg2.set(ca[i - m + 1], seg2.get(ca[i - m + 1]) - a[i - m + 1]);
+	}
 }
