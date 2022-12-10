@@ -6,7 +6,7 @@ using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-using mint = modint998244353; // AtCoder
+using mint = modint1000000007; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -43,27 +43,26 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
-int m=1000000007;
-int n,t;
-char s[1010];
 
-int f(int i,int x){
-	int y,r;
-	if(i==0) return 0;
-	y=s[i-1]-'A';
-	if(x==y){
-		r=f(i-1,x);
-	}else{
-		r=f(i-1,3-x-y);
-		r=(r+t)%m;
+ll n;
+string s;
+mint t = 1;
+
+ll f(ll rank, ll type) {
+	cout << rank << " " << type << endl;
+	ll ptype = s[rank - 1] - 'A';
+	ll ret;
+	if(rank == 0) return 0;
+	else if(type == ptype) ret = f(rank - 1, type);
+	else {
+		ret = f(rank - 1, 3 - type - ptype);
+		ret = (t + ret).val();
 	}
-	t=t*2%m;
-	cout << i << " " << x << "  " << r << endl;
-	return r;
+	t *= 2;
+	return ret;
 }
 
-main(){
-	scanf("%d %s",&n,s);
-	t=1;
-	printf("%d\n",f(n,0));
+int main() {
+	cin >> n >> s;
+	cout << f(n, 0) << endl;
 }
