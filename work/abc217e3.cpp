@@ -48,7 +48,21 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	string s; cin >> s;
-	rep(i, 4 - s.size()) cout << 0;
-	cout << s << endl;
+	ll q; cin >> q;
+	queue<ll> que; //末尾部分 未ソート
+	priority_queue<ll, vll, greater<ll>> pq; //先頭部分 ソート済み
+	rep(_, q) {
+		ll t; cin >> t;
+		if(t == 1) {
+			ll x; cin >> x;
+			que.push(x);
+		}
+		if(t == 2) {
+			if(pq.size()) cout << pq.top() << endl, pq.pop();
+			else cout << que.front() << endl, que.pop();
+		}
+		if(t == 3) {
+			while(que.size()) pq.push(que.front()), que.pop();
+		}
+	}
 }

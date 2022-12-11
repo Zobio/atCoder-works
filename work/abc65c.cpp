@@ -6,7 +6,7 @@ using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-using mint = modint998244353; // AtCoder
+using mint = modint1000000007; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -34,7 +34,7 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define NO printf("NO\n"), exit(0)
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
-constexpr long long MOD = 998244353LL;
+constexpr long long MOD = 1000000007LL;
 constexpr long long INF = (1LL << 60);
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
 template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
@@ -48,7 +48,18 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	string s; cin >> s;
-	rep(i, 4 - s.size()) cout << 0;
-	cout << s << endl;
+	ll n, m; cin >> n >> m;
+	if(abs(n - m) > 1) cout << 0 << endl, exit(0);
+	mint ans = 0;
+	if(n != m) {
+		mint p1 = 1;
+		reps(i, n) p1 *= i;
+		mint p2 = 1;
+		reps(i, m) p2 *= i;
+		cout << (p1 * p2).val() << endl;
+	}else{
+		mint p = 1;
+		reps(i, n) p *= i;
+		cout << (2 * p * p).val() << endl;
+	}
 }
