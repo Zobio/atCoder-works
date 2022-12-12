@@ -47,9 +47,19 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+bool cmp(pll n1, pll n2) {
+	return n1.second < n2.second;
+}
+
 int main() {
-	string x = "oxxoxxoxxoxxoxxoxxoxxoxxoxxoxxoxx";
-	string s; cin >> s;
-	if(x.find(s) != string::npos) Yes;
-	else No;
+	ll n, d; cin >> n >> d;
+	vpll a(n); rep(i, n) cin >> a[i].first >> a[i].second, a[i].first--, a[i].second--;
+	sort(all(a), cmp);
+	ll cur = 0, ans = 0;
+	while(cur < n) {
+		ll l = a[cur].second;
+		while(cur < n && l + d - 1 >= a[cur].first) cur++;
+		ans++;
+	}
+	cout << ans << endl;
 }

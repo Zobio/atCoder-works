@@ -48,8 +48,7 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	string x = "oxxoxxoxxoxxoxxoxxoxxoxxoxxoxxoxx";
-	string s; cin >> s;
-	if(x.find(s) != string::npos) Yes;
-	else No;
+	setcout(15);
+	ld n; cin >> n;
+	cout << 1.8 * n + 32 << endl;
 }
