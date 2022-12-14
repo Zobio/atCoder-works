@@ -51,21 +51,12 @@ int main() {
 	ll n, p, q; cin >> n >> p >> q;
 	vll a(n); rep(i, n) cin >> a[i];
 	auto check = [&](ll num) {
-		auto c = a;
-		rep(i, n - 1) {
-			if(c[i] < num) {
-				ll pl = (num - c[i] + p - 1) / p;
-				c[i] += p * pl;
-				c[i + 1] -= q * pl;
-			}
-			else{
-				ll mi = (c[i] - num) / q;
-				c[i] -= q * mi;
-				c[i + 1] += p * mi;
-			}
+		ll c = 0;
+		rep(i, n) {
+			if(a[i] < num) c += (num - a[i] + p - 1) / p;
+			else c -= (a[i] - num) / q;
 		}
-		cout << num << " : "; arrcout(c);
-		return c.back() >= num;
+		return c <= 0;
 	};
 	ll l = -1, r = 10000100100;
 	while(r - l > 1) {
