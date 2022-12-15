@@ -48,5 +48,18 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-    rep(a, 5) rep(b, 5) rep(c, 5) rep(d, 5) cout << a << " " << b << " " << c << " " << d << endl;
+	auto f = [] (string s) {
+		ll di = s.size();
+		vvvll dp(di + 1, vvll(2, vll(2))); //dp[i][j][k] : i桁目で、s未満が確定していて、4か9を含む数の総数
+		dp[0][0][0] = 1; //まだ桁数が全く決まっていないなら、1通りだけと考える(階段DPの0段目が1なのと同じ考え方?)
+		rep(i, di) {
+			ll cur = s[i] - '0';
+			rep(j, 2) rep(k, 2) for(ll d = 0; d <= (j ? 9 : cur); d++) {
+				dp[i + 1][j | (d < cur)][k | d == 4 || d == 9] += dp[i][j][k];
+ 			}
+		}
+		return dp[di][0][1] + dp[di][1][1];
+	};
+	ll a, b; cin >> a >> b;
+	cout << f(to_string(b)) - f(to_string(a - 1)) << endl;
 }
