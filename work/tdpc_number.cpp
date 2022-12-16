@@ -6,7 +6,7 @@ using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-using mint = modint998244353; // AtCoder
+using mint = modint1000000007; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -47,6 +47,18 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+
 int main() {
-    
+	ll d; cin >> d;
+	string s; cin >> s;
+	ll n = s.size();
+	vector<vector<vector<mint>>> dp(n + 1, vector<vector<mint>>(2, vector<mint>(d)));
+	//dp[i][j][k]: i桁目までみて、未満フラグがjで、mod dがkである総数
+	dp[0][0][0] = 1; //0桁目までみて、自明に未満で、mod dが0の場合の数は1
+	rep(i, n) rep(j, 2) for(ll k = 0; k <= (j ? 9 : s[i] - '0'); k++) { //kは次の数
+		rep(p, d) {
+			dp[i + 1][j | k < s[i] - '0'][(p + k) % d] += dp[i][j][p];
+		}
+	}
+	cout << (dp[n][0][0] + dp[n][1][0] - 1).val() << endl; //0を除外
 }
