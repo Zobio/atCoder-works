@@ -48,16 +48,5 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	//mod 2019 がkになる総数をそれぞれ持っておくDP?
-	string s; cin >> s;
-	ll n = s.size();
-	vector<vector<mint>> dp(n + 1, vector<mint>(2019));
-	rep(i, n) dp[i][0] = 1;
-	rep(i, n) for(ll cur = 0; cur < 2019; cur++){
-		ll nxt1 = (cur * 10 + s[i] - '0') % 2019;
-		dp[i + 1][nxt1] += dp[i][cur];
-		//cout << i + 1 << " " << nxt << "  : " << dp[i + 1][nxt].val() << endl;
-	}
-	//rep(i, n + 1) rep(j, 2019) if(dp[i][j].val()) cout << i << " " << j << "  : " << dp[i][j].val() << endl;
-	cout << dp[n][0].val() << endl;
+	rep(i, 1400000000);
 }
