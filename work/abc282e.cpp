@@ -47,8 +47,44 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
 	ll n, m; cin >> n >> m;
 	vll a(n); rep(i, n) cin >> a[i];
-	
+	vector<bool> ex(n, true);
+	ll ans = 0;
+	rep(_, n - 1) {
+		vvll p(n);
+		rep(i, n) {
+			if(!ex[i]) continue;
+			rep(j, n) if(ex[j] && i != j) p[i].push_back((mpow(a[i], a[j], m) + mpow(a[j], a[i], m)) % m);
+		}
+		ll maxnum = INF, maxid = -1, minnum = INF, minid = -1;
+		rep(i, n) {
+			if(!ex[i]) continue;
+			if(chmax(maxnum, *max_element(all(p[i])))) {
+				maxid = i;
+				rep(j, n) if(chmin(minnum, *max_element(all(p[j])))) minid = j;
+			}
+		}
+		ans += *max_element(all(p[minid]));
+		cout << *max_element(all(p[minid])) << endl;
+		ex[minid] = false;
+	}
+	cout << ans << endl;
 }

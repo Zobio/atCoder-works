@@ -47,8 +47,103 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+struct edge{
+	ll u;
+	ll v;
+	ll cost;
+};
+
+bool cmp(edge e1, edge e2) {
+	return e1.cost > e2.cost;
+}
+
 int main() {
 	ll n, m; cin >> n >> m;
 	vll a(n); rep(i, n) cin >> a[i];
-	
+	vector<edge> c;
+	rep(i, n) reep(j, i + 1, n) {
+		c.push_back({i, j, (mpow(a[i], a[j], m) + mpow(a[j], a[i], m)) % m});
+	}
+	sort(all(c), cmp);
+	UnionFind uf(n);
+	ll ans = 0;
+	for(auto cur : c) {
+		ll c1 = cur.u, c2 = cur.v, cst = cur.cost;
+		if(uf.find(c1) == uf.find(c2)) continue;
+		uf.unite(c1, c2);
+		ans += cst;
+	}
+	cout << ans << endl;
 }

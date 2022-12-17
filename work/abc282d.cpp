@@ -47,8 +47,99 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+ll n, m;
+vvll g;
+vll color;
+bool nibu = true;
+
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
+void dfs(ll cur, ll c) {
+	color[cur] = c;
+	for(auto nxt : g[cur]) {
+		if(color[nxt] == c) nibu = false;
+		if(color[nxt] == -1) {
+			dfs(nxt, !c);
+		}
+	}
+}
+
 int main() {
-	ll n, m; cin >> n >> m;
-	vll a(n); rep(i, n) cin >> a[i];
-	
+	cin >> n >> m;
+	g.resize(n);
+	color.resize(n, -1);
+	UnionFind uf(n);
+	rep(i, m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+		g[b].push_back(a);
+		uf.unite(a, b);
+	}
+	rep(i, n) {
+		if(color[i] == -1) dfs(i, 0);
+	}
+	if(!nibu) cout << 0 << endl, exit(0);
+	ll ans = 0;
+	vvvll g_cl(n, vvll(2));
+	rep(i, n) g_cl[uf.find(i)][color[i]].push_back(i);
+	rep(i, n) {
+		ll fix1 = g[i].size(); //already connected
+		ll fix2 = g_cl[uf.find(i)][color[i]].size(); //same color
+		ans += n - fix1 - fix2;
+	}
+	cout << ans  / 2 << endl;
 }
