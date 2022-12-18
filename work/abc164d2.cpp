@@ -1,9 +1,12 @@
 #include <bits/stdc++.h>
+#include <atcoder/all> // AtCoder
 using namespace std;
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
+using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -153,15 +156,48 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }
 
-int main()
-{
-    map<int, queue<pair<int, int>>> mp;
-    for (int i = 0; i < 5; i++)
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            mp[i].push({j, j + 1});
-        }
-    }
-    cout << mp << endl;
+ostream &operator<<(ostream &os, const mint &i) { //atcoder
+	os << i.val();
+	return os;
+}
+
+ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
+}
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+
+int main() {
+	string s; cin >> s;
+	ll n = s.size();
+	vll cnt(2019);
+	cnt[0] = 1;
+	ll cur = 0;
+	rrep(i, n) {
+		cur = (cur + (s[i] - '0') * mpow(10LL, n - 1 - i, 2019LL)) % 2019;
+		cnt[cur]++;
+		//cout << cur << endl;
+	}
+	ll ans = 0;
+	rep(i, 2019) ans += cnt[i] * (cnt[i] - 1) / 2;
+	//cout << cnt << endl;
+	cout << ans << endl;
 }
