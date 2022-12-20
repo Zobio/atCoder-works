@@ -170,7 +170,32 @@ ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
 
 
 int main() {
-	vector<string> s(3);
-	rep(i, 3) cin >> s[i];
-	
+	vector<string> s(3); rep(i, 3) cin >> s[i];
+	set<ll> t;
+	rep(i, 3) rep(j, s[i].size()) t.insert(s[i][j]);
+	if(t.size() > 10) {cout << "UNSOLVABLE" << endl; return 0;}
+	ll m = t.size();
+	vector<char> c; for(auto au : t) c.push_back(au);
+	vll perm(10);
+	iota(all(perm), 0ll);
+	do{
+		map<ll, ll> mp;
+		rep(i, m) mp[c[i]] = perm[i]; //char --> number
+		ll fl = 1;
+		rep(i, 3) fl &= mp[s[i].front()] != 0;
+		if(!fl) continue;
+		vll num(3);
+		rep(i, 3) {
+			ll cur = 0;
+			rep(j, s[i].size()) {
+				cur = cur * 10 + mp[s[i][j]];
+			}
+			num[i] = cur;
+		}
+		if(num[0] + num[1] == num[2]) {
+			cout << num[0] << endl << num[1] << endl << num[2]; 
+			return 0;
+		}
+	}while(next_permutation(all(perm)));
+	cout << "UNSOLVABLE";
 }
