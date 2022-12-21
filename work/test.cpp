@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
-#include <atcoder/all> // AtCoder
+//#include <atcoder/all> // AtCoder
 using namespace std;
-using namespace atcoder; // AtCoder
+//using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-using mint = modint998244353; // AtCoder
+//using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -22,11 +22,24 @@ using ddddll = deque<deque<deque<deque<long long>>>>;
 using pll = pair<long long, long long>;
 using vpll = vector<pair<long long, long long>>;
 using vvpll = vector<vector<pair<long long, long long>>>;
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define reep(i, a, b) for (long long i = a; i < b; i++)
+#define overload2(_1, _2, name, ...) name
+#define overload4(_1, _2, _3, _4, name, ...) name
+#define rep1(n) for (ll i = 0; i < n; i++)
+#define rep2(i, n) for (ll i = 0; i < n; i++)
+#define rep3(i, a, b) for (ll i = a; i < b; i++)
+#define rep4(i, a, b, c) for (ll i = a; i < b; i += c)
+#define rep(...) overload4(__VA_ARGS__, rep4, rep3, rep2, rep1)(__VA_ARGS__)
+#define reps1(n) for (ll i = 1; i <= n; i++)
+#define reps2(i, n) for (ll i = 1; i <= n; i++)
+#define reps(...) overload2(__VA_ARGS__, reps2, reps1)(__VA_ARGS__)
+#define rrep1(n) for (int i = n - 1; i >= 0; i--)
+#define rrep2(i, n) for (int i = n - 1; i >= 0; i--)
+#define rrep3(i, a, b) for (int i = b - 1; i >= a; i--)
+#define rrep4(i, a, b, c) for (int i = b - 1; i >= a; i -= c)
+#define rrep(...) overload4(__VA_ARGS__,rrep4, rrep3, rrep2, rrep1)(__VA_ARGS__)
+#define rreps1(n) for (long long i = n; i >= 1; i--)
+#define rreps2(i, n) for (long long i = n; i >= 1; i--)
+#define rreps(...) overload2(__VA_ARGS__, rreps2, rreps1)(__VA_ARGS__)
 #define all(a) (a).begin(), (a).end()
 #define rall(a) (a).rbegin(), (a).rend()
 #define PI acos(-1.0)
@@ -46,6 +59,53 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
+
+template <class T1, class T2>
+ostream &operator<<(ostream &os, const pair<T1, T2> &p);
+
+template <class T1, class T2>
+istream &operator>>(istream &is, pair<T1, T2> &p);
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<T> &v);
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<T>> &v);
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v);
+
+template <class T>
+istream &operator>>(istream &is, vector<T> &v);
+
+template <class T, class S>
+ostream &operator<<(ostream &os, const map<T, S> &mp);
+
+template <class T>
+ostream &operator<<(ostream &os, const set<T> &st);
+
+template <class T>
+ostream &operator<<(ostream &os, const multiset<T> &st);
+
+template <class T>
+ostream &operator<<(ostream &os, queue<T> q);
+
+template <class T>
+ostream &operator<<(ostream &os, deque<T> q);
+
+template <class T>
+ostream &operator<<(ostream &os, stack<T> st);
+
+template <class T, class Container, class Compare>
+ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq);
+
+//ostream &operator<<(ostream &os, const mint &i); //atcoder
+
+//ostream &operator<<(ostream &os, const vector<mint> &v); //atcoder
+
+//ostream &operator<<(ostream &os, const modint &i); //atcoder
+
+//ostream &operator<<(ostream &os, const vector<modint> &v); //atcoder
 
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
@@ -85,7 +145,7 @@ ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
 }
 
 template <class T>
-istream &operator>>(istream &is, const vector<T> &v) {
+istream &operator>>(istream &is, vector<T> &v) {
 	for (T &in : v) {
 		is >> in;
 	}
@@ -156,33 +216,30 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }
 
-ostream &operator<<(ostream &os, const mint &i) { //atcoder
+/*ostream &operator<<(ostream &os, const mint &i) { //AtCoder
 	os << i.val();
 	return os;
-}
+}*/
 
-ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
+/*ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
 	for (int i = 0; i < (int)v.size(); i++) {
 		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
 	}
 	return os;
-}
+}*/
+
+/*ostream &operator<<(ostream &os, const modint &i) { //AtCoder
+	os << i.val();
+	return os;
+}*/
+
+/*ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
+	}
+	return os;
+}*/
 
 int main() {
-	string s, t; cin >> s >> t;
-	ll n = s.size(), m = t.size();
-	vvll dp(n + 1, vll(m + 1, INF));
-
-	rep(i, n + 1) dp[i][0] = i; //0文字からi文字挿入
-	rep(i, m + 1) dp[0][i] = i; //0文字からi文字挿入
 	
-	rep(i, n) rep(j, m) {
-		chmin(dp[i + 1][j + 1], dp[i + 1][j] + 1);
-		if(chmin(dp[i + 1][j + 1], dp[i][j + 1] + 1)) cout << i << " " << j << endl;
-		chmin(dp[i + 1][j + 1], dp[i][j] + (s[i] != t[j]));
-	}
-
-	cout << dp << endl;
-
-	cout << dp[n][m] << endl;
 }

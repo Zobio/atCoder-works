@@ -48,6 +48,53 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("unroll-loops")
 
 template <class T1, class T2>
+ostream &operator<<(ostream &os, const pair<T1, T2> &p);
+
+template <class T1, class T2>
+istream &operator>>(istream &is, pair<T1, T2> &p);
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<T> &v);
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<T>> &v);
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v);
+
+template <class T>
+istream &operator>>(istream &is, vector<T> &v);
+
+template <class T, class S>
+ostream &operator<<(ostream &os, const map<T, S> &mp);
+
+template <class T>
+ostream &operator<<(ostream &os, const set<T> &st);
+
+template <class T>
+ostream &operator<<(ostream &os, const multiset<T> &st);
+
+template <class T>
+ostream &operator<<(ostream &os, queue<T> q);
+
+template <class T>
+ostream &operator<<(ostream &os, deque<T> q);
+
+template <class T>
+ostream &operator<<(ostream &os, stack<T> st);
+
+template <class T, class Container, class Compare>
+ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq);
+
+ostream &operator<<(ostream &os, const mint &i); //atcoder
+
+ostream &operator<<(ostream &os, const vector<mint> &v); //atcoder
+
+ostream &operator<<(ostream &os, const modint &i); //atcoder
+
+ostream &operator<<(ostream &os, const vector<modint> &v); //atcoder
+
+template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
 	os << "(" << p.first << "," << p.second << ")";
 	return os;
@@ -85,7 +132,7 @@ ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
 }
 
 template <class T>
-istream &operator>>(istream &is, const vector<T> &v) {
+istream &operator>>(istream &is, vector<T> &v) {
 	for (T &in : v) {
 		is >> in;
 	}
