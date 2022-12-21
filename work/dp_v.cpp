@@ -47,17 +47,181 @@ template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; }
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template <class T1, class T2>
+ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
+	os << "(" << p.first << "," << p.second << ")";
+	return os;
+}
+
+template <class T1, class T2>
+istream &operator>>(istream &is, pair<T1, T2> &p) {
+	is >> p.first >> p.second;
+	return is;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<T> &v) {
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<T>> &v) {
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << endl;
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << "i = " << i << endl;
+		os << v[i];
+	}
+	return os;
+}
+
+template <class T>
+istream &operator>>(istream &is, const vector<T> &v) {
+	for (T &in : v) {
+		is >> in;
+	}
+	return is;
+}
+
+template <class T, class S>
+ostream &operator<<(ostream &os, const map<T, S> &mp) {
+	for (auto &[key, val] : mp) {
+		os << key << ": " << val << "";
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, const set<T> &st) {
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, const multiset<T> &st) {
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, queue<T> q) {
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop();
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, deque<T> q) {
+	while (q.size()) {
+		os << q.front() << "";
+		q.pop_front();
+	}
+	return os;
+}
+
+template <class T>
+ostream &operator<<(ostream &os, stack<T> st) {
+	while (st.size()) {
+		os << st.top() << "";
+		st.pop();
+	}
+	return os;
+}
+
+template <class T, class Container, class Compare>
+ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
+	while (pq.size()) {
+		os << pq.top() << "";
+		pq.pop();
+	}
+	return os;
+}
+
+ostream &operator<<(ostream &os, const mint &i) { //atcoder
+	os << i.val();
+	return os;
+}
+
+ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
+}
+
+ostream &operator<<(ostream &os, const modint &i) { //atcoder
+	os << i.val();
+	return os;
+}
+
+ostream &operator<<(ostream &os, const vector<modint> &v) { //atcoder
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
+}
+
 ll n, m;
 vvll g;
-vvll 
+vector<modint> dp, ans;
+vector<modint> rui_l, rui_r;
+
+void dfs1(ll cur, ll pre) {
+	dp[cur] = 1;
+	for(auto to : g[cur]) if(to != pre) {
+		dfs1(to, cur);
+		dp[cur] *= dp[to] + 1;
+	}
+}
+
+void dfs2(ll cur, ll pre) {
+	ans[cur] = 1;
+	for(auto to : g[cur]) ans[cur] *= dp[to] + 1;
+	ll z = g[cur].size();
+	vector<modint> rui_l(z), rui_r(z);
+	rep(i, z) rui_l[i] = rui_r[i] = (dp[g[cur][i]] + 1).val();
+	rep(i, z - 1) rui_l[i + 1] *= rui_l[i]; //累積積
+	rrep(i, z - 1) rui_r[i] *= rui_r[i + 1]; //累積積
+
+	rep(i, z) if(g[cur][i] != pre) {
+		dp[cur] = 1;
+		if (i) dp[cur] *= rui_l[i - 1];
+        if (i + 1 < z) dp[cur] *= rui_r[i + 1];
+        dfs2(g[cur][i], cur);
+	}
+}
 
 int main() {
 	cin >> n >> m;
+	modint::set_mod(m);
 	g.resize(n);
+	dp.resize(n);
+	ans.resize(n);
 	rep(i, n - 1) {
-		ll u, v; cin >> u >> v; u--; v--;
-		g[u].push_back(v);
-		g[v].push_back(u);
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+		g[b].push_back(a);
 	}
-
+	dfs1(0, -1); // 根0について木DP
+	dfs2(0, -1); // 全方位木DP
+	rep(i, n) cout << ans[i] << endl;
 }

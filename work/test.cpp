@@ -168,26 +168,21 @@ ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
 	return os;
 }
 
-struct Store{
-    int joy,time;
-};
-int main(){
-    int n,t,s;
-    std::cin >> n >> t >> s;
-    std::vector<Store> stores(n);
-    for(auto&store:stores){
-        std::cin >> store.joy >> store.time;
-    }
-    std::vector<std::vector<int>> dp(n+1,std::vector<int>(t+1));
-    for(int i=0;i<n;++i){
-        for(int j=0;j<=t;++j){
-            dp[i+1][j]=std::max({dp[i+1][j],dp[i][j]});
-            if(j!=0&&j!=s)dp[i+1][j]=std::max({dp[i+1][j],dp[i+1][j-1]});
-            int add=j+stores[i].time;
-            if(add>t)continue;
-            if(j<s&&add>s)continue;
-            dp[i+1][add]=std::max(dp[i+1][add],dp[i][j]+stores[i].joy);
-        }
-    }
-    std::cout << dp[n][t] << '\n';
+int main() {
+	string s, t; cin >> s >> t;
+	ll n = s.size(), m = t.size();
+	vvll dp(n + 1, vll(m + 1, INF));
+
+	rep(i, n + 1) dp[i][0] = i; //0文字からi文字挿入
+	rep(i, m + 1) dp[0][i] = i; //0文字からi文字挿入
+	
+	rep(i, n) rep(j, m) {
+		chmin(dp[i + 1][j + 1], dp[i + 1][j] + 1);
+		if(chmin(dp[i + 1][j + 1], dp[i][j + 1] + 1)) cout << i << " " << j << endl;
+		chmin(dp[i + 1][j + 1], dp[i][j] + (s[i] != t[j]));
+	}
+
+	cout << dp << endl;
+
+	cout << dp[n][m] << endl;
 }

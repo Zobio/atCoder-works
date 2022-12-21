@@ -168,9 +168,11 @@ ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
 	return os;
 }
 
+void f(ll c = 5) {
+	cout << c << endl;
+}
 
 int main() {
-	vector<string> s(3);
-	rep(i, 3) cin >> s[i];
-	
+	f(); //5
+	f(1); //1
 }

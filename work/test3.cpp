@@ -168,24 +168,18 @@ ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
 	return os;
 }
 
+ostream &operator<<(ostream &os, const modint &i) { //atcoder
+	os << i.val();
+	return os;
+}
+
+ostream &operator<<(ostream &os, const vector<modint> &v) { //atcoder
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
+	}
+	return os;
+}
 
 int main() {
-	ll n; cin >> n;
-	vll a(n); rep(i, n) cin >> a[i];
-	auto check = [&] {
-		ll gc = a.front();
-		rep(i, n) gc = __gcd(gc, a[i]);
-		return gc != 1;
-	};
-	if(check()) {cout << "not coprime" << endl; return 0;}
-	vll cnt(1000100);
-	rep(i, n) cnt[a[i]]++;
-	reep(i, 2, 1000001) {
-		ll c = 0;
-		for(ll j = i; j <= 1000000; j += i) {
-			c += cnt[j];
-		}
-		if(c >= 2) {cout << "setwise coprime" << endl; return 0;}
-	}
-	cout << "pairwise coprime" << endl;
+	
 }

@@ -1,190 +1,100 @@
-#include <bits/stdc++.h>
-#include <atcoder/all> // AtCoder
-using namespace std;
-using namespace atcoder; // AtCoder
-using uint = unsigned int;
-using ll = long long;
-using ull = unsigned long long;
-using ld = long double;
-using mint = modint998244353; // AtCoder
-using vll = vector<long long>;
-using vvll = vector<vector<long long>>;
-using vvvll = vector<vector<vector<long long>>>;
-using vvvvll = vector<vector<vector<vector<long long>>>>;
-using vbl = vector<bool>;
-using vvbl = vector<vector<bool>>;
-using vvvbl = vector<vector<vector<bool>>>;
-using vvvvbl = vector<vector<vector<vector<bool>>>>;
-using dll = deque<long long>;
-using ddll = deque<deque<long long>>;
-using dddll = deque<deque<deque<long long>>>;
-using ddddll = deque<deque<deque<deque<long long>>>>;
-using pll = pair<long long, long long>;
-using vpll = vector<pair<long long, long long>>;
-using vvpll = vector<vector<pair<long long, long long>>>;
-#define rep(i, n) for (long long i = 0; i < n; i++)
-#define reps(i, n) for (long long i = 1; i <= n; i++)
-#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
-#define rreps(i, n) for (long long i = n; i >= 1; i--)
-#define reep(i, a, b) for (long long i = a; i < b; i++)
-#define all(a) (a).begin(), (a).end()
-#define rall(a) (a).rbegin(), (a).rend()
-#define PI acos(-1.0)
-#define YES printf("YES\n"), exit(0)
-#define NO printf("NO\n"), exit(0)
-#define Yes printf("Yes\n"), exit(0)
-#define No printf("No\n"), exit(0)
-constexpr long long MOD = 998244353LL;
-constexpr long long INF = (1LL << 60);
-template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
-template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
-template<class T> void arrcout2(T &a) { for(size_t i = 0; i < a.size(); i++) { for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} }
-template<class... T> constexpr auto min(T... a){return min(initializer_list<common_type_t<T...>>{a...});}
-template<class... T> constexpr auto max(T... a){return max(initializer_list<common_type_t<T...>>{a...});}
-template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
-
-template <class T1, class T2>
-ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
-    os << "(" << p.first << "," << p.second << ")";
-    return os;
-}
-
-template <class T1, class T2>
-istream &operator>>(istream &is, pair<T1, T2> &p) {
-    is >> p.first >> p.second;
-    return is;
-}
-
-template <class T>
-ostream &operator<<(ostream &os, const vector<T> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << (i + 1 != (int)v.size() ? " " : "");
+#include<bits/stdc++.h>
+#define rep(i,a,b) for(int i=a;i<b;i++)
+#define rrep(i,a,b) for(int i=a;i>=b;i--)
+#define fore(i,a) for(auto &i:a)
+#define all(x) (x).begin(),(x).end()
+//#pragma GCC optimize ("-O3")
+using namespace std; void _main(); int main() { cin.tie(0); ios::sync_with_stdio(false); _main(); }
+typedef long long ll; const int inf = INT_MAX / 2; const ll infl = 1LL << 60;
+template<class T>bool chmax(T &a, const T &b) { if (a<b) { a = b; return 1; } return 0; }
+template<class T>bool chmin(T &a, const T &b) { if (b<a) { a = b; return 1; } return 0; }
+//---------------------------------------------------------------------------------------------------
+int MOD = 10;
+struct ModInt {
+    unsigned x; ModInt() : x(0) { }
+    ModInt(signed sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }
+    ModInt(signed long long sig) { x = sig < 0 ? sig % MOD + MOD : sig % MOD; }
+    int get() const { return (int)x; }
+    ModInt &operator+=(ModInt that) { if ((x += that.x) >= MOD) x -= MOD; return *this; }
+    ModInt &operator-=(ModInt that) { if ((x += MOD - that.x) >= MOD) x -= MOD; return *this; }
+    ModInt &operator*=(ModInt that) { x = (unsigned long long)x * that.x % MOD; return *this; }
+    ModInt &operator/=(ModInt that) { return *this *= that.inverse(); }
+    ModInt operator+(ModInt that) const { return ModInt(*this) += that; }
+    ModInt operator-(ModInt that) const { return ModInt(*this) -= that; }
+    ModInt operator*(ModInt that) const { return ModInt(*this) *= that; }
+    ModInt operator/(ModInt that) const { return ModInt(*this) /= that; }
+    ModInt inverse() const {
+        long long a = x, b = MOD, u = 1, v = 0;
+        while (b) { long long t = a / b; a -= t * b; std::swap(a, b); u -= t * v; std::swap(u, v); }
+        return ModInt(u);
     }
-    return os;
-}
+    bool operator==(ModInt that) const { return x == that.x; }
+    bool operator!=(ModInt that) const { return x != that.x; }
+    ModInt operator-() const { ModInt t; t.x = x == 0 ? 0 : MOD - x; return t; }
+};
+typedef ModInt mint;
+/*---------------------------------------------------------------------------------------------------
+　　　　　　　　　　　 ∧＿∧  
+　　　　　 ∧＿∧ 　（´<_｀ ）　 Welcome to My Coding Space!
+　　　　 （ ´_ゝ`）　/　 ⌒i     
+　　　　／　　　＼　 　  |　|     
+　　　 /　　 /￣￣￣￣/　　|  
+　 ＿_(__ﾆつ/　    ＿/ .| .|＿＿＿＿  
+　 　　　＼/＿＿＿＿/　（u　⊃  
+---------------------------------------------------------------------------------------------------*/
 
-template <class T>
-ostream &operator<<(ostream &os, const vector<vector<T>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << endl;
-    }
-    return os;
-}
 
-template <class T>
-ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << "i = " << i << endl;
-        os << v[i];
-    }
-    return os;
-}
 
-template <class T>
-istream &operator>>(istream &is, const vector<T> &v) {
-    for (T &in : v) {
-        is >> in;
-    }
-    return is;
-}
 
-template <class T, class S>
-ostream &operator<<(ostream &os, const map<T, S> &mp) {
-    for (auto &[key, val] : mp) {
-        os << key << ": " << val << "";
-    }
-    return os;
-}
 
-template <class T>
-ostream &operator<<(ostream &os, const set<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
-}
 
-template <class T>
-ostream &operator<<(ostream &os, const multiset<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
-}
 
-template <class T>
-ostream &operator<<(ostream &os, queue<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop();
-    }
-    return os;
-}
 
-template <class T>
-ostream &operator<<(ostream &os, deque<T> q) {
-    while (q.size()) {
-        os << q.front() << "";
-        q.pop_front();
-    }
-    return os;
-}
 
-template <class T>
-ostream &operator<<(ostream &os, stack<T> st) {
-    while (st.size()) {
-        os << st.top() << "";
-        st.pop();
-    }
-    return os;
-}
 
-template <class T, class Container, class Compare>
-ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
-    while (pq.size()) {
-        os << pq.top() << "";
-        pq.pop();
-    }
-    return os;
-}
 
-ostream &operator<<(ostream &os, const mint &i) { //atcoder
-    os << i.val();
-    return os;
-}
-
-ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
-}
-
-ll n, x, ans;
-vvll a;
-
-void dfs(ll p, ll cur) {
-    if(p == n) {ans += cur == x; return;}
-    rep(i, a[p].size()) {
-        if(cur * a[p][i] <= x) dfs(p + 1, cur * a[p][i]);
+int N;
+vector<int> E[101010];
+//---------------------------------------------------------------------------------------------------
+mint dp[101010];
+void dfs1(int cu, int pa = -1) {
+    dp[cu] = 1;
+    fore(to, E[cu]) if (to != pa) {
+        dfs1(to, cu);
+        dp[cu] *= dp[to] + 1;
     }
 }
+//---------------------------------------------------------------------------------------------------
+mint ans[101010];
+void dfs2(int cu, int pa = -1) {
+    ans[cu] = 1;
+    fore(to, E[cu]) ans[cu] *= dp[to] + 1;
 
-int main() {
-    cin >> n >> x;
-    a.resize(n);
-    rep(i, n) {
-        ll l; cin >> l; a[i].resize(l);
-        rep(j, l) cin >> a[i][j];
+    int n = E[cu].size();
+    vector<mint> lft(n), rht(n);
+    rep(i, 0, n) lft[i] = rht[i] = dp[E[cu][i]] + 1; //今回のleftとright
+    rep(i, 1, n) lft[i] *= lft[i - 1];
+    rrep(i, n - 2, 0) rht[i] *= rht[i + 1];
+
+    rep(i, 0, n) if (E[cu][i] != pa) {
+        dp[cu] = 1;
+        if (i) dp[cu] *= lft[i - 1];
+        if (i + 1 < n) dp[cu] *= rht[i + 1];
+        dfs2(E[cu][i], cu);
     }
-    dfs(0, 1);
-    cout << ans << endl;
+}
+//---------------------------------------------------------------------------------------------------
+void _main() {
+    cin >> N >> MOD;
+    rep(i, 0, N-1) {
+        int x, y; cin >> x >> y;
+        x--; y--;
+        E[x].push_back(y);
+        E[y].push_back(x);
+    }
+
+    dfs1(0);
+    dfs2(0);
+
+    rep(i, 0, N) printf("%d\n", ans[i].get());
 }
