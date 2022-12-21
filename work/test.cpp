@@ -168,8 +168,26 @@ ostream &operator<<(ostream &os, const vector<mint> &v) { //atcoder
 	return os;
 }
 
-
-int main() {
-	string s; cin >> s;
-	rep(i, s.size()) cout << (s[i] == ',' ? ' ' : s[i]);
+struct Store{
+    int joy,time;
+};
+int main(){
+    int n,t,s;
+    std::cin >> n >> t >> s;
+    std::vector<Store> stores(n);
+    for(auto&store:stores){
+        std::cin >> store.joy >> store.time;
+    }
+    std::vector<std::vector<int>> dp(n+1,std::vector<int>(t+1));
+    for(int i=0;i<n;++i){
+        for(int j=0;j<=t;++j){
+            dp[i+1][j]=std::max({dp[i+1][j],dp[i][j]});
+            if(j!=0&&j!=s)dp[i+1][j]=std::max({dp[i+1][j],dp[i+1][j-1]});
+            int add=j+stores[i].time;
+            if(add>t)continue;
+            if(j<s&&add>s)continue;
+            dp[i+1][add]=std::max(dp[i+1][add],dp[i][j]+stores[i].joy);
+        }
+    }
+    std::cout << dp[n][t] << '\n';
 }

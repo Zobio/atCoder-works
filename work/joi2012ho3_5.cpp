@@ -177,11 +177,8 @@ int main() {
 		chmax(dp[i + 1][j], dp[i][j]);
 		ll time = j + b[i], fun = dp[i][j] + a[i];
 		if(time > t) continue; //超過する
-		if(time <= s) chmax(dp[i + 1][time], fun); //花火の前
-		else if(j < s && time > s) { //花火を跨ぐ
-			if(s + b[i] <= t) chmax(dp[i + 1][s + b[i]], fun); //花火を見終えてから夜店に行く
-		}
-		else chmax(dp[i + 1][time], fun); //花火の後
+		if(j < s && time > s) continue; //花火を跨ぐ
+		else chmax(dp[i + 1][time], fun); //花火の前か後
 	}
 	cout << *max_element(all(dp.back())) << endl;
 }
