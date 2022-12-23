@@ -259,23 +259,36 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-template <class T>
-T comb(T P_, T Q_, T mo) {
-	static const int N_=3020; //要変更
-	assert(max(P_, Q_) < N_);
-	static T C_[N_][N_];
-	
-	if(C_[0][0]==0) {
-		for(int i = 0; i < N_; i++) {
-			C_[i][0] = C_[i][i] = 1;
-		}
-		for(int i = 1; i < N_; i++) for(int j = 1; j < i; j++) {
-			C_[i][j] = (C_[i - 1][j - 1] + C_[i - 1][j]) % mo;
-		}
+ll n;
+vvll num;
+vvll g;
+
+void dfs1(ll cur, ll pre) {
+	if(pre != -1 && g[cur].size() == 1) {
+		num[cur] = 0;
+		return;
 	}
-	return C_[P_][Q_];
+	num[cur] = g[cur].size() - 1;
+	for(auto nxt : g[cur]) if(nxt != pre) {
+		if(num[nxt] == -1) dfs1(nxt, cur);
+		num[cur] += num[nxt];
+	}
+}
+
+void dfs2(ll cur, ll pre) {
+
 }
 
 int main() {
-	cout << comb(5LL, 3LL, LINF) << endl;
+	cin >> n;
+	g.resize(n);
+	num.resize(n, -1);
+	rep(n - 1) {
+		ll a, b; cin >> a >> b;
+		a--; b--;
+		g[a].push_back(b);
+		g[b].push_back(a);
+	}
+	dfs1(0, -1); //木DP
+	dfs2(0, -1); //全方位木DP
 }

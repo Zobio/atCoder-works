@@ -57,9 +57,22 @@ template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; }
 template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 template<class T> long long acc(const T& a){ return accumulate(all(a), 0LL); }
 template<class T> vector<T> mrui(const vector<T>& a) { vector<T> ret(a.size() + 1); for(int i = 0; i < a.size(); i++) { ret[i + 1] = ret[i] + a[i]; } return ret; }
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+
+inline void in(){}
+template <class Head, class... Tail> inline void in(Head& head, Tail&... tail){ cin >> head; in(tail...); }
+
+#define INT(...) int __VA_ARGS__;in(__VA_ARGS__)
+#define LL(...) ll __VA_ARGS__;in(__VA_ARGS__)
+#define ULL(...) ull __VA_ARGS__;in(__VA_ARGS__)
+#define STR(...) string __VA_ARGS__;in(__VA_ARGS__)
+#define CHR(...) char __VA_ARGS__;in(__VA_ARGS__)
+#define DBL(...) double __VA_ARGS__;in(__VA_ARGS__)
+#define LD(...) ld __VA_ARGS__;in(__VA_ARGS__)
+#define vec(type, name, ...) vector<type> name(__VA_ARGS__)
+#define VEC(type, name, size) vector<type> name(size); in(name)
+#define vv(type, name, h, ...) vector<vector<type>>name(h, vector<type>(__VA_ARGS__))
+#define VV(type, name, h, ...) vector<vector<type>>name(h, vector<type>(__VA_ARGS__)); in(name)
+#define vvv(type, name, h, w, ...) vector<vector<vector<type>>>name(h, vector<vector<type>>(w, vector<type>(__VA_ARGS__)))
 
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p); // prototype
@@ -241,6 +254,23 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
     return os;
 }*/
 
+
+//#pragma GCC target("avx2")
+//#pragma GCC optimize("O3")
+//#pragma GCC optimize("unroll-loops")
+
+void f(ll p) {
+    static int n;
+    cout << n << ln;
+    n = p;
+    cout << n << ln << ln;
+}
+
 int main() {
-    
+    ll a; cin >> a;
+    f(a);
+    cin >> a;
+    f(a);
+    cin >> a;
+    f(a);
 }

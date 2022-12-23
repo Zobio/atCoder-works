@@ -45,7 +45,7 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define No printf("No\n"), exit(0)
 #define endk endl //typo
 constexpr char ln = '\n';
-constexpr long long MOD = 998244353LL;
+constexpr long long MOD = 1000000007LL;
 constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK
 constexpr int INF = 0x3fffffff; // 2倍までOK 10^9より大きい
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
@@ -276,6 +276,42 @@ T comb(T P_, T Q_, T mo) {
 	return C_[P_][Q_];
 }
 
+ll n;
+vvll g, num, pat;
+
+void dfs(ll cur, ll pre) {
+	if(pat[cur][pre] != -1) return;
+	pat[cur][pre] = 1;
+	num[cur][pre] = g[cur].size() - 1;
+	for(auto nxt : g[cur]) { //numとpatの計算
+		if(nxt == pre) continue; 
+		dfs(nxt, cur);
+		pat[cur][pre] = (pat[cur][pre] * pat[nxt][cur]) % MOD;
+		num[cur][pre] += num[nxt][cur];
+	}
+	ll sum = num[cur][pre];
+	for(auto nxt : g[cur]) { //patの計算の続き
+		if(nxt == pre) continue;
+		pat[cur][pre] = (pat[cur][pre] * comb(sum, num[nxt][cur] + 1, MOD)) % MOD;
+		sum -= num[nxt][cur] + 1;
+	}
+}
+
 int main() {
-	cout << comb(5LL, 3LL, LINF) << endl;
+	cin >> n;
+	g.resize(n);
+	num.resize(n, vll(n, -1));
+	pat.resize(n, vll(n, -1));
+	rep(n - 1) {
+		LL(a, b);
+		a--; b--;
+		g[a].push_back(b);
+		g[b].push_back(a);
+	}
+	rep(n) for(auto nxt : g[i]) dfs(nxt, i);
+	ll ans = 0;
+	rep(n) for(auto nxt : g[i]) if(i < nxt) {
+		ans = (ans + (pat[i][nxt] * pat[nxt][i]) % MOD * comb(num[i][nxt] + num[nxt][i], num[nxt][i], MOD)) % MOD;
+	}
+	cout << ans << endl;
 }
