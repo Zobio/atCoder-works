@@ -261,7 +261,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 
 int main() {
 	LL(n);
-	ll ans = 0;
-	reps(n) ans += to_string(i).size() & 1;
-	cout << ans;
+	ll ma = 0;
+	rep(n) {
+		LL(a);
+		if(a + 1 < ma) No;
+		chmax(ma, a);
+	}
+	Yes;
 }

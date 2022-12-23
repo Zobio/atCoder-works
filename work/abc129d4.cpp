@@ -260,8 +260,48 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n);
+	LL(h, w);
+	VEC(string, s, h);
+	vvvll nr(h + 1, vvll(w + 1, vll(4))); //近い壁, 上左下右
+
+	rep(i, h) rep(j, w) rep(k, 2, 4) {
+		nr[i][j][k] = k == 2 ? h - 1 : w - 1;
+	}
+
+	rep(i, h) rep(j, w) {
+		if(s[i][j] == '#') continue;
+
+		if(i && s[i - 1][j] =='#') nr[i][j][0] = i;
+		else if(i) nr[i][j][0] = nr[i - 1][j][0];
+		
+		if(j && s[i][j - 1] == '#') nr[i][j][1] = j;
+		else if(j) nr[i][j][1] = nr[i][j - 1][1];
+	}
+
+	rrep(i, h) rrep(j, w) {
+		if(s[i][j] == '#') continue;
+
+		if(i < h - 1 && s[i + 1][j] == '#') nr[i][j][2] = i;
+		else if(i < h - 1) nr[i][j][2] = nr[i + 1][j][2];
+
+		if(j < w - 1 && s[i][j + 1] == '#') nr[i][j][3] = j;
+		else if(j < w - 1) nr[i][j][3] = nr[i][j + 1][3];
+	}
+
 	ll ans = 0;
-	reps(n) ans += to_string(i).size() & 1;
-	cout << ans;
+	
+	rep(i, h) rep(j, w) {
+		if(s[i][j] == '#') continue;
+		ll cur = 0;
+		//cout << i + 1 << " " << j + 1 << "  :";
+		rep(p, 4) {
+			//cout << nr[i][j][p] << " ";
+			cur += abs((p & 1 ? j : i) - nr[i][j][p]);
+		}
+		//cout << endl;
+		//cout << cur << ln;
+		chmax(ans, cur);
+	}
+
+	cout << ans + 1 << ln;
 }
