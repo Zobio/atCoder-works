@@ -260,5 +260,21 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << (int)'z' << endl;
+	//stackで、あるふぁとふかさをかんり
+	string s; cin >> s;
+	ll n = s.size();
+	vll a(26, -1); //stの深さをいれとく
+	ll st;
+	rep(i, n) {
+		if(s[i] == '(') st++;
+		else if(s[i] == ')') {
+			rep(j, 26) if(a[j] == st) a[j] = -1;
+			st--;
+		}
+		else{
+			if(a[s[i] - 'a'] != -1) No;
+			else a[s[i] - 'a'] = st;
+		}
+	}
+	Yes;
 }

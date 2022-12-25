@@ -260,5 +260,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << (int)'z' << endl;
+	LL(n);
+	VEC(ll, a, n);
+	LL(q);
+	rep(_, q) {
+		ll t; cin >> t;
+		if(t == 1) {
+			ll x, y; cin >> x >> y; x--;
+			a[x] = y;
+		}
+		else{
+			ll x; cin >> x; x--;
+			cout << a[x] << endl;
+		}
+	}
 }

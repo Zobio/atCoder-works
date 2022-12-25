@@ -259,6 +259,129 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+vll dx = {0, 1, 0, -1};
+vll dy = {1, 0, -1, 0};
+
 int main() {
-	cout << (int)'z' << endl;
+	ll h, w; cin >> h >> w;
+	VV(ll, a, h, w);
+	auto aa = a;
+	ll ans1 = 0;
+	rep(i, h - 1) {
+		ll fl = false; //変更フラグ
+		rep(j, w) {
+			ll fl2 = false;
+			rep(k, 4) {
+				ll ny = i + dy[k], nx = j + dx[k];
+				if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+				fl2 |= a[ny][nx] == a[i][j];
+			}
+			fl |= !fl2; //ムリだったらflをtrueへ
+		}
+		if(fl) {
+			ans1++;
+			rep(j, w) a[i + 1][j] = !a[i + 1][j];
+		}
+	}
+	bool ng1_1 = false;
+	rep(i, h - 2, h) {
+		rep(j, w) {
+			bool fl2 = false;
+			rep(k, 4) {
+				ll ny = i + dy[k], nx = j + dx[k];
+				if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+				fl2 |= a[ny][nx] == a[i][j];
+			}
+			ng1_1 |= !fl2;
+		}
+	}
+
+	//cout << ln;
+	//cout << a << ln;
+
+	rep(j, w) a.back().at(j) = !a.back().at(j);
+
+	bool ng1_2 = false;
+	rep(i, h - 2, h) {
+		rep(j, w) {
+			bool fl2 = false;
+			rep(k, 4) {
+				ll ny = i + dy[k], nx = j + dx[k];
+				if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+				fl2 |= a[ny][nx] == a[i][j];
+			}
+			ng1_2 |= !fl2;
+		}
+	}
+
+
+	if(ng1_1 && !ng1_2) ans1++;
+
+	//cout << ln;
+	//cout << a << ln;
+	
+	rep(i, h) a[i] = aa[h - 1 - i]; //ぎゃく
+
+	ll ans2 = 0;
+	rep(i, h - 1) {
+		ll fl = false; //変更フラグ
+		rep(j, w) {
+			ll fl2 = false;
+			rep(k, 4) {
+				ll ny = i + dy[k], nx = j + dx[k];
+				if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+				fl2 |= a[ny][nx] == a[i][j];
+			}
+			fl |= !fl2; //ムリだったらflをtrueへ
+		}
+		if(fl) {
+			ans2++;
+			rep(j, w) a[i + 1][j] = !a[i + 1][j];
+		}
+	}
+	bool ng2_1 = false;
+	rep(i, h - 2, h) {
+		rep(j, w) {
+			bool fl2 = false;
+			rep(k, 4) {
+				ll ny = i + dy[k], nx = j + dx[k];
+				if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+				fl2 |= a[ny][nx] == a[i][j];
+			}
+			ng2_1 |= !fl2;
+		}
+	}
+
+	rep(j, w) a.back().at(j) = !a.back().at(j);
+
+	//cout << ln;
+	//cout << a << ln;
+
+	bool ng2_2 = false;
+	rep(i, h - 2, h) {
+		rep(j, w) {
+			bool fl2 = false;
+			rep(k, 4) {
+				ll ny = i + dy[k], nx = j + dx[k];
+				if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+				fl2 |= a[ny][nx] == a[i][j];
+			}
+			ng2_2 |= !fl2;
+		}
+	}
+
+	if(ng2_1 && !ng2_2) ans2++;
+
+	//cout << ln;
+	//cout << a << ln;
+
+	bool ng1 = ng1_1 & ng1_2;
+	bool ng2 = ng2_1 & ng2_2;
+
+	//cout << ng1_1 << " " << ng2_2 << " " << ng2_1 << " " << ng2_2 << endl;
+
+	if(ng1 && ng2) cout << -1 << endl;
+	else if(ng2) cout << min(ans1, h - ans1) << endl;
+	else if(ng1) cout << min(ans2, h - ans2) << endl;
+	else cout << min({ans1, ans2, h - ans1, h - ans2}) << endl;
 }

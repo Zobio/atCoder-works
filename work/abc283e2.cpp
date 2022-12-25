@@ -260,5 +260,27 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << (int)'z' << endl;
-}
+	//上下が変更したとき、しないときに変更する必要がありますか?みたいな感じ?
+	ll h, w; cin >> h >> w;
+	VV(ll, a, h, w);
+	vvvll dp(h, vvll(2, vll(2, LINF)));
+	//dp[i][flag1][flag2] : i番目まで見ていて、i-1番目を(flag1 ? 変えた : 変えてない)、i番目を(flag2 ? 変えた : 変えてない)ときの最小操作回数
+	dp[0][0][0] = 0;
+	dp[0][0][1] = 1;
+	rep(i, 1, h) rep(j, 2) rep(k, 2) rep(l, 2) { //jが2個前の変更フラグ、kが1個前の変更フラグ、lが今回の変更フラグ
+		vll x(w, -100); //2個後ろ
+		if (i > 1) x = a[i - 2];
+		if (j) rep(m, w) x[m] = 1 - x[m];
+		vll y = a[i - 1]; //1個後ろ
+		if (k) rep(m, w) y[m] = 1 - y[m];
+		vll z = a[i]; //今回
+		if (l) rep(m, w) z[m] = 1 - z[m];
+		bool ok = true;
+		rep(m, w) if(x[m] != y[m] && y[m] != z[m] && (m == 0 || y[m] != y[m - 1]) && (m == w - 1 || y[m] != y[m + 1])) ok = false;
+		if(i == h - 1) rep(m, w) if (z[m] != y[m] && (m == 0 || z[m] != z[m - 1]) && (m == w - 1 || z[m] != z[m + 1])) ok = false;
+		if(ok) chmin(dp[i][k][l], dp[i - 1][j][k] + l);
+	}
+	ll ans = LINF;
+	rep(j, 2) rep(k, 2) chmin(ans, dp.back().at(j).at(k));
+	cout << (ans == LINF ? -1 : ans) << ln;
+};

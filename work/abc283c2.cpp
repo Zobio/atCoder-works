@@ -260,5 +260,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << (int)'z' << endl;
+	STR(s);
+	stack<ll> st;
+	ll n = s.size();
+	vector<bool> ex(26, false);
+	rep(i, n) {
+		if(s[i] == '(') st.push('_');
+		else if(s[i] == ')') {
+			while(st.pop(), st.top() != '(');
+		}
+		else{
+			if(ex[i]) No;
+			else 
+		}
+	}
 }

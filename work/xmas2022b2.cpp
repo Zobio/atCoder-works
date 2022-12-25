@@ -260,5 +260,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << (int)'z' << endl;
+	LL(n, k, p);
+	STR(s);
+	ll acnt = 0, bcnt = 0;
+	string ans;
+	rep(2 * k - 1) {
+		if(i < n) (s[i] == 'A' ? acnt : bcnt)++;
+		if(i % 2 == 0) {
+			if(acnt == bcnt) ans.push_back('0');
+			else if(p == 50) ans.push_back('0');
+			else ans.push_back(acnt > bcnt ^ p < 50 ? '+' : '-');
+		}
+	}
+	cout << ans << endl;
 }
