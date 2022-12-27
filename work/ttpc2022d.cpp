@@ -259,9 +259,36 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+ll n;
+vll a;
+vvll g, dp;
+
+void dfs(ll cur, ll pre) {
+	if(dp[cur].front() != -1) return;
+	ll odd = 0, even = 0;
+	for(auto nxt : g[cur]) if(nxt != pre) { //dp
+		dfs(nxt, cur);
+		ll past_even = even, past_odd = odd;
+		even = max(past_even + dp[nxt][0], past_odd + dp[nxt][1]);
+		odd = max(past_even + dp[nxt][1], past_odd + dp[nxt][0]);
+		cout << cur + 1 << " --> " << nxt + 1 << "  : " << even << " " << odd << endl;
+	}
+	dp[cur][0] = even + (a[cur] == 1);
+	dp[cur][1] = odd + (a[cur] == 0);
+}
+
 int main() {
-	ll n, a, k;
-	scanf("%lld %lld\n%d\n", &n, &a, &k);
-	vll b(n); rep(i, n) cin >> b[i];
-	cout << b << endl;
+	cin >> n;
+	a.resize(n);
+	g.resize(n);
+	dp.resize(n, vll(2, -1));
+	cin >> a;
+	rep(n - 1) {
+		ll u, v; cin >> u >> v; u--; v--;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+	dfs(0, -1);
+	cout << endl << dp << endl;
+	cout << max(dp[0][0], dp[0][1]) << endl;
 }

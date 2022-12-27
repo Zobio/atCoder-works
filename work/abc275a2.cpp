@@ -260,8 +260,9 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	ll n, a, k;
-	scanf("%lld %lld\n%d\n", &n, &a, &k);
-	vll b(n); rep(i, n) cin >> b[i];
-	cout << b << endl;
+	LL(n);
+	VEC(ll, a, n);
+	ll ma = -1, maxid = 1;
+	rep(n) if(chmax(ma, a[i])) maxid = i;
+	cout << maxid + 1;
 }
