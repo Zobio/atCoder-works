@@ -265,16 +265,22 @@ vvll g, dp;
 
 void dfs(ll cur, ll pre) {
 	if(dp[cur].front() != -1) return;
-	ll odd = 0, even = 0;
+	ll c = 0;
 	for(auto nxt : g[cur]) if(nxt != pre) { //dp
+		c++;
 		dfs(nxt, cur);
-		ll past_even = even, past_odd = odd;
-		even = max(past_even + dp[nxt][0], past_odd + dp[nxt][1]);
-		odd = max(past_even + dp[nxt][1], past_odd + dp[nxt][0]);
-		cout << cur + 1 << " --> " << nxt + 1 << "  : " << even << " " << odd << endl;
+		ll even = dp[cur][0], odd = dp[cur][1];
+		even = max(even + dp[nxt][0], odd + dp[nxt][1]);
+		odd = max(even + dp[nxt][1], odd + dp[nxt][0]);
+		dp[cur][0] = even;
+		dp[cur][1] = odd;
+		//cout << cur + 1 << " --> " << nxt + 1 << "  : " << even << " " << odd << endl;
 	}
-	dp[cur][0] = even + (a[cur] == 1);
-	dp[cur][1] = odd + (a[cur] == 0);
+	dp[cur][!a[cur]]++;
+	if(c == 0) {
+		dp[cur][a[cur]] = 0;
+		dp[cur][!a[cur]] = 1;
+	}
 }
 
 int main() {

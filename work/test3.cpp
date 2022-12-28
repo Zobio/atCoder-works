@@ -260,26 +260,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	setcout(15);
-	LL(k);
-	STR(s, t);
-	vll rest(10, k);
-	vll p(10), q(10);
-	rep(i, 4) rest[s[i] - '0']--, p[s[i] - '0']++;
-	rep(i, 4) rest[t[i] - '0']--, q[t[i] - '0']++;
-	auto calc = [&] (ll num, ll fl) {
-		ll ret = 0;
-		rep(i, 1, 10) ret += i * (ll)powl(10LL, (fl ? q : p).at(i) + (num == i));
-		return ret;
-	};
-	ld ans = 0;
-	ll al = 9 * k - 8;
-	rep(i, 1, 10) rep(j, 1, 10) {
-		if(!rest[i] || !rest[j]) continue;
-		if(calc(i, 0) > calc(j, 1)) {
-			if(i == j) ans += (ld)rest[i] / al * (rest[i] - 1) / (al - 1);
-			else ans += (ld)rest[i] / al * rest[j] / (al - 1);
-		}
+	//全パターンから平方数を引いて余事象
+	ll q; cin >> q;
+	set<ll> sq;
+	for(ll i = 1; i * i <= 30030; i++) sq.insert(i * i);
+	rep(_, q) {
+		
 	}
-	cout << ans << ln;
 }
