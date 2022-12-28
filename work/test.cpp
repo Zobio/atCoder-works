@@ -46,7 +46,7 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
-constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK
+constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK 10^18より大きい
 constexpr int INF = 0x3fffffff; // 2倍までOK 10^9より大きい
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
 template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
@@ -259,15 +259,23 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-	LL(q);
-	rep(_, q) {
-		ll n; cin >> n;
-		VEC(ll, a, n);
-		sort(all(a));
-		ll p = 1;
-		rep(i, n) p *= a[i];
-		p += n - 1;
-		cout << 2022 * p << endl;
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
 	}
+	return ret;
+}
+
+int main() {
+	LL(a, b, c);
+	cout << mpow(a, b, c) << endl;
 }

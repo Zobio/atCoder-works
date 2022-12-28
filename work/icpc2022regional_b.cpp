@@ -46,7 +46,6 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
-constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK
 constexpr int INF = 0x3fffffff; // 2倍までOK 10^9より大きい
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
 template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
@@ -54,7 +53,7 @@ template<class T> void arrcout2(T &a) { for(size_t i = 0; i < a.size(); i++) { f
 template<class... T> constexpr auto min(T... a){return min(initializer_list<common_type_t<T...>>{a...});}
 template<class... T> constexpr auto max(T... a){return max(initializer_list<common_type_t<T...>>{a...});}
 template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
-template<class T> bool chmin(T& a, const T& b) { if (b <= a) { a = b; return 1; } return 0; }
+template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 template<class T> long long acc(const T& a){ return accumulate(all(a), 0LL); }
 template<class T> vector<T> mrui(const vector<T>& a) { vector<T> ret(a.size() + 1); for(int i = 0; i < a.size(); i++) { ret[i + 1] = ret[i] + a[i]; } return ret; }
 
@@ -259,23 +258,39 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-	LL(n, k);
-	vpll a(n); cin >> a;
-	vll ans(n, -1);
-	vll done(n);
-	rep(d, 1, 32) {
-		vll p;
-		rep(_, k){
-			ll minnum = LINF, minid = -1;
-			rep(i, n) {
-				if(!(a[i].first <= d && d <= a[i].second)) continue;
-				if(done[i]) continue;
-				if(chmin(minnum, a[i].second)) minid = i;
-			}
-			if(minid != -1) p.push_back(minid), done[minid] = true;
-		}
-		rep(p.size()) ans[p[i]] = d;
+constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK 10^18より大きい
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
 	}
-	rep(n) cout << ans[i] << endl;
+	return ret;
+}
+
+int main() {
+	cout << "query 0" << endl;
+	ll s; cin >> s;
+	ll ans = 0;
+	rep(d, 18) {
+		ll base = mpow(10LL, d, LINF);
+		ll l = 0, r = 10;
+		while(r - l > 1) {
+			ll mid = l + r >> 1;
+			cout << "query " << mid  * base << endl;
+			ll cur; cin >> cur;
+			if(cur != s + mid) r = mid; //オーバーラップしてる
+			else l = mid;
+		}
+		ans += (9 - l) * mpow(10LL, d, LINF);
+	}
+	cout << "answer " << ans << endl;
 }
