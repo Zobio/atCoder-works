@@ -261,21 +261,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 
 int main() {
 	LL(t);
-	rep (_, t) {//全パターンからxorすると平方数になっちゃうやつを減らすことを考える
+	rep(_, t) {
 		LL(n);
-		vll a(n), m(2 * n);
-		cin >> a;
-		ll cnt = 0;
-		ll cur = 0;
+		VEC(ll, a, n);
+		ll cnt = 0, cur = 0;
+		vll m(2 * n);
 		m[cur]++;
-		rep(j, n) {
-			cur ^= a[j]; //累積xor
-			rep(i, 2 * n) if ((cur ^ (i * i)) < 2 * n) {
-				cnt += m[cur ^ (i * i)]; //平方数になっちゃうから減らさないといけない分
-			}
+		rep(i, n) {
+			cur ^= a[i];
+			for(ll j = 0; j * j < 2 * n; j++) if((cur ^ j * j) < 2 * n) cnt += m[cur ^ j * j];
 			m[cur]++;
 		}
-		ll ans = ((n * (n + 1)) / 2) - cnt; //全通りは1 + 2 + ... n = n(n + 1) / 2
-		cout << ans << endl;
+		cout << n * (n + 1) / 2 - cnt << endl;
 	}
 }
