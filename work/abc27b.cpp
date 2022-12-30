@@ -261,5 +261,15 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << ~-1 << endl;
+	LL(n);
+	VEC(ll, a, n);
+	if(acc(a) % n) MINUS;
+	vll rui = mrui(a);
+	ll ave = acc(a) / n;
+	ll pre = -1; //前の地点
+	ll ans = 0;
+	rep(n) {
+		if(rui[i + 1] - rui[pre + 1] == ave * (i - pre)) ans += i - pre - 1, pre = i;
+	}
+	cout << ans << endl;
 }

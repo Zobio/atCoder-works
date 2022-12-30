@@ -43,7 +43,6 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define NO printf("NO\n"), exit(0)
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
-#define MINUS printf("-1\n"), exit(0)
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
@@ -261,5 +260,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << ~-1 << endl;
+	setcout(15);
+	LL(n, m);
+	n %= 12;
+	complex<ld> p = polar(1.0, 2 * PI / 12 * n);
+	p *= polar(1.0, 2 * PI / 12 / 60 * m);
+	complex<ld> q = polar(1.0, 2 * PI / 60 * m);
+	cout << max(arg(q / p), arg(p / q)) / PI * 180 << endl;
 }

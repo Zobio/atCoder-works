@@ -43,7 +43,6 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define NO printf("NO\n"), exit(0)
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
-#define MINUS printf("-1\n"), exit(0)
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
@@ -260,6 +259,24 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template<typename VV>
+void rotate_90(VV& a) {
+	/*2次元グリッドを反時計回りに90°回転させる関数 (2回回せば逆さまになる)
+	(例)
+	000     011
+	001 --> 000
+	101     001
+	注意 : 縦と横のサイズが同じでないとバグる
+	*/
+	size_t siz = a.size();
+	VV b(siz);
+	for(size_t i = 0; i < siz; i++) for(size_t j = 0; j < siz; j++) b[i].push_back(a[j][siz - i - 1]);
+	a = b;
+}
+
 int main() {
-	cout << ~-1 << endl;
+	ll n; cin >> n;
+	VEC(string, a, n);
+	rep(3) rotate_90(a);
+	rep(i, n) cout << a[i] << endl;
 }

@@ -261,5 +261,29 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << ~-1 << endl;
+	vector<deque<char>> a(110);
+	a.front() = {'b'};
+	rep(i, 101) {
+		a[i + 1] = a[i];
+		if((i + 1) % 3 == 1) {
+			a[i + 1].push_front('a');
+			a[i + 1].push_back('c');
+		}
+		else if((i + 1) % 3 == 2) {
+			a[i + 1].push_front('c');
+			a[i + 1].push_back('a');
+		}
+		else {
+			a[i + 1].push_front('b');
+			a[i + 1].push_back('b');
+		}
+	}
+	ll n; cin >> n;
+	string s; cin >> s;
+	deque<char> dq;
+	rep(s.size()) dq.push_back(s[i]);
+	rep(i, 101) {
+		if(dq == a[i]) cout << i << endl, exit(0);
+	}
+	MINUS;
 }

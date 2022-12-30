@@ -261,5 +261,15 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << ~-1 << endl;
+	LL(n, a, b);
+	ll ans = 0;
+	rep(n) {
+		string s; cin >> s;
+		ll d; cin >> d;
+		if(s == "East") ans += clamp(d, a, b);
+		else ans -= clamp(d, a, b);
+	}
+	if(ans == 0) cout << 0 << endl;
+	else if(ans > 0) cout << "East " << ans << endl;
+	else cout << "West " << -ans << endl;
 }
