@@ -261,6 +261,23 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template<typename VV>
+void rotate_90(VV& a) {
+	/*2次元グリッドを反時計回りに90°回転させる関数 (2回回せば逆さまになる)
+	(例)
+	000     011
+	001 --> 000
+	101     001
+	注意 : 縦と横のサイズが同じでないとバグる
+	*/
+	size_t siz = a.size();
+	VV b(siz);
+	for(size_t i = 0; i < siz; i++) for(size_t j = 0; j < siz; j++) b[i].push_back(a[j][siz - i - 1]);
+	a = b;
+}
+
 int main() {
-	cout << 'a' - 'A' << endl;
+	VV(char, a, 4, 4);
+	rep(2) rotate_90(a);
+	rep(4) cout << a[i] << endl;
 }

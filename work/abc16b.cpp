@@ -262,5 +262,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << 'a' - 'A' << endl;
+	LL(a, b, c);
+	bool fl1 = a + b == c;
+	bool fl2 = a - b == c;
+	if(fl1 && fl2) cout << '?' << ln;
+	else if(fl1) cout << '+' << ln;
+	else if(fl2) cout << '-' << ln;
+	else cout << '!' << ln;
 }

@@ -262,5 +262,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << 'a' - 'A' << endl;
+	string s; cin >> s;
+	cout << (s == "a" ? "-1" : "a") << endl;
 }

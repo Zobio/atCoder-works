@@ -260,6 +260,21 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template <class T>
+T extgcd(T a, T b, T& x, T& y) {
+	//ax + by = gcd(a, b)となるx,yを求める
+	T d = a;
+	if(b != 0) {
+		d = extgcd(b, a % b, y, x);
+		y -= a / b * x;
+	}
+	else{
+		x = 1; y = 0;
+	}
+	return d;
+}
+
 int main() {
-	cout << ~-1 << endl;
+	INT(p, q);
+	cout << extgcd(p, q, ) << endl;
 }

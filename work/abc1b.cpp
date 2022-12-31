@@ -262,5 +262,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << 'a' - 'A' << endl;
+	ll n; cin >> n;
+	if(n < 100) cout << "00" << endl;
+	else if(n < 1000) cout << 0 << n / 100 << endl;
+	else if(n <= 5000) cout << n / 100 << endl;
+	else if(n <= 30000) cout << n / 1000 + 50 << endl;
+	else if(n <= 70000) cout << (n / 1000 - 30) / 5 + 80 << endl;
+	else cout << 89 << endl;
 }

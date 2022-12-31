@@ -44,7 +44,6 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
 #define MINUS printf("-1\n"), exit(0)
-#define cuot cout // typo
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
@@ -257,10 +256,63 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << 'a' - 'A' << endl;
+	int t; cin >> t;
+	rep(_, t) {
+		INT(n, k);
+		vector<int> ans(n);
+		auto check = [&](int num){
+			if(num < n) return false;
+			if(k == 1) {
+				iota(all(ans), 1);
+				return true;
+			}
+			ans.assign(n, -1);
+			set<int> r, cur; //残り、今
+			rep(i, 1, n + 1) r.insert(i);
+			rep(k - 1) ans[i] = *r.rbegin(), cur.insert(*r.rbegin()), r.erase(*r.rbegin());
+			auto itt = r.upper_bound(num - *cur.rbegin());
+			if(itt == r.begin()) return false;
+			else {
+				itt--;
+				int nx = *itt;
+				ans[k - 1] = nx;
+				cur.insert(nx);
+				r.erase(nx);
+			}
+			rep(i, k, n) {
+				cur.erase(ans[i - k]);
+				int nxt;
+				if(cur.empty() || *cur.rbegin() + *cur.begin() <= num) {
+					nxt = *r.rbegin();
+					ans[i] = nxt;
+					cur.insert(nxt);
+					r.erase(nxt);
+				}
+				else{
+					auto it = r.upper_bound(num - *cur.rbegin());
+					if(it == r.begin()) return false;
+					it--;
+					nxt = *it;
+					ans[i] = nxt;
+					cur.insert(nxt);
+					r.erase(nxt);
+				}
+			}
+			if(cur.empty() || *cur.rbegin() + *cur.begin() <= num) return true;
+			else return false;
+		};
+		int l = -1, r = n + 1;
+		while(r - l > 1) {
+			int mid = l + r >> 1;
+			if(check(mid)) r = mid;
+			else l = mid; 
+		}
+		check(r);
+		cout << ans << endl;
+	}
 }

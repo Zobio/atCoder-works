@@ -262,5 +262,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << 'a' - 'A' << endl;
+	STR(s, t);
+	string c = "atcoder";
+	rep(s.size()) {
+		if(s[i] == t[i]) continue;
+		else if(s[i] == '@') {
+			if(c.find(t[i]) == string::npos) cout << "You will lose" << endl, exit(0);
+		}
+		else if(t[i] == '@') {
+			if(c.find(s[i]) == string::npos) cout << "You will lose" << endl, exit(0);
+		}
+		else cout << "You will lose" << endl, exit(0);
+	}
+	cout << "You can win" << endl;
 }

@@ -262,5 +262,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << 'a' - 'A' << endl;
+	ll n; cin >> n;
+	map<string, ll> mp;
+	rep(i, n) {
+		string s; cin >> s;
+		mp[s]++;
+	}
+	string name = "";
+	ll maxnum = 0;
+	for(auto au : mp) if(chmax(maxnum, au.second)) name = au.first;
+	cout << name << endl;
 }
