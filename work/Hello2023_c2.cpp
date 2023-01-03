@@ -262,8 +262,33 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n);
-	VEC(ll, a, n);
-	vll b = mrui(a);
-	cout << b << endl;
+	LL(t);
+	rep(_, t) {
+		LL(n, m);
+		VEC(ll, a, n);
+		vll rui = mrui(a);
+		ll ans = 0;
+		ll sum1 = accumulate(a.begin(), a.begin() + m, 0LL);
+		priority_queue<ll> pq1;
+		pq1.push(a[m - 1]);
+		rrep(i, m - 1) {
+			while(rui[i + 1] < sum1) {
+				sum1 -= 2 * pq1.top();
+				pq1.pop();
+				ans++;
+			}
+			pq1.push(a[i]);
+		}
+		ll sum2 = 0;
+		priority_queue<ll, vll, greater<ll>> pq2;
+		rep(i, m, n) {
+			pq2.push(a[i]);
+			while(rui[i + 1] - rui[m] < sum2) {
+				sum2 += 2 * pq2.top();
+				pq2.pop();
+				ans++;
+			}
+		}
+		cout << ans << endl;
+	}
 }

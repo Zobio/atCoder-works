@@ -262,8 +262,43 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n);
-	VEC(ll, a, n);
-	vll b = mrui(a);
-	cout << b << endl;
+	LL(t);
+	rep(_, t) {
+		LL(n);
+		if(n & 1) {
+			pll ans = {-1, -1};
+			rep(a, -5000, 5001) {
+				if(a == 0) continue;
+				ll l = -5001, r = -a;
+				while(r - l > 1) {
+					ll mid = l + r >> 1;
+					if(mid == -a || mid == -5001) {r = mid; continue;}
+					if((a + 3 * mid) / (a + mid) > n) r = mid;
+					else l = mid;
+				}
+				if(l != -a && (a + 3 * l) % (a + l) == 0 && (a + 3 * l) / (a + l) == n) ans = {a, l};
+				else if(r != -a && (a + 3 * r) % (a + r) == 0 && (a + 3 * r) / (a + r) == n) ans = {a, r};
+				l = -a, r = 5001;
+				while(r - l > 1) {
+					ll mid = l + r >> 1;
+					if(mid == -a || mid == 5001) {l = mid; continue;}
+					if((a + 3 * mid) / (a + mid) > n) r = mid;
+					else l = mid;
+				}
+				if(l != -a && (a + 3 * l) % (a + l) == 0 && (a + 3 * l) / (a + l) == n) ans = {a, l};
+				else if(r != -a && (a + 3 * r) % (a + r) == 0 && (a + 3 * r) / (a + r) == n) ans = {a, r};
+			}
+			if(ans.first == -1) cout << "NO" << endl;
+			else {
+				cout << "YES" << endl;
+				rep(n) cout << (i & 1 ? ans.second : ans.first) << " ";
+				cout << endl;
+			}
+		}
+		else {
+			cout << "YES" << endl;
+			rep(n) cout << (i & 1 ? 1 : -1) << " ";
+			cout << endl;
+		}
+	}
 }

@@ -262,8 +262,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n);
-	VEC(ll, a, n);
-	vll b = mrui(a);
-	cout << b << endl;
+	LL(t);
+	rep(_, t) {
+		LL(n);
+		STR(s);
+		ll lp = -LINF, rp = LINF; //1番右のLと、1番左のR
+		rep(n) if(s[i] == 'L') lp = i;
+		rrep(n) if (s[i] == 'R') rp = i;
+
+		if(rp < lp) cout << 0 << endl;
+		else if(lp + 1 == rp) cout << lp + 1 << endl;
+		else cout << -1 << endl;
+
+	}
 }

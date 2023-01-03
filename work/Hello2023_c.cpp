@@ -262,8 +262,28 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n);
-	VEC(ll, a, n);
-	vll b = mrui(a);
-	cout << b << endl;
+	LL(t);
+	rep(_, t) {
+		LL(n, m);
+		VEC(ll, a, n);
+		vll rui = mrui(a);
+		ll sum = accumulate(a.begin(), a.begin() + m, 0LL);
+		ll d = 0; //imos
+		ll ans = 0;
+		for(ll i = m - 2; i >= 0; i--) { //minus part
+			if(rui[i + 1] < sum + d) {
+				d -= 2 * a[i + 1];
+				ans++;
+				//cout << i + 1 << " " << d << endl;
+			}
+		}
+		for(ll i = m; i < n; i++) { //plus part
+			if(rui[i + 1] < sum + d) {
+				d += 2 * a[i];
+				ans++;
+				//cout << i + 1 << " " << d << endl;
+			}
+		}
+		cout << ans << endl;
+	}
 }
