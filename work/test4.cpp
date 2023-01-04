@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
-#include <atcoder/all> // AtCoder
+//#include <atcoder/all> // AtCoder
 using namespace std;
-using namespace atcoder; // AtCoder
+//using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
@@ -43,10 +43,12 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define NO printf("NO\n"), exit(0)
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
+#define MINUS printf("-1\n"), exit(0)
+#define cuot cout // typo
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
-constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK
+constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK 10^18より大きい
 constexpr int INF = 0x3fffffff; // 2倍までOK 10^9より大きい
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
 template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
@@ -260,28 +262,10 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n, a);
-	STR(ks);
-	VEC(ll, b, n);
-	rep(i, n) b[i]--;
-	vll m(n, -1); //初めて見つけたのが?番目
-	ll cur = a - 1; //start
-	ll cnt = 0; //操作数
-	ll p = 0; //ループ数
-	ll t = (ks.size() >= 17 ? LINF : stoll(ks));
-	while(1) {
-		if(m[cur] != -1) {p = cnt - m[cur]; break;}
-		m[cur] = cnt;
-		cur = b[cur];
-		cnt++;
-		t--;
-		if(t == 0) cout << cur + 1 << endl, exit(0);
+	string s; cin >> s;
+	ll l = s.size();
+	rep(l) {
+		rotate(s.begin(), s.begin() + l - 1, s.end());
+		cout << s << endl;
 	}
-	//cout << cur + 1 << " " << p << endl;
-	modint::set_mod(p);
-	modint e = 0;
-	rep(ks.size()) e = e * 10 + ks[i] - '0';
-	e -= cnt - p;
-	rep(e.val()) cur = b[cur];
-	cout << cur + 1 << endl;
 }
