@@ -58,6 +58,7 @@ template<class... T> constexpr auto max(T... a){return max(initializer_list<comm
 template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 template<class T> long long acc(const T& a){ return accumulate(all(a), 0LL); }
+template<class T> long double accl(const T& a){ return accumulate(all(a), 0.0L); }
 template<class T> vector<T> mrui(const vector<T>& a) { vector<T> ret(a.size() + 1); for(int i = 0; i < a.size(); i++) { ret[i + 1] = ret[i] + a[i]; } return ret; }
 
 inline void in(){}
@@ -261,34 +262,7 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-template<typename T>
-T mpow(T a, T n, T m) {
-	/*a^n % mを返す
-	(例)
-	pow(2, 10, 1000) --> 24
-	計算量はlog(n)
-	*/
-	T ret = 1;
-	while(n > 0) {
-		if (n & 1) ret = ret % m * a % m;
-		a = a % m * a % m;
-		n >>= 1;
-	}
-	return ret;
-}
-
-int main() { //bfs
-	LL(a, n);
-	vll dist(1000010, LINF);
-	dist[1] = 0;
-	queue<pll> que;
-	que.push({1, 0});
-	while(que.size()) {
-		ll cur = que.front().first, cost = que.front().second; que.pop();
-		if(cur * a < 1000010 && chmin(dist[cur * a], cost + 1)) que.push({cur * a, cost + 1});
-		string cs = to_string(cur);
-		rotate(cs.begin(), cs.begin() + cs.size() - 1, cs.end());
-		if(cs.front() != '0' && chmin(dist[stoll(cs)], cost + 1)) que.push({stoll(cs), cost + 1});
-	}
-	cout << (dist[n] == LINF ? -1 : dist[n]) << endl;
+int main() {
+	long long a = 2;
+	long long int b = 1;
 }

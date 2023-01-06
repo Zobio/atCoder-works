@@ -262,26 +262,5 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(n, x);
-	STR(s);
-	stack<char> st;
-	rep(n) {
-		if(s[i] == 'U') {
-			if(st.empty() || st.top() == 'U') st.push('U');
-			else st.pop();
-		}
-		else{
-			st.push(s[i]);
-		}
-	}
-	vll t;
-	ll p = st.size();
-	rep(p) t.push_back(st.top()), st.pop();
-	reverse(all(t));
-	rep(t.size()) {
-		if(t[i] == 'U') x /= 2;
-		else if(t[i] == 'L') x *= 2;
-		else x = x * 2 + 1;
-	}
-	cout << x << endl;
+	0.0L;
 }

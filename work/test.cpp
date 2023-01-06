@@ -58,7 +58,9 @@ template<class... T> constexpr auto max(T... a){return max(initializer_list<comm
 template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 template<class T> long long acc(const T& a){ return accumulate(all(a), 0LL); }
+template<class T> long double accl(const T& a){ return accumulate(all(a), 0.0L); }
 template<class T> vector<T> mrui(const vector<T>& a) { vector<T> ret(a.size() + 1); for(int i = 0; i < a.size(); i++) { ret[i + 1] = ret[i] + a[i]; } return ret; }
+template <class T> vector<vector<T>> mrui2(const vector<vector<T>> &a) { vector<vector<T>> ret(a.size() + 1, vector<T>(a.front().size() + 1)); for(int i = 0; i < (int)a.size(); i++) { for(int j = 0; j < (int)a.front().size(); j++) { ret[i + 1][j + 1] = ret[i][j + 1] + ret[i + 1][j] - ret[i][j] + a[i][j]; } } return ret; }
 
 inline void in(){}
 template <class Head, class... Tail> inline void in(Head& head, Tail&... tail){ cin >> head; in(tail...); }
@@ -262,10 +264,5 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	set<ll> s;
-	rep(5) {
-		ll a; cin >> a;
-		s.insert(a);
-	}
-	cout << s.size();
+	
 }
