@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
-//#include <atcoder/all> // AtCoder
+#include <atcoder/all> // AtCoder
 using namespace std;
-//using namespace atcoder; // AtCoder
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
@@ -261,112 +261,36 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-/**
- * @brief Graph Template(グラフテンプレート)
- */
-template< typename T = int >
-struct Edge {
-  int from, to;
-  T cost;
-  int idx;
-
-  Edge() = default;
-
-  Edge(int from, int to, T cost = 1, int idx = -1) : from(from), to(to), cost(cost), idx(idx) {}
-
-  operator int() const { return to; }
-};
-
-template< typename T = int >
-struct Graph {
-  vector< vector< Edge< T > > > g;
-  int es;
-
-  Graph() = default;
-
-  explicit Graph(int n) : g(n), es(0) {}
-
-  size_t size() const {
-    return g.size();
-  }
-
-  void add_directed_edge(int from, int to, T cost = 1) {
-    g[from].emplace_back(from, to, cost, es++);
-  }
-
-  void add_edge(int from, int to, T cost = 1) {
-    g[from].emplace_back(from, to, cost, es);
-    g[to].emplace_back(to, from, cost, es++);
-  }
-
-  void read(int M, int padding = -1, bool weighted = false, bool directed = false) {
-    for(int i = 0; i < M; i++) {
-      int a, b;
-      cin >> a >> b;
-      a += padding;
-      b += padding;
-      T c = T(1);
-      if(weighted) cin >> c;
-      if(directed) add_directed_edge(a, b, c);
-      else add_edge(a, b, c);
-    }
-  }
-
-  inline vector< Edge< T > > &operator[](const int &k) {
-    return g[k];
-  }
-
-  inline const vector< Edge< T > > &operator[](const int &k) const {
-    return g[k];
-  }
-};
-
-template< typename T = int >
-using Edges = vector< Edge< T > >;
-
-/**
- * @brief Manhattan MST
- */
-template< typename T >
-Edges< T > manhattan_mst(vector< T > xs, vector< T > ys) {
-  assert(xs.size() == ys.size());
-  Edges< T > ret;
-  int n = (int) xs.size();
-
-  vector< int > ord(n);
-  iota(ord.begin(), ord.end(), 0);
-
-  for(int s = 0; s < 2; s++) {
-    for(int t = 0; t < 2; t++) {
-      auto cmp = [&](int i, int j) -> bool {
-        return xs[i] + ys[i] < xs[j] + ys[j];
-      };
-      sort(ord.begin(), ord.end(), cmp);
-
-      map< T, int > idx;
-      for(int i:ord) {
-        for(auto it = idx.lower_bound(-ys[i]);
-            it != idx.end(); it = idx.erase(it)) {
-          int j = it->second;
-          if(xs[i] - xs[j] < ys[i] - ys[j]) break;
-          ret.emplace_back(i, j, abs(xs[i] - xs[j]) + abs(ys[i] - ys[j]));
-        }
-        idx[-ys[i]] = i;
-      }
-      swap(xs, ys);
-    }
-    for(int i = 0; i < n; i++) xs[i] *= -1;
-  }
-  return ret;
-}
+ll op(ll a, ll b) {return max(a, b);}
+ll e() {return -LINF;}
 
 int main() {
-	LL(n);
-	VEC(ll, a, n);
-	vll p(n);
-	iota(all(p), 1LL);
-	auto dist = manhattan_mst(p, a);
-	vll ans(n, LINF);
-	rep(i, dist.size()) chmin(ans.at(dist[i].from), dist[i].cost), chmin(ans.at(dist[i].to), dist[i].cost);
-	cout << ans << endl;
+	ll n; cin >> n;
+	vll p(n); cin >> p;
+	vll d(n, LINF);
+
+	auto calc = [&]() -> void {
+		segtree<ll, op, e> seg(n);
+		rep(i, n) {
+			chmin(d[i], p[i] + i - seg.prod(0, p[i]));
+			seg.set(p[i] - 1, p[i] + i);
+		}
+	};
+
+	calc(); //i > j && p[i] > p[j]
+
+	rep(n) p[i] = n + 1 - p[i];
+	calc(); //i > j && p[i] < p[j]
+
+	reverse(all(p));
+	reverse(all(d));
+	calc();	//i < j && p[i] < p[j]
+
+	rep(n) p[i] = n + 1 - p[i];
+	calc(); //i < j && p[i] > p[j]
+
+	reverse(all(p));
+	reverse(all(d));
+
+	cout << d << endl;
 }
