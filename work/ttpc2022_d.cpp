@@ -43,22 +43,20 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define NO printf("NO\n"), exit(0)
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
-#define MINUS printf("-1\n"), exit(0)
-#define cuot cout // typo
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
-constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK 10^18より大きい
+constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK
 constexpr int INF = 0x3fffffff; // 2倍までOK 10^9より大きい
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
+template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
+template<class T> void arrcout2(T &a) { for(size_t i = 0; i < a.size(); i++) { for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} }
 template<class... T> constexpr auto min(T... a){return min(initializer_list<common_type_t<T...>>{a...});}
 template<class... T> constexpr auto max(T... a){return max(initializer_list<common_type_t<T...>>{a...});}
 template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 template<class T> long long acc(const T& a){ return accumulate(all(a), 0LL); }
-template<class T> long double accl(const T& a){ return accumulate(all(a), 0.0L); }
 template<class T> vector<T> mrui(const vector<T>& a) { vector<T> ret(a.size() + 1); for(int i = 0; i < a.size(); i++) { ret[i + 1] = ret[i] + a[i]; } return ret; }
-template <class T> vector<vector<T>> mrui2(const vector<vector<T>> &a) { vector<vector<T>> ret(a.size() + 1, vector<T>(a.front().size() + 1)); for(int i = 0; i < (int)a.size(); i++) { for(int j = 0; j < (int)a.front().size(); j++) { ret[i + 1][j + 1] = ret[i][j + 1] + ret[i + 1][j] - ret[i][j] + a[i][j]; } } return ret; }
 
 inline void in(){}
 template <class Head, class... Tail> inline void in(Head& head, Tail&... tail){ cin >> head; in(tail...); }
@@ -125,135 +123,135 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq); // p
 
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
-    os << "(" << p.first << "," << p.second << ")";
-    return os;
+	os << "(" << p.first << "," << p.second << ")";
+	return os;
 }
 
 template <class T1, class T2>
 istream &operator>>(istream &is, pair<T1, T2> &p) {
-    is >> p.first >> p.second;
-    return is;
+	is >> p.first >> p.second;
+	return is;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<T> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<T>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << endl;
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << endl;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << "i = " << i << endl;
-        os << v[i];
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << "i = " << i << endl;
+		os << v[i];
+	}
+	return os;
 }
 
 template <class T>
 istream &operator>>(istream &is, vector<T> &v) {
-    for (T &in : v) {
-        is >> in;
-    }
-    return is;
+	for (T &in : v) {
+		is >> in;
+	}
+	return is;
 }
 
 template <class T, class S>
 ostream &operator<<(ostream &os, const map<T, S> &mp) {
-    for (auto &[key, val] : mp) {
-        os << key << ": " << val << " ";
-    }
-    return os;
+	for (auto &[key, val] : mp) {
+		os << key << ": " << val << " ";
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const set<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const multiset<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, queue<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop();
-    }
-    return os;
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop();
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, deque<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop_front();
-    }
-    return os;
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop_front();
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, stack<T> st) {
-    while (st.size()) {
-        os << st.top() << " ";
-        st.pop();
-    }
-    return os;
+	while (st.size()) {
+		os << st.top() << " ";
+		st.pop();
+	}
+	return os;
 }
 
 template <class T, class Container, class Compare>
 ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
-    while (pq.size()) {
-        os << pq.top() << " ";
-        pq.pop();
-    }
-    return os;
+	while (pq.size()) {
+		os << pq.top() << " ";
+		pq.pop();
+	}
+	return os;
 }
 
 /*ostream &operator<<(ostream &os, const mint &i) { //AtCoder
-    os << i.val();
-    return os;
+	os << i.val();
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const modint &i) { //AtCoder
-    os << i.val();
-    return os;
+	os << i.val();
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
+	}
+	return os;
 }*/
 
 
@@ -261,52 +259,40 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-struct graph : std::vector<std::vector<int>> {
-    using std::vector<std::vector<int>>::vector;
-    void add_edge(int u, int v, bool directed = false) {
-        (*this)[u].emplace_back(v);
-        if (directed) return;
-        (*this)[v].emplace_back(u);
-    }
-};
+ll n;
+vll a;
+vvll g, dp;
+
+void dfs(ll cur, ll pre) {
+	bool fl = false;
+	for(auto nxt : g[cur]) if(nxt != pre) { //dp
+		dfs(nxt, cur);
+		if(!fl) {
+			dp[cur] = dp[nxt];
+			fl = true;
+			continue;
+		}
+		auto oe = dp[cur];
+		oe[0] = max(dp[cur][0] + dp[nxt][0], dp[cur][1] + dp[nxt][1]);
+		oe[1] = max(dp[cur][0] + dp[nxt][1], dp[cur][1] + dp[nxt][0]);
+		dp[cur] = oe;
+		//cout << cur + 1 << " --> " << nxt + 1 << "  : " << oe[0] << " " << oe[1] << endl;
+	}
+	dp[cur][!a[cur]]++;
+}
 
 int main() {
-    int n;
-    std::cin >> n;
-    graph g(n);
-    std::vector<int> a(n);
-    for (auto &val : a) std::cin >> val;
-    for (int i = 0; i < n - 1; i++) {
-        int u, v;
-        std::cin >> u >> v;
-        u--;
-        v--;
-        g.add_edge(u, v);
-    }
-    std::vector dp(n, std::vector<int>(2, 0));
-    auto dfs = [&](auto &&self, int v, int par = -1) -> void {
-        if (par != -1 && g[v].size() == 1) {
-            dp[v][1 ^ a[v]] = 1;
-            return;
-        }
-        bool flag = false;
-        for (auto nv : g[v]) {
-            if (nv == par) continue;
-            self(self, nv, v);
-            auto nxt = dp[v];
-            if (!flag) {
-                dp[v] = dp[nv];
-                flag = true;
-                continue;
-            }
-            nxt[0] = std::max(dp[v][0] + dp[nv][0], dp[v][1] + dp[nv][1]);
-            nxt[1] = std::max(dp[v][0] + dp[nv][1], dp[v][1] + dp[nv][0]);
-            dp[v] = nxt;
-        }
-        dp[v][1 ^ a[v]]++;
-        return;
-    };
-    dfs(dfs, 0);
-    cout << endl << dp << endl;
-    std::cout << std::max(dp[0][0], dp[0][1]) << '\n';
+	cin >> n;
+	a.resize(n);
+	g.resize(n);
+	dp.resize(n, vll(2));
+	cin >> a;
+	rep(n - 1) {
+		ll u, v; cin >> u >> v; u--; v--;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+	dfs(0, -1);
+	//cout << endl << dp << endl;
+	cout << max(dp[0][0], dp[0][1]) << endl;
 }
