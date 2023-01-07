@@ -44,20 +44,21 @@ using vvpll = vector<vector<pair<long long, long long>>>;
 #define Yes printf("Yes\n"), exit(0)
 #define No printf("No\n"), exit(0)
 #define MINUS printf("-1\n"), exit(0)
+#define cuot cout // typo
 #define endk endl //typo
 constexpr char ln = '\n';
 constexpr long long MOD = 998244353LL;
 constexpr long long LINF = 0x1fffffffffffffff; // 4倍までOK 10^18より大きい
 constexpr int INF = 0x3fffffff; // 2倍までOK 10^9より大きい
 template<class T> void setcout(T n) {cout << setprecision(n) << fixed;}
-template<class T> void arrcout(T &a) { for(size_t i = 0; i < a.size(); i++) cout << (i ? " " : "") << a.at(i); cout << endl; }
-template<class T> void arrcout2(T &a) { for(size_t i = 0; i < a.size(); i++) { for(size_t j = 0; j < a[i].size(); j++) cout << (j ? " " : "") << a.at(i).at(j); cout << endl;} }
 template<class... T> constexpr auto min(T... a){return min(initializer_list<common_type_t<T...>>{a...});}
 template<class... T> constexpr auto max(T... a){return max(initializer_list<common_type_t<T...>>{a...});}
 template<class T> bool chmax(T& a, const T& b) { if (a < b) { a = b; return 1; } return 0; }
 template<class T> bool chmin(T& a, const T& b) { if (b < a) { a = b; return 1; } return 0; }
 template<class T> long long acc(const T& a){ return accumulate(all(a), 0LL); }
+template<class T> long double accl(const T& a){ return accumulate(all(a), 0.0L); }
 template<class T> vector<T> mrui(const vector<T>& a) { vector<T> ret(a.size() + 1); for(int i = 0; i < a.size(); i++) { ret[i + 1] = ret[i] + a[i]; } return ret; }
+template <class T> vector<vector<T>> mrui2(const vector<vector<T>> &a) { vector<vector<T>> ret(a.size() + 1, vector<T>(a.front().size() + 1)); for(int i = 0; i < (int)a.size(); i++) { for(int j = 0; j < (int)a.front().size(); j++) { ret[i + 1][j + 1] = ret[i][j + 1] + ret[i + 1][j] - ret[i][j] + a[i][j]; } } return ret; }
 
 inline void in(){}
 template <class Head, class... Tail> inline void in(Head& head, Tail&... tail){ cin >> head; in(tail...); }
@@ -261,10 +262,9 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(t);
-	rep(_, t) {
-		LL(n);
-		VEC(ll, a, n);
-		
-	}
+	LL(n, k, x, y);
+	ll ans = 0;
+	ans += min(n, k) * x;
+	ans += max(n - k, 0LL) * y;
+	cout << ans << endl;
 }
