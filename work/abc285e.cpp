@@ -264,5 +264,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 int main() {
 	ll n; cin >> n;
 	vll a(n); cin >> a;
-	
+	vll rui(n + 1); rep(n) rui[i + 1] = rui[i] + a[i / 2];
+	vvll dp(n + 1, vll(n + 1)); //dp[i][j] : i日目まで確定していて前の休日がj日前であるときの最大値
+	rep(i, n) {
+		//休日にする
+		rep(j, i) chmax(dp[i + 1][0], dp[j][0] + rui[i - j]);
+		//平日にする
+		rep(j, 1, i) chmax(dp[i + 1][j], dp[i][j - 1]);
+	}
+	//cout << dp << endl;
+	cout << *max_element(all(dp.back())) << endl;
 }
