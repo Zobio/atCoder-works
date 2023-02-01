@@ -262,5 +262,22 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	LL(n, m);
+	vvll g(n);
+	rep(m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+		g[b].push_back(a);
+	}
+	ll ans = 1;
+	auto dfs = [&](auto self, ll cur, vll& visited) -> void{
+		visited[cur] = 1;
+		for(auto nxt : g[cur]) {
+			if(!visited[nxt] && ans < 1000000) ans++, self(self, nxt, visited);
+		}
+		visited[cur] = 0;
+	};
+	vll t(n);
+	dfs(dfs, 0, t);
+	cout << ans << endl;
 }
