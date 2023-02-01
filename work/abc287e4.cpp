@@ -125,135 +125,135 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq); // p
 
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
-    os << "(" << p.first << "," << p.second << ")";
-    return os;
+	os << "(" << p.first << "," << p.second << ")";
+	return os;
 }
 
 template <class T1, class T2>
 istream &operator>>(istream &is, pair<T1, T2> &p) {
-    is >> p.first >> p.second;
-    return is;
+	is >> p.first >> p.second;
+	return is;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<T> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<T>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << endl;
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << endl;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << "i = " << i << endl;
-        os << v[i];
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << "i = " << i << endl;
+		os << v[i];
+	}
+	return os;
 }
 
 template <class T>
 istream &operator>>(istream &is, vector<T> &v) {
-    for (T &in : v) {
-        is >> in;
-    }
-    return is;
+	for (T &in : v) {
+		is >> in;
+	}
+	return is;
 }
 
 template <class T, class S>
 ostream &operator<<(ostream &os, const map<T, S> &mp) {
-    for (auto &[key, val] : mp) {
-        os << key << ": " << val << " ";
-    }
-    return os;
+	for (auto &[key, val] : mp) {
+		os << key << ": " << val << " ";
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const set<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const multiset<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, queue<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop();
-    }
-    return os;
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop();
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, deque<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop_front();
-    }
-    return os;
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop_front();
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, stack<T> st) {
-    while (st.size()) {
-        os << st.top() << " ";
-        st.pop();
-    }
-    return os;
+	while (st.size()) {
+		os << st.top() << " ";
+		st.pop();
+	}
+	return os;
 }
 
 template <class T, class Container, class Compare>
 ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
-    while (pq.size()) {
-        os << pq.top() << " ";
-        pq.pop();
-    }
-    return os;
+	while (pq.size()) {
+		os << pq.top() << " ";
+		pq.pop();
+	}
+	return os;
 }
 
 /*ostream &operator<<(ostream &os, const mint &i) { //AtCoder
-    os << i.val();
-    return os;
+	os << i.val();
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const modint &i) { //AtCoder
-    os << i.val();
-    return os;
+	os << i.val();
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
+	}
+	return os;
 }*/
 
 
@@ -261,12 +261,81 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-    ll n, d; cin >> n >> d;
-    vll x(n), y(n); rep(i, n) cin >> x[i] >> y[i];
-    ll ans = 0;
-    rep(n) {
-        ans += x[i] * x[i] + y[i] * y[i] <= d * d;
+/* Trie 木： 文字の種類(char_size)、int型で0に対応する文字(base)
+    insert(word): 単語 word を Trie 木に挿入する
+    search(word): 単語 word が Trie 木にあるか判定する
+    start_with(prefix):  prefix が一致する単語が Trie 木にあるか判定する
+    count(): 挿入した単語の数を返す
+    size(): Trie 木の頂点数を返す
+    計算量：insert, search ともに O(M)（Mは単語の長さ）
+*/
+template <int char_size, int base>
+struct Trie {
+    struct Node {            // 頂点を表す構造体
+        vector<int> next;    // 子の頂点番号を格納。存在しなければ-1
+        vector<int> accept;  // 末端がこの頂点になる単語の word_id を保存
+        int c;               // base からの間隔をint型で表現したもの
+        int common;          // いくつの単語がこの頂点を共有しているか
+        Node(int c_) : c(c_), common(0) {
+            next.assign(char_size, -1);
+        }
+    };
+    vector<Node> nodes;  // trie 木本体
+    int root;
+    Trie() : root(0) {
+        nodes.push_back(Node(root));
     }
-    cout << ans;
+    // 単語の挿入
+    void insert(const string &word, int word_id) {
+        int node_id = 0;
+        for (int i = 0; i < (int)word.size(); i++) {
+            int c = (int)(word[i] - base);
+            int &next_id = nodes[node_id].next[c];
+            if (next_id == -1) {  // 次の頂点が存在しなければ追加
+                next_id = (int)nodes.size();
+                nodes.push_back(Node(c));
+            }
+            ++nodes[node_id].common;
+            node_id = next_id;
+        }
+        ++nodes[node_id].common;
+        nodes[node_id].accept.push_back(word_id);
+    }
+    void insert(const string &word) {
+        insert(word, nodes[0].common);
+    }
+    // 単語とprefixの検索
+    int search(const string &word, bool prefix = false) {
+        int node_id = 0;
+        for (int i = 0; i <= (int)word.size(); i++) {
+            int c = (int)(word[i] - base);
+            int &next_id = nodes[node_id].next[c];
+            int &com=nodes[node_id].common;
+            if (com == 1) {  // 次の頂点が存在しなければ終了
+                return i-1;
+            }
+            node_id = next_id;
+        }
+        return word.size();
+    }
+    // prefix を持つ単語が存在するかの検索
+    bool start_with(const string &prefix) {
+        return search(prefix, true);
+    }
+    // 挿入した単語の数
+    int count() const {
+        return (nodes[0].common);
+    }
+    // Trie木のノード数
+    int size() const {
+        return ((int)nodes.size());
+    }
+};
+
+int main() {
+	LL(n);
+	VEC(string, s, n);
+	Trie<26, 'a'> trie;
+	rep(n) trie.insert(s[i]);
+	rep(n) cout << trie.search(s[i]) << endl;
 }
