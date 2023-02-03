@@ -262,6 +262,5 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-    ll n, h, w; cin >> n >> h >> w;
-    cout << max(0LL, (n - h + 1)) * max(0LL, (n - w + 1)) << endl;
+    cout << "Yes" << endl;
 }

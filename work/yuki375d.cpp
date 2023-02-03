@@ -257,10 +257,34 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 
-int main() {
-	
+bool isKaibun(string t) {
+	bool fl = true;
+	rep(t.size() / 2) fl &= t[i] == t[t.size() - 1 - i];
+	return fl;
+}
+
+int main() { //dp?
+	string s; cin >> s;
+	ll n = s.size();
+	if(n == 1) {cout << 1 << endl; return 0;}
+	vll dp(n + 1); //dp[i] : i文字目まで見たときの最大値
+	vvll kaibun(n, vll(n, -1));
+	deque<char> dq;
+	auto dfs = [&](ll i, ll j) -> void {
+		
+	};
+	rep(i, 1, n + 1) rep(j, i) {
+		string cur = s.substr(j, i - j);
+		//cout << i << " " << j << "  " << cur << " " << isKaibun(cur) << endl;
+		if(j == 0) chmax(dp[i], isKaibun(cur) * i);
+		else {
+			chmax(dp[i], max(isKaibun(cur) * (ll)cur.size(), 1LL));
+		}
+	}
+	//cout << dp << endl;
+	cout << dp.back() << endl;
 }

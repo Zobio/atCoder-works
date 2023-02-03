@@ -262,10 +262,5 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	LL(h, w, a, b);
-	vvvll dp((1LL << h * w) - 1, vvll(a + 1, vll(b + 1)));
-	//dp[bits][i][j] : 敷き詰め状態がbitsで、Aをi個、Bをj個使う通り数? (∴答えはdp[(1LL << h * w) - 1][a][b])
-	rep(i, h) rep(j, w) {
-		
-	}
+	
 }

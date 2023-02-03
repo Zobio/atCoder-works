@@ -261,6 +261,87 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-	
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
+int main() { //距離が奇数のパス
+	ll n, m; cin >> n >> m;
+	vvll g(n);
+	UnionFind uf(n);
+	rep(m) {
+		ll a, b; cin >> a >> b; a--; b--;
+		g[a].push_back(b);
+		g[b].push_back(a);
+		uf.unite(a, b);
+	}
+	vll d(n, -1);
+	auto dfs = [&](auto&& self, ll cur, ll pre, ll c) -> bool { //奇数のサイクルを持つか
+		if(d[cur] != -1) return c - d[cur] & 1;
+		d[cur] = c;
+		bool fl = false;
+		for(auto nxt : g[cur]) {
+			if(nxt != pre) fl |= self(self, nxt, cur, c + 1);
+			if(fl) return true;
+		}
+		d[cur] = -1;
+		return fl;
+	};
+	rep(i, n) {
+		if(uf.find(i) != i) continue;
+		if(!dfs(dfs, i, -1, 0)) No;
+	}
+	Yes;
 }

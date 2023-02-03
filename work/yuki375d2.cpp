@@ -262,5 +262,26 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	string s; cin >> s;
+	ll n = s.size();
+	vvll ok(n, vll(n, -1)); //ok[i][j] := s_iからs_jは回文か?
+	auto dfs = [&](auto&& self, ll i, ll j) -> void {
+		if(j - i <= 2) ok[i][j] = s[i] == s[j];
+		else{
+			if(ok[i + 1][j - 1] == -1) self(self, i + 1, j - 1);
+			ok[i][j] = ok[i + 1][j - 1] & s[i] == s[j];
+		}
+	};
+	rep(i, n) rep(j, i, n) {
+		if(ok[i][j] == -1) dfs(dfs, i, j);
+	}
+	vll dp(n + 1, 1);
+	dp[0] = n;
+	//cout << ok << endl;
+	rep(i, n) rep(j, i + 1) {
+		//cout << j << " " << i << "  " << s.substr(j, i + 1 - j) << endl;
+		if(ok[j][i]) chmax(dp[i + 1], min(dp[j], i + 1 - j));
+	}
+	//cout << dp << endl;
+	cout << dp.back() << endl;
 }

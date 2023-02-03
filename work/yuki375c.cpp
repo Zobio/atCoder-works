@@ -261,6 +261,29 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
 int main() {
-	
+	ll n; cin>> n;
+	vll a(n); cin >> a;
+	vll b(9); rep(n) b[a[i]]++;
+	ll ans = 0;
+	rep(i, 1, 9) rep(j, 1, 9) { //i^j
+		ans += b[i] * b[j] * mpow(i, j, LINF);
+	}
+	cout << ans << endl;
 }

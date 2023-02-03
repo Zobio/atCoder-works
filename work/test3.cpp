@@ -261,24 +261,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {//右下に寄せていくイメージ
-	ll h, w; cin >> h >> w;
-	vvll a(h, vll(w)); cin >> a;
-	vvll ans;
-	rep(i, h) rep(j, w) {
-		if(a[i][j] & 1) {
-			if(j < w - 1) {
-				ans.push_back({i + 1, j + 1, i + 1, j + 2});
-				a[i][j]--;
-				a[i][j + 1]++;
-			}
-			else if(i < h - 1) {
-				ans.push_back({i + 1, j + 1, i + 2, j + 1});
-				a[i][j]--;
-				a[i + 1][j]++;
-			}
-		}
-	}
-	cout << ans.size() << endl;
-	cout << ans << endl;
+int main() {
+	
 }
