@@ -1,40 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define rep(i, n) for (long long i = 0; i < n; i++)
+#define rrep(i, n) for (long long i = n - 1; i >= 0; i--)
+#define MOD 1000000007LL
+#define INF 1LL << 60
 
-std::ostream &operator<<(std::ostream &dest, __int128_t value) {
-  std::ostream::sentry s(dest);
-  if (s) {
-    __uint128_t tmp = value < 0 ? -value : value;
-    char buffer[128];
-    char *d = std::end(buffer);
-    do {
-      --d;
-      *d = "0123456789"[tmp % 10];
-      tmp /= 10;
-    } while (tmp != 0);
-    if (value < 0) {
-      --d;
-      *d = '-';
-    }
-    int len = std::end(buffer) - d;
-    if (dest.rdbuf()->sputn(d, len) != len) {
-      dest.setstate(std::ios_base::badbit);
-    }
-  }
-  return dest;
-}
+ll n, m;
+ll MAX_M = 15;
+vector<vector<bool>> color;
+vector<vector<ll>> dp(2, vector<ll>(1ll << MAX_M));
 
-__int128 parse(string &s) {
-  __int128 ret = 0;
-  for (int i = 0; i < s.length(); i++)
-    if ('0' <= s[i] && s[i] <= '9')
-      ret = 10 * ret + s[i] - '0';
-  return ret;
+void solve() {
+    vector<ll> crt = dp[0], nxt = dp[1];
+    crt[0] = 1;
+    rrep(i, n) rrep(j, m) {
+        rep(used, 1 << m) {
+            if((used >> j) & 1 || color[i][j]) nxt[used] = crt[used & ~(1 << j)]; //置く必要がない
+            else {
+                //2通りの向きを試す
+                ll res = 0;
+                //横向き
+                if(j + 1 < m) if(!(used >> (j + 1) & 1) && !color[i][j + 1])
+                    res += crt[used | 1 << (j + 1)];
+                //縦向き
+                if(i + 1 < n) if(!color[i + 1][j])
+                    res += crt[used | 1 << j];
+                nxt[used] = res % MOD;
+            }
+        }
+        swap(crt, nxt);
+    }
+    cout << crt[0] << endl;
 }
 
 int main() {
-  string s = "187821878218782187821878218782";
-  __int128 x = parse(s);
-  x *= 2;
-  cout << x << endl;
+    cin >> n >> m;
+    color.resize(n, vector<bool>(m));
+    rep(i, n) {
+        string s; cin >> s;
+        rep(j, m) color[i][j] = s[j] == 'x' ? true : false;
+    }
+    solve();
 }
