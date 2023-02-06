@@ -261,18 +261,71 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+template <class T>
+vector<vector<T>> mat_pow(vector<vector<T>> a, long long n) {
+	// 行列累乗
+	vector<vector<T>> res(a.size(), vector<T>(a.size()));
+	// 単位行列で初期化
+	for (int i = 0; i < a.size(); i++) res[i][i] = 1;
+	// 繰り返し二乗法
+	while (n > 0) {
+		if (n & 1) res = mat_mul(a, res);
+		a = mat_mul(a, a);
+		n >>= 1;
+	}
+	return res;
+}
+
+template<class T>
+vector<vector<T>>mat_mul(vector<vector<T>> &a, vector<vector<T>> &b) {
+	/// 行列積
+	vector<vector<T>> res(a.size(), vector<T>(b[0].size()));
+	for (int i = 0; i < a.size(); i++) {
+		for (int j = 0; j < b[0].size(); j++) {
+			  for (int k = 0; k < b.size(); k++) {
+				  res[i][j] += a[i][k] * b[k][j];
+			 }
+		   }
+	}
+	return res;
+}
+
 int main() {
-	ll a, b, x, y; cin >> a >> b >> x >> y;
-	ll ans = 0;
-	if(a > b) {
-		ans += x;
-		a--;
-		ll down = min(2 * x, y);
-		ans += down * (a - b);
+	ll n; cin >> n;
+	vll x(n), y(n);
+	rep(i, n) cin >> x[i] >> y[i];
+	vvvll u = {
+		{{0, 1, 0}, {-1, 0, 0}, {0, 0, 1}},
+		{{0, -1, 0}, {1, 0, 0}, {0, 0, 1}},
+		{{-1, 0, LINF}, {0, 1, 0}, {0, 0, 1}},
+		{{1, 0, 0}, {0, -1, LINF}, {0, 0, 1}}
+	};
+	ll m; cin >> m;
+	vvvll rui_u(m + 1, vvll(3, vll(3)));
+	rep(i, 3) rui_u[0][i][i] = 1;
+	rep(i, m) {
+		ll op; cin >> op; op--;
+		if(op <= 1) {
+			rui_u[i + 1] = mat_mul(rui_u[i], u[op]);
+		}
+		else {
+			ll p; cin >> p;
+			auto cur = u[op];
+			cur[op == 2 ? 0 : 1][2] = 2 * p;()
+			rui_u[i + 1] = mat_mul(rui_u[i], cur);
+		}
 	}
-	else{
-		ll up = min(2 * x, y);
-		ans = x + up * (b - a);
+	cout << rui_u << endl;
+	ll q; cin >> q;
+	rep(_, q) {
+		ll a, b; cin >> a >> b;  b--;
+		vvll cur = {{x[b]}, {y[b]}, {1}};
+		vvll ans = mat_mul(rui_u[a], cur);
+		cout << ans[0][0] << " " << ans[1][0] << endl;
 	}
-	cout << ans << endl;
+	/*rep(i, m + 1) {
+		vvll cur = {{x[0]}, {y[0]}, {1}};
+		vvll ans = mat_mul(rui_u[i], cur);
+		cout << ans[0][0] << " " << ans[1][0] << endl;
+	}*/
 }
