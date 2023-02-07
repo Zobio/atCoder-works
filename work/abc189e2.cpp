@@ -300,22 +300,22 @@ int main() {
 		{{-1, 0, LINF}, {0, 1, 0}, {0, 0, 1}},
 		{{1, 0, 0}, {0, -1, LINF}, {0, 0, 1}}
 	};
-	ll m; cin >> m;
+	ll m; cin >> m; 
 	vvvll rui_u(m + 1, vvll(3, vll(3)));
 	rep(i, 3) rui_u[0][i][i] = 1;
 	rep(i, m) {
 		ll op; cin >> op; op--;
 		if(op <= 1) {
-			rui_u[i + 1] = mat_mul(rui_u[i], u[op]);
+			rui_u[i + 1] = mat_mul(u[op], rui_u[i]);
 		}
 		else {
 			ll p; cin >> p;
 			auto cur = u[op];
-			cur[op == 2 ? 0 : 1][2] = 2 * p;()
-			rui_u[i + 1] = mat_mul(rui_u[i], cur);
+			cur[op == 2 ? 0 : 1][2] = 2 * p;
+			rui_u[i + 1] = mat_mul(cur, rui_u[i]);
 		}
 	}
-	cout << rui_u << endl;
+	//cout << rui_u << endl;
 	ll q; cin >> q;
 	rep(_, q) {
 		ll a, b; cin >> a >> b;  b--;
