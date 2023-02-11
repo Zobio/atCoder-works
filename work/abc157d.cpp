@@ -261,22 +261,78 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-struct edge {
-	ll from;
-	ll to;
-	ll cost;
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
 };
 
 int main() {
-	ll n, m; cin >> n >> m;
-	vll h(n); cin >> h;
-	vector<edge> es(m);
-	rep(i, m) {
+	ll n, m, k; cin >> n >> m >> k;
+	vvll g(n);
+	UnionFind uf(n);
+	rep(m) {
 		ll u, v; cin >> u >> v; u--; v--;
-		ll d = h[v] - h[u];
-		es.push_back({u, v, d >= 0 ? 2 * d : -d});
-		es.push_back({v, u, d >= 0 ? -d : 2 * d});
+		g[u].push_back(v);
+		g[v].push_back(u);
+		uf.unite(u, v);
 	}
-	cout << es << endl;
-	
+	rep(i, n) sort(all(g[i]));
+	vll ans(n);
+	rep(i, n) ans[i] = uf.size(i) - g[i].size() - 1;
+	rep(k) {
+		ll c, d; cin >> c >> d; c--; d--;
+		if(uf.issame(c, d) && !binary_search(all(g[c]), d)) ans[c]--, ans[d]--;
+	}
+	cout << ans << endl;
 }

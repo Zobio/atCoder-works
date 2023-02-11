@@ -261,22 +261,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-struct edge {
-	ll from;
-	ll to;
-	ll cost;
-};
-
 int main() {
-	ll n, m; cin >> n >> m;
-	vll h(n); cin >> h;
-	vector<edge> es(m);
-	rep(i, m) {
-		ll u, v; cin >> u >> v; u--; v--;
-		ll d = h[v] - h[u];
-		es.push_back({u, v, d >= 0 ? 2 * d : -d});
-		es.push_back({v, u, d >= 0 ? -d : 2 * d});
+	ll n, k; cin >> n >> k; k--;
+	vll a(n); cin >> a;
+	deque<ll> dq = {n - 1};
+	ll state = 0;
+	for(ll i = n - 2; i >= 0; i--) {
+		if(a[i + 1] > a[i]) state = 0; 
+		if(a[i + 1] < a[i]) state = 1;
+		
+		if(state == 0) dq.push_back(i); 
+		else dq.push_front(i);
 	}
-	cout << es << endl;
-	
+	a.erase(a.begin() + dq[k]);
+	cout << a << endl;
 }
