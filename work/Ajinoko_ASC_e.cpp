@@ -261,6 +261,32 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+ll log_2(ll num) {
+	ll ret = 0;
+	while(num) ret++, num /= 2;
+	return ret - 1;
+}
+
 int main() {
-	
+	ll n; cin >> n;
+	vll a(n); rep(i, n) cin >> a[i];
+	vll b(n); rep(i, n) cin >> b[i];
+	ll ans = 0;
+	rrep(cur, n) { //a-->bへ
+		if(a[cur - 1] == b[cur - 1]) continue;
+		ll from = cur, to = -1;
+		rep(i, n) if(b[i] == a[cur - 1]) to = i + ;
+		ll lca = -1;
+		queue<ll> q1, q2;
+		ll t1 = from, t2 = to;
+		while(log_2(t1) != log_2(t2)) {
+			if(log_2(t1) > log_2(t2)) q1.push(t1), t1 /= 2;
+			else q2.push(t2), t2 /= 2;
+		}
+		while(t1 != t2) {
+			q1.push(t1), t1 /= 2;
+			if(t2 / 2 != t1) q2.push(t2); t2 /= 2;
+		}
+		cout << from << " " << to << "  " << q1 << " " << q2 << endl;
+	}
 }

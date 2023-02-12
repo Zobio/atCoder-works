@@ -262,5 +262,16 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	ll n, m; cin >> n >> m;
+	vll a(n); cin >> a;
+	vll b(m); cin >> b;
+	sort(all(a)); sort(all(b));
+	vll rui_b = mrui(b);
+	ll ans = 0;
+	rep(i, n) {
+		ll p = lower_bound(all(b), a[i]) - b.begin();
+		ans += p * a[i] - rui_b[p];
+		ans += (rui_b[m] - rui_b[p]) - (m - p) * a[i];
+	}
+	cout << ans << endl;
 }

@@ -262,5 +262,23 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	string t; cin >> t;
+	ll n = t.size();
+	string ans;
+	rreps(i, n) {
+		if(n % i) continue;
+		bool fl = true;
+		rep(j, i) {
+			char cur = t[j];
+			for(ll k = 0; k * i + j < n; k++) {
+				fl &= t[k * i + j] == cur;
+			}
+		}
+		if(fl) {
+			string c;
+			rep(j, i) c.push_back(t[j]);
+			ans = c;
+		}
+	}
+	cout << ans << endl;
 }

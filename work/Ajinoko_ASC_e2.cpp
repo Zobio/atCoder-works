@@ -257,10 +257,40 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	ll n; cin >> n;
+	vll a(n + 1), b(n + 1); 
+	reps(n) {
+		ll p; cin >> p;
+		a[p] = i;
+	}
+	reps(n) {
+		ll p; cin >> p;
+		b[p] = i;
+	}
+	map<vll, ll> dp; //dp[arr] := 状態がarrであるときの最小回数 (∴答えはdp[b])
+	dp[a] = 0;
+	ll cnt = 0;
+	auto dfs = [&](auto&& self, vll& cur, ll cost) -> void {
+		cnt++;
+		//cout << cur << "  : " << cost << endl;
+		for(ll i = 2; i <= n; i++) {
+			swap(cur[i], cur[i / 2]);
+			if(dp.find(cur) == dp.end()) {
+				dp[cur] = cost + 1;
+				self(self, cur, cost + 1);
+			}
+			else if(chmin(dp[cur], cost + 1)) {
+				self(self, cur, cost + 1);
+			}
+			swap(cur[i], cur[i / 2]);
+		}
+	};
+	dfs(dfs, a, 0);
+	//cout << dp << endl;
+	cout << dp[b] << endl;
 }

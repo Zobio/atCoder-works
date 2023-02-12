@@ -257,10 +257,111 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+
+template<typename T>
+T mpow(T a, T n, T m) {
+	/*a^n % mを返す
+	(例)
+	pow(2, 10, 1000) --> 24
+	計算量はlog(n)
+	*/
+	if(a == 0) return 0;
+	T ret = 1;
+	while(n > 0) {
+		if (n & 1) ret = ret % m * a % m;
+		a = a % m * a % m;
+		n >>= 1;
+	}
+	return ret;
+}
+
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
+
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
 
 int main() {
-	
+	ll n, m; cin >> n >> m;
+	vll a(n); cin >> a;
+	rep(n) a[i] %= m;
+	sort(all(a));
+	vvll pow(2010, vll(m + 10));
+	reps(i, 2000) pow[i][0] = 1;
+	reps(i, 2000) reps(j, m) {
+		pow[i][j] = (pow[i][j - 1] * i) % m;
+	}
+	vll ma(4010);
+	reps(i, 2000) {
+		ll p = 0;
+		rep(j, m) chmax(p, pow[i][j]);
+		ma[i] = p;
+	}
+	priority_queue<tuple<ll, ll, ll>> pq;
+	rep(i, n) rep(j, n) {
+		if(i == j) continue;
+		pq.push({ma[(a[i] + a[j]) % m], i, j});
+	}
+	ll ans = 0;
+	UnionFind uf(n);
+	while(pq.size()) {
+		auto [cost, u, v] = pq.top(); pq.pop();
+		if(uf.issame(u, v)) continue;
+		uf.unite(u, v);
+		ans += cost;
+	}
+	cout << ans << endl;
 }

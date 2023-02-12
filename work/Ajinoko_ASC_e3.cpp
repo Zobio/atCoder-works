@@ -262,5 +262,31 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	ll n; cin >> n;
+	vll a(n + 1), b(n + 1); 
+	reps(n) {
+		ll p; cin >> p;
+		a[p] = i;
+	}
+	reps(n) {
+		ll p; cin >> p;
+		b[p] = i;
+	}
+	queue<vll> que;
+	que.push(a);
+	map<vll, ll> dist;
+	dist[a] = 0;
+	while(que.size()) {
+		vll cur = que.front(); que.pop();
+		for(ll i = 2; i <= n; i++) {
+			auto pre = cur;
+			swap(cur[i], cur[i / 2]);
+			if(dist.find(cur) == dist.end() || dist[cur] > dist[pre] + 1) {
+				dist[cur] = dist[pre] + 1;
+				que.push(cur);
+			}
+			swap(cur[i], cur[i / 2]);
+		}
+	}
+	cout << dist[b] << endl;
 }
