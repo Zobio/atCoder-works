@@ -261,48 +261,46 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-struct edge {
-	ll from;
-	ll to;
-	ll cost;
-};
-
-vector<long long> dijkstra(ll s, vvpll g) { 
-	/*
-	sからスタートして(到達可能な)全点における最短距離を求める
-	グラフg firstに頂点番号 secondにコスト
-	*/
-	vector<ll> dis(g.size(), INF);
-	dis[s] = 0;
-	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> que;
-	//disを更新するためのqueue first:コスト second:頂点番号 (コストが低い順に処理)
-	que.push({0, s});
-	while(!que.empty()) {
-		pair<ll, ll> p = que.top(); que.pop();
-		ll v = p.second, cost = p.first;
-		if(dis[v] < cost) continue;
-		rep(i, g[v].size()) {
-			pair<ll, ll> e = g[v][i]; //e.first:頂点番号 e.second:コスト
-			if(dis[e.first] > dis[v] + e.second) {
-				dis[e.first] = dis[v] + e.second;
-				que.push({dis[e.first], e.first});
-			}
-		}
-	}
-	return dis;
-}
-
 int main() {
-	ll n, m; cin >> n >> m;
-	vll h(n); cin >> h;
-	vvpll g(n);
-	rep(i, m) {
-		ll u, v; cin >> u >> v; u--; v--;
-		g[u].push_back({v, h[u] < h[v] ? h[v] - h[u] : 0});
-		g[v].push_back({u, h[u] < h[v] ? 0 : h[u] - h[v]});
+	ll h, w; cin >> h >> w;
+	if(h % 3 == 0 || w % 3 == 0) {cout << 0 << endl; return 0;}
+	ll ans = LINF;
+	for(ll i = 1; i <= h - 1; i++) {
+		vll a;
+		a.push_back(i * w);
+		
+		//横
+		a.push_back((h - i) * (w / 2));
+		a.push_back((h - i) * ((w + 1) / 2));
+		chmin(ans, *max_element(all(a)) - *min_element(all(a)));
+
+		a.pop_back(); a.pop_back();
+
+		if(i == h - 1) continue;
+		
+		a.push_back((h - i) / 2 * w);
+		a.push_back((h - i + 1) / 2 * w);
+		chmin(ans, *max_element(all(a)) - *min_element(all(a)));
 	}
-	auto d = dijkstra(0, g);
-	rep(i, n) d[i] += h[i];
-	cout << d << endl;
-	cout << *max_element(all(d)) << endl;
+	swap(h, w);
+	for(ll i = 1; i <= h - 1; i++) {
+		vll a;
+		a.push_back(i * w);
+		
+		//横
+		a.push_back((h - i) * (w / 2));
+		a.push_back((h - i) * ((w + 1) / 2));
+		chmin(ans, *max_element(all(a)) - *min_element(all(a)));
+
+		a.pop_back(); a.pop_back();
+
+		if(i == h - 1) continue;
+		
+		a.push_back((h - i) / 2 * w);
+		a.push_back((h - i + 1) / 2 * w);
+		chmin(ans, *max_element(all(a)) - *min_element(all(a)));
+	}
+
+	cout << ans << endl;
+	
 }
