@@ -261,48 +261,15 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-struct edge {
-	ll from;
-	ll to;
-	ll cost;
-};
-
-vector<long long> dijkstra(ll s, vvpll g) { 
-	/*
-	sからスタートして(到達可能な)全点における最短距離を求める
-	グラフg firstに頂点番号 secondにコスト
-	*/
-	vector<ll> dis(g.size(), INF);
-	dis[s] = 0;
-	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> que;
-	//disを更新するためのqueue first:コスト second:頂点番号 (コストが低い順に処理)
-	que.push({0, s});
-	while(!que.empty()) {
-		pair<ll, ll> p = que.top(); que.pop();
-		ll v = p.second, cost = p.first;
-		if(dis[v] < cost) continue;
-		rep(i, g[v].size()) {
-			pair<ll, ll> e = g[v][i]; //e.first:頂点番号 e.second:コスト
-			if(dis[e.first] > dis[v] + e.second) {
-				dis[e.first] = dis[v] + e.second;
-				que.push({dis[e.first], e.first});
-			}
+int main() {
+	ll n; cin >> n;
+	string s; cin >> s;
+	bool f = false;
+	rep(n) {
+		if(s[i] == '|') f = !f;
+		else if(s[i] == '*') {
+			if(f) cout << "in" << endl, exit(0);
 		}
 	}
-	return dis;
+	cout << "out" << endl;
 }
-
-int main() {
-	ll n, m; cin >> n >> m;
-	vll h(n); cin >> h;
-	vvpll g(n);
-	rep(i, m) {
-		ll u, v; cin >> u >> v; u--; v--;
-		g[u].push_back({v, h[u] < h[v] ? h[v] - h[u] : 0});
-		g[v].push_back({u, h[u] < h[v] ? 0 : h[u] - h[v]});
-	}
-	auto d = dijkstra(0, g);
-	rep(i, n) d[i] += h[i];
-	cout << d << endl;
-	cout << *max_element(all(d)) << endl;
- }
