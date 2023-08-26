@@ -125,135 +125,135 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq); // p
 
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p) {
-    os << "(" << p.first << "," << p.second << ")";
-    return os;
+	os << "(" << p.first << "," << p.second << ")";
+	return os;
 }
 
 template <class T1, class T2>
 istream &operator>>(istream &is, pair<T1, T2> &p) {
-    is >> p.first >> p.second;
-    return is;
+	is >> p.first >> p.second;
+	return is;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<T> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<T>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i] << endl;
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i] << endl;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v) {
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << "i = " << i << endl;
-        os << v[i];
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << "i = " << i << endl;
+		os << v[i];
+	}
+	return os;
 }
 
 template <class T>
 istream &operator>>(istream &is, vector<T> &v) {
-    for (T &in : v) {
-        is >> in;
-    }
-    return is;
+	for (T &in : v) {
+		is >> in;
+	}
+	return is;
 }
 
 template <class T, class S>
 ostream &operator<<(ostream &os, const map<T, S> &mp) {
-    for (auto &[key, val] : mp) {
-        os << key << ": " << val << " ";
-    }
-    return os;
+	for (auto &[key, val] : mp) {
+		os << key << ": " << val << " ";
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const set<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const multiset<T> &st) {
-    auto itr = st.begin();
-    for (int i = 0; i < (int)st.size(); i++) {
-        os << *itr << (i + 1 != (int)st.size() ? " " : "");
-        itr++;
-    }
-    return os;
+	auto itr = st.begin();
+	for (int i = 0; i < (int)st.size(); i++) {
+		os << *itr << (i + 1 != (int)st.size() ? " " : "");
+		itr++;
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, queue<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop();
-    }
-    return os;
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop();
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, deque<T> q) {
-    while (q.size()) {
-        os << q.front() << " ";
-        q.pop_front();
-    }
-    return os;
+	while (q.size()) {
+		os << q.front() << " ";
+		q.pop_front();
+	}
+	return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, stack<T> st) {
-    while (st.size()) {
-        os << st.top() << " ";
-        st.pop();
-    }
-    return os;
+	while (st.size()) {
+		os << st.top() << " ";
+		st.pop();
+	}
+	return os;
 }
 
 template <class T, class Container, class Compare>
 ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
-    while (pq.size()) {
-        os << pq.top() << " ";
-        pq.pop();
-    }
-    return os;
+	while (pq.size()) {
+		os << pq.top() << " ";
+		pq.pop();
+	}
+	return os;
 }
 
 /*ostream &operator<<(ostream &os, const mint &i) { //AtCoder
-    os << i.val();
-    return os;
+	os << i.val();
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+	}
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const modint &i) { //AtCoder
-    os << i.val();
-    return os;
+	os << i.val();
+	return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
-    for (int i = 0; i < (int)v.size(); i++) {
-        os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
-    }
-    return os;
+	for (int i = 0; i < (int)v.size(); i++) {
+		os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
+	}
+	return os;
 }*/
 
 
@@ -261,10 +261,80 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
-int main() {
-    vll a = {1,2,3,4,5,6,7,8,9,9};
-    do{
+vll dy = {0, 1, 0, -1};
+vll dx = {1, 0, -1, 0};
 
-    }while(next_permutation(all(a)));
-    
+int main() {
+	ll h, w; cin >> h >> w;
+	vector<string> a(h); cin >> a;
+	map<char, ll> c;
+	c['>'] = 0; c['v'] = 1; c['^'] = 2; c['<'] = 3;
+	vvpll p(h), q(h), r(w), s(w);
+	vvll tp(h), tq(h), tr(w), ts(w);
+	rep(i, h) rep(j, w) {
+		if(c.count(a[i][j])) {
+			p[i].push_back({j, c[a[i][j]]});
+			q[i].push_back({-j, c[a[i][j]]});
+			r[j].push_back({i, c[a[i][j]]});
+			s[j].push_back({-i, c[a[i][j]]});
+
+			tp[i].push_back(j);
+			tq[i].push_back(-j);
+			tr[j].push_back(i);
+			ts[j].push_back(-i);
+		}
+	}
+
+	rep(h) sort(all(p[i])), sort(all(q[i])), sort(all(tp[i])), sort(all(tq[i]));
+	rep(w) sort(all(r[i])), sort(all(s[i])), sort(all(tr[i])), sort(all(ts[i]));
+
+	//cout << p << endl << q << endl << r << endl << s << endl;
+
+	ll sy, sx, gy, gx;
+	rep(i, h) rep(j, w) {
+		if(a[i][i] == 'S') sy = i, sx = j;
+		if(a[i][j] == 'G') gy = i, gx = j;
+	}
+
+	queue<pll> que;
+	que.push({sy, sx});
+	vvll dist(h, vll(w, LINF));
+	dist[sy][sx] = 0;
+
+	while(que.size()) {
+		ll y = que.front().first, x = que.front().second; que.pop();
+		rep(i, 4) {
+			ll ny = y + dy[i], nx = x + dx[i];
+			if(ny < 0 || ny >= h || nx < 0 || nx >= w || a[ny][nx] != '.') continue;
+
+			bool flag = true;
+
+			if(lower_bound(all(tp[ny]), nx) != tp[ny].end()) {
+				ll f = lower_bound(all(tp[ny]), nx) - tp[ny].begin();
+				flag &= p[ny][f].second != 3 - 0;
+			}
+
+			if(lower_bound(all(tq[ny]), -nx) != tq[ny].end()) {
+				ll f = lower_bound(all(tq[ny]), -nx) - tq[ny].begin();
+				flag &= q[ny][f].second != 2 - 0;
+			}
+
+			if(lower_bound(all(tr[nx]), ny) != tr[nx].end()) {
+				ll f = lower_bound(all(tr[nx]), ny) - tr[nx].begin();
+				flag &= r[nx][f].second != 1 - 0;
+			}
+
+			if(lower_bound(all(ts[nx]), -ny) != ts[nx].end()) {
+				ll f = lower_bound(all(ts[nx]), -ny) - ts[nx].begin();
+				flag &= s[nx][f].second != 0 - 0;
+			}
+
+			if(!flag) continue;
+
+			if(chmin(dist[ny][nx], dist[y][x] + 1)) que.push({ny, nx});
+		}
+	}
+
+	if(dist[gy][gx] == LINF) cout << -1 << endl;
+	else cout << dist[gy][gx] << endl;
 }
