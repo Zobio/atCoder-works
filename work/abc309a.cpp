@@ -263,5 +263,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 
 int main() {
 	ll a, b; cin >> a >> b;
-	
+	if(b - a == 1 && b % 3 != 1) Yes;
+	No;
 }
