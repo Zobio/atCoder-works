@@ -261,18 +261,33 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 #pragma GCC optimize("O3")
 #pragma GCC optimize("unroll-loops")
 
-//逆順で探す
 //1から10^14までの平方数のそれぞれの桁の数字のバケットをとって調べる
 //0についての処理が面倒 0の個数は「下限」を考えれば大丈夫そう?
 
 int main() {
 	map<vll, ll> mp;
-	for(ll i = 1; i * i <= 9999999999999; i++) { /*13桁*/
+	for(ll i = 0; i * i <= 9999999999999; i++) { /*13桁*/
 		ll t = i * i;
 		vll p(10);
 		while(t) p[t % 10]++, t /= 10;
-        cout << i * i << " " << p << endl;
 		mp[p]++;
 	}
 
+	ll n; cin >> n;
+	string s; cin >> s;
+	vll cnt(10);
+	rep(n) cnt[s[i] - '0']++;
+
+	ll ans = 0;
+	for(auto au : mp) {
+		ll fl = 1;
+		rep(10) {
+			if(i == 0) fl &= cnt[i] >=  au.first.at(i); //0が余分にある分には問題ない
+			else fl &= cnt[i] == au.first.at(i); //ちょうど同じだけなければいけない
+		}
+		//if(fl) cout << au.first << endl;
+		ans += fl * au.second;
+	}
+
+	cout << ans << endl;
 }
