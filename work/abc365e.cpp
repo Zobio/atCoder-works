@@ -262,5 +262,20 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	ll n; cin >> n;
+	vll a(n); cin >> a;
+	vll s(n + 1);
+	rep(i, n) s[i + 1] = s[i] ^ a[i];
+	vll cnt(30);
+	rep(i, 30) {
+		rep(j, n) {
+			cnt[i] += s[j + 1] >> i & 1;
+		}
+	}
+	ll ans = 0;
+	rep(i, 30) {
+		ans += (1LL << i) *  cnt[i] * (n - cnt[i] + 1); //+1してるのは一番左から始める分を拾うため
+	}
+	ans -= accumulate(all(a), 0LL);//幅1(要素1個だけ)は除外
+	cout << ans << endl;
 }
