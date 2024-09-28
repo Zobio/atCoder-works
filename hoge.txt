@@ -1,8 +1,0 @@
-SAT→OVC→edit distanceに変換
-edit distanceで早くなると破綻
-
-ナップサック→edit distance
-edit distance→N^2できない
-edit dictanceからの帰着はできない
-
-Ryan Williams. A new algorithm for optimal 2-constraint satisfaction and its implications. Theoretical Computer Science, 348(2):357–365, 2005.
