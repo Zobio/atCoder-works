@@ -257,10 +257,20 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	//累積和で二分探索するだけでいけそう
+	ll n, q; cin >> n >> q;
+	vll a(n);
+	cin >> a;
+	sort(all(a));
+	vll rui(n + 1);
+	rep(n) rui[i + 1] = rui[i] + a[i];
+	rep(_, q) {
+		ll p; cin >> p;
+		cout << lower_bound(all(rui), p) - rui.begin() << endl;
+	}
 }

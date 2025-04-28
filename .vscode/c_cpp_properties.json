@@ -3,7 +3,7 @@
         {
             "name": "WSL",
             "intelliSenseMode": "gcc-x64",
-            "compilerPath": "C:/MinGW/bin/g++.exe",
+            "compilerPath": null,
             "includePath": [
                 "/mnt/c/Users/soshi/Desktop/atCoder-works/work/ac-library/",
                 "${workspaceFolder}/**"

@@ -261,6 +261,77 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+struct UnionFind {
+    ll groups;
+    vector<ll> parents;
+  
+    UnionFind(ll n) {
+      groups = n;
+      parents = vector<ll>(n, -1);
+    }
+  
+    ll find(ll x) {
+      if (parents.at(x) < 0) {
+        return x;
+      } else {
+        parents[x] = find(parents[x]);
+        return parents[x];
+      }
+    }
+  
+    void unite(ll x, ll y) {
+      x = find(x);
+      y = find(y);
+  
+      // already united
+      if (x == y)
+        return;
+  
+      groups--;
+  
+      if (parents[x] > parents[y])
+        swap(x, y);
+  
+      parents[x] += parents[y];
+      parents[y] = x;
+    }
+  
+    ll size(ll x) {
+      return -parents[find(x)];
+    }
+  
+    bool issame(ll x, ll y) {
+      return find(x) == find(y);
+    }
+  
+    vector<ll> roots() {
+      vector<ll> ret;
+      for (ll i = 0; i < parents.size(); i++)
+        if (parents[i] < 0)
+          ret.push_back(i);
+      return ret;
+    }
+  
+    ll group_count() {
+      return groups;
+    }
+  };
+  
+
 int main() {
-    
+    //UnionFindでいけそう
+    ll n, d; cin >> n >> d;
+    vpll a(n);
+    rep(n) cin >> a[i].first >> a[i].second;
+    UnionFind uf(n);
+    rep(i, n) for(ll j = i + 1; j < n; j++) {
+        if((a[i].first - a[j].first) * (a[i].first - a[j].first) + (a[i].second - a[j].second) * (a[i].second - a[j].second) <= d * d) {
+            uf.unite(i, j);
+            //同じ距離グループ
+        }
+    }    
+   rep(i, n) {
+    if(uf.issame(0, i)) cout << "Yes" << endl;
+    else cout << "No" << endl;
+   }
 }
