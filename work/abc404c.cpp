@@ -256,7 +256,82 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
+struct UnionFind {
+    ll groups;
+    vector<ll> parents;
+  
+    UnionFind(ll n) {
+      groups = n;
+      parents = vector<ll>(n, -1);
+    }
+  
+    ll find(ll x) {
+      if (parents.at(x) < 0) {
+        return x;
+      } else {
+        parents[x] = find(parents[x]);
+        return parents[x];
+      }
+    }
+  
+    void unite(ll x, ll y) {
+      x = find(x);
+      y = find(y);
+  
+      // already united
+      if (x == y)
+        return;
+  
+      groups--;
+  
+      if (parents[x] > parents[y])
+        swap(x, y);
+  
+      parents[x] += parents[y];
+      parents[y] = x;
+    }
+  
+    ll size(ll x) {
+      return -parents[find(x)];
+    }
+  
+    bool issame(ll x, ll y) {
+      return find(x) == find(y);
+    }
+  
+    vector<ll> roots() {
+      vector<ll> ret;
+      for (ll i = 0; i < parents.size(); i++)
+        if (parents[i] < 0)
+          ret.push_back(i);
+      return ret;
+    }
+  
+    ll group_count() {
+      return groups;
+    }
+  };
+
+//全ての辺について、サイズが2じゃないとダメ(必要条件)
+//2つになっていて、UFで一個だったらOK?
+
+ll n, m;
+vvll g;
+
+
 
 int main() {
-	
+	cin >> n >> m;
+    g.resize(n);
+    UnionFind uf(n);
+    rep(m) {
+        ll a, b; cin >> a >> b; a--; b--;
+        g[a].push_back(b);
+        g[b].push_back(a);
+        uf.unite(a, b);
+    }
+    rep(n) {
+        if(g[i].size() != 2) No;
+    }
+    cout << (uf.size(0) == n ? "Yes" : "No") << endl; 
 }

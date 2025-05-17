@@ -257,6 +257,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+
 int main() {
-	
+	string s, t; cin >> s >> t;
+    rep(i, s.size() - t.size() + 1) {
+        bool fl = true;
+        rep(j, t.size()) {
+            fl &= s[i + j] == '?' | s[i + j] == t[j];
+        }
+        if(fl) Yes;
+    }
+    No;
 }

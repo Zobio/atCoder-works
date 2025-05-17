@@ -257,6 +257,27 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+
 int main() {
-	
+	ll n, m, q; cin >> n >> m >> q;
+    vll all_ok(n); //各人について、全てOKか
+    map<ll, set<ll>> mp; //各人について、どれが許可されているか
+    rep(_, q) {
+        ll c, x, y; cin >> c;
+        if(c != 2) cin >> x >> y;
+        else cin >> x;
+        x--; y--;
+        if(c == 1) {
+            mp[x].insert(y);
+        }
+        else if(c == 2) {
+            all_ok[x] |= 1;
+        }
+        else {
+            cout << (mp[x].count(y) | all_ok[x] ? "Yes" : "No") << endl;
+        }
+    }
 }

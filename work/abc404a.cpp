@@ -258,5 +258,12 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 
 
 int main() {
-	
+	string s; cin >> s;
+    rep(i, 26) {
+        bool fl = false;
+        rep(j, s.size()) {
+            fl |= s[j] == 'a' + i;
+        }
+        if(!fl) { cout << (char)('a' + i) << endl; return 0;}
+    }
 }

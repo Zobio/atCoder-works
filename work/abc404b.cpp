@@ -256,7 +256,33 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
+//Sの無回転、1回転、2回転、3回転それぞれ考えて、そのあとで色を変えることを考えればよさそう。
+
+ll n;
+
+vector<string> rotate_90(vector<string> vs) {
+    vector<string> ret(n);
+    rep(n) ret[i].resize(n);
+    rep(i, n) rep(j, n) {
+        ret[j][n - 1 - i] = vs[i][j];
+    }
+    return ret;
+}
+
 
 int main() {
-	
+	cin >> n;
+    vector<string> s(n), t(n);
+    rep(n) cin >> s[i];
+    rep(n) cin >> t[i];
+    ll ans = INF;
+    rep(_, 4) {
+        ll cur = 0;
+        rep(i, n) rep(j, n) {
+            cur += s[i][j] != t[i][j];
+        }
+        chmin(ans, cur + _);
+        s = rotate_90(s);
+    }
+    cout << ans << endl;
 }

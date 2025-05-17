@@ -257,6 +257,27 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+
 int main() {
-	
+	ll n, d; cin >> n >> d;
+    vll a(n); cin >> a;
+    map<ll, ll> mp;
+    rep(n) mp[a[i]]++;
+    map<ll, priority_queue<ll>> p;
+    for(auto au : mp) {
+        p[au.first % d].push(au.second);
+    }
+    ll ans = 0;
+    for(auto au : p) {
+        if(au.second.size() == 1) continue;
+        au.second.pop();
+        while(au.second.size()) {
+            ans += au.second.top();
+            au.second.pop();
+        }
+    }
+    cout << ans << endl;
 }

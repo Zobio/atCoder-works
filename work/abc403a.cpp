@@ -257,6 +257,16 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+
 int main() {
-	
+	ll n; cin >> n;
+    vll a(n); cin >> a;
+    ll ans = 0;
+    rep(n) {
+        ans += ((i + 1) & 1) * a[i];
+    }
+    cout << ans << endl;
 }

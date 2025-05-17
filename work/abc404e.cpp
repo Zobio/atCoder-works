@@ -256,7 +256,39 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
-
+//最初にdpをして、各場所について何回の操作で到達可能かをあらかじめ計算しておく
+//右から貪欲でよさそう?
 int main() {
-	
+	ll n; cin >> n;
+    vll c(n); reps(i, n - 1) cin >> c[i];
+    vll a(n); reps(i, n - 1) cin >> a[i];
+    vll dp(n, INF); dp[0] = 0;
+    reps(i, n - 1) {
+        reps(j, c[i]) { //iは1からn-1に注意
+            chmin(dp[i], dp[i - j] + 1);
+        }
+    }
+    ll ans = 0;
+    //まめがあればそこに合流(なるべく右でOK)、なければDP値の一番低いところ
+    for(ll i = n - 1; i >= 0; i--) {
+        bool found = false;
+        if(a[i]) { //豆発見
+            found = true; ans += 1;
+            ll tmp = a[i];
+            a[i] = 0;
+            if(i - c[i] <= 0) continue;
+            ll cost = INF, nxt = -1;
+            bool flag = false;
+            for(ll j = i - 1; j >= i - c[i]; j--) {
+                if(a[j] > 0) {
+                    flag = true;
+                    a[j] += tmp;
+                    break;
+                }
+                if(chmin(cost, dp[j])) nxt = j;
+            }
+            if(!flag) a[nxt] += tmp;
+        }
+    }
+    cout << ans << endl;
 }

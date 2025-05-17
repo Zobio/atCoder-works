@@ -256,7 +256,36 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
+//bit全探索っぽい
+//動物園ごとになんの動物を持っているのかを配列として持つ必要
+
+
+//#pragma GCC target("avx2")
+//#pragma GCC optimize("O3")
+//#pragma GCC optimize("unroll-loops")
 
 int main() {
-	
+	ll n, m; cin >> n >> m;
+    vll c(n); cin >> c;
+    vvll a(m);
+    vvll b(n); //各動物園がなんの動物を持っているのかの配列
+    rep(i, m) {
+        ll k; cin >> k; a[i].resize(k);
+        rep(j, k) cin >> a[i][j], a[i][j]--;
+        rep(j, k) b[a[i][j]].push_back(i);
+    }
+    ll ans = INF;
+    rep(bits, 1LL << (2 * n)) { //どの動物園に入場するかbit全探索
+        ll p = 0;
+        rep(i, 2 * n) p += ((bits >> i & 1LL) == 1) * c[i / 2];
+        vll w(m); //各動物を何回見たか
+        rep(i, 2 * n) {
+            if((bits >> i & 1LL) == 0) continue;
+            rep(j, b[i / 2].size()) w[b[i / 2][j]]++;
+        }
+        bool ok = 1;
+        rep(i, m) ok &= w[i] >= 2;
+        if(ok) chmin(ans, p);
+    }
+    cout << ans << endl;
 }
