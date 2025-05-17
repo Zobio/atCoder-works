@@ -257,10 +257,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 }*/
 
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
-
 int main() {
-	cout << log2(LLONG_MAX) << endl;
+	
 }

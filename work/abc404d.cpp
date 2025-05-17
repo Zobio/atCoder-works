@@ -256,42 +256,36 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
+//bit全探索っぽい
+//動物園ごとになんの動物を持っているのかを配列として持つ必要
+
 
 //#pragma GCC target("avx2")
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	//動かし方は右回りか左回りの2通りしかなくて、尚且つどっちかしかできないはずっぽい
-	//だから、どっち周りでやるしかないかを判定して、それで愚直にやればいけそう
-	//でも制約的に2種類どっちも試していけそう
-	ll n, q; cin >> n >> q;
-	vll a = {0, 1};
-	ll ans = 0;
-	rep(_, q) {
-		string w; ll t;
-		cin >> w >> t;
-		t--;
-		ll flag = (w == "R" ? 1 : 0); //右手かどうかのフラグ
-		if(a[flag] == t) continue; //動かす必要が無い
-		ll p = a[flag];
-		ll cur = INF;
-		ll cnt = 0;
-		while(true) { //右回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p + 1) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		p = a[flag];
-		cnt = 0;
-		while(true) { //左回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p - 1 + n) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		ans += cur;
-		a[flag] = t;
-		//cout << _ + 1 << " " << cur << endl;
-	}
-	cout << ans << endl;
+	ll n, m; cin >> n >> m;
+    vll c(n); cin >> c;
+    vvll a(m);
+    vvll b(n); //各動物園がなんの動物を持っているのかの配列
+    rep(i, m) {
+        ll k; cin >> k; a[i].resize(k);
+        rep(j, k) cin >> a[i][j], a[i][j]--;
+        rep(j, k) b[a[i][j]].push_back(i);
+    }
+    ll ans = INF;
+    rep(bits, 1LL << (2 * n)) { //どの動物園に入場するかbit全探索
+        ll p = 0;
+        rep(i, 2 * n) p += ((bits >> i & 1LL) == 1) * c[i / 2];
+        vll w(m); //各動物を何回見たか
+        rep(i, 2 * n) {
+            if((bits >> i & 1LL) == 0) continue;
+            rep(j, b[i / 2].size()) w[b[i / 2][j]]++;
+        }
+        bool ok = 1;
+        rep(i, m) ok &= w[i] >= 2;
+        if(ok) chmin(ans, p);
+    }
+    cout << ans << endl;
 }

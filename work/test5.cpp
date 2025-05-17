@@ -261,6 +261,22 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("O3")
 //#pragma GCC optimize("unroll-loops")
 
+ll n;
+map<ll, ll> a;
+
+ll dfs(ll cur) {
+    if(cur == 1) return 0;
+
+    if(a.count(cur)) return a[cur];
+
+    a[cur] = cur + dfs(cur / 2) + dfs((cur + 2 - 1) / 2);
+    return a[cur];
+}
+
 int main() {
-    cout << "Yes" << endl;
+    //dfsやるだけっぽい雰囲気がする
+    //上は嘘で、メモ化再帰をしないととんでもないことになりそう
+    cin >> n;
+    cout << dfs(n) << endl;
+   // cout << a << endl;
 }

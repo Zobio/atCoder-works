@@ -256,42 +256,82 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
+struct UnionFind {
+    ll groups;
+    vector<ll> parents;
+  
+    UnionFind(ll n) {
+      groups = n;
+      parents = vector<ll>(n, -1);
+    }
+  
+    ll find(ll x) {
+      if (parents.at(x) < 0) {
+        return x;
+      } else {
+        parents[x] = find(parents[x]);
+        return parents[x];
+      }
+    }
+  
+    void unite(ll x, ll y) {
+      x = find(x);
+      y = find(y);
+  
+      // already united
+      if (x == y)
+        return;
+  
+      groups--;
+  
+      if (parents[x] > parents[y])
+        swap(x, y);
+  
+      parents[x] += parents[y];
+      parents[y] = x;
+    }
+  
+    ll size(ll x) {
+      return -parents[find(x)];
+    }
+  
+    bool issame(ll x, ll y) {
+      return find(x) == find(y);
+    }
+  
+    vector<ll> roots() {
+      vector<ll> ret;
+      for (ll i = 0; i < parents.size(); i++)
+        if (parents[i] < 0)
+          ret.push_back(i);
+      return ret;
+    }
+  
+    ll group_count() {
+      return groups;
+    }
+  };
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+//全ての辺について、サイズが2じゃないとダメ(必要条件)
+//2つになっていて、UFで一個だったらOK?
+
+ll n, m;
+vvll g;
+
+
 
 int main() {
-	//動かし方は右回りか左回りの2通りしかなくて、尚且つどっちかしかできないはずっぽい
-	//だから、どっち周りでやるしかないかを判定して、それで愚直にやればいけそう
-	//でも制約的に2種類どっちも試していけそう
-	ll n, q; cin >> n >> q;
-	vll a = {0, 1};
-	ll ans = 0;
-	rep(_, q) {
-		string w; ll t;
-		cin >> w >> t;
-		t--;
-		ll flag = (w == "R" ? 1 : 0); //右手かどうかのフラグ
-		if(a[flag] == t) continue; //動かす必要が無い
-		ll p = a[flag];
-		ll cur = INF;
-		ll cnt = 0;
-		while(true) { //右回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p + 1) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		p = a[flag];
-		cnt = 0;
-		while(true) { //左回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p - 1 + n) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		ans += cur;
-		a[flag] = t;
-		//cout << _ + 1 << " " << cur << endl;
-	}
-	cout << ans << endl;
+	cin >> n >> m;
+    g.resize(n);
+    UnionFind uf(n);
+    rep(m) {
+        ll a, b; cin >> a >> b; a--; b--;
+        g[a].push_back(b);
+        g[b].push_back(a);
+        uf.unite(a, b);
+    }
+    rep(n) {
+        if(g[i].size() != 2) No;
+    }
+    cout << (uf.size(0) == n ? "Yes" : "No") << endl; 
 }

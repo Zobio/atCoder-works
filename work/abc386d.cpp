@@ -262,36 +262,33 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 //#pragma GCC optimize("unroll-loops")
 
 int main() {
-	//動かし方は右回りか左回りの2通りしかなくて、尚且つどっちかしかできないはずっぽい
-	//だから、どっち周りでやるしかないかを判定して、それで愚直にやればいけそう
-	//でも制約的に2種類どっちも試していけそう
-	ll n, q; cin >> n >> q;
-	vll a = {0, 1};
-	ll ans = 0;
-	rep(_, q) {
-		string w; ll t;
-		cin >> w >> t;
-		t--;
-		ll flag = (w == "R" ? 1 : 0); //右手かどうかのフラグ
-		if(a[flag] == t) continue; //動かす必要が無い
-		ll p = a[flag];
-		ll cur = INF;
-		ll cnt = 0;
-		while(true) { //右回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p + 1) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		p = a[flag];
-		cnt = 0;
-		while(true) { //左回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p - 1 + n) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		ans += cur;
-		a[flag] = t;
-		//cout << _ + 1 << " " << cur << endl;
-	}
-	cout << ans << endl;
+	ll n, m; cin >> n >> m;
+    vll x(m), y(m); vector<string> s(m);
+    rep(m) {
+        cin >> y[i] >> x[i] >> s[i];
+        y[i]--; x[i]--;
+    }
+    map<ll, ll> rui_y, rui_x; //黒でなければいけない座標の最大値
+    rep(m) {
+        if(s[i] == "B") {
+            rui_y[y[i]] = rui_y.count(y[i]) ? max(rui_y[y[i]], x[i]) : x[i];
+            rui_x[x[i]] = rui_x.count(x[i]) ? max(rui_x[x[i]], y[i]) : y[i];
+        }
+    }
+    for(auto itr = rui_y.rbegin(); itr != rui_y.rend() && next(itr)!= rui_y.rend(); itr++) {
+        chmax(next(itr) -> second, itr -> second);
+    }
+    for(auto itr = rui_x.rbegin(); itr != rui_x.rend() && next(itr)!= rui_x.rend(); itr++) {
+        chmax(next(itr) -> second, itr -> second);
+    }
+    rep(m) {
+        if(s[i] == "B") continue;
+        if(rui_y.lower_bound(y[i]) != rui_y.end()) {
+            if(rui_y.lower_bound(y[i]) -> second >= x[i]) No;
+        }
+        if(rui_x.lower_bound(x[i]) != rui_x.end()) {
+            if(rui_x.lower_bound(x[i]) -> second >= y[i]) No;
+        }
+    }
+    Yes;
 }

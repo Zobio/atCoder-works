@@ -256,42 +256,33 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
+//Sの無回転、1回転、2回転、3回転それぞれ考えて、そのあとで色を変えることを考えればよさそう。
 
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
+ll n;
+
+vector<string> rotate_90(vector<string> vs) {
+    vector<string> ret(n);
+    rep(n) ret[i].resize(n);
+    rep(i, n) rep(j, n) {
+        ret[j][n - 1 - i] = vs[i][j];
+    }
+    return ret;
+}
+
 
 int main() {
-	//動かし方は右回りか左回りの2通りしかなくて、尚且つどっちかしかできないはずっぽい
-	//だから、どっち周りでやるしかないかを判定して、それで愚直にやればいけそう
-	//でも制約的に2種類どっちも試していけそう
-	ll n, q; cin >> n >> q;
-	vll a = {0, 1};
-	ll ans = 0;
-	rep(_, q) {
-		string w; ll t;
-		cin >> w >> t;
-		t--;
-		ll flag = (w == "R" ? 1 : 0); //右手かどうかのフラグ
-		if(a[flag] == t) continue; //動かす必要が無い
-		ll p = a[flag];
-		ll cur = INF;
-		ll cnt = 0;
-		while(true) { //右回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p + 1) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		p = a[flag];
-		cnt = 0;
-		while(true) { //左回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p - 1 + n) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		ans += cur;
-		a[flag] = t;
-		//cout << _ + 1 << " " << cur << endl;
-	}
-	cout << ans << endl;
+	cin >> n;
+    vector<string> s(n), t(n);
+    rep(n) cin >> s[i];
+    rep(n) cin >> t[i];
+    ll ans = INF;
+    rep(_, 4) {
+        ll cur = 0;
+        rep(i, n) rep(j, n) {
+            cur += s[i][j] != t[i][j];
+        }
+        chmin(ans, cur + _);
+        s = rotate_90(s);
+    }
+    cout << ans << endl;
 }

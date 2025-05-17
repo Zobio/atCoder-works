@@ -256,42 +256,39 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq) {
 	return os;
 }*/
 
-
-//#pragma GCC target("avx2")
-//#pragma GCC optimize("O3")
-//#pragma GCC optimize("unroll-loops")
-
+//最初にdpをして、各場所について何回の操作で到達可能かをあらかじめ計算しておく
+//右から貪欲でよさそう?
 int main() {
-	//動かし方は右回りか左回りの2通りしかなくて、尚且つどっちかしかできないはずっぽい
-	//だから、どっち周りでやるしかないかを判定して、それで愚直にやればいけそう
-	//でも制約的に2種類どっちも試していけそう
-	ll n, q; cin >> n >> q;
-	vll a = {0, 1};
-	ll ans = 0;
-	rep(_, q) {
-		string w; ll t;
-		cin >> w >> t;
-		t--;
-		ll flag = (w == "R" ? 1 : 0); //右手かどうかのフラグ
-		if(a[flag] == t) continue; //動かす必要が無い
-		ll p = a[flag];
-		ll cur = INF;
-		ll cnt = 0;
-		while(true) { //右回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p + 1) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		p = a[flag];
-		cnt = 0;
-		while(true) { //左回り
-			if(p == t) {chmin(cur, cnt); break;}
-			p = (p - 1 + n) % n; cnt++;
-			if(a[!flag] == p) break;
-		}
-		ans += cur;
-		a[flag] = t;
-		//cout << _ + 1 << " " << cur << endl;
-	}
-	cout << ans << endl;
+	ll n; cin >> n;
+    vll c(n); reps(i, n - 1) cin >> c[i];
+    vll a(n); reps(i, n - 1) cin >> a[i];
+    vll dp(n, INF); dp[0] = 0;
+    reps(i, n - 1) {
+        reps(j, c[i]) { //iは1からn-1に注意
+            chmin(dp[i], dp[i - j] + 1);
+        }
+    }
+    ll ans = 0;
+    //まめがあればそこに合流(なるべく右でOK)、なければDP値の一番低いところ
+    for(ll i = n - 1; i >= 0; i--) {
+        bool found = false;
+        if(a[i]) { //豆発見
+            found = true; ans += 1;
+            ll tmp = a[i];
+            a[i] = 0;
+            if(i - c[i] <= 0) continue;
+            ll cost = INF, nxt = -1;
+            bool flag = false;
+            for(ll j = i - 1; j >= i - c[i]; j--) {
+                if(a[j] > 0) {
+                    flag = true;
+                    a[j] += tmp;
+                    break;
+                }
+                if(chmin(cost, dp[j])) nxt = j;
+            }
+            if(!flag) a[nxt] += tmp;
+        }
+    }
+    cout << ans << endl;
 }
