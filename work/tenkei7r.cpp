@@ -348,7 +348,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	vll a = {1,2,4};
 	ll n; cin >> n;
-	cout << *lower_bound(all(a), n) << endl;
+    vll a(n), ra(n); cin >> a;
+    sort(all(a));
+        rep(n) ra[n - 1 - i] = -a[i];
+    ll q; cin >> q;
+    rep(_, q) {
+        ll b; cin >> b;
+        ll x = LINF, y = LINF;
+        if(lower_bound(all(a), b) != a.end()) x = *lower_bound(all(a), b);
+        if(lower_bound(all(ra), -b) != ra.end()) y = -*lower_bound(all(ra), -b);
+        //cout << (lower_bound(all(a), b) == a.end()) << " " << (lower_bound(all(ra), -b) == ra.end()) << endl;
+        cout << min(abs(x - b), abs(b - y)) << endl;
+    }
 }
