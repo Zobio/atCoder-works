@@ -348,5 +348,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    ll n; cin >> n;
+    ll a, b, c; cin >> a >> b >> c;
+    ll ans = LINF;
+    rep(i, 10000) rep(j, 10000) {
+        ll r = n - a * i - b * j;
+        if(r < 0) continue;
+        if(r % c) continue;
+        chmin(ans, i + j + r / c);
+    }
+    cout << ans << endl;
 }

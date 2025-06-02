@@ -348,5 +348,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	ll n; cin >> n;
+    vll a(n); cin >> a;
+    vll b(n); cin >> b;
+    sort(all(a)); sort(all(b));
+    ll ans = 0;
+    rep(n) ans += abs(a[i] - b[i]);
+    cout << ans << endl;
 }
