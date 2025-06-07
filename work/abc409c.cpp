@@ -348,5 +348,19 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	ll n, l; cin >> n >> l;
+    if(l % 3) cout << 0 << endl, exit(0);
+    vll d(n - 1); cin >> d;
+    map<ll, ll> mp;
+    mp[0]++;
+    ll cur = 0;
+    rep(n - 1) {
+        cur = (cur + d[i]) % l;
+        mp[cur]++;
+    }
+    ll ans = 0;
+    rep(i, l) {
+        ans += mp[i] * mp[l / 3 + i] * mp[l / 3 * 2 + i];
+    }
+    cout <<ans << endl;
 }

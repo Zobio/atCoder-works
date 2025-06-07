@@ -348,5 +348,10 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	ll n; cin >> n;
+    string s, t; cin >> s >> t;
+    rep(n) {
+        if(s[i] == 'o' && t[i] == 'o') Yes;
+    }
+    No;
 }

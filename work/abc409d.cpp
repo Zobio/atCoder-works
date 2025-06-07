@@ -347,6 +347,46 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
+//Nの総和は10^5以下だから、NlogNくらいなら通りそう
+//まず、なるべく文字順が若いのを先頭に持ってくるのは流石に自明
+//つまり言い換えれば、辞書順最小文字が先頭になければ、絶対に先頭に持っていくべき
+//その場合、今ある先頭文字をどこに配置するかを考えればいい
+//言い換えれば、部分文字列を前に持ってくるというよりは、先頭文字を後ろのどこに持っていくかを考えると言える
+//atcoderで考えると、まずaはどこに持って行っても辞書順が若くならないからだめ
+
+//どの文字を後ろに持っていくかはすぐに判定できる(文字集合のsetとか持って最小値かどうかチェックすればいいだけなので)
+//後ろに持っていく文字を定数倍かlogで見て、その後O(N)でどこに置くのか前から探していけばできそう
+//abcdeみたいな元々辞書列最小のものだけ注意が必要そう 例外処処理
 int main() {
-	
+	ll q; cin >> q;
+    rep(_, q) {
+        ll n; cin >> n;
+        string s; cin >> s;
+
+        if(n == 1) {cout << s << endl; continue;}
+
+        bool fl = true;
+        rep(n - 1) fl &= s[i] <= s[i + 1];
+        if(fl) {cout << s << endl; continue;}
+
+        ll p, q;
+        rep(i, n - 1) {
+            if(s[i] > s[i + 1]) {
+                p = i; q = i;
+                while(q < n && s[i] >= s[q]) q++;
+                q--;
+                break;
+            }
+        }
+
+        //cout << p << " " << q << endl;
+
+        rep(i, n) {
+            if(i < p) cout << s[i];
+            else if(i < q) cout << s[i + 1];
+            else if(i == q) cout << s[p];
+            else cout << s[i];
+        }
+        cout << endl;
+    } 
 }

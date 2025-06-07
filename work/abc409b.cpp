@@ -347,6 +347,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
+//よく考えると、数値について二分探索して(lower_boundで個数求められる)やるだけ？
+
 int main() {
-	
+	ll n; cin >> n;
+    vll a(n); cin >> a;
+    sort(all(a));
+    ll l = -1, r = 4000000000;
+    while(r - l > 1) {
+        ll mid = (l + r) / 2;
+        if(a.end() - lower_bound(all(a), mid) >= mid) l = mid;
+        else r = mid;
+    }
+    cout << l << endl;
 }
