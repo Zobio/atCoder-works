@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all> // AtCoder
+ #include <atcoder/all> // AtCoder
 using namespace std;
-// using namespace atcoder; // AtCoder
+ using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-// using mint = modint998244353; // AtCoder
+ using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -348,29 +348,5 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	//逆向きに走査していくみたいな話?
-	ll n, q; cin >> n >> q;
-	vll t(q), p(q);
-	vector<string> s(q);
-	rep(i, q) {
-		cin >> t[i] >> p[i]; p[i]--;
-		if(t[i] == 2) cin >> s[i];
-	}
-	ll cur = -1; //-1はサーバ
-	string ans;
-	rrep(i, q) {
-		if(t[i] == 1) {
-			if(cur == p[i]) cur = -1;
-		}
-		else if(t[i] == 2) {
-			if(cur == p[i]) {
-				rrep(j, s[i].size()) ans.push_back(s[i][j]);
-			}
-		}
-		else {
-			if(cur == -1) cur = p[i]; //今見ているところがサーバになる
-		}
-	}
-	reverse(all(ans));
-	cout << ans << endl;
+	
 }

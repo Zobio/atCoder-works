@@ -348,29 +348,60 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	//逆向きに走査していくみたいな話?
+    //本質はおそらく差分だけを考えてなんとかするみたいなことのはず
+    //新しく黒くなった→左右が黒かどうか判定して長さを更新
+    //新しく白になった→左右が黒かどうか判定して、(黒だったら)長さを更新
+    //なので、{スタート座標、長さ}のpairを持ったものと、maxの値と、実際のaの配列の3つを使えば実装できそう
 	ll n, q; cin >> n >> q;
-	vll t(q), p(q);
-	vector<string> s(q);
-	rep(i, q) {
-		cin >> t[i] >> p[i]; p[i]--;
-		if(t[i] == 2) cin >> s[i];
-	}
-	ll cur = -1; //-1はサーバ
-	string ans;
-	rrep(i, q) {
-		if(t[i] == 1) {
-			if(cur == p[i]) cur = -1;
-		}
-		else if(t[i] == 2) {
-			if(cur == p[i]) {
-				rrep(j, s[i].size()) ans.push_back(s[i][j]);
-			}
-		}
-		else {
-			if(cur == -1) cur = p[i]; //今見ているところがサーバになる
-		}
-	}
-	reverse(all(ans));
-	cout << ans << endl;
+    vll a(n, 0);
+    ll ans = 0;
+    map<ll, ll> mp;
+    rep(_, q) {
+        ll k; cin >> k; k--;
+        bool left_change = false, right_change = false;
+        if(k > 0 && a[k - 1] == 1) left_change = true;
+        if(k < n - 1 && a[k + 1] == 1) right_change = true;
+        if(a[k] == 0) {
+            if(!left_change && !right_change) mp[k] = 1;
+            else if(!left_change && right_change) mp[k] = mp[k + 1] + 1, mp.erase(k + 1); //左から結合
+            else if(left_change && !right_change) {
+                auto it = mp.lower_bound(k);
+                it--;
+                ll p = it -> first;
+                ll len = it -> second;
+                mp[p]++;
+            }
+            else {
+                auto it = mp.lower_bound(k);
+                ll len_tmp = it -> second;
+                it--;
+                ll p = it -> first;
+                ll len = it -> second;
+                mp[p] = k - p + len_tmp + 1;
+                mp.erase(k + 1);
+            }
+       }
+       else {
+            if(!left_change && !right_change) mp.erase(k);
+            else if(!left_change && right_change) mp[k + 1] = mp[k] - 1, mp.erase(k);
+            else if(left_change && !right_change) {
+                auto it = mp.lower_bound(k);
+                it--;
+                ll p = it -> first;
+                ll len = it -> second;
+                mp[p]--;
+                if(mp[p] == 0) mp.erase(p);
+            }
+            else {
+                auto it = mp.lower_bound(k);
+                it--;
+                ll p = it -> first;
+                ll len = it -> second;
+                mp[p] = k - p;
+                mp[k + 1] = len - mp[p] - 1;
+            }
+       }
+       cout << mp.size() << endl;
+       a[k] = !a[k];
+    }
 }

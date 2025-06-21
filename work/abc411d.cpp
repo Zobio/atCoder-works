@@ -348,29 +348,27 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	//逆向きに走査していくみたいな話?
+    //文字列を何回も代入するところでTLEになりそう
+    //3のクエリは最後の一回以外どうせ後で更新されるのでどうでもいい
 	ll n, q; cin >> n >> q;
-	vll t(q), p(q);
-	vector<string> s(q);
-	rep(i, q) {
-		cin >> t[i] >> p[i]; p[i]--;
-		if(t[i] == 2) cin >> s[i];
-	}
-	ll cur = -1; //-1はサーバ
-	string ans;
-	rrep(i, q) {
-		if(t[i] == 1) {
-			if(cur == p[i]) cur = -1;
-		}
-		else if(t[i] == 2) {
-			if(cur == p[i]) {
-				rrep(j, s[i].size()) ans.push_back(s[i][j]);
-			}
-		}
-		else {
-			if(cur == -1) cur = p[i]; //今見ているところがサーバになる
-		}
-	}
-	reverse(all(ans));
-	cout << ans << endl;
+    vector<string> a(n); //各PCの文字列
+    string s; //サーバの文字列
+    rep(_, q) {
+        //1とか3の操作はUFにできたら嬉しいけど、時間ごとに内容が変わるのと、有向グラフぽいのできつい
+        ll t, p; cin >> t >> p;
+        p--;
+        if(t == 1) {
+            a[p] = s;
+        }
+        else if(t == 2) {
+            //PCへの文字列の登録自体は、全体計算量が抑えられているので問題ない --> 変える必要なし
+            string t; cin >> t;
+            rep(i, t.size()) a[p].push_back(t[i]);
+        }
+        else {
+            //最後の一回以外やんなくていい
+            s = a[p];
+        }
+    }
+    cout << s << endl;
 }

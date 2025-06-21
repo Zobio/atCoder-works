@@ -348,29 +348,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	//逆向きに走査していくみたいな話?
-	ll n, q; cin >> n >> q;
-	vll t(q), p(q);
-	vector<string> s(q);
-	rep(i, q) {
-		cin >> t[i] >> p[i]; p[i]--;
-		if(t[i] == 2) cin >> s[i];
-	}
-	ll cur = -1; //-1はサーバ
-	string ans;
-	rrep(i, q) {
-		if(t[i] == 1) {
-			if(cur == p[i]) cur = -1;
-		}
-		else if(t[i] == 2) {
-			if(cur == p[i]) {
-				rrep(j, s[i].size()) ans.push_back(s[i][j]);
-			}
-		}
-		else {
-			if(cur == -1) cur = p[i]; //今見ているところがサーバになる
-		}
-	}
-	reverse(all(ans));
-	cout << ans << endl;
+	ll n; cin >> n;
+    vll a(n - 1); cin >> a;
+    vll rui(n, 0);
+    rep(n - 1) rui[i + 1] = rui[i] + a[i];
+    rep(i, n) {
+        rep(j, i + 1, n) {
+            cout << rui[j] - rui[i] << " ";
+        }
+        if(i != n - 1) cout << endl;
+    }
 }
