@@ -347,30 +347,53 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
-int main() {
-	//逆向きに走査していくみたいな話?
-	ll n, q; cin >> n >> q;
-	vll t(q), p(q);
-	vector<string> s(q);
-	rep(i, q) {
-		cin >> t[i] >> p[i]; p[i]--;
-		if(t[i] == 2) cin >> s[i];
-	}
-	ll cur = -1; //-1はサーバ
-	string ans;
-	rrep(i, q) {
-		if(t[i] == 1) {
-			if(cur == p[i]) cur = -1;
-		}
-		else if(t[i] == 2) {
-			if(cur == p[i]) {
-				rrep(j, s[i].size()) ans.push_back(s[i][j]);
+ll v, e;
+vvpll g; //隣接リスト
+vll parent;
+
+vll dijkstra(ll s) { //sからスタートして(到達可能な)全点における最短距離を求める
+	vll dis(v + 1, INF);
+	dis[s] = 0;
+	priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> que;
+	//disを更新するためのqueue first:コスト second:頂点番号 (コストが低い順に処理)
+	que.push({0, s});
+	while(!que.empty()) {
+		pair<ll, ll> p = que.top(); que.pop();
+		ll v = p.second, cost = p.first;
+		if(dis[v] < cost) continue;
+		rep(i, g[v].size()) {
+			pair<ll, ll> e = g[v][i]; //e.first:頂点番号 e.second:コスト
+			if(dis[e.first] > dis[v] + e.second) {
+				dis[e.first] = dis[v] + e.second;
+				que.push({dis[e.first], e.first});
+				parent[e.first] = v; //親を記録
 			}
 		}
-		else {
-			if(cur == -1) cur = p[i]; //今見ているところがサーバになる
-		}
 	}
-	reverse(all(ans));
-	cout << ans << endl;
+	return dis;
+}
+
+int main() {
+	cin >> v; //頂点数(vertex)
+	cin >> e; //辺の数(edge)
+	g.resize(v + 1);
+	parent.resize(v + 1, -1); //-1なら戻るところなし
+	rep(i, e) {
+		ll a, b, c; cin >> a >> b >> c;
+		//aとbがつながっていて、そのコストはcである
+		g[a].push_back({b, c});
+	}
+	vll ans = dijkstra(1);
+	rep(i, 1, v + 1) {
+		ll cur = i;
+		vpll path;
+		while(parent[cur] != -1) path.push_back(make_pair(parent[cur], cur)), cur = parent[cur];
+		reverse(all(path));
+		cout << "shortest path from 1 to " << i << ": ";
+		rep(j, path.size()) {
+			cout << path[j] << (j < path.size() - 1 ? ", " : "");
+		}
+		cout << endl;
+		cout << "distance from 1 to " << i << ": " << ans[i] << endl;
+	}
 }

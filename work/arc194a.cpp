@@ -347,6 +347,26 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
+//N個の整数列の中から、2個の連続したところを引いて、残ったところの総和を最大化することを考えればいい
+//貪欲に2個ずつ取り続けるのが、総和の最大化にならなそう?
+
+
 int main() {
-	reps(i, 1, 10) cout << i << " ";
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    vll done(n);
+    priority_queue<pair<ll, pll>, vector<pair<ll, pll>>, greater<pair<ll, pll>>> pq;
+    rep(i, n - 1) pq.push({a[i] + a[i + 1], {i, i + 1}});
+    while(pq.size()) {
+        ll s = pq.top().first;
+        auto [p, q] = pq.top().second;
+        pq.pop();
+        if(done[p] || done[q]) continue;
+        if(s >= 0) continue;
+        done[p] = done[q] = 1;
+    }
+    ll sum = 0;
+	cout << done << endl;
+    rep(i, n) sum += a[i] * !done[i];
+    cout << sum << endl;
 }

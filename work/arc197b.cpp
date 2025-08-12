@@ -348,5 +348,19 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	reps(i, 1, 10) cout << i << " ";
+    ll t; cin >> t;
+    rep(_, t) {
+        ll n; cin >> n;
+        vector<ld> a(n); cin >> a;
+        sort(all(a));
+        ld sum = accl(a);
+        ll ans = 0;
+        while(a.size()) {
+            chmax(ans, (ll)(a.end() - upper_bound(all(a), sum / a.size())));
+            sum -= a.back();
+            a.pop_back();
+        }
+        cout << ans << endl;
+    }
+
 }
