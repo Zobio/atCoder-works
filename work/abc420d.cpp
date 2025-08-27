@@ -347,6 +347,43 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
-int main() {
+//BFSを2種類持てばいけそう
+//dist[i][j][k] ... 座標(i, j)において、最初の状態から(k == 0 ? 偶数:奇数)回スイッチが押された時の距離
 
+vll dx = {0, 1, 0, -1};
+vll dy = {1, 0, -1, 0};
+
+int main() {
+    ll h, w; cin >> h >> w;
+    vector<string> a(h); cin >> a;
+    ll sy, sx, gy, gx;
+    rep(i, h) rep(j, w) {
+        if(a[i][j] == 'S') sy = i, sx = j;
+        if(a[i][j] == 'G') gy = i, gx = j;
+    }
+    vvvll dist(h, vvll(w, vll(2, LINF)));
+    dist[sy][sx][0] = 0;
+    queue<pair<pll, ll>> que;
+    que.push({{sy, sx}, 0});
+    while(!que.empty()) {
+        ll cy = que.front().first.first, cx = que.front().first.second;
+        que.pop();
+        rep(i, 4) rep(j, 2) {
+            ll ny = cy + dy[i], nx = cx + dx[i];
+
+            if(ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+            if(a[ny][nx] == '#') continue;
+            if(a[ny][nx] == 'x' && j == 0) continue; //ドアが閉まってる
+            if(a[ny][nx] == 'o' && j == 1) continue; //ドアが閉まってる
+            
+            if(a[ny][nx] != '?') {
+                if(chmin(dist[ny][nx][j], dist[cy][cx][j] + 1)) que.push({{ny, nx}, j});
+            }
+            else {
+                if(chmin(dist[ny][nx][!j], dist[cy][cx][j] + 1)) que.push({{ny, nx}, !j});
+            }
+        }
+    }
+    ll ans = min(dist[gy][gx][0], dist[gy][gx][1]);
+    cout << (ans == LINF ? -1 : ans) << endl;
 }

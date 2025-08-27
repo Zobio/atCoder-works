@@ -347,6 +347,50 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
-int main() {
+vector<char> d = {'R', 'D', 'L', 'U', 'S'};
 
+
+
+int main() {
+    ll n, m, k; cin >> n >> m >> k;
+    vpll a(m);
+    rep(m) cin >> a[i].first >> a[i].second;
+    vector<string> v(n); rep(i, n) cin >> v[i]; //横隣に壁が存在するかどうか
+    vector<string> h(n - 1); rep(i, n - 1) cin >> h[i]; //縦隣に壁が存在するか
+    vvll b(k, vll(m));
+    rep(i, k) rep(j, m) {
+        b[i][j] = i % 4;
+    }
+    rep(i, k) {
+        rep(j, m) cout << d[b[i][j]] << " ";
+        cout << endl;
+    }
+    ll cnt = 0;
+
+    auto uzumaki = [&] {
+        //3巻する
+        pll cur = {0, 1}; //mode、回数
+        ll p = 0; //現時点の繰り返し回数
+        while(cnt < 2 * n * n) {
+            if(cur.second == 10) break;
+            cout << cur.first << endl;
+            cnt++; p++;
+            if(p == cur.second) {
+                if(cur.first % 2 == 0) cur.second++;
+                cur.first = (cur.first + 1) % 4;
+                p = 0; 
+            }
+        }
+    };
+
+    ll w = 0, q = 0; //wが今の方向、qが何回旋回したか
+
+    while(cnt < 2 * n * n) {
+        uzumaki();
+        for(ll i = 0; i < 4 + q && cnt < 2 * n * n; i++) {
+            cout << w << endl;
+            cnt++;
+        }
+        w = (w + 1) % 4;
+    }
 }

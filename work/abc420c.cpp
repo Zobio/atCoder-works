@@ -348,5 +348,16 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-
+    ll n, q; cin >> n >> q;
+    vll a(n), b(n); cin >> a >> b;
+    ll sum = 0;
+    rep(i, n) sum += min(a[i], b[i]);
+    rep(_, q) {
+        char c; ll x, y; cin >> c >> x >> y; x--;
+        ll pre = min(a[x], b[x]);
+        ll nxt = c == 'A' ? min(b[x], y) : min(a[x], y);
+        if(pre != nxt) sum = sum - pre + nxt;
+        (c == 'A' ? a[x] : b[x]) = y;
+        cout << sum << endl;
+    }
 }

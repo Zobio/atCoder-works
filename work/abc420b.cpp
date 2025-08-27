@@ -348,5 +348,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-
+    ll n, m; cin >> n >> m;
+    vector<string> s(n); cin >> s;
+    vll a(n);
+    rep(i, m) {
+        ll cnt = 0;
+        rep(j, n) {
+            cnt += s[j][i] == '0';
+        }
+        rep(j, n) a[j] += s[j][i] == '0' == cnt * 2 < n; //少数派かどうか
+    }
+    ll ma = 0;
+    rep(i, n) chmax(ma, a[i]);
+    rep(i, n) if(a[i] == ma) cout << i + 1 << " ";
+    cout << endl;
 }

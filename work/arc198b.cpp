@@ -348,5 +348,29 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-
+    ll t; cin >> t;
+    rep(_, t) {
+        ll x, y, z; cin >> x >> y >> z;
+        ll l = min(x - 1, min(y / 2, z));
+        x -= l + 1; //01210121 ... 0を除去している
+        y -= l * 2;
+        z -= l;
+        if(x * y * z != 0) { //yが1だけあるパターン
+            if(z > 0 && x >= z - 1) cout << "Yes" << endl;
+            else cout << "No" << endl;
+        }
+        else if(x == 0) {
+            if(y == 0) cout << (z <= 1 ? "Yes" : "No") << endl;
+            else if(z == 0) cout << "No" << endl;
+            else {
+                cout << (y <= 2 && z == 1 ? "Yes" : "No") << endl;
+            }
+        }
+        else if(y == 0) {
+            cout << (z <= x - 1 ? "Yes" : "No") << endl;
+        }
+        else { //z==0
+            cout << (y == 2 ? "Yes" : "No") << endl;
+        }
+    }
 }

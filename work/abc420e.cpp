@@ -347,6 +347,87 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
-int main() {
+struct UnionFind {
+	long long groups;
+	vector<long long> parents;
 
+	UnionFind(long long n) {
+		groups = n;
+		parents = vector<long long>(n, -1);
+	}
+
+	long long find(long long x) {
+		if (parents.at(x) < 0) {
+			return x;
+		}else{
+			parents[x] = find(parents[x]);
+			return parents[x];
+		}
+	}
+
+	void unite(long long x, long long y) {
+		x = find(x);
+		y = find(y);
+
+		// already united
+		if (x == y)
+			return;
+
+		groups--;
+
+		if (parents[x] > parents[y])
+			swap(x, y);
+
+		parents[x] += parents[y];
+		parents[y] = x;
+	}
+
+	long long size(long long x) {
+		return -parents[find(x)];
+	}
+
+	bool issame(long long x, long long y) {
+		return find(x) == find(y);
+	}
+
+	vector<long long> roots() {
+		vector<long long> ret;
+		for (long long i = 0; i < parents.size(); i++)
+			if (parents[i] < 0)
+				ret.push_back(i);
+		return ret;
+	}
+
+	long long group_count() {
+		return groups;
+	}
+};
+
+int main() {
+    ll n, q; cin >> n >> q;
+    UnionFind uf(n);
+    vll color(n); //0が白、1が黒
+    vll cb(n), cw(n, 1); //ufの親について、黒のカウント、白のカウント(最初は全て独立していて白色)
+    rep(_, q) {
+        ll t; cin >> t;
+        if(t == 1) {
+            ll u, v; cin >> u >> v; u--; v--;
+            if(uf.issame(u, v)) continue;
+            auto [p, q] = make_pair(uf.find(u), uf.find(v));
+            ll nb = cb[p] + cb[q], nw = cw[p] + cw[q];
+            uf.unite(u, v);
+            cb[uf.find(u)] = nb; cw[uf.find(u)] = nw;
+        }
+        else if(t == 2) {
+            ll v; cin >> v; v--;
+            ll p = uf.find(v);
+            (color[v] == 0 ? cw[p] : cb[p])--;
+            (color[v] == 0 ? cb[p] : cw[p])++;
+            color[v] = !color[v];
+        }
+        else{
+            ll v; cin >> v; v--;
+            cout << (cb[uf.find(v)] ? "Yes" : "No") << endl;
+        }
+    }
 }

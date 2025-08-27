@@ -348,5 +348,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-
+    ll x, y; cin >> x >> y;
+    cout << (x - 1 + y) % 12 + 1 << endl;
 }
