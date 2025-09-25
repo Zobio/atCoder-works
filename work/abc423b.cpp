@@ -348,5 +348,10 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    ll p = 0, q = n; //それぞれどこの部屋まで行けるか
+    while(p < n && a[p] == 0) p++;
+    while(0 < q && a[q - 1] == 0) q--;
+    cout << max(q - p - 1, 0) << endl;
 }

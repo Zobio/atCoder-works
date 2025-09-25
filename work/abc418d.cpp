@@ -348,5 +348,27 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    //結合は順序に依存しない
+    //2種類の累積和をとることになりそう
+    //先頭の文字の場所の偶奇と、数字に合わせてどちらの累積和を使うのか決定する
+    ll n; cin >> n;
+    string t; cin >> t;
+    vll a(n); rep(n) a[i] = t[i] - '0';
+    vll rui0(n + 1), rui1(n + 1);
+    rep(i, n) {
+        if((i & 1) ^ a[i]) {
+            rui0[i + 1] = rui0[i] + 1;
+            rui1[i + 1] = rui1[i];
+        }
+        else {
+            rui0[i + 1] = rui0[i];
+            rui1[i + 1] = rui1[i] + 1;
+        }
+    }
+    ll ans = 0;
+    rep(i, n) {
+        if((i & 1) ^ a[i]) ans += rui1.back() - rui1[i];
+        else ans += rui0.back() - rui0[i];
+    }
+    cout << ans << endl;
 }

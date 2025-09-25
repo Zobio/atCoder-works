@@ -347,6 +347,50 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
+//新しく列に入るのは、
+//(1) 列に今並び始めようと思ったら、もう空き枠があったからすぐ入った
+//(2) 列に並んでいて、空き枠ができた
+//この2つを毎回見る
+
+//方針としては、queueに突っ込んでって、timeをイベントソートしてみていく
+
+//一旦imosに全部入れる→シミュレーションしていって、キャパ的に無理なもの or queue.size()だったらqueueに突っ込んでいく
+//で、マイナスのimosが来たら、そのあとqueueをできるだけ消化
+//マイナスのimosはプラスのimosが確定した時点で入れる。
+
+//タイプ分けを、入店、退店ではなくて、
+//到着、退店に分けるべき
+//
+
 int main() {
-	
+    ll n, k; cin >> n >> k;
+    vll a(n), b(n), c(n);
+    rep(i, n) cin >> a[i] >> b[i] >> c[i];
+    priority_queue<pair<pll, ll>, vector<pair<pll, ll>>, greater<pair<pll, ll>>> imos; //second要素が正なら到着、負なら退店
+    queue<pll> que; //待ち行列
+    ll p = 0;
+    rep(n) imos.push({{a[i], c[i]}, i}); //到着パターン
+	while(imos.size()) { //仮に全然店内に入れなくてqueがいっぱいになっても、退店操作がimosに入っているから(そもそもimosはイベント全部を見ている)sizeが0になるまで見ればOK
+		auto cur = imos.top();
+		imos.pop();
+		if(cur.first.second > 0) {
+			if(que.empty() && p + cur.first.second <= k) { //即入店できる
+				cout << cur.first.first << endl;
+				p += cur.first.second;
+				imos.push({{cur.first.first + b[cur.second], -cur.first.second}, cur.second});
+			}
+			else{ //入店すぐにはできない
+				que.push({cur.first.second, cur.second});
+			}
+		}
+		else {
+			p += cur.first.second;
+			while(que.size() && que.front().first + p <= k) {
+				cout << cur.first.first << endl;
+				p += que.front().first;
+				imos.push({{cur.first.first + b[que.front().second], -que.front().first}, que.front().second});
+				que.pop();
+			}
+		}
+	}
 }

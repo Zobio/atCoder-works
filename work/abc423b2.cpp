@@ -348,5 +348,10 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    ll p = n, q = 0;
+    rep(i, n) if(a[i] == 1) {p = i; break;}
+    rrep(i, n) if(a[i] == 1) {q = i; break;}
+    cout << max(q - p, 0) << endl;
 }

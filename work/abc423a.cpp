@@ -348,5 +348,7 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    ll x, c; cin >> x >> c;
+    ll t = x / (1000 + c);
+    cout << t * 1000 << endl;
 }

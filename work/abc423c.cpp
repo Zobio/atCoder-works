@@ -348,5 +348,26 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    ll n, r; cin >> n >> r;
+    deque<ll> a(n); rep(n) cin >> a[i];
+    ll ans = 0;
+    auto all_1 = [&]() {
+        bool fl = true;
+        rep(n) fl &= a[i] == 1;
+        return fl;
+    };
+    if(all_1()) cout << 0 << endl, exit(0);
+    while(a.size() && a.front() == 1) {
+        if(r == 0) ans += 2;
+        else r--;
+        a.pop_front();
+        n--;
+    }
+    while(a.size() && a.back() == 1) {
+        if(r == n) ans += 2, r--;
+        a.pop_back();
+        n--;
+    }
+    rep(i, n) ans += a[i] + 1;
+    cout << ans << endl;
 }

@@ -348,5 +348,21 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+    ll n, k; cin >> n >> k;
+    vll a(n), b(n), c(n);
+    rep(i, n) cin >> a[i] >> b[i] >> c[i];
+    priority_queue<pll, vpll, greater<pll>> pq; //退店する人のプライオリティキュー {時間、人数}で管理
+    ll p = 0; //店内人数
+    ll time = 0;
+    rep(i, n) {
+        chmax(time, a[i]);
+        while(p + c[i] > k) {
+            chmax(time, pq.top().first);
+            p -= pq.top().second;
+            pq.pop();
+        }
+        cout << time << endl;
+        p += c[i];
+        pq.push({time + b[i], c[i]});
+    }
 }
