@@ -351,6 +351,7 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 # pragma GCC optimize("O3")
 # pragma GCC optimize("unroll-loops")
 
+
 // まず、各座標について2次元imos法を使うことによって、各座標について
 // a[i][j] ... (i, j)の上に何個雲があるか を計算
 // その後、再度2次元imos法を使うことによって、各座標について
@@ -359,21 +360,25 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 
 int main() {
     ll n; cin >> n;
-    vll u(n), d(n), l(n), r(n);
+    int u[n], d[n], l[n], r[n];
+    //vll u(n), d(n), l(n), r(n);
     rep(i, n) cin >> u[i] >> d[i] >> l[i] >> r[i], u[i]--, d[i]--, l[i]--, r[i]--;
-    vvll imos(2010, vll(2010)); //各座標についての雲の個数を作るためのimos配列
+    int imos[2010][2010];
+    //vvll imos(2010, vll(2010)); //各座標についての雲の個数を作るためのimos配列
     rep(i, n) {
         for(ll j = u[i]; j <= d[i]; j++) {
             imos[j][l[i]]++;
             imos[j][r[i] + 1]--;
         }
     }
-    vvll a(2010, vll(2010));
+    int a[2010][2010];
+    //vvll a(2010, vll(2010));
     rep(i, 2005) {
         ll cur = 0;
         rep(j, 2005) a[i][j] = (cur = cur + imos[i][j]);
     }
-    vvll imos2(2010, vll(2010)); //(0,0)から(i,j)までの間で雲が1個だけある座標の総数
+    int imos2[2010][2010];
+    //vvll imos2(2010, vll(2010)); //(0,0)から(i,j)までの間で雲が1個だけある座標の総数
     rep(i, 2005) rep(j, 2005) {
         imos2[i + 1][j + 1] = imos2[i][j + 1] + imos2[i + 1][j] - imos2[i][j] + (a[i][j] == 1);
     }
