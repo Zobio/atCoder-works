@@ -347,20 +347,22 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
-// 最初を取るか取らないかでだいぶ分岐しそう
-// とる...
+// 1個選ばないのを決め打ちしたら、その数より前の数列は全て+、後は-として処理される
+// 最初に累積和を前計算しておけば間に合いそう
 
 int main() {
 	ll q; cin >> q;
 	rep(_, q) {
 		ll n; cin >> n;
 		vll a(n); cin >> a;
-		vll b(n);
-		b.front() = a.front();
-		rep(i, 1, n - 1) b[i] = abs(a[i]);
-		b.back() = -a.back();
-		sort(all(b));
-		cout << b << endl;
-		cout << accumulate(all(b), 0LL) - b.front() << endl;
+		vll rui1(n + 1), rui2(n + 1);
+        rep(i, n) rui1[i + 1] = rui1[i] + (i == 0 ? a[i] : abs(a[i]));
+        rep(i, n) rui2[i + 1] = rui2[i] + (-a[i]);
+        ll ans = -LINF;
+        rep(i, n) {
+            chmax(ans, rui1[i] + (rui2.back() - rui2[i + 1]));
+            //cout << i << " " << rui1[i] + (rui2.back() - rui2[i + 1]) << endl;
+        }
+        cout << ans << endl;
 	}
 }
