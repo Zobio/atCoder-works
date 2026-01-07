@@ -59,22 +59,22 @@ constexpr auto max(T... a) { return max(initializer_list<common_type_t<T...>>{a.
 template <class T>
 bool chmax(T &a, const T &b)
 {
-	if (a < b)
-	{
-		a = b;
-		return 1;
-	}
-	return 0;
+    if (a < b)
+    {
+        a = b;
+        return 1;
+    }
+    return 0;
 }
 template <class T>
 bool chmin(T &a, const T &b)
 {
-	if (b < a)
-	{
-		a = b;
-		return 1;
-	}
-	return 0;
+    if (b < a)
+    {
+        a = b;
+        return 1;
+    }
+    return 0;
 }
 template <class T>
 long long acc(const T &a) { return accumulate(all(a), 0LL); }
@@ -83,64 +83,64 @@ long double accl(const T &a) { return accumulate(all(a), 0.0L); }
 template <class T>
 vector<T> mrui(const vector<T> &a)
 {
-	vector<T> ret(a.size() + 1);
-	for (int i = 0; i < a.size(); i++)
-	{
-		ret[i + 1] = ret[i] + a[i];
-	}
-	return ret;
+    vector<T> ret(a.size() + 1);
+    for (int i = 0; i < a.size(); i++)
+    {
+        ret[i + 1] = ret[i] + a[i];
+    }
+    return ret;
 }
 template <class T>
 vector<vector<T>> mrui2(const vector<vector<T>> &a)
 {
-	vector<vector<T>> ret(a.size() + 1, vector<T>(a.front().size() + 1));
-	for (int i = 0; i < (int)a.size(); i++)
-	{
-		for (int j = 0; j < (int)a.front().size(); j++)
-		{
-			ret[i + 1][j + 1] = ret[i][j + 1] + ret[i + 1][j] - ret[i][j] + a[i][j];
-		}
-	}
-	return ret;
+    vector<vector<T>> ret(a.size() + 1, vector<T>(a.front().size() + 1));
+    for (int i = 0; i < (int)a.size(); i++)
+    {
+        for (int j = 0; j < (int)a.front().size(); j++)
+        {
+            ret[i + 1][j + 1] = ret[i][j + 1] + ret[i + 1][j] - ret[i][j] + a[i][j];
+        }
+    }
+    return ret;
 }
 
 inline void in() {}
 template <class Head, class... Tail>
 inline void in(Head &head, Tail &...tail)
 {
-	cin >> head;
-	in(tail...);
+    cin >> head;
+    in(tail...);
 }
 
 #define INT(...)     \
-	int __VA_ARGS__; \
-	in(__VA_ARGS__)
+    int __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define LL(...)     \
-	ll __VA_ARGS__; \
-	in(__VA_ARGS__)
+    ll __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define ULL(...)     \
-	ull __VA_ARGS__; \
-	in(__VA_ARGS__)
+    ull __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define STR(...)        \
-	string __VA_ARGS__; \
-	in(__VA_ARGS__)
+    string __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define CHR(...)      \
-	char __VA_ARGS__; \
-	in(__VA_ARGS__)
+    char __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define DBL(...)        \
-	double __VA_ARGS__; \
-	in(__VA_ARGS__)
+    double __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define LD(...)     \
-	ld __VA_ARGS__; \
-	in(__VA_ARGS__)
+    ld __VA_ARGS__; \
+    in(__VA_ARGS__)
 #define vec(type, name, ...) vector<type> name(__VA_ARGS__)
 #define VEC(type, name, size) \
-	vector<type> name(size);  \
-	in(name)
+    vector<type> name(size);  \
+    in(name)
 #define vv(type, name, h, ...) vector<vector<type>> name(h, vector<type>(__VA_ARGS__))
 #define VV(type, name, h, ...)                               \
-	vector<vector<type>> name(h, vector<type>(__VA_ARGS__)); \
-	in(name)
+    vector<vector<type>> name(h, vector<type>(__VA_ARGS__)); \
+    in(name)
 #define vvv(type, name, h, w, ...) vector<vector<vector<type>>> name(h, vector<vector<type>>(w, vector<type>(__VA_ARGS__)))
 
 template <class T1, class T2>
@@ -193,174 +193,182 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq); // p
 template <class T1, class T2>
 ostream &operator<<(ostream &os, const pair<T1, T2> &p)
 {
-	os << "(" << p.first << "," << p.second << ")";
-	return os;
+    os << "(" << p.first << "," << p.second << ")";
+    return os;
 }
 
 template <class T1, class T2>
 istream &operator>>(istream &is, pair<T1, T2> &p)
 {
-	is >> p.first >> p.second;
-	return is;
+    is >> p.first >> p.second;
+    return is;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<T> &v)
 {
-	for (int i = 0; i < (int)v.size(); i++)
-	{
-		os << v[i] << (i + 1 != (int)v.size() ? " " : "");
-	}
-	return os;
+    for (int i = 0; i < (int)v.size(); i++)
+    {
+        os << v[i] << (i + 1 != (int)v.size() ? " " : "");
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<T>> &v)
 {
-	for (int i = 0; i < (int)v.size(); i++)
-	{
-		os << v[i] << endl;
-	}
-	return os;
+    for (int i = 0; i < (int)v.size(); i++)
+    {
+        os << v[i] << endl;
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const vector<vector<vector<T>>> &v)
 {
-	for (int i = 0; i < (int)v.size(); i++)
-	{
-		os << "i = " << i << endl;
-		os << v[i];
-	}
-	return os;
+    for (int i = 0; i < (int)v.size(); i++)
+    {
+        os << "i = " << i << endl;
+        os << v[i];
+    }
+    return os;
 }
 
 template <class T>
 istream &operator>>(istream &is, vector<T> &v)
 {
-	for (T &in : v)
-	{
-		is >> in;
-	}
-	return is;
+    for (T &in : v)
+    {
+        is >> in;
+    }
+    return is;
 }
 
 template <class T, class S>
 ostream &operator<<(ostream &os, const map<T, S> &mp)
 {
-	for (auto &[key, val] : mp)
-	{
-		os << key << ": " << val << " ";
-	}
-	return os;
+    for (auto &[key, val] : mp)
+    {
+        os << key << ": " << val << " ";
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const set<T> &st)
 {
-	auto itr = st.begin();
-	for (int i = 0; i < (int)st.size(); i++)
-	{
-		os << *itr << (i + 1 != (int)st.size() ? " " : "");
-		itr++;
-	}
-	return os;
+    auto itr = st.begin();
+    for (int i = 0; i < (int)st.size(); i++)
+    {
+        os << *itr << (i + 1 != (int)st.size() ? " " : "");
+        itr++;
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, const multiset<T> &st)
 {
-	auto itr = st.begin();
-	for (int i = 0; i < (int)st.size(); i++)
-	{
-		os << *itr << (i + 1 != (int)st.size() ? " " : "");
-		itr++;
-	}
-	return os;
+    auto itr = st.begin();
+    for (int i = 0; i < (int)st.size(); i++)
+    {
+        os << *itr << (i + 1 != (int)st.size() ? " " : "");
+        itr++;
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, queue<T> q)
 {
-	while (q.size())
-	{
-		os << q.front() << " ";
-		q.pop();
-	}
-	return os;
+    while (q.size())
+    {
+        os << q.front() << " ";
+        q.pop();
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, deque<T> q)
 {
-	while (q.size())
-	{
-		os << q.front() << " ";
-		q.pop_front();
-	}
-	return os;
+    while (q.size())
+    {
+        os << q.front() << " ";
+        q.pop_front();
+    }
+    return os;
 }
 
 template <class T>
 ostream &operator<<(ostream &os, stack<T> st)
 {
-	while (st.size())
-	{
-		os << st.top() << " ";
-		st.pop();
-	}
-	return os;
+    while (st.size())
+    {
+        os << st.top() << " ";
+        st.pop();
+    }
+    return os;
 }
 
 template <class T, class Container, class Compare>
 ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 {
-	while (pq.size())
-	{
-		os << pq.top() << " ";
-		pq.pop();
-	}
-	return os;
+    while (pq.size())
+    {
+        os << pq.top() << " ";
+        pq.pop();
+    }
+    return os;
 }
 
 /*ostream &operator<<(ostream &os, const mint &i) { //AtCoder
-	os << i.val();
-	return os;
+    os << i.val();
+    return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
-	for (int i = 0; i < (int)v.size(); i++) {
-		os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
-	}
-	return os;
+    for (int i = 0; i < (int)v.size(); i++) {
+        os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
+    }
+    return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const modint &i) { //AtCoder
-	os << i.val();
-	return os;
+    os << i.val();
+    return os;
 }*/
 
 /*ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
-	for (int i = 0; i < (int)v.size(); i++) {
-		os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
-	}
-	return os;
+    for (int i = 0; i < (int)v.size(); i++) {
+        os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
+    }
+    return os;
 }*/
+
+// 直感的には、毎日新しくk番目の陣地に兵士が補充されるわけだから
+// 早めにk番目から遠いところに兵士を移動させておきたい
+// まとめて移動させた方がお得感が強い(k人をまとめて移動し始めれば、k-1回の行動で陣地をk-1個効率的に広めることができる)
+// とりあえず両端を見て、短い方から埋めていく
+// 全て埋められなかった場合...それが最適行動なので、それを出力して終わり(つまり長い方は0ってこと)
+// 全て埋めた場合...残りの日数で最適行動を長い方でする
+// 端まで行けるかどうか...m >= (短い方のマス数) * 2 - 1 で判定可能(- 1は最初から兵士が1人いるから)
+// 端までいけないなら、m >= p * 2 - 1を満たす最大のpが答えになるから、(m + 1) / 2をするだけ (これがいける陣地だから、これに最初の陣地の1を他したものが答え)
+// 端まで行けたら、残り日数がm - (p * 2 - 1)で、k番目の陣地にslen人いる状態。
+// 残り日数rest、k番目陣地にいる人数をnumとしたら、
+// rest <= numなら今すぐ行動した方が良く、最終的な答えはslen + rest + 1になる(1はk番目の陣地)
+
 
 int main() {
     ll q; cin >> q;
     rep(_, q) {
         ll n, m, k; cin >> n >> m >> k; k--;
-        if(n == 1) {cout << 1 << endl; continue;}
-		if(n == 2) {cout << 2 << endl; continue;}
-		ll slen = min(k, n - 1 - k), llen = max(k, n - 1 - k);
-		if(slen == 0) {cout << min((m + 1) / 2, n - 1) + 1 << endl; continue;}
-		
-		if(m < 2 * slen - 1) {cout << (m + 1) / 2 + 1 + (m % 2 == 0) << endl; continue;}
-		m -= 2 * slen - 1;
-		ll num = slen;
-		ll ma = min(m, num);
-		while(m >= num) {m--; num++; chmax(ma, min(m, num));}
-		cout << slen + 1 + min(ma, llen) << endl;
+        ll slen = min(k, n - 1 - k), llen = max(k, n - 1 - k);
+        if(m < slen * 2 - 1) {cout << (m + 1) / 2 + 1 + (m % 2 == 0) << endl; continue;}
+        ll rest = slen ? m - (slen * 2 - 1) : m, num = slen ? slen : 1;
+        ll ma = min(rest, num);
+        while(rest > num) {rest--; num++; chmax(ma, min(rest, num));}; 
+        cout << slen + min(ma, llen) + 1 << endl;
     }
 }
