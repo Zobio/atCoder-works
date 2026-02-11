@@ -103,6 +103,16 @@ vector<vector<T>> mrui2(const vector<vector<T>> &a)
     }
     return ret;
 }
+template <class T>
+vector<T> kaisa(const vector<T> &a)
+{
+    vector<T> ret(a.size() - 1);
+    for (int i = 0; i < a.size() - 1; i++)
+    {
+        ret[i] = a[i + 1] - a[i];
+    }
+    return ret;
+}
 
 inline void in() {}
 template <class Head, class... Tail>
@@ -350,14 +360,12 @@ int main() {
         ll l = -1, r = LINF;
         while(r - l > 1) {
             ll mid = l + r >> 1;
-            ll p = b - mid, q = r + mid;
-            ll h = (lower_bound(all(a), q) - a.begin()) - (lower_bound(all(a), p) - a.begin());
-            if(h == k && (binary_search(all(a), p) || binary_search(all(a), q))) {
-                cout << mid << endl; break;
-            }
-            if(h > k) r = mid;
+            ll p = b - mid, q = b + mid;
+            auto v = upper_bound(all(a), p);
+            auto w = lower_bound(all(a), q);
+            if(w - v >= k) r = mid;
             else l = mid;
         }
-        cout << l << " " << r << endl;
+        cout << l << endl;
     }
 }
