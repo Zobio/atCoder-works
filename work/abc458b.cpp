@@ -351,46 +351,21 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-// まあwはそんなに本質じゃなくて
-// nの総和が10^5なので、割と余裕はありそう
-// O(nw)とかで間に合うなら、全探索みたいなことしてSCCが作れるか見るだけかな
-
-// dfsでとりあえずやってみる
-
-ll q;
-ll n, m;
-ll w;
-vector<string> s;
-vvll g;
-vvll visited;
-
-bool dfs(ll cur, ll day) { //cur地点にday日目に訪問x
-    if(visited[cur][day]) return true; //ループ達成！！
-    visited[cur][day] = true;
-    bool fl = false;
-    for(auto au : g[cur]) {
-        if(s[au][(day + 1) % w] == 'o') fl |= dfs(au, (day + 1) % w);
-    }
-    visited[cur][day] = false;
-    return fl;
-}
+vll dx = {0, 1, 0, -1};
+vll dy = {1, 0, -1, 0};
 
 int main() {
-   cin >> q;
-   rep(_, q) {
-        cin >> n >> m;
-        g.assign(n, {});
-        rep(m) {
-            ll u, v; cin >> u >> v; u--; v--;
-            g[u].push_back(v); g[v].push_back(u);
+    ll h, w; cin >> h >> w;
+    rep(i, h) {
+        rep(j, w) {
+            ll cnt = 0;
+            rep(k, 4) {
+                ll ny = i + dy[k];
+                ll nx = j + dx[k];
+                cnt += ny >= 0 && ny < h && nx >= 0 && nx < w;
+            }
+            cout << cnt << " ";
         }
-        rep(i, n) g[i].push_back(i); //とどまる
-        cin >> w;
-        s.resize(n); cin >> s;
-        visited.assign(n, vll(w, false));
-        bool fl = false;
-        rep(i, n) if(s[i][0] == 'o') fl |=  dfs(i, 0); // iに0日目に訪問(できるなら)
-        if(fl) cout << "Yes" << endl;
-        else cout << "No" << endl;
-   } 
+        cout << endl;
+    }
 }

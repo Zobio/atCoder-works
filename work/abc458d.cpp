@@ -351,46 +351,27 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-// まあwはそんなに本質じゃなくて
-// nの総和が10^5なので、割と余裕はありそう
-// O(nw)とかで間に合うなら、全探索みたいなことしてSCCが作れるか見るだけかな
+// 逆順でやると良さそう
+// 右側から2つ抜ければ、中央値は(ソート済み配列から)1つ左になる
+// 左側から2つ抜ければ、中央値は(ソート済み配列から)1つ右になる
+// 左右から1つずつ抜ければ、中央値はそのまま
 
-// dfsでとりあえずやってみる
+// multisetでポインタずらすだけでできそう
 
-ll q;
-ll n, m;
-ll w;
-vector<string> s;
-vvll g;
-vvll visited;
-
-bool dfs(ll cur, ll day) { //cur地点にday日目に訪問x
-    if(visited[cur][day]) return true; //ループ達成！！
-    visited[cur][day] = true;
-    bool fl = false;
-    for(auto au : g[cur]) {
-        if(s[au][(day + 1) % w] == 'o') fl |= dfs(au, (day + 1) % w);
-    }
-    visited[cur][day] = false;
-    return fl;
-}
+// やっぱ逆順で見る必要ないかも
+// 普通に、上に書いてあるようなことをそのままの順番でやればできそう...?
 
 int main() {
-   cin >> q;
+   ll x, q; cin >> x >> q;
+   std::multiset<ll> ms;
+    ms.insert(x);
+   auto p = ms.begin();
    rep(_, q) {
-        cin >> n >> m;
-        g.assign(n, {});
-        rep(m) {
-            ll u, v; cin >> u >> v; u--; v--;
-            g[u].push_back(v); g[v].push_back(u);
-        }
-        rep(i, n) g[i].push_back(i); //とどまる
-        cin >> w;
-        s.resize(n); cin >> s;
-        visited.assign(n, vll(w, false));
-        bool fl = false;
-        rep(i, n) if(s[i][0] == 'o') fl |=  dfs(i, 0); // iに0日目に訪問(できるなら)
-        if(fl) cout << "Yes" << endl;
-        else cout << "No" << endl;
+        ll a, b; cin >> a >> b;
+        if(a > b) swap(a, b);
+        if(*p < a && *p < b) ms.insert(a), ms.insert(b), p++;
+        else if(*p > a && *p > b) ms.insert(a), ms.insert(b), p--;
+        else ms.insert(a), ms.insert(b);
+        cout << *p << endl;
    } 
 }
