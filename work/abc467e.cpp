@@ -351,20 +351,30 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 	return os;
 }*/
 
+// c[0] = 0から始めて、overlapまで1番近い数のoffset分だけ足して、差分取るのをN回やって
+// 1番差分が小さいやつが答え
+
 int main() {
 	ll n, m; cin >> n >> m;
     vll a(n); cin >> a;
     vll b(n - 1); cin >> b;
-	vll c1(n), c2(n);
-	c1[0] = 0; c2[0] = 1;
-	rep(i, n - 1) {
-		if(b[i] == 0) c1[i + 1] = c1[i], c2[i + 1] = c2[i];
-		else c1[i + 1] = !c1[i], c2[i + 1] = !c2[i];
-	}
-	ll ans1 = 0, ans2 = 0;
-	rep(i, n) {
-		ans1 += a[i] % 2 != c1[i] % 2;
-		ans2 += a[i] % 2 != c2[i] % 2;
-	}
-	cout << min(ans1, ans2) << endl;
+    vll c(n);
+    rep(i, n - 1) c[i + 1] = (c[i] + b[i]) % m; //初期はこれ
+    ll ans = 0;
+    rep(i, n) ans += ((c[i] - a[i] + 10 * m) % m);
+    ll cur = ans;
+    priority_queue<ll, vll, greater<ll>> pq;
+    rep(i, n) pq.push((c[i] - a[i] + 10 * m) % m);
+    ll pre = 0;
+    // cout << pq << endl;
+    rep(i, n) {
+        ll p = pq.top();
+        pq.pop();
+        cur = cur 
+        cout << cur << endl;
+        chmin(ans, cur);
+        cout << p << " " << pre << "  " << ans << endl;
+        pre = p;
+    }
+    cout << ans << endl;
 }
