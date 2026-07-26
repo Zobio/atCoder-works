@@ -352,7 +352,9 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    ll cnt = 0;
+    rep(i, n - 2) if(a[i] < a[i + 1] && a[i + 1] > a[i + 2]) cnt++;
+    cout << cnt << endl;
 }

@@ -351,8 +351,25 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
+// なるべく正方形っぽい形になるように構成
+// 余った部分を周りに構築して、なるべく隣接するように
+// 正方形の長さは単調性があるから二分探索
+
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    ll t; cin >> t;
+    rep(_, t) {
+        ll n; cin >> n;
+        if(n <= 3) {cout << n - 1 << endl; continue;}
+        ll l = -1, r = 1000000010;
+        while(r - l > 1) {
+            ll mid = l + r >> 1;
+            if(mid * mid > n) r = mid; //もう大きくできない
+            else l = mid;
+        }
+        ll rest = n - l * l;
+        ll base = 2 * l * (l - 1);
+        if(rest == 0) cout << base << endl;
+        else if(rest <= n) cout << base + rest + (rest - 1) << endl;
+        else cout << base + rest + (rest - 2) << endl;
+    }
 }

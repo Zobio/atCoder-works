@@ -351,8 +351,34 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
+// 中心の文字(1文字or2文字)から展開していけるだけ展開していく みたいな話をしていそう
+
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    string s; cin >> s;
+    ll n = s.size();
+    ll ans = 0;
+    for(ll i = 0; i < n; i++) { // 奇数文字数の回文
+        ll p = 0;
+        ll cur = 0;
+        for(ll k = 0; i - k >= 0 && i + k < n; k++) {
+            if(s[i - k] != s[i + k]) p++;
+            if(p > 1) break;
+            cur = k;
+        }
+       //cout << i << " " << cur << endl;
+        ans += cur + 1;
+    }
+    //cout << ans << endl;
+    for(ll i1 = 0, i2 = 1; i2 < n; i1++, i2++) { // 偶数文字数の回文
+        ll p = 0;
+        ll cur = 0;
+        for(ll k = 0; i1 - k >= 0 && i2 + k < n; k++) {
+            if(s[i1 - k] != s[i2 + k]) p++;
+            if(p > 1) break;
+            cur = k;
+        }
+        //cout << i1 << " " << i2  << "  " << cur << endl;
+        ans += cur + 1;
+    }
+    cout << ans << endl;
 }

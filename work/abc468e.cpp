@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all> // AtCoder
+#include <atcoder/all> // AtCoder
 using namespace std;
-// using namespace atcoder; // AtCoder
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-// using mint = modint998244353; // AtCoder
+using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -327,32 +327,61 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }
 
-/*ostream &operator<<(ostream &os, const mint &i) { //AtCoder
+ostream &operator<<(ostream &os, const mint &i) { //AtCoder
     os << i.val();
     return os;
-}*/
+}
 
-/*ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
+ostream &operator<<(ostream &os, const vector<mint> &v) { //AtCoder
     for (int i = 0; i < (int)v.size(); i++) {
         os << v[i].val() << (i + 1 != (int)v.size() ? " " : "");
     }
     return os;
-}*/
+}
 
-/*ostream &operator<<(ostream &os, const modint &i) { //AtCoder
+ostream &operator<<(ostream &os, const modint &i) { //AtCoder
     os << i.val();
     return os;
-}*/
+}
 
-/*ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
+ostream &operator<<(ostream &os, const vector<modint> &v) { //AtCoder
     for (int i = 0; i < (int)v.size(); i++) {
         os << v[i].val() << (i + 1 != (int)v.size() ? "" : "");
     }
     return os;
-}*/
+}
 
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    ll n; cin >> n;
+    vector<mint> a(n);
+    rep(i, n) {
+        ll t; cin >> t;
+        a[i] += t;
+    }
+    vector<mint> rui(n + 1);
+    rep(i, n) rui[i + 1] = rui[i] + a[i];
+    mint divided = rui.back().val();
+    mint ans = 0;
+    if(n % 2 == 0) {
+        for(ll d = 1; d <= n / 2; d++) {
+            mint p = d, q = n + 1 - d;
+            ans += divided / p + divided / q;
+            divided += rui[n - d] - rui[d];
+        }
+    }
+    else {
+        for(ll d = 1; d <= n / 2; d++) {
+            mint p = d, q = n + 1 - d;
+            ans += divided / p + divided / q;
+            //cout << divided << endl;
+            divided += rui[n - d] - rui[d];
+        }
+        //cout << divided << endl;
+        //cout << "ans: " << ans << endl;
+        //cout << n / 2 << " " << rui[n - (n / 2)] << " " << rui[n / 2] << endl;
+        //divided += rui[n - (n / 2)] - rui[n / 2];
+        //cout << divided << endl;
+        ans += divided / (n / 2 + 1);
+    }
+    cout << ans << endl;
 }

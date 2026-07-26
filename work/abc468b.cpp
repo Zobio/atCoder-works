@@ -352,7 +352,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    ll n, d; cin >> n >> d;
+    string s; cin >> s;
+    ll ans = 0;
+    rep(i, n) {
+        if(s[i] == 'G') continue;
+        bool flag = true;
+        for(ll j = max(0, i - d); j <= min(n - 1, i + d); j++) flag &= (s[j] != 'G');
+        ans += flag;
+    }
+    cout << ans << endl;
 }

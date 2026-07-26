@@ -352,7 +352,16 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    ll n; cin >> n;
+    vll p(n), q(n); cin >> p >> q;
+    ll cnt = 0;
+    bool flag = true;
+    rep(i, n) flag &= p[i] == n - i;
+    if(flag) cout << 0 << endl, exit(0);
+    next_permutation(all(p));
+    do{
+        if(p == q) cout << cnt << endl, exit(0);
+        cnt++;
+    }while(next_permutation(all(p)));
+    cout << 0 << endl;
 }

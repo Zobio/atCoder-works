@@ -352,7 +352,24 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    vll a = {1,2,3};
-    vll b = {1,2,3};
-    cout << (a == b) << endl;
+    ll t; cin >> t;
+    rep(_, t) {
+        ll n; cin >> n;
+        vll a;
+        while(n > 1) {
+            bool flag = false;
+            for(ll i = 2; i * i <= n; i++) {
+                if(n % i == 0) {
+                    a.push_back(i);
+                    n /= i;
+                    flag = true;
+                }
+            }
+            if(!flag) {
+                a.push_back(n); break;
+            }
+        }
+        ll ans = 0;
+        
+    }
 }
