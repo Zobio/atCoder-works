@@ -13,7 +13,7 @@
             "args": [
                 "-std=gnu++17",
                 "-I",
-                "/mnt/c/Users/soshi/Desktop/atCoder-works/work/ac-library/",
+                "${workspaceFolder}/work/ac-library",
                 "-g",
                 "-O0",
                 "-I/opt/boost/gcc/include",

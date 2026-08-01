@@ -1,6 +1,9 @@
 {
 	"files.autoSave": "afterDelay",
 	"files.eol": "\n",
+	"terminal.integrated.env.osx": {
+		"CPLUS_INCLUDE_PATH": "${workspaceFolder}/work/ac-library"
+	},
 	"terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
 	"files.associations": {
 		"array": "cpp",
