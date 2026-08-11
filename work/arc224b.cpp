@@ -355,21 +355,13 @@ int main() {
     ll t; cin >> t;
     rep(_, t) {
         ll n; cin >> n;
-        vll a;
-        while(n > 1) {
-            bool flag = false;
-            for(ll i = 2; i * i <= n; i++) {
-                if(n % i == 0) {
-                    a.push_back(i);
-                    n /= i;
-                    flag = true;
-                }
-            }
-            if(!flag) {
-                a.push_back(n); break;
-            }
+        ll l = -1, r = INF;
+        while(r - l > 1) {
+            ll mid = l + r >> 1;
+            if(n <= mid * mid) r = mid;
+            else l = mid;
         }
-        ll ans = 0;
+        ll rest = n - r * r;
         
     }
 }

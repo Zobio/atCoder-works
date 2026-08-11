@@ -352,6 +352,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << sizeof(long double) << endl;
-    cout << sizeof(__int128_t) << endl;
+    ll n; cin >> n;
+    vll x(n), y(n), z(n);
+    rep(i, n) cin >> x[i] >> y[i] >> z[i];
+    vvll dp(1LL << n, vll(n, LINF));
+    dp[0][0] = 0; // 訪問済みの都市がなく、今0番目の都市にいる時だけコスト0
+    rep(bits, 1LL << n) {
+        rep(i, n) rep(j, n) { // i --> j
+            if(i == j) continue;
+            if((bits >> i & 1) == 0 && i != 0) continue; // iが訪問済みの都市ではない
+            if((bits >> j & 1) == 1) continue; // すでに訪問済み
+            chmin(dp[bits | (1LL << j)][j], dp[bits][i] + abs(x[i] - x[j]) + abs(y[i] - y[j]) + max(0, z[j] - z[i]));
+        }
+    }
+    cout << dp.back().at(0) << endl;
 }

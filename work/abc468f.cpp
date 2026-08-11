@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all> // AtCoder
+#include <atcoder/all> // AtCoder
 using namespace std;
-// using namespace atcoder; // AtCoder
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
-// using mint = modint998244353; // AtCoder
+using mint = modint998244353; // AtCoder
 using vll = vector<long long>;
 using vvll = vector<vector<long long>>;
 using vvvll = vector<vector<vector<long long>>>;
@@ -351,7 +351,13 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
+// 貪欲だと仮定すると、
+// 現時点でa[i]がx,yどちらよりも大きい場合、max(x,y)をreplaceすべき
+// 現時点でa[i]がx,yどちらよりも小さい場合、どっちにしたところで意味ない
+// x,yの間にある時が迷いどころ
+
 int main() {
-    cout << sizeof(long double) << endl;
-    cout << sizeof(__int128_t) << endl;
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    segtree
 }

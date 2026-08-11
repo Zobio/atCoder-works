@@ -352,10 +352,7 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	while(1) {
-		ll k; cin >> k;
-		string s; cin >> s;
-		ll n = s.size();
-		
-	}
+	printf("%zu\n", sizeof(int));    // 4
+	printf("%zu\n", sizeof(double)); // 8
+	printf("%zu\n", sizeof(long double));
 }
