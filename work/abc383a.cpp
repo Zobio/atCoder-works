@@ -352,7 +352,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    ll n, x; cin >> n >> x;
-    if(x == 1) cout << (1600 <= n && n <= 2999 ? "Yes" : "No");
-    else cout << (1200 <= n && n <= 2399 ? "Yes" : "No");
+    ll n; cin >> n;
+    vll t(n), v(n);
+    rep(i, n) cin >> t[i] >> v[i];
+    ll cur = v[0];
+    rep(i, n - 1) {
+        cur -= t[i + 1] - t[i];
+        chmax(cur, 0LL);
+        cur += v[i + 1];
+    }
+    cout << cur << endl;
 }

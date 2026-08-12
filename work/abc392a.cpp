@@ -352,7 +352,7 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    ll n, x; cin >> n >> x;
-    if(x == 1) cout << (1600 <= n && n <= 2999 ? "Yes" : "No");
-    else cout << (1200 <= n && n <= 2399 ? "Yes" : "No");
+    vll a(3); cin >> a;
+    sort(all(a));
+    cout << (a[0] * a[1] == a[2] ? "Yes" : "No");
 }

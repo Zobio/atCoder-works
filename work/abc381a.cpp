@@ -352,7 +352,12 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    ll n, x; cin >> n >> x;
-    if(x == 1) cout << (1600 <= n && n <= 2999 ? "Yes" : "No");
-    else cout << (1200 <= n && n <= 2399 ? "Yes" : "No");
+    ll n; cin >> n;
+    string s; cin >> s;
+    if(n % 2 == 0) No;
+    if(s[n / 2] != '/') No;
+    rep(i, n / 2) {
+        if(s[i] != '1' || s[n - 1 - i] != '2') No;
+    }
+    Yes;
 }
