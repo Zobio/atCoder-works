@@ -357,13 +357,13 @@ ll n, k;
 ll ans = 0;
 
 void dfs(vll &a, ll sum) {
-    if(a.size() == n) {
-        if(sum == k) cout << a << endl;
+    ll p = a.size();
+    if(p + 1 == n) {
+        ll r = k - sum;
+        if(r % n == 0) cout << a << " " << r / n << endl;
         return;
     }
-    ll p = a.size();
     for(ll i = 0; sum + i * (p + 1) <= k; i++) {
-        if(p + 1 == n && (k - (sum + i * (p + 1))) % n) continue; 
         a.push_back(i);
         dfs(a, sum + (p + 1) * i);
         a.pop_back();

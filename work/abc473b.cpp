@@ -351,28 +351,12 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-// dfsをうまいこと枝刈して書いていくしかなさそう
-
-ll n, k;
-ll ans = 0;
-
-void dfs(vll &a, ll sum) {
-    if(a.size() == n) {
-        if(sum == k) cout << a << endl;
-        return;
-    }
-    ll p = a.size();
-    for(ll i = 0; sum + i * (p + 1) <= k; i++) {
-        if(p + 1 == n && (k - (sum + i * (p + 1))) % n) continue; 
-        a.push_back(i);
-        dfs(a, sum + (p + 1) * i);
-        a.pop_back();
-    }
-    return;
-}
-
 int main() {
-    cin >> n >> k;
-    vll t;
-    dfs(t, 0);
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    map<ll, ll> mp;
+    rep(i, n) mp[a[i]]++;
+    ll ans = 0;
+    for(auto au : mp) ans += au.first * (au.second % 2);
+    cout << ans << endl;
 }
