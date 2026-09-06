@@ -351,6 +351,34 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
+// クーポンを使わない方を必要な分だけ先に購入しまくって
+// その後でまとめてクーポンが必要なものを買う　という方針でいく
+// クーポンの残り枚数は最終的に絶対に0になるはず Nが奇数だったとしても、1枚足りないか、どれかの商品(Aが1番やすいやつ)を余分に買ってそれを使うからどっちにしても0
+// だから、この問題は
+// (一旦Nを偶数で考えると)N/2個をA_iで買って、残りN/2個をB_iで買って、その総和を最小化する問題 と言い換えることができる
+
+// だから、Nが偶数の時は、一旦ansをΣBに固定して、そこからN/2個だけ、A_i-B_iが少ないものN/2個をAを選ぶと捉えて足し合わせていけばいい
+
+// 上は嘘で、1番安いやつを買いまくって、他はクーポンみたいなパターンが最適な場合もありそう
+
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    ll q; cin >> q;
+    rep(_, q) {
+        ll n; cin >> n;
+        vll a(n), b(n);
+        rep(i, n) cin >> a[i] >> b[i];
+        vll d(n); rep(i, n) d[i] = a[i] - b[i];
+        sort(all(d));
+        ll mi = *min_element(all(a)); //N-1個1番安いやつを買って、いくところからスタート 
+        ll mi_p = min_element(all(a)) - a.begin();
+        ll cur = mi * (n - 1) + accumulate(all(b), 0LL) - b[mi_p];
+        ll ans = cur;
+        cout << cur << " " << ans << endl;
+        rep(i, n / 2) {
+            cur += d[i];
+            cur -= 2 * mi;
+            chmin(ans, cur);
+            cout << cur << " " << ans << endl;
+        }
+    }
 }

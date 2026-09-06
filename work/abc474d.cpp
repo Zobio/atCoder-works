@@ -351,6 +351,21 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
+// まず、すべてのiについてA_i <= B_iの時、またその時に限りNo
+// それ以外は、任意のA_i > B_iを満たすiでW_iを10000...00にして、他は1でOK
+
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    ll n; cin >> n;
+    vll a(n), b(n);
+    cin >> a;
+    cin >> b;
+    ll p = -1;
+    rep(i, n) if(a[i] > b[i]) p = i;
+    if(p == -1) No;
+    cout << "Yes" << endl;
+    rep(i, n) {
+        if(i == p) cout << (ll)1000000000000000000LL << " ";
+        else cout << 1 << " ";
+    }
+    cout << endl;
 }

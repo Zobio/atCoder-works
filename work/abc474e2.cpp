@@ -352,5 +352,21 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    ll t; cin >> t;
+    rep(_, t) {
+        ll n; cin >> n;
+        vll a(n), b(n);
+        rep(i, n) cin >> a[i] >> b[i];
+        vll d(n);
+        rep(i, n) d[i] = a[i] - b[i];
+        sort(rall(d));
+        ll mi = *min_element(all(a));
+        ll cur = accumulate(all(a), 0LL);
+        ll ans = cur;
+        rep(i, n) { //k+1こクーポンを使う
+            cur -= d[i];
+            chmin(ans, cur + max((i + 1) - (n - (i + 1)), 0LL) * mi);
+        }
+        cout << ans << endl;
+    }
 }

@@ -352,5 +352,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    ll n; cin >> n;
+    reps(i, 3) if(i != n) cout << i << endl, exit(0);
 }

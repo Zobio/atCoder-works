@@ -352,5 +352,13 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    rep(i, n) {
+        ll up = i / 10 * 10 + 10;
+        ll down = up - 9;
+        //cout << i + 1 << "  " << down << " " << up << endl;
+        if(!(down <= a[i] && a[i] <= up)) No;
+    }
+    Yes;
 }

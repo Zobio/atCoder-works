@@ -352,5 +352,18 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10(LLONG_MAX) << endl;
+    ll n, q; cin >> n >> q;
+    vll p(n); cin >> p;
+    rep(i, n) p[i]--;
+    vll a(q); rep(i, q) cin >> a[i], a[i]--;
+    vll done(n);
+    deque<ll> ans;
+    rrep(i, q) {
+        if(!done[a[i]]) ans.push_front(a[i]);
+        done[a[i]] = true;
+    }
+    rrep(i, n) {
+        if(!done[p[i]]) ans.push_front(p[i]);
+    }
+    rep(i, n) cout << ans[i] + 1 << " "; cout << endl;
 }
