@@ -456,5 +456,26 @@ struct Trie {
 };
 
 int main() {
-    
+    ll n, m, k; cin >> n >> m >> k;
+    string t; cin >> t;
+    vector<string> s(n);
+    rep(i, n) cin >> s[i];
+    vector<string> a(n);
+    rep(i, n) rep(j, k) a[i].push_back(s[i][j] == t[j] ? '0' : '1');
+    Trie trie(2, '0');
+    rep(i, n) trie.insert(a[i]);
+    ll q; cin >> q;
+    rep(_, q) {
+        ll i, j; cin >> i >> j; i--; j--;
+        trie.erase(a[i]);
+        a[i][j] = a[i][j] == '0' ? '1' : '0';
+        trie.insert(a[i]);
+        if (n == m) {
+            if (a[i] == string(k, '1')) cout << "No" << endl;
+            else cout << "Yes" << endl;
+        } else {
+            if(trie.count_less_equal(a[i]) <= m) cout << "Yes" << endl;
+            else cout << "No" << endl;
+        }
+    }
 }

@@ -351,110 +351,33 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-struct Trie {
-    long long K;              // 文字種数
-    char base;                // 先頭文字（'a' など）
-    vector<vector<long long>> next;
-    vector<long long> cnt;    // そのノードを通過した単語数
-    vector<long long> end;    // そのノードで終わる単語数
-
-    Trie(long long k = 26, char b = 'a') {
-        K = k;
-        base = b;
-        add_node();           // 根を作る
-    }
-
-    long long add_node() {
-        next.push_back(vector<long long>(K, -1));
-        cnt.push_back(0);
-        end.push_back(0);
-        return (long long)next.size() - 1;
-    }
-
-    void insert(const string &s) {
-        long long v = 0;
-        for (char ch : s) {
-            long long c = ch - base;
-            if (next.at(v).at(c) == -1)
-                next[v][c] = add_node();
-            v = next[v][c];
-            cnt[v]++;
-        }
-        end[v]++;
-    }
-
-    void erase(const string &s) {  // 存在する前提
-        long long v = 0;
-        for (char ch : s) {
-            v = next[v][ch - base];
-            cnt[v]--;
-        }
-        end[v]--;
-    }
-
-    // s を辿った先のノード番号（無ければ -1）
-    long long find(const string &s) {
-        long long v = 0;
-        for (char ch : s) {
-            v = next.at(v).at(ch - base);
-            if (v == -1)
-                return -1;
-        }
-        return v;
-    }
-
-    // s と完全一致する単語の個数
-    long long count(const string &s) {
-        long long v = find(s);
-        return v == -1 ? 0 : end.at(v);
-    }
-
-    // s を接頭辞に持つ単語の個数
-    long long count_prefix(const string &s) {
-        long long v = find(s);
-        return v == -1 ? 0 : cnt.at(v);
-    }
-
-    bool contains(const string &s) {
-        return count(s) > 0;
-    }
-
-    // s の接頭辞のうち、辞書に入っている単語の長さ一覧
-    vector<long long> common_prefix_lengths(const string &s) {
-        vector<long long> ret;
-        long long v = 0;
-        for (long long i = 0; i < (long long)s.size(); i++) {
-            v = next.at(v).at(s[i] - base);
-            if (v == -1)
-                break;
-            if (end[v] > 0)
-                ret.push_back(i + 1);
-        }
-        return ret;
-    }
-
-    // s 以下（辞書順）の文字列の個数  ※全て同じ長さである前提
-    long long count_less_equal(const string &s) {
-        long long v = 0, res = 0;
-        for (char ch : s) {
-            long long c = ch - base;
-            // s の現在の文字より小さい文字へ分岐したものは全て s より小さい
-            for (long long d = 0; d < c; d++)
-                if (next.at(v).at(d) != -1)
-                    res += cnt[next[v][d]];
-            if (next[v][c] == -1)
-                return res;      // これ以上 s と一致する枝がない
-            v = next[v][c];
-        }
-        res += cnt[v];           // s と一致するもの（同じ長さ前提なので cnt でよい）
-        return res;
-    }
-
-    long long node_count() {
-        return (long long)next.size();
-    }
-};
+// 各人について、1番左の正解(Aが1)であるの以外、全てバツにしても問題ない(最初に正解するのが早いことが大事)
 
 int main() {
-    
+    ll n, m, k; cin >> n >> m >> k;
+    string t; cin >> t;
+    vector<string> s(n);
+    rep(i, n) cin >> s[i];
+    vvll a(n, vll(k));
+    rep(i, n) rep(j, k) a[i][j] = s[i][j] == t[j];
+    vector<set<ll>> ok(n);
+    rep(i, n) rep(j, k) if(a[i][j]) ok[i].insert(j);
+    ll clear = 0, p = 0;
+    while(p < k && clear < m) {
+        ll cur = 0;
+        rep(i, n) {
+            if(a[i][p] && ok[i].size() && *ok[i].begin() == p) cur++;
+        }
+        if(clear + cur <= m) {
+            p++;
+            clear += cur;
+        }
+        else {
+            break;
+        }
+    }
+    ll q; cin >> q;
+    rep(_, q) {
+
+    }
 }
