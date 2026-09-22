@@ -352,5 +352,11 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10l(LLONG_MAX) << endl;
+    ll n; cin >> n;
+    string s, t; cin >> s >> t;
+    bool ok = true;
+    rep(i, n) {
+        if(s[i] != t[i] && t[i] != '*') ok = false;
+    }
+    if(ok) Yes; No;
 }

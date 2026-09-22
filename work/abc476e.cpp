@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all> // AtCoder
+#include <atcoder/all> // AtCoder
 using namespace std;
-// using namespace atcoder; // AtCoder
+using namespace atcoder; // AtCoder
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
@@ -351,6 +351,42 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-int main() {
-    cout << log10l(LLONG_MAX) << endl;
+ll op1(ll a, ll b) {
+    return min(a, b);
 }
+
+ll op2(ll a, ll b) {
+    return max(a, b);
+}
+
+ll e1() {
+    return LINF;
+}
+
+ll e2() {
+    return -LINF;
+}
+
+
+int main() {
+    ll n, m; cin >> n >> m;
+    vll a(n); cin >> a;
+    rep(i, n) a[i]--;
+    vll l(m), r(m);
+    rep(i, m) cin >> l[i] >> r[i], l[i]--, r[i]--;
+    segtree<ll, op1, e1> seg_min(n);
+    segtree<ll, op2, e2> seg_max(n);
+    rep(i, n) seg_min.set(i, 1000000 * a[i] + i), seg_max.set(i, 1000000 * a[i] + i);
+    rep(i, m) {
+        ll p = seg_min.prod(l[i], r[i] + 1) % 1000000; // 最小値の位置
+        ll q = seg_max.prod(l[i], r[i] + 1) % 1000000; // 最大値の位置
+        ll x = seg_min.prod(l[i], r[i] + 1) / 1000000; // 最小値の値
+        ll y = seg_max.prod(l[i], r[i] + 1) / 1000000; // 最大値の値
+        seg_min.set(q, 1000000 * x + q);
+        seg_max.set(q, 1000000 * x + q);
+        seg_min.set(p, 1000000 * y + p);
+        seg_max.set(p, 1000000 * y + p);
+    }
+    rep(i, n) cout << seg_min.get(i) / 1000000 + 1 << " ";
+    cout << endl;
+}  

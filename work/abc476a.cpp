@@ -352,5 +352,8 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10l(LLONG_MAX) << endl;
+    string s; cin >> s;
+    if(s.back() == 'e') s.push_back('r');
+    else s.push_back('e'), s.push_back('r');
+    cout << s;
 }

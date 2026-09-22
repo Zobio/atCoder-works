@@ -352,5 +352,14 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10l(LLONG_MAX) << endl;
+    ll n; cin >> n;
+    vll a(n); cin >> a;
+    multiset<ll> ms;
+    rep(3) ms.insert(a[i]);
+    cout << *ms.begin() << endl;
+    rep(i, 3, n) {
+        ll cur = *ms.begin();
+        if(cur < a[i]) ms.erase(ms.find(cur)), ms.insert(a[i]);
+        cout << *ms.begin() << endl;
+    }
 }

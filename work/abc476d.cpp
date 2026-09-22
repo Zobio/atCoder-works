@@ -351,6 +351,30 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
+
 int main() {
-    cout << log10l(LLONG_MAX) << endl;
+    ll n, m, k; cin >> n >> m >> k;
+    ll x, y; cin >> x >> y;
+    vll a(n), b(m); cin >> a; cin >> b;
+    sort(all(a)); sort(all(b));
+    vll rui_a = mrui(a);
+    vll bb(m);
+    rep(i, m) bb[i] = b[i] % k == 0 ? b[i] : b[i] / k * k + k;
+    vll rui_bb = mrui(bb);
+    vll diff(m);
+    rep(i, m) diff[i] = bb[i] - b[i];
+    vll rui_diff = mrui(diff);
+    ll ans = 0;
+    rep(i, m + 1) {
+        if(rui_bb[i] / k > y) break;
+        ll p = (y - rui_bb[i] / k) * k + x + rui_diff[i]; // Aに対して使える金額
+        ll l = -1, r = n + 1;
+        while(r - l > 1) {
+            ll mid = l + r >> 1;
+            if(rui_a[mid] > p) r = mid;
+            else l = mid;
+        }
+        chmax(ans, i + l);
+    }
+    cout << ans << endl;
 }
