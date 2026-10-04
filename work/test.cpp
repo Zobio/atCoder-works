@@ -352,5 +352,5 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-    cout << log10l(LLONG_MAX) << endl;
+    
 }
