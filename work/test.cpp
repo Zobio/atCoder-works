@@ -351,46 +351,6 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-// 移動パターンは、2通りしかなさそう
-// 1 ... s-->tの方向に行くだけ
-// 2 ... 一旦逆に行って、安いところを拾って、順方向で到達
-// それぞれのminを取れば良さそう
-// 1はそのままやるだけ
-// 問題は2
-
 int main() {
-    ll n, q; cin >> n >> q;
-    vll l(n), r(n);
-    rep(i, 1, n) cin >> l[i];
-    rep(i, n - 1) cin >> r[i];
-    l.front() = LINF; r.back() == LINF; // 一応
-    vll left_min(n), right_min(n);
-
-    left_min.back() = l.back();
-    for(ll i = n - 2; i >= 1; i--) {
-        left_min[i] = min(left_min[i + 1], l[i]);
-    }
-
-    right_min.front() = r.front();
-    for(ll i = 0; i <= n - 3; i++) {
-        right_min[i + 1] = min(right_min[i], r[i]);
-    }
-
-    // cout << left_min << endl << right_min << endl;
-
-    rep(_, q) {
-        ll s, t; cin >> s >> t; s--; t--;
-        if(s == 0) {
-            cout << r[s] << endl;
-        }
-        else if(s == n - 1) {
-            cout << l[s] << endl;
-        }
-        else if(s < t) {
-            cout << min(r[s], l[s] + right_min[s - 1]) << endl;
-        }
-        else {
-            cout << min(l[s], r[s] + left_min[s + 1]) << endl;
-        }
-    }
+    
 }
