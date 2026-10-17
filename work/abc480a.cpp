@@ -352,5 +352,17 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	vector<string> s(2);
+	rep(i, 2) cin >> s[i];
+	pll x, y;
+	rep(i, 2) rep(j, 2) {
+		if(s[i][j] == 'A') x = {i, j};
+		else if(s[i][j] == 'D') y = {i, j};
+	}
+	if(x.first == y.first || x.second == y.second) {
+		cout << "Yes" << endl;
+	}
+	else {
+		cout << "No" << endl;
+	}
 }

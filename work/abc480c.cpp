@@ -352,5 +352,22 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	ll n, k, t; cin >> n >> k >> t;
+	vll a(n); cin >> a;
+	while(a.size() && a.back() > t) a.pop_back();
+	n = a.size();
+	a.push_back(t);
+	reverse(all(a));
+	a.push_back(0);
+	reverse(all(a));
+	ll ans = 0;
+	rep(i, n + 1) {
+		if(i == 0) {
+			ans += (a[i + 1] - a[i] + (k - 1)) / k;
+		}
+		else {
+			ans += max((a[i + 1] - a[i] - k + (k - 1)) / k, 0LL);
+		}
+	}
+	cout << ans;
 }

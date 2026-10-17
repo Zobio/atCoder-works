@@ -352,5 +352,26 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	ll n, m; cin >> n >> m;
+	vector<string> s(n);
+	rep(i, n) cin >> s[i];
+	vector<string> t(m);
+	rep(i, m) cin >> t[i];
+	vll ans(n);
+	rep(i, m) {
+		bool fl = false;
+		rep(j, n) {
+			if(t[i] == s[j]) ans[j]++, fl = true;
+		}
+		if(fl) continue;
+		set<ll> cand;
+		rep(j, n) {
+			if(t[i].size() != s[j].size()) continue;
+			ll diff = 0;
+			rep(k, t[i].size()) diff += t[i][k] != s[j][k];
+			if(diff == 1) cand.insert(j);
+		}
+		if(cand.size() == 1) ans[*cand.begin()]++;
+	}
+	rep(i, n) cout << ans[i] << endl;
 }

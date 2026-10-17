@@ -352,5 +352,37 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
 }*/
 
 int main() {
-	
+	ll n, q; cin >> n >> q;
+	vll a(n); cin >> a;
+	vll rui_a = mrui(a);
+	vll rui_tate(n + 1);
+	rep(i, n) rui_tate[i + 1] = rui_a[i + 1] + rui_tate[i];
+	// cout << rui_a << endl;
+	// cout << rui_tate << endl;
+	rep(_, q) {
+		ll l, r; cin >> l >> r; 
+		ll yl, yr;
+		ll L = -1, R = n + 1;
+		while(R - L > 1) {
+			ll mid = (R + L) >> 1;
+			if(mid * (mid + 1) / 2 < l) L = mid;
+			else R = mid;
+		}
+		yl = L;
+		L = -1; R = n + 1;
+		while(R - L > 1) {
+			ll mid = (R + L) >> 1;
+			if(r <= mid * (mid + 1) / 2) R = mid;
+			else L = mid;
+		}
+		yr = R;
+		//cout << yl << " " << yr << endl;
+		ll ans = rui_tate[yr] - rui_tate[yl];
+		ll rest_l = l - yl * (yl + 1) / 2;
+		ans -= rui_a[rest_l - 1];
+		ll rest_r = yr * (yr + 1) / 2 - r;
+		//cout << rest_l << " " << rest_r << endl;
+		ans -= rui_a[yr] - rui_a[yr - rest_r];
+		cout << ans << endl;
+	}
 }
