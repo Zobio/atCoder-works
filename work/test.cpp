@@ -351,87 +351,9 @@ ostream &operator<<(ostream &os, priority_queue<T, Container, Compare> pq)
     return os;
 }*/
 
-struct EulerTour
-{
-    ll n;
-    vvll g;
-    vll tour;          // 訪問順の頂点列（長さ 2N-1）
-    vll in, out, dep;  // in[v]/out[v]: tour 上で v が最初/最後に現れる位置, dep[v]: 深さ
-    vvll sp;           // LCA 用 Sparse Table（tour 上の添字を持つ）
-
-    EulerTour(ll n) : n(n), g(n), in(n), out(n), dep(n) {}
-
-    void add_edge(ll u, ll v)
-    {
-        g[u].push_back(v);
-        g[v].push_back(u);
-    }
-
-    void build(ll root = 0)
-    {
-        tour.clear();
-        vll par(n, -1), idx(n, 0);
-        stack<ll> st;
-        st.push(root);
-        dep[root] = 0;
-        in[root] = 0;
-        tour.push_back(root);
-        while (st.size())
-        {
-            ll v = st.top();
-            if (idx[v] < (ll)g[v].size())
-            {
-                ll to = g[v][idx[v]++];
-                if (to == par[v]) continue;
-                par[to] = v;
-                dep[to] = dep[v] + 1;
-                in[to] = tour.size();
-                tour.push_back(to);
-                st.push(to);
-            }
-            else
-            {
-                out[v] = (ll)tour.size() - 1;
-                st.pop();
-                if (st.size()) tour.push_back(st.top()); // 親に戻る
-            }
-        }
-        build_lca();
-    }
-
-    // tour 上の区間で深さ最小の頂点 = LCA
-    void build_lca()
-    {
-        ll m = tour.size();
-        ll lg = 1;
-        while ((1LL << lg) < m) lg++;
-        sp.assign(lg + 1, vll(m));
-        rep(i, m) sp[0][i] = i;
-        reps(k, lg)
-        {
-            for (ll i = 0; i + (1LL << k) <= m; i++)
-            {
-                ll a = sp[k - 1][i], b = sp[k - 1][i + (1LL << (k - 1))];
-                sp[k][i] = (dep[tour[a]] < dep[tour[b]] ? a : b);
-            }
-        }
-    }
-
-    ll lca(ll u, ll v)
-    {
-        ll l = min(in[u], in[v]), r = max(in[u], in[v]) + 1; // [l, r)
-        ll k = 63 - __builtin_clzll(r - l);
-        ll a = sp[k][l], b = sp[k][r - (1LL << k)];
-        return tour[dep[tour[a]] < dep[tour[b]] ? a : b];
-    }
-
-    ll dist(ll u, ll v) { return dep[u] + dep[v] - 2 * dep[lca(u, v)]; }
-
-    // u が v の部分木に含まれるか
-    bool in_subtree(ll v, ll u) { return in[v] <= in[u] && in[u] <= out[v]; }
-};
-
-
 int main() {
-    
+    vll a(22); cin >> a;
+    string s;
+    rep(i, a.size()) s.push_back('A' - 1 + a[i]);
+    cout << s << endl;
 }
